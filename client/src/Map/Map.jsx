@@ -30,7 +30,9 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
+        // style: 'mapbox://styles/mapbox/streets-v11',
+        // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale
+        style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',         
         // center: [-122.447303, 37.753574],
         center: [34.354, 53.235],
         zoom: 16
