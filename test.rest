@@ -1,0 +1,5 @@
+### test
+GET http://localhost:1414/api/maps/places
+
+### pops
+GET http://localhost:1414/test

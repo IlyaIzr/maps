@@ -1,0 +1,254 @@
+.featureContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 260px;
+  padding: min(1vw, 12px);
+  background-color: #e6e4e0;
+  border: 1px solid slategrey;
+}
+
+.closeFeature{
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+/* Featurer */
+
+.featurer {
+  margin: 0;
+}
+
+.featurer .rateAmount {
+  margin: 0 4px 2px 4px;
+  font-size: 0.9em;
+}
+
+.featurer .rateValue {
+  font-size: 1em;
+  margin: 0 4px 2px 4px;
+  font-size: 0.95em;
+  font-weight: 480;
+}
+
+.featurer .rateNumber {
+  font-weight: bold;
+}
+
+/* Rater */
+
+.rater {
+  margin-bottom: 8px;
+}
+
+.starButton {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+.star-on {
+  color: rgb(245, 163, 12);
+}
+
+.star-off {
+  color: #ccc;
+}
+
+.rater .starRating {
+  margin: 0 4px 2px 4px;
+  display: inline-block;
+  font-weight: 501;
+}
+
+.hoverValue {
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: default;
+  color: #555;
+  font-weight: 600;
+}
+
+.raterComment {
+  margin: 0;
+}
+
+.raterBtnContainer {
+  text-align: right;
+  padding: 0 4px;
+}
+
+.raterBtnContainer button {
+  margin: 0;
+}
+
+/* Legend */
+
+.mapLegend {
+  position: fixed;
+  bottom: 60px;
+  right: 32px;
+  padding: min(0.5vw, 8px) min(1vw, 12px);
+  background-color: #e6e4e0;
+  border: 1px solid #d2d0cc;
+  box-shadow: #dcd9d6 2px 2px 4px;
+}
+
+.ratingDescription>* {
+  margin: 0px 6px;
+}
+
+.ratingUnitsWrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 min(1vw, 8px);
+  margin-top: -6px;
+}
+
+.ratingUnit {
+  display: inline-block;
+}
+
+.ratingColor {
+  display: inline-block;
+  width: 32px;
+  height: 6px;
+}
+
+.ratingGradientWrap {
+  padding: 0 min(1vw, 8px);
+}
+
+.ratingGradient {
+  height: 4px;
+}
+
+/* Reviews */
+
+.reviewsContainer {
+  max-height: 160px;
+  overflow-y: scroll;
+  padding: 6px;
+  -moz-transition: max-height .5s;
+  -ms-transition: max-height .5s;
+  -o-transition: max-height .5s;
+  -webkit-transition: max-height .5s;
+  transition: max-height .5s;
+}
+
+.reviewWrap {
+  border: 1px solid #d2d0cc;
+  padding: 2px;
+  box-shadow: #dcd9d6 2px 2px 4px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.authorLogo {
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  text-align: center;
+  background-color: darkslateblue;
+  border-radius: 32px;
+}
+
+.authorLogo span {
+  color: aliceblue;
+  position: relative;
+  top: 3px;
+}
+
+.reviewBody {
+  padding: 2px;
+  margin-left: 4px;
+  position: relative;
+  width: calc(100% - 50px);
+}
+
+.reviewBody p {
+  margin: 0 4px;
+}
+
+.reviewComment{
+  padding: 2px 6px;
+  background-color: #eceff4;
+  border-radius: 2px;
+}
+
+.reviewDate {
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  font-size: 0.8em;
+  color: #555;
+}
+
+.reviewStars {
+  margin-left: 6px;
+}
+
+.skipperContainer {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 32px;
+}
+
+.skipperContainer .skipper {
+  text-align: center;
+  width: 32px;
+  height: 32px;
+  background-color: #e6e4e0;
+  border-radius: 32px;
+  border: 1px solid slategrey;
+  cursor: pointer;
+}
+
+.skipperContainer .skipper span {
+  font-size: 1.8em;
+  margin-top: -8px;
+  display: inline-block;
+  color: #555;
+}
+
+.reviewsContainer.shrinked {
+  max-height: 20px;
+}
+
+
+/* Scrollbar */
+
+/* width */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

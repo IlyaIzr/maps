@@ -1,0 +1,24 @@
+{
+  "name": "maps",
+  "version": "1.0.0",
+  "description": "an app to rate and find best places",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js&&webpack-dev-server --open --mode development --hot",
+    "serve": "node server.js",
+    "git": "git add . && git commit -m",
+    "postgit": "git push --all"
+  },
+  "author": "ilyaizr",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/truncate": "^6.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

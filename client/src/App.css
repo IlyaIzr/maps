@@ -1,0 +1,51 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* #root {
+  background-color: black;
+  color: antiquewhite;
+} */
+
+.map-container {
+  /* height: calc(100vh - 24px); */
+  /* height: calc(100vh - 100px); */
+  height: 100vh;
+  /* margin-top: 14px; */
+}
+
+.mainWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.mainNavigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 30px;
+  z-index: 1;
+  background-color: #e6e4e0;
+  padding: 4px;
+  border: 1px solid slategrey;
+  text-align: center;
+}
+
+.mainNavigation * {
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #dcd9d6;
+  padding: 2px 14px 6px 14px ;
+  border: 1px solid #d1ceca;
+}
+
+.routeWrapper {
+  z-index: 2;
+  min-width: 100vw;
+  /* min-height: calc(100vh - 30px); */
+}
