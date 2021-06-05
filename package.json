@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js&&webpack-dev-server --open --mode development --hot",
-    "deploy": "node whole.js",
+    "start": "node whole.js",
     "git": "git add . && git commit -m",
     "postgit": "git push --all"
   },
