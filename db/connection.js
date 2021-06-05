@@ -4,11 +4,10 @@ const mysql = require('mysql2');
 class Database {
   connection
   constructor() {
-    console.log('constructut did run');
-    this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' });
-    // this.connection = mysql.createPool({ host: 'ilyaizr.beget.tech', user: 'ilyaizr_maps', 
-    // database: 'ilyaizr_maps', password: 'ToE6**dR' });
-    // console.log(this.connection);
+    // console.log('constructut did run');
+    // this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' });
+    this.connection = mysql.createPool({ host: process.env.DBSERVER, user: process.env.DBUSER, 
+    database: process.env.DBNAME, password: process.env.DBSERVERP });
   }
   query(sql, args) {
     return new Promise((resolve, reject) => {
