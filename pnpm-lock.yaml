@@ -7,6 +7,7 @@ specifiers:
   express: ^4.17.1
   mysql2: ^2.2.5
   nodemon: ^2.0.6
+  path: ^0.12.7
 
 dependencies:
   '@turf/truncate': 6.3.0
@@ -14,6 +15,7 @@ dependencies:
   dotenv: 8.6.0
   express: 4.17.1
   mysql2: 2.2.5
+  path: 0.12.7
 
 devDependencies:
   nodemon: 2.0.7
@@ -872,6 +874,13 @@ packages:
     resolution: {integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=}
     dev: false
 
+  /path/0.12.7:
+    resolution: {integrity: sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=}
+    dependencies:
+      process: 0.11.10
+      util: 0.10.4
+    dev: false
+
   /picomatch/2.2.3:
     resolution: {integrity: sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==}
     engines: {node: '>=8.6'}
@@ -881,6 +890,11 @@ packages:
     resolution: {integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=}
     engines: {node: '>=4'}
     dev: true
+
+  /process/0.11.10:
+    resolution: {integrity: sha1-czIwDoQBYb2j5podHZGn1LwW8YI=}
+    engines: {node: '>= 0.6.0'}
+    dev: false
 
   /proxy-addr/2.0.6:
     resolution: {integrity: sha512-dh/frvCBVmSsDYzw6n926jv974gddhkFPfiN8hPOi30Wax25QZyZEGveluCgliBnqmuM+UJmBErbAUFIoDbjOw==}
@@ -1187,6 +1201,12 @@ packages:
     dependencies:
       prepend-http: 2.0.0
     dev: true
+
+  /util/0.10.4:
+    resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
+    dependencies:
+      inherits: 2.0.3
+    dev: false
 
   /utils-merge/1.0.1:
     resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
