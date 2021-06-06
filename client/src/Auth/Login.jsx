@@ -23,12 +23,9 @@ export const Login = () => {
   }
 
   useEffect(() => {
-    const prevUser = window.localStorage.getItem('usernameTemp')
-    if (prevUser) {
-      setUsername(prevUser)
-      logIntoApp(dispatch, username, username, username + '-' + Math.floor(Math.random() * 1000))
-    }
-  }, [])
+    if (username !== user.name) setUsername(user.name)
+  }, [user.name])
+
 
   return (
     <div>{

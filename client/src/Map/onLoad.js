@@ -38,6 +38,7 @@ export function mapOnLoad(map, geoJson) {
         'fill-color': [
           "interpolate", ["linear"], ['get', 'rating'],
 
+          0, gradient[0],
           1, gradient[1],
           2, gradient[2],
           3, gradient[3],

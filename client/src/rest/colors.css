@@ -1,0 +1,71 @@
+/* Light */
+.mp-light{
+color: #e6e4e0;
+}
+.mp-bg-light{
+background-color: #e6e4e0;
+}
+.mp-border-light{
+border-color: #e6e4e0;
+}
+.mp-shadow-light{
+  box-shadow: #e6e4e0 2px 2px 4px;
+}
+
+/* Dark */
+.mp-dark{
+  color: #555;
+}
+.mp-bg-dark{
+background-color: #555;
+}
+.mp-border-dark{
+border-color: #555;
+}
+.mp-shadow-dark{
+  box-shadow: #555 2px 2px 4px  ;
+}
+
+/* Accent */
+.mp-accent{
+  color: #ffc900;
+}
+.mp-bg-accent{
+  background-color: #ffc900;
+}
+.mp-border-accent{
+  border-color: #ffc900;
+}
+
+/* Primary */
+.mp-primary{
+color: aliceblue;
+}
+.mp-bg-primary{
+background-color: aliceblue;
+}
+.mp-border-primary{
+border-color: aliceblue;
+}
+
+/* Secondary */
+.mp-secondary{
+color: #b3b0ae;
+}
+.mp-bg-secondary{
+background-color: #b3b0ae;
+}
+.mp-border-secondary{
+border-color: #b3b0ae;
+}
+
+/* Counter */
+.mp-counter{
+  color: blue;
+}
+.mp-bg-counter{
+  background-color: blue;
+}
+.mp-border-counter{
+border-color: blue;
+}

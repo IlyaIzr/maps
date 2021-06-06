@@ -4,8 +4,7 @@
   left: 0;
   min-width: 260px;
   padding: min(1vw, 12px);
-  background-color: #e6e4e0;
-  border: 1px solid slategrey;
+  border: 1px solid;
 }
 
 .closeFeature{
@@ -53,14 +52,6 @@
   margin: 0;
 }
 
-.star-on {
-  color: rgb(245, 163, 12);
-}
-
-.star-off {
-  color: #ccc;
-}
-
 .rater .starRating {
   margin: 0 4px 2px 4px;
   display: inline-block;
@@ -68,10 +59,9 @@
 }
 
 .hoverValue {
-  margin-left: 8px;
+  margin-left: 2px;
   margin-right: 8px;
   cursor: default;
-  color: #555;
   font-weight: 600;
 }
 
@@ -95,9 +85,7 @@
   bottom: 60px;
   right: 32px;
   padding: min(0.5vw, 8px) min(1vw, 12px);
-  background-color: #e6e4e0;
-  border: 1px solid #d2d0cc;
-  box-shadow: #dcd9d6 2px 2px 4px;
+  border: 1px solid;
 }
 
 .ratingDescription>* {
@@ -143,9 +131,8 @@
 }
 
 .reviewWrap {
-  border: 1px solid #d2d0cc;
+  border: 1px solid;
   padding: 2px;
-  box-shadow: #dcd9d6 2px 2px 4px;
   margin-bottom: 4px;
   display: flex;
   flex-wrap: wrap;
@@ -156,12 +143,10 @@
   height: 32px;
   margin: 4px;
   text-align: center;
-  background-color: darkslateblue;
   border-radius: 32px;
 }
 
 .authorLogo span {
-  color: aliceblue;
   position: relative;
   top: 3px;
 }
@@ -179,7 +164,6 @@
 
 .reviewComment{
   padding: 2px 6px;
-  background-color: #eceff4;
   border-radius: 2px;
 }
 
@@ -188,7 +172,6 @@
   right: 4px;
   top: 6px;
   font-size: 0.8em;
-  color: #555;
 }
 
 .reviewStars {
@@ -205,21 +188,19 @@
   width: 32px;
 }
 
-.skipperContainer .skipper {
+.skipper {
   text-align: center;
   width: 32px;
   height: 32px;
-  background-color: #e6e4e0;
   border-radius: 32px;
-  border: 1px solid slategrey;
+  border: 1px solid;
   cursor: pointer;
 }
 
-.skipperContainer .skipper span {
+.skipper span {
   font-size: 1.8em;
   margin-top: -8px;
   display: inline-block;
-  color: #555;
 }
 
 .reviewsContainer.shrinked {

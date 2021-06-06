@@ -98,7 +98,7 @@ export const Main = () => {
       />
       <Legend />
       {feature &&
-        <div className="featureContainer">
+        <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} />
           <Rater
             rating={rating} setRating={setRating}

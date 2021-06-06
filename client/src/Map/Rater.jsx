@@ -28,7 +28,7 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
     <div className="rater">
 
       <div className="stars">
-        <h5 className="starRating">{TEXT.rating} :</h5> <span className="hoverValue">{hover}</span>
+        <h5 className="starRating">{TEXT.rating} :</h5> <span className="hoverValue mp-dark">{hover}</span>
         <br />
         {[...Array(5)].map((star, index) => {
           index += 1;
@@ -37,7 +37,7 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
               type="button"
               key={index}
               name={index}
-              className={index <= (hover || rating) ? "star-on starButton" : "star-off starButton"}
+              className={index <= (hover || rating) ? "mp-accent starButton" : "mp-secondary starButton"}
               onClick={onClick}
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}

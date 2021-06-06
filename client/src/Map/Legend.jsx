@@ -4,7 +4,7 @@ import { TEXT } from '../rest/lang'
 
 export const Legend = () => {
   return (
-    <div className="mapLegend">
+    <div className="mapLegend mp-bg-light mp-border-secondary mp-shadow-light">
       <div className="ratingLegend">
         <div className="ratingDescription">
           <span>{TEXT.worstRating}</span>
@@ -23,7 +23,7 @@ export const Legend = () => {
           })}
         </div>
         <div className="ratingGradientWrap">
-          <div className="ratingGradient" style={{ background: `linear-gradient(90deg, ${gradient[0]}, ${gradient[5]})` }}></div>
+          <div className="ratingGradient" style={{ background: `linear-gradient(90deg, ${gradient[0]}, ${gradient[3]}, ${gradient[5]})` }}></div>
         </div>
       </div>
     </div>

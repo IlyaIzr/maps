@@ -30,18 +30,16 @@ body {
   width: 100vw;
   height: 30px;
   z-index: 1;
-  background-color: #e6e4e0;
   padding: 4px;
-  border: 1px solid slategrey;
+  border: 1px solid;
   text-align: center;
 }
 
 .mainNavigation * {
   margin-left: 20px;
   margin-right: 20px;
-  background-color: #dcd9d6;
   padding: 2px 14px 6px 14px ;
-  border: 1px solid #d1ceca;
+  border: 1px solid ;
 }
 
 .routeWrapper {
