@@ -4,6 +4,7 @@ import { getPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse } from './filters';
 import { mapOnClick } from './onClick';
+import { getLocation, saveLocation } from '../rest/helperFuncs';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 
@@ -19,6 +20,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   // Init map
   useEffect(() => {
     (async function () {
+      const { lng, lat } = getLocation()
 
       const res = await getPlaces()
       if (res.status !== 'OK') return console.log('bad request', res);
@@ -34,13 +36,20 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale basic styles
         style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11     
         // center: [-122.447303, 37.753574],  // palo alto
-        center: [34.354, 53.235], // bryansk
+        center: [lng || 34.354, lat || 53.235], // bryansk
         zoom: 16
       });
 
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater)
     })()
+
+    const interval = setInterval(() => {
+      const loc = map.current?.getCenter?.()
+      if (loc) saveLocation(loc)
+    }, 10000);
+    
+    return () => clearInterval(interval)
     /* eslint-disable */
   }, []);
   /* eslint-enable */
@@ -61,6 +70,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
     /* eslint-disable */
   }, [feature]);
   /* eslint-enable */
+
 
 
   return (
