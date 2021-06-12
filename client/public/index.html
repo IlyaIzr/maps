@@ -26,7 +26,11 @@
 
 <body>
   <!-- <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script> -->
-  <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script>
+  <!-- <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script> -->
+
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&v=weekly"></script> -->
+  <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GMAPKEY%&libraries=places&v=weekly"></script>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
 </body>

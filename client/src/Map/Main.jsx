@@ -10,6 +10,7 @@ import { postInitReview, postNextReview } from '../requests/map';
 import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
+import { GMap } from './GMap';
 
 
 export const Main = () => {
@@ -90,12 +91,13 @@ export const Main = () => {
 
   return (
     <div>
-      <Map
+      {/* <Map
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
         geoData={geoData} setGeoData={setGeoData}
         featureTrigger={featureTrigger}
-      />
+      /> */}
+      <GMap />
       <Legend />
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
