@@ -38,7 +38,8 @@ const rus = {
   bestRating: 'Замечательно',
   worstRating: 'Ужасно',
   reviews: 'Отзывы',
-  noComments: 'Без комментариев'
+  noComments: 'Без комментариев',
+  searchPHolder: 'Найти'
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

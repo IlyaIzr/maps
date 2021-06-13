@@ -49,6 +49,7 @@ export const Main = () => {
       x: feature._vectorTileFeature._x,
       y: feature._vectorTileFeature._y,
       id: feature.id,
+      name: feature.name,
       polyString
     }
     // Case next review

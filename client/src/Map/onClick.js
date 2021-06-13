@@ -1,3 +1,4 @@
+import { getPlaceInfo } from "../requests/map"
 import { flyToFeature } from "./Map"
 
 export function mapOnClick(map, setFeature, resetRater) {
@@ -25,7 +26,7 @@ export function mapOnClick(map, setFeature, resetRater) {
     return geoFromTurf(features)
   }
 
-  map.on('click', function (e) {
+  map.on('click', async function (e) {
     resetRater()
     function zoomOnEvent(zoom) {
       const { lng, lat } = e.lngLat
@@ -51,13 +52,21 @@ export function mapOnClick(map, setFeature, resetRater) {
     const featureToRate = features.find(feature => featuresNeeded.has(feature.sourceLayer))
     if (featureToRate?.id) {
       console.log('found feature', featureToRate);
-      // console.log('%c⧭ source', 'color: #1d5673', featureToRate.geometry);
 
 
       const zoom = map.getZoom()
-      flyToFeature(map, featureToRate, zoom < 16 ? 16 : zoom) //TODO make some sort of buffer 
-      // flyToFeature(map, featureToRate)
-      setFeature({ ...featureToRate, geometry: lesserGeometry(featureToRate) })
+      const [lng, lat] = flyToFeature(map, featureToRate, zoom < 16 ? 16 : zoom) //TODO make some sort of buffer 
+      
+      const searchData = await getPlaceInfo(lng, lat)
+      console.log('%c⧭', 'color: #e50000', searchData);
+      const name = (function () {
+        if (searchData.features[0].properties.address) return searchData.features[0].properties.address
+        const arr = searchData.features[0].place_name.split(', ')[0];
+        return arr
+      })()
+      console.log('%c⧭', 'color: #00bf00', name);
+      
+      setFeature({ ...featureToRate, geometry: lesserGeometry(featureToRate), adress: name })
 
     } else if (featureToRate) {
       console.log('interesting, but no id', featureToRate);

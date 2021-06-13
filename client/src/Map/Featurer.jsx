@@ -14,12 +14,14 @@ export const Featurer = ({ feature }) => {
       </p>
       <h5 className="rateValue">
         {TEXT.placeRatingPrefix}:
-      <span className="rateNumber"> {feature.properties.rating}</span>
+        <span className="rateNumber"> {feature.properties.rating}</span>
       </h5>
     </div>
   )
   return (
     <div className="featurer">
+      <p className="adress">{feature.adress}</p>
+      <br />
       {TEXT.firstTimeRate}
     </div>
   )

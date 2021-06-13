@@ -5,6 +5,7 @@ import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse } from './filters';
 import { mapOnClick } from './onClick';
 import { getLocation, saveLocation } from '../rest/helperFuncs';
+import { TEXT } from '../rest/lang';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 
@@ -40,6 +41,14 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         zoom: 16
       });
 
+      map.current.addControl(
+        new window.MapboxGeocoder({
+          accessToken: process.env.REACT_APP_MAPBOX_T,
+          mapboxgl: mapboxgl,
+          placeholder: TEXT.searchPHolder
+        })
+      );
+
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater)
     })()
@@ -48,7 +57,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
       const loc = map.current?.getCenter?.()
       if (loc) saveLocation(loc)
     }, 10000);
-    
+
     return () => clearInterval(interval)
     /* eslint-disable */
   }, []);
@@ -90,4 +99,5 @@ export function setMapData(map, geoData, sourceId) {
 export function flyToFeature(map, feature, zoom = 16, speed = 0.5) {
   const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
   map.flyTo({ center: [lng, lat], zoom, speed });
+  return [lng, lat]
 }
