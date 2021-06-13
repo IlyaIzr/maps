@@ -5,9 +5,9 @@ class Database {
   connection
   constructor() {
     // console.log('constructut did run');
-    // this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' });
-    this.connection = mysql.createPool({ host: process.env.DBSERVER, user: process.env.DBUSER, 
-    database: process.env.DBNAME, password: process.env.DBSERVERP });
+    this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' });
+    // this.connection = mysql.createPool({ host: process.env.DBSERVER, user: process.env.DBUSER, 
+    // database: process.env.DBNAME, password: process.env.DBSERVERP });
   }
   query(sql, args) {
     return new Promise((resolve, reject) => {

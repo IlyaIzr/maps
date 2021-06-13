@@ -51,6 +51,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
 
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater)
+      window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
     const interval = setInterval(() => {

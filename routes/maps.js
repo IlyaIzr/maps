@@ -55,12 +55,13 @@ router.post('/postInitReview', async (req, res) => {
 
   // Initialize place
 
-  const { x, y, lng, lat, polyString } = place
+  const { x, y, lng, lat, polyString, name } = place
+  console.log('%c⧭', 'color: #e57373', name);
 
 
   const query1 =
-    'INSERT INTO `places` (`id`, `rating`, `amount`, `x`, `y`, `lng`, `lat`, `polygon`) VALUES (?, ?, ?, ?, ?, ?, ?, ST_MPointFromText(?));'
-  const params1 = [targetId, grade, 1, x, y, lng, lat, polyString]
+    'INSERT INTO `places` (`id`, `rating`,`name`, `amount`, `x`, `y`, `lng`, `lat`, `polygon`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ST_MPointFromText(?));'
+  const params1 = [targetId, grade, name, 1, x, y, lng, lat, polyString]
 
   // Post place
   try {

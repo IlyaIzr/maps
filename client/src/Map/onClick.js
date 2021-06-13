@@ -1,5 +1,5 @@
-import { getPlaceInfo } from "../requests/map"
 import { flyToFeature } from "./Map"
+const typesNeeded = new Set(['street_address', 'natural_feature', 'airport', 'park', 'point_of_interest', "establishment", "food", "store"])
 
 export function mapOnClick(map, setFeature, resetRater) {
   function geoFromTurf(geo) {
@@ -42,7 +42,7 @@ export function mapOnClick(map, setFeature, resetRater) {
     if (ratedBefore) {
       console.log('found rated feature', ratedBefore.geometry);
 
-      
+
       flyToFeature(map, ratedBefore)
       setFeature(ratedBefore)
       return;
@@ -56,17 +56,36 @@ export function mapOnClick(map, setFeature, resetRater) {
 
       const zoom = map.getZoom()
       const [lng, lat] = flyToFeature(map, featureToRate, zoom < 16 ? 16 : zoom) //TODO make some sort of buffer 
-      
-      const searchData = await getPlaceInfo(lng, lat)
-      console.log('%c⧭', 'color: #e50000', searchData);
-      const name = (function () {
-        if (searchData.features[0].properties.address) return searchData.features[0].properties.address
-        const arr = searchData.features[0].place_name.split(', ')[0];
-        return arr
-      })()
-      console.log('%c⧭', 'color: #00bf00', name);
-      
-      setFeature({ ...featureToRate, geometry: lesserGeometry(featureToRate), adress: name })
+      const geometry = lesserGeometry(featureToRate)
+
+      // Get decent adress from geocoder
+      const res = await window.geocoderRef.geocode({ 'location': { lat, lng } });
+
+      let adress
+      if (res.results) {
+        for (let i = 0; i < res.results.length; i++) {
+          const obj = res.results[i];
+          if (obj.types[0] === 'premise') {
+            adress = obj.formatted_address.split(', ')[0] + ', ' + obj.formatted_address.split(', ')[1];
+            break
+          }
+          if (obj.types.find(type => typesNeeded.has(type))) {
+            adress = obj.address_components[1].long_name + ', ' + obj.address_components[0].long_name
+            break
+          }
+        }
+        // TODO error handling
+      }
+      setFeature({ ...featureToRate, geometry, adress })
+
+
+      // const name = (function () {
+      //   // if (searchData.features[0].properties.address) return searchData.features[0].properties.address
+      //   const arr = searchData.features[0].place_name.split(', ')[0];
+      //   return arr
+      // })()
+      // console.log('%c⧭', 'color: #00bf00', name);
+
 
     } else if (featureToRate) {
       console.log('interesting, but no id', featureToRate);

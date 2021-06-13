@@ -19,24 +19,6 @@ export async function getPlaces(minx, maxx, miny, maxy) {
   }
 }
 
-export async function getPlaceInfo(lon, lat) {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-  try {
-    const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${process.env.REACT_APP_MAPBOX_T}`,
-      options
-    )
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
-}
 
 
 export async function getReviews(placeId) {

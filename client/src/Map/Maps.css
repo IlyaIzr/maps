@@ -23,20 +23,37 @@
   margin: 0;
 }
 
-.featurer .rateAmount {
+.featurer > *{
   margin: 0 4px 2px 4px;
+}
+
+.featurer .rateAmount {
   font-size: 0.9em;
 }
 
 .featurer .rateValue {
   font-size: 1em;
-  margin: 0 4px 2px 4px;
   font-size: 0.95em;
   font-weight: 480;
 }
 
 .featurer .rateNumber {
   font-weight: bold;
+}
+.featureNameWrap {
+  text-align: right;
+}
+
+.featurerGreetings{
+  margin-right: 16px;
+}
+
+.featureName{
+  border: 2px solid;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0;
+  padding: 1px 4px;
 }
 
 /* Rater */

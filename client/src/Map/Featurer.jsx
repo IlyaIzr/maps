@@ -20,9 +20,14 @@ export const Featurer = ({ feature }) => {
   )
   return (
     <div className="featurer">
-      <p className="adress">{feature.adress}</p>
-      <br />
-      {TEXT.firstTimeRate}
+      <p className="featurerGreetings">
+        {TEXT.firstTimeRate}
+      </p>
+      {feature.adress ?
+        <div className="featureNameWrap">
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.adress}</p>
+        </div>
+        : <></>}
     </div>
   )
 }

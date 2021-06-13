@@ -49,7 +49,7 @@ export const Main = () => {
       x: feature._vectorTileFeature._x,
       y: feature._vectorTileFeature._y,
       id: feature.id,
-      name: feature.name,
+      name: feature.adress || "",
       polyString
     }
     // Case next review
