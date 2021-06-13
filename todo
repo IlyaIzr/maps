@@ -2,8 +2,12 @@ Bugs: -
 
 move coloring to classes
 
-purple blue gradient
-green red gradient - purple and blue for map, also dark red and grey shades
+Place name and details if availible
+get place info from google?
+
+superUser draw buildings functionality
+-square shouldn't be too large or too small
+
 
 // another color concept - one color density gradient, but map has a little of grey
 gradient - pale green(lil yellow) 
@@ -21,6 +25,7 @@ badrequests handlers
 
 1.0 features
 friend functional, friend-marks
+rooftop raster view, example on https://www.mapbox.com/search-service
 
 In future:
 quiz places mode 
