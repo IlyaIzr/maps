@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+/* eslint-disable */
 import { TEXT } from '../rest/lang'
 import { Login } from './Login'
 import { Register } from './Register'

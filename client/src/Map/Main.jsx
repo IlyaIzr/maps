@@ -15,6 +15,8 @@ import { Reviews } from './Reviews';
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
+  // Featurer
+  const [name, setName] = useState('')
   // Rater
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('')
@@ -100,7 +102,7 @@ export const Main = () => {
       <Legend />
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
-          <Featurer feature={feature} />
+          <Featurer feature={feature} name={name} setName={setName}/>
           <Rater
             rating={rating} setRating={setRating}
             comment={comment} setComment={setComment}

@@ -6,6 +6,7 @@ import { geoJsonFromResponse } from './filters';
 import { mapOnClick } from './onClick';
 import { getLocation, saveLocation } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
+import { mapAddControl } from './addControl';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 
@@ -51,6 +52,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
 
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater)
+      mapAddControl(map.current, setFeature)
       window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
@@ -68,7 +70,6 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     setMapData(map.current, geoData, 'ratedFeaturesSource')
-    // console.log('%c⧭', 'color: #73998c', 'adding data to source', geoData);
     /* eslint-disable */
   }, [featureTrigger]);
   /* eslint-enable */
@@ -76,6 +77,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   // Mark selected feature
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
+
     setMapData(map.current, [feature || {}], 'selectedFeatureSrc')
     /* eslint-disable */
   }, [feature]);
@@ -86,6 +88,11 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   return (
     <div>
       <div ref={mapContainer} className="map-container" />
+
+      <div className="calculation-box">
+        <p>Draw a polygon using the draw tools.</p>
+        <div id="calculated-area"></div>
+      </div>
     </div>
   )
 }

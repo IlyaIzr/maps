@@ -12,6 +12,8 @@ export const Reviews = ({ feature }) => {
 
   useEffect(() => {
     (async function () {
+      if (feature?.source !== 'ratedFeaturesSource') return (null)
+      
       const res = await getReviews(feature.id)
       if (res.status !== 'OK') return console.log('error with res', res);
       setReviews(res.data)
@@ -20,7 +22,7 @@ export const Reviews = ({ feature }) => {
     return () => {
       setReviews([])
     }
-  }, [])
+  }, [feature?.source, feature?.id])
 
   function onClick() {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)
@@ -31,7 +33,6 @@ export const Reviews = ({ feature }) => {
   return (
     <div className={`reviewsContainer ${reviewsShown ? 'expanded' : 'shrinked'}`}>
       {reviews.length ? reviews.map(review => {
-        console.log('%c⧭', 'color: #8c0038', review);
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.grade + Math.random()}>
             <div className="authorLogo mp-bg-counter">

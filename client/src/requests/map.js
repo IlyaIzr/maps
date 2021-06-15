@@ -71,3 +71,29 @@ export async function postNextReview(data) {
     return err
   }
 }
+
+export async function getAdress(lat, lng) {
+  const typesNeeded = new Set(
+    ['street_address', 'natural_feature', 'airport', 'park', 'point_of_interest', "establishment", "food", "store"]
+  )
+  
+  // Get decent adress from geocoder
+  const res = await window.geocoderRef.geocode({ 'location': { lat, lng } });
+
+  let adress = ""
+  if (res.results) {
+    for (let i = 0; i < res.results.length; i++) {
+      const obj = res.results[i];
+      if (obj.types[0] === 'premise') {
+        adress = obj.formatted_address.split(', ')[0] + ', ' + obj.formatted_address.split(', ')[1];
+        break
+      }
+      if (obj.types.find(type => typesNeeded.has(type))) {
+        adress = obj.address_components[1].long_name + ', ' + obj.address_components[0].long_name
+        break
+      }
+    }
+    // TODO error handling
+  }
+  return adress
+}

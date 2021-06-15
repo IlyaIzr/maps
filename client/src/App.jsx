@@ -19,13 +19,15 @@ import { useDispatch } from "react-redux";
 function App() {
   const [isMain, setIsMain] = useState(true);
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     const prevUser = window.localStorage.getItem('usernameTemp')
     if (prevUser) {
       logIntoApp(dispatch, prevUser, prevUser, prevUser + '-' + Math.floor(Math.random() * 1000))
     }
+    /* eslint-disable */
   }, [])
+  /* eslint-enable */
 
   return (
     <Router>
