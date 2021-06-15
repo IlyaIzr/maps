@@ -57,9 +57,9 @@ export function mapOnClick(map, setFeature, resetRater) {
       const [lng, lat] = flyToFeature(map, featureToRate, zoom < 16 ? 16 : zoom) //TODO make some sort of buffer 
       const geometry = lesserGeometry(featureToRate)
 
-      const adress = await getAdress(lat, lng)
+      featureToRate.properties.name = await getAdress(lat, lng)
 
-      setFeature({ ...featureToRate, geometry, name: adress })
+      setFeature({ ...featureToRate, geometry })
       return;
 
     } else if (featureToRate) {

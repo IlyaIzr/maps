@@ -24,7 +24,7 @@ export const Featurer = ({ feature, name, setName }) => {
       </h5>      
       {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
+          <p className="featureName mp-bg-counter mp-border-primary mp-primary">{feature.properties.name}</p>
         </div>
         : <></>}
     </div>
@@ -64,7 +64,7 @@ export const Featurer = ({ feature, name, setName }) => {
       </p>
       {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
+          <p className="featureName mp-bg-counter mp-border-primary  mp-primary">{feature.properties.name}</p>
         </div>
         : <></>}
     </div>

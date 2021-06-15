@@ -31,9 +31,14 @@ export function mapAddControl(map, setFeature) {
       feature.properties.created = true
       feature.source = 'createdPoly'
       const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
+      const zoom = map.getZoom()
+      // Vector tile feature calculations
+      feature._vectorTileFeature = {
+        _x: Math.floor((lng + 180) / 360 * Math.pow(2, zoom)),
+        _y: Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))
+      }
 
-      console.log('%c⧭', 'color: #ffa280', feature);
-      // feature.properties.name = await getAdress(lat, lng)
+      feature.properties.name = await getAdress(lat, lng)
       setFeature(feature)
     } else {
       answer.innerHTML = '';
