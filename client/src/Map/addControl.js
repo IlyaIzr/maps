@@ -31,7 +31,9 @@ export function mapAddControl(map, setFeature) {
       feature.properties.created = true
       feature.source = 'createdPoly'
       const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
-      feature.name = await getAdress(lat, lng)
+
+      console.log('%c⧭', 'color: #ffa280', feature);
+      // feature.properties.name = await getAdress(lat, lng)
       setFeature(feature)
     } else {
       answer.innerHTML = '';

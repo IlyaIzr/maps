@@ -52,7 +52,7 @@ export const Main = () => {
       x: feature._vectorTileFeature._x,
       y: feature._vectorTileFeature._y,
       id: feature.id,
-      name: feature.name || "",
+      name: feature.properties.name || "",
       polyString
     }
     // Case next review
@@ -79,11 +79,10 @@ export const Main = () => {
     // console.log(user.login, review, place);
     setGeoData([...geoData, {
       type: 'Feature',
-      properties: { rating, amount: 1 },
+      properties: { rating, name, amount: 1 },
       id: feature.id,
       // geometry: {...feature.geometry}
-      geometry: feature.geometry,
-      name: name
+      geometry: feature.geometry
     }])
     updateLayers()
     const res = await postInitReview({ user: user.login, review, place })
@@ -104,7 +103,7 @@ export const Main = () => {
       <Legend />
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
-          <Featurer feature={feature} name={name} setName={setName}/>
+          <Featurer feature={feature} name={name} setName={setName} />
           <Rater
             rating={rating} setRating={setRating}
             comment={comment} setComment={setComment}

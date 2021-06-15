@@ -10,10 +10,11 @@ export function geoJsonFromResponse(places) {
       id: placeData.id,
       properties: {
         rating: Number(placeData.rating),
-        amount: placeData.amount
+        amount: placeData.amount,
+        name: placeData.name
       },
       source: "composite",
-      sourceLayer: "building"
+      sourceLayer: "building",
     }
     // if (placeData?.polygon?.length > 1) res.geometry.type = "MultiPolygon"
 

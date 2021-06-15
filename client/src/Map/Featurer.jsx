@@ -4,7 +4,7 @@ import { TEXT } from "../rest/lang";
 export const Featurer = ({ feature, name, setName }) => {
 
   useEffect(() => {
-    if (feature?.name) setName(feature.name)
+    if (feature?.name) setName(feature.properties.name)
   }, [feature, setName])
 
   if (!feature?.source) {
@@ -21,13 +21,18 @@ export const Featurer = ({ feature, name, setName }) => {
       <h5 className="rateValue">
         {TEXT.placeRatingPrefix}:
         <span className="rateNumber"> {feature.properties.rating}</span>
-      </h5>
+      </h5>      
+      {feature.properties.name ?
+        <div className="featureNameWrap">
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
+        </div>
+        : <></>}
     </div>
   )
   // Case created  
   function onInput(e) {
     setName(e.target.value)
-    feature.name = e.target.value
+    feature.properties.name = e.target.value
   }
   if (feature.source === 'createdPoly') return (
     <div className="featurer">
@@ -42,9 +47,9 @@ export const Featurer = ({ feature, name, setName }) => {
           className="featureName mp-bg-counter mp-border-counter  mp-primary"
         />
       </div>
-      {/* {feature.name ?
+      {/* {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.name}</p>
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
         </div>
         : <div>
           <input type="text" value={name} onInput={onInput} placeholder={'enter name or name'}/>
@@ -57,9 +62,9 @@ export const Featurer = ({ feature, name, setName }) => {
       <p className="featurerGreetings">
         {TEXT.firstTimeRate}
       </p>
-      {feature.name ?
+      {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.name}</p>
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
         </div>
         : <></>}
     </div>
