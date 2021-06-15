@@ -31,7 +31,7 @@ export function mapAddControl(map, setFeature) {
       feature.properties.created = true
       feature.source = 'createdPoly'
       const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
-      feature.adress = await getAdress(lat, lng)
+      feature.name = await getAdress(lat, lng)
       setFeature(feature)
     } else {
       answer.innerHTML = '';

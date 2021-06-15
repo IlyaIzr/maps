@@ -8,7 +8,7 @@
   border: 1px solid;
 }
 
-.closeFeature{
+.closeFeature {
   position: absolute;
   right: 4px;
   top: 2px;
@@ -23,7 +23,7 @@
   margin: 0;
 }
 
-.featurer > *{
+.featurer>* {
   margin: 0 4px 2px 4px;
 }
 
@@ -40,24 +40,30 @@
 .featurer .rateNumber {
   font-weight: bold;
 }
+
 .featureNameWrap {
   text-align: right;
 }
 
-.featurerGreetings{
+.featurerGreetings {
   margin-right: 16px;
 }
 
-.featureName{
+.featureName {
   border: 2px solid;
   border-radius: 4px;
   display: inline-block;
   margin: 0;
   padding: 1px 4px;
 }
-input.featureName{
+
+input.featureName {
   cursor: help;
   border: 4px dotted;
+}
+
+input.featureName::placeholder {
+  font-size: 0.9em;
 }
 
 /* Rater */
@@ -95,6 +101,7 @@ input.featureName{
 .raterBtnContainer {
   text-align: right;
   padding: 0 4px;
+  margin-bottom: -6px;
 }
 
 .raterBtnContainer button {
@@ -185,7 +192,7 @@ input.featureName{
   margin: 0 4px;
 }
 
-.reviewComment{
+.reviewComment {
   padding: 2px 6px;
   border-radius: 2px;
 }
@@ -229,7 +236,6 @@ input.featureName{
 .reviewsContainer.shrinked {
   max-height: 20px;
 }
-
 
 /* Scrollbar */
 

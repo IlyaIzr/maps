@@ -4,7 +4,7 @@ import { TEXT } from "../rest/lang";
 export const Featurer = ({ feature, name, setName }) => {
 
   useEffect(() => {
-    if (feature?.adress) setName(feature.adress)
+    if (feature?.name) setName(feature.name)
   }, [feature, setName])
 
   if (!feature?.source) {
@@ -27,25 +27,27 @@ export const Featurer = ({ feature, name, setName }) => {
   // Case created  
   function onInput(e) {
     setName(e.target.value)
+    feature.name = e.target.value
   }
   if (feature.source === 'createdPoly') return (
     <div className="featurer">
       <p className="featurerGreetings">
-        You created a feature
+        {TEXT.newFeature}
       </p>
 
       <div className="featureNameWrap">
         <input
-          type="text" value={name} onInput={onInput} placeholder={'enter name or adress'}
+          type="text" value={name} onInput={onInput} 
+          placeholder={TEXT.newFeaturePHolder} title={TEXT.newFeaturePHolder}
           className="featureName mp-bg-counter mp-border-counter  mp-primary"
         />
       </div>
-      {/* {feature.adress ?
+      {/* {feature.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.adress}</p>
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.name}</p>
         </div>
         : <div>
-          <input type="text" value={name} onInput={onInput} placeholder={'enter name or adress'}/>
+          <input type="text" value={name} onInput={onInput} placeholder={'enter name or name'}/>
         </div>} */}
     </div>
   )
@@ -55,9 +57,9 @@ export const Featurer = ({ feature, name, setName }) => {
       <p className="featurerGreetings">
         {TEXT.firstTimeRate}
       </p>
-      {feature.adress ?
+      {feature.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.adress}</p>
+          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.name}</p>
         </div>
         : <></>}
     </div>

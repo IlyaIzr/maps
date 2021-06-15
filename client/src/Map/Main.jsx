@@ -31,6 +31,7 @@ export const Main = () => {
   function resetRater() {
     setRating(0)
     setComment('')
+    setName('')
     setFeature(null)
   }
 
@@ -51,7 +52,7 @@ export const Main = () => {
       x: feature._vectorTileFeature._x,
       y: feature._vectorTileFeature._y,
       id: feature.id,
-      name: feature.adress || "",
+      name: feature.name || "",
       polyString
     }
     // Case next review
@@ -81,7 +82,8 @@ export const Main = () => {
       properties: { rating, amount: 1 },
       id: feature.id,
       // geometry: {...feature.geometry}
-      geometry: feature.geometry
+      geometry: feature.geometry,
+      name: name
     }])
     updateLayers()
     const res = await postInitReview({ user: user.login, review, place })

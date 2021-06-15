@@ -59,7 +59,7 @@ export function mapOnClick(map, setFeature, resetRater) {
 
       const adress = await getAdress(lat, lng)
 
-      setFeature({ ...featureToRate, geometry, adress })
+      setFeature({ ...featureToRate, geometry, name: adress })
       return;
 
     } else if (featureToRate) {

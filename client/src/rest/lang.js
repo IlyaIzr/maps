@@ -39,7 +39,9 @@ const rus = {
   worstRating: 'Ужасно',
   reviews: 'Отзывы',
   noComments: 'Без комментариев',
-  searchPHolder: 'Найти'
+  searchPHolder: 'Найти',
+  newFeature: 'Новый объект на карте',
+  newFeaturePHolder: 'Адрес или название места'
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage
