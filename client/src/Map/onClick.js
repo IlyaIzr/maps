@@ -1,7 +1,7 @@
 import { getAdress } from "../requests/map"
 import { flyToFeature } from "./Map"
 
-export function mapOnClick(map, setFeature, resetRater) {
+export function mapOnClick(map, setFeature, resetRater, drawObject) {
   function geoFromTurf(geo) {
     if (!geo[1]) return geo[0]
     let res2 = window.turf.union(geo[0], geo[1])
@@ -40,6 +40,7 @@ export function mapOnClick(map, setFeature, resetRater) {
     const ratedBefore = features.find(feature => feature.source === 'ratedFeaturesSource')
     if (ratedBefore) {
       console.log('found rated feature', ratedBefore);
+      drawObject.trash()
 
 
       flyToFeature(map, ratedBefore)
@@ -51,6 +52,7 @@ export function mapOnClick(map, setFeature, resetRater) {
     const featureToRate = features.find(feature => featuresNeeded.has(feature.sourceLayer))
     if (featureToRate?.id) {
       console.log('found feature', featureToRate);
+      drawObject.trash()
 
 
       const zoom = map.getZoom()
@@ -64,7 +66,7 @@ export function mapOnClick(map, setFeature, resetRater) {
 
     } else if (featureToRate) {
       console.log('interesting, but no id', featureToRate);
-
+      drawObject.trash()
 
       zoomOnEvent(map.getZoom() + 1)
       setFeature(null)

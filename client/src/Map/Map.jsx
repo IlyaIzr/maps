@@ -50,9 +50,9 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         })
       );
 
+      const drawObject = mapAddControl(map.current, setFeature)
       mapOnLoad(map.current, geoJson)
-      mapOnClick(map.current, setFeature, resetRater)
-      mapAddControl(map.current, setFeature)
+      mapOnClick(map.current, setFeature, resetRater, drawObject)
       window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
