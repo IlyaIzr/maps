@@ -76,7 +76,9 @@ export async function getAdress(lat, lng) {
   const typesNeeded = new Set(
     ['street_address', 'natural_feature', 'airport', 'park', 'point_of_interest', "establishment", "food", "store"]
   )
-  
+  lat = Number(lat)
+  lng = Number(lng)
+
   // Get decent adress from geocoder
   const res = await window.geocoderRef.geocode({ 'location': { lat, lng } });
 
@@ -96,4 +98,23 @@ export async function getAdress(lat, lng) {
     // TODO error handling
   }
   return adress
+}
+
+// TMP
+
+export async function postPlaceName(name, id) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, id })
+  }
+  try {
+    const response = await fetch(api + 'maps/postPlaceName', options)
+    const res = await response.json()
+    return res
+  } catch (err) {
+    return err
+  }
 }

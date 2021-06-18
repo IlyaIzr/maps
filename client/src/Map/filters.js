@@ -11,7 +11,9 @@ export function geoJsonFromResponse(places) {
       properties: {
         rating: Number(placeData.rating),
         amount: placeData.amount,
-        name: placeData.name
+        name: placeData.name,
+        lng: placeData.lng,
+        lat: placeData.lat
       },
       source: "composite",
       sourceLayer: "building",

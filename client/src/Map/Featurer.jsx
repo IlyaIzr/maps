@@ -1,11 +1,24 @@
 import React, { useEffect } from 'react'
+import { getAdress, postPlaceName } from '../requests/map';
 import { TEXT } from "../rest/lang";
 
 export const Featurer = ({ feature, name, setName }) => {
 
   useEffect(() => {
     if (feature?.name) setName(feature.properties.name)
+
+    console.log('%c⧭', 'color: #d0bfff', feature);
   }, [feature, setName])
+
+  // Temp - add adresses functionality
+  async function onClick() {
+    const { lat, lng } = feature.properties
+    const name = await getAdress(lat, lng)
+    console.log('%c⧭', 'color: #ff6600', name);
+
+    const res = await postPlaceName(name, feature.id)
+    console.log('%c⧭', 'color: #40fff2', res);
+  }
 
   if (!feature?.source) {
     console.log('wtf feature', feature);
@@ -21,12 +34,13 @@ export const Featurer = ({ feature, name, setName }) => {
       <h5 className="rateValue">
         {TEXT.placeRatingPrefix}:
         <span className="rateNumber"> {feature.properties.rating}</span>
-      </h5>      
+      </h5>
       {feature.properties.name ?
         <div className="featureNameWrap">
           <p className="featureName mp-bg-counter mp-border-primary mp-primary">{feature.properties.name}</p>
         </div>
         : <></>}
+      <button onClick={onClick}>add name</button>
     </div>
   )
   // Case created  
@@ -42,7 +56,7 @@ export const Featurer = ({ feature, name, setName }) => {
 
       <div className="featureNameWrap">
         <input
-          type="text" value={name} onInput={onInput} 
+          type="text" value={name} onInput={onInput}
           placeholder={TEXT.newFeaturePHolder} title={TEXT.newFeaturePHolder}
           className="featureName mp-bg-counter mp-border-counter  mp-primary"
         />

@@ -40,7 +40,7 @@ export function mapAddControl(map, setFeature) {
       // restrict to area to 2 decimal points
       const rounded_area = Math.round(area * 100) / 100;
       console.log('%c⧭', 'color: #99adcc', rounded_area);
-      // TODO if area > 30_000 show error notification
+      // TODO if area > 30_000 show error notification, also check for too little area. Also chek if nothing inside
       const feature = { ...data.features[0] }
       feature.properties.amount = 0
       feature.properties.created = true

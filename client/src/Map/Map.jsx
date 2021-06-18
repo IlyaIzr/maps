@@ -36,7 +36,8 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         container: mapContainer.current,
         // style: 'mapbox://styles/mapbox/streets-v11',
         // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale basic styles
-        style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11     
+        style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11       //pale basic styles
+        style: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',     //blue shades  
         // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || 34.354, lat || 53.235], // bryansk
         zoom: 16

@@ -106,6 +106,22 @@ router.post('/postNextReview', async (req, res) => {
 })
 
 
+router.post('/postPlaceName', async (req, res) => {
+  const { name, id } = req.body
+  
+  
+  const query1 =
+    `UPDATE places set name='${name}' WHERE id=${id};`
+
+  // Post it
+  try {
+    await dbConn.query(query1)
+    return res.json({ status: 'OK', msg: 'Review posted successfully' })
+  } catch (err) {
+    return res.json({ status: 'ERR', msg: err, query1 })
+  }
+})
+
 // @ /maps/test
 
 router.get('/test', async (req, res) => {
