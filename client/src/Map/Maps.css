@@ -17,7 +17,7 @@
   padding: 0 4px;
 }
 
-/* Featurer */
+/* #region  Featurer */
 
 .featurer {
   margin: 0;
@@ -66,7 +66,9 @@ input.featureName::placeholder {
   font-size: 0.9em;
 }
 
-/* Rater */
+/* #endregion */
+
+/* #region  Rater */
 
 .rater {
   margin-bottom: 8px;
@@ -108,7 +110,9 @@ input.featureName::placeholder {
   margin: 0;
 }
 
-/* Legend */
+/* #endregion */
+
+/* #region  Legend */
 
 .mapLegend {
   position: fixed;
@@ -147,7 +151,9 @@ input.featureName::placeholder {
   height: 4px;
 }
 
-/* Reviews */
+/* #endregion */
+
+/* #region  Reviews */
 
 .reviewsContainer {
   max-height: 160px;
@@ -237,7 +243,9 @@ input.featureName::placeholder {
   max-height: 20px;
 }
 
-/* Scrollbar */
+/* #endregion */
+
+/* #region  Scrollbar */
 
 /* width */
 
@@ -262,3 +270,43 @@ input.featureName::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* #endregion */
+
+/* #region  Control */
+/* .mapbox-gl-draw_polygon{
+  background-image: url(http://localhost:3000/icons/edit-pen.svg);
+  background-color: red;
+} */
+.controlButton{
+  position: fixed;
+  right: 2px;
+  top: 48px;
+  z-index: 1;
+  border: 1px solid;
+  border-radius: 6px;
+}
+.controlButton img{
+  width: 24px;
+  height: 24px;
+  margin-top: 3px;
+}
+.controlPrompt{
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border: 4px dotted;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+.controlPrompt p {
+  margin-top: 0;
+  font-size: 14px;
+}
+.controlPrompt h6 {
+  margin: 8px;
+  font-size: 16px;
+}
+/* #endregion */

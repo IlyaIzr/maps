@@ -41,7 +41,9 @@ const rus = {
   noComments: 'Без комментариев',
   searchPHolder: 'Найти',
   newFeature: 'Новый объект на карте',
-  newFeaturePHolder: 'Адрес или название места'
+  newFeaturePHolder: 'Адрес или название места',
+  drawPromptHeader: 'Режим рисования',
+  drawPrompt: 'Завершите создание, дважды нажав на последнюю точку полигона',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

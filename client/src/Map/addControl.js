@@ -1,35 +1,48 @@
 import { getAdress } from "../requests/map";
 
-export function mapAddControl(map, setFeature) {
+export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt) {
 
   const draw = new window.MapboxDraw({
     displayControlsDefault: false,
     controls: {
-      polygon: true,
-      trash: true
+      // polygon: true,
+      // trash: true
     },
     // defaultMode: 'draw_polygon'
   });
+  
+  // Create custom controls
+  createBtn.onclick = function () {
+    draw.changeMode('draw_polygon')
+    deleteBtn.style.display = 'block'
+    setDrawPrompt(true)
+  }
+  deleteBtn.onclick = function () {
+    draw.deleteAll()
+    setFeature(null)
+    setDrawPrompt(false)
+  }
+
   map.addControl(draw);
-  document.querySelector('.mapbox-gl-draw_polygon').style.display = 'block'
-  document.querySelector('.mapbox-gl-draw_trash').style.display = 'none'
+  createBtn.style.display = 'block'
+  deleteBtn.style.display = 'none'
 
 
   map.on('draw.create', updateArea);
   map.on('draw.update', updateArea);
   map.on('draw.delete', afterDelete);
-  // map.on('draw.selectionchange', afterUnfocus);
+  map.on('draw.selectionchange', afterUnfocus);
   function afterDelete() {
-    document.querySelector('.mapbox-gl-draw_polygon').style.display = 'block'
-    document.querySelector('.mapbox-gl-draw_trash').style.display = 'none'
+    createBtn.style.display = 'block'
+    deleteBtn.style.display = 'none'
   }
-  // function afterUnfocus() {
-  //   draw.trash()
-  // }
+  function afterUnfocus() {
+    console.log('%c⧭', 'color: #cc7033', 'afterUnfocus');
+  }
 
   async function updateArea(e) {    
-    document.querySelector('.mapbox-gl-draw_polygon').style.display = 'none'
-    document.querySelector('.mapbox-gl-draw_trash').style.display = 'block'
+    setDrawPrompt(false)
+    createBtn.style.display = 'none'
 
     console.log('%c⧭', 'color: #8c0038', 'update area func');
 

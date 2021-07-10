@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { getPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
@@ -14,6 +14,9 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   const mapContainer = useRef(null);
 
   const map = useRef(null);
+  const createBtn = useRef(null);
+  const deleteBtn = useRef(null);
+  const [drawPrompt, setDrawPrompt] = useState(false);
   // const [lng, setLng] = useState(-122.447303);
   // const [lat, setLat] = useState(37.753574);
   // const [zoom, setZoom] = useState(16);
@@ -37,12 +40,13 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         // style: 'mapbox://styles/mapbox/streets-v11',
         // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale basic styles
         style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11       //pale basic styles
-        style: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',     //blue shades  
+        // style: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',     //blue shades  
         // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || 34.354, lat || 53.235], // bryansk
         zoom: 16
       });
 
+      // Add search
       map.current.addControl(
         new window.MapboxGeocoder({
           accessToken: process.env.REACT_APP_MAPBOX_T,
@@ -51,7 +55,8 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         })
       );
 
-      const drawObject = mapAddControl(map.current, setFeature)
+      const drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt)
+      // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater, drawObject)
       window.geocoderRef = new window.google.maps.Geocoder()
@@ -89,6 +94,21 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   return (
     <div>
       <div ref={mapContainer} className="map-container" />
+      {/* Add button */}
+      <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
+        <img src="/icons/edit-pen.svg" alt="draw area" />
+      </button>
+      {/* Delete button */}
+      <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-primary controlButton">
+        <img src="/icons/trash.svg" alt="cancel drawing" />
+      </button>
+      {/* Helper prompt */}
+      {drawPrompt && <div className="controlPrompt mp-border-counter mp-bg-light">
+        <h6>{TEXT.drawPromptHeader}</h6>
+        <p>{TEXT.drawPrompt}</p>
+      </div>
+      }
+
 
       <div className="calculation-box">
         <p>Draw a polygon using the draw tools.</p>

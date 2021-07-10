@@ -11,13 +11,18 @@ gradient - pale green(lil yellow)
 comments history
 
 
-check if 888 house have similar id to house nest to it, east side
 
 add #tags and tag search
 
 make first/next review logig on server
 
-badrequests handlers
+badrequests error handlers
+
+Alpha features:
+app themes: [standart, b&w, dark, blueprint]
+onLoad - check login, if (!login) login dialog
+navbar - menu button, expand menu/collapse menu, ()
+two languages
 
 1.0 features
 friend functional, friend-marks
