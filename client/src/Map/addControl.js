@@ -1,6 +1,6 @@
 import { getAdress } from "../requests/map";
 
-export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt) {
+export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt, resetRater) {
 
   const draw = new window.MapboxDraw({
     displayControlsDefault: false,
@@ -19,8 +19,10 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
   }
   deleteBtn.onclick = function () {
     draw.deleteAll()
-    setFeature(null)
+    resetRater()
     setDrawPrompt(false)
+    createBtn.style.display = 'block'
+    deleteBtn.style.display = 'none'
   }
 
   map.addControl(draw);
@@ -30,21 +32,19 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
 
   map.on('draw.create', updateArea);
   map.on('draw.update', updateArea);
-  map.on('draw.delete', afterDelete);
-  map.on('draw.selectionchange', afterUnfocus);
-  function afterDelete() {
-    createBtn.style.display = 'block'
-    deleteBtn.style.display = 'none'
-  }
-  function afterUnfocus() {
-    console.log('%c⧭', 'color: #cc7033', 'afterUnfocus');
-  }
+  // map.on('draw.delete', afterDelete);
+  // map.on('draw.selectionchange', afterUnfocus);
+  // function afterDelete() {
+  // }
+  // function afterUnfocus() {
+  //   console.log('%c⧭', 'color: #cc7033', 'afterUnfocus');
+  // }
 
   async function updateArea(e) {    
     setDrawPrompt(false)
     createBtn.style.display = 'none'
 
-    console.log('%c⧭', 'color: #8c0038', 'update area func');
+    // console.log('%c⧭', 'color: #8c0038', 'update area func');
 
     const data = draw.getAll();
 
@@ -52,7 +52,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
       const area = window.turf.area(data);
       // restrict to area to 2 decimal points
       const rounded_area = Math.round(area * 100) / 100;
-      console.log('%c⧭', 'color: #99adcc', rounded_area);
+      // console.log('%c⧭', 'color: #99adcc', rounded_area);
       // TODO if area > 30_000 show error notification, also check for too little area. Also chek if nothing inside
       const feature = { ...data.features[0] }
       feature.properties.amount = 0

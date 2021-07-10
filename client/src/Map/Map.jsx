@@ -55,7 +55,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         })
       );
 
-      const drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt)
+      const drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater, drawObject)

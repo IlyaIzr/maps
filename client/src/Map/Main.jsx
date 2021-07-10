@@ -24,6 +24,7 @@ export const Main = () => {
   // Map
   const [geoData, setGeoData] = useState(null)
   const [featureTrigger, setFeatureTrigger] = useState(0);
+  const [mapTrigger, setMapTrigger] = useState(0);
   function updateLayers() {
     setFeatureTrigger(featureTrigger + 1)
   }
@@ -40,6 +41,7 @@ export const Main = () => {
     const [northEastest, southWestest, polyString] = formatGeodata(feature.geometry)
     const tempBox = new mapboxgl.LngLatBounds(northEastest, southWestest)
     const { lng, lat } = tempBox.getCenter()
+
 
     // Data to store
     const review = {
@@ -88,6 +90,7 @@ export const Main = () => {
     const res = await postInitReview({ user: user.login, review, place })
     if (res.status !== 'OK') return console.log('%c⧭', 'color: #bf1d00', res);
 
+    if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
     // Restore init features
     resetRater()
   }
@@ -99,6 +102,7 @@ export const Main = () => {
         resetRater={resetRater}
         geoData={geoData} setGeoData={setGeoData}
         featureTrigger={featureTrigger}
+        key={mapTrigger}
       />
       <Legend />
       {feature &&
