@@ -19,6 +19,12 @@
 const rus = {
   homeLinkBtn: "Главная",
   authLinkBtn: "Логин",
+  profile: "Профиль",
+  theme: "Тема",
+  friends: "Друзья",
+  routes: "Маршруты",
+  language: "Язык",
+  aboutUs: "О нас",
   setsLinkBtn: "Настройки",
   login: "Логин",
   logout: 'Выйти',

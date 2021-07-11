@@ -108,12 +108,6 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         <p>{TEXT.drawPrompt}</p>
       </div>
       }
-
-
-      <div className="calculation-box">
-        <p>Draw a polygon using the draw tools.</p>
-        <div id="calculated-area"></div>
-      </div>
     </div>
   )
 }

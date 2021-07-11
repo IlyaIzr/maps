@@ -15,6 +15,7 @@ import { Reviews } from './Reviews';
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
+  const app = useSelector(state => state.app)
   // Featurer
   const [name, setName] = useState('')
   // Rater
@@ -96,7 +97,7 @@ export const Main = () => {
   }
 
   return (
-    <div>
+    <div className={app.mapHidden ? "hidden" : "mainWrapper"}>
       <Map
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
