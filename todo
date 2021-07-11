@@ -1,4 +1,5 @@
-Bugs: -
+Bugs:
+possible bug on mobile chrome init loading - map initial height is half of actual screen height
 
 
 superUser interface + draw buildings functionality
@@ -13,20 +14,37 @@ comments history
 
 
 add #tags and tag search
+tagsSql: tag, mentions: Number, usage: JSON{placeId: Number}, 
++placesSql: tags: JSON{tag: Number}
 
 make first/next review logig on server
 
 badrequests error handlers
 
+userSql: login, pword, comments: Number, level: Number|1.0 features: avatar, secret, question, friends: Array, name
+
 Alpha features:
-app themes: [standart, b&w, dark, blueprint]
+login, registration (with secret), login params (login=stas&level=5) - Alpha only
 onLoad - check login, if (!login) login dialog
+app themes: [standart, b&w, dark, blueprint]
 navbar - menu button, expand menu/collapse menu, ()
 two languages
+animations: loader animations, transition animations
+set location to user location, or show a dialog window to chose a city
+?remove logged comment or edit it
+?tag search
 
 1.0 features
 friend functional, friend-marks
 rooftop raster view, example on https://www.mapbox.com/search-service
+profile view
+remove or change login params
+
+1.1 features
+routes
+business accounts
+business routes
+report place or comment
 
 In future:
 quiz places mode 
