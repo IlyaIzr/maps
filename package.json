@@ -4,7 +4,7 @@
   "description": "an app to rate and find best places",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js&&webpack-dev-server --open --mode development --hot",
+    "dev": "nodemon server.js&&webpack-dev-server --open --mode development --hot&&ISLOCALDB=false",
     "start": "node whole.js",
     "git": "git add . && git commit -m",
     "postgit": "git push --all"
