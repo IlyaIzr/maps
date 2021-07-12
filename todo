@@ -31,6 +31,7 @@ navbar - menu button, expand menu/collapse menu, ()
 two languages
 animations: loader animations, transition animations
 set location to user location, or show a dialog window to chose a city
+dialog when posting 0 rate
 ?remove logged comment or edit it
 ?tag search
 

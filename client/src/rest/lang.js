@@ -50,6 +50,7 @@ const rus = {
   newFeaturePHolder: 'Адрес или название места',
   drawPromptHeader: 'Режим рисования',
   drawPrompt: 'Завершите создание, дважды нажав на последнюю точку полигона',
+  level: 'уровень'
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

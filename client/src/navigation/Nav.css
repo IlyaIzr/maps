@@ -59,4 +59,37 @@
   left: 0px;
 }
 
+.menu-user{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.menu-avatar{
+  width: 26px;
+  height: 26px;
+  border-radius: 22px;
+  padding: 4px;
+  margin-top: 6px;
+  margin-right: 6px;
+  text-align: center;
+}
+.menu-avatar .letter{
+  font-size: 18px;
+  margin-top: -1px;
+}
+.menu-user-subcontainer{
+  display: inline-block;
+
+}
+.menu-username{
+  font-weight: 550;
+}
+.menu-userlevel{
+  font-size: 14px;
+  text-transform: capitalize;
+}
+.menu-userlevel span{
+  font-weight: 550;
+}
 /* #endregion */
