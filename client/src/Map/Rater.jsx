@@ -1,9 +1,11 @@
-import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { gradient } from '../rest/colors';
 import { TEXT } from '../rest/lang';
+import { setModal } from '../store/app';
 
 export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
+  const dispatch = useDispatch()
   const [hover, setHover] = useState(0);
 
   function onClick(e) {
@@ -13,6 +15,13 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
     setComment(e.target.value)
   }
   function onSub() {
+    if (Number(rating) === 0) return setModal(dispatch, {
+      message: TEXT.rateZeroModal,
+      acceptAction: submmitAction,
+    })
+    submmitAction()
+  }
+  function submmitAction() {
     setHover(0)
     onSubmit()
   }
@@ -60,7 +69,6 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
       <div className="raterBtnContainer">
         <button type="button" onClick={onSub}>{TEXT.push}</button>
       </div>
-
     </div>
   );
 }

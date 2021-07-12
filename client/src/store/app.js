@@ -5,6 +5,8 @@ const EXPAND_COMMENTS = 'app/expand_comms'
 const SHRINK_COMMENTS = 'app/shrink_comms'
 const SHOW_MAIN = 'app/show_main'
 const HIDE_MAIN = 'app/hide_main'
+const SET_MODAL = 'app/set_modal'
+const CLOSE_MODAL = 'app/close_modal'
 
 // Reducer
 const initialState = {
@@ -12,6 +14,14 @@ const initialState = {
   language: 'ru',
   reviewsShown: true,
   mapHidden: false,
+  modal: false,
+  // modal: {
+  //   message: 'sada',
+  //   acceptLabel: 'YES',
+  //   cancelLabel: 'NO',
+  //   acceptAction: () => { },
+  //   cancelAction: () => { },
+  // }
 }
 
 export function appReducer(state = initialState, act) {
@@ -46,6 +56,16 @@ export function appReducer(state = initialState, act) {
         ...state, mapHidden: true
       }
     }
+    case SET_MODAL: {
+      return {
+        ...state, modal: act.modalInfo
+      }
+    }
+    case CLOSE_MODAL: {
+      return {
+        ...state, modal: false
+      }
+    }
     default:
       return state
   }
@@ -71,4 +91,18 @@ export const showMain = (d) => {
 
 export const hideMain = (d) => {
   d({ type: HIDE_MAIN })
+}
+
+export const setModal = (d, modalInfo = {
+  message: '',
+  acceptLabel: '',
+  cancelLabel: '',
+  acceptAction() { },
+  cancelAction() { },
+}) => {
+  d({ type: SET_MODAL, modalInfo })
+}
+
+export const closeModal = (d) => {
+  d({ type: CLOSE_MODAL })
 }

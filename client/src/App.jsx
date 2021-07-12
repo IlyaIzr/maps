@@ -2,8 +2,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useLocation
+  // Link,
+  // useLocation
 } from "react-router-dom";
 // Components
 import { Main } from "./Map/Main";
@@ -16,13 +16,14 @@ import { logIntoApp } from "./store/user";
 import { useDispatch } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
 import { hideMain } from "./store/app";
+import { Modal } from "./rest/Modal";
 
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (window.location.pathname !== '/') hideMain(dispatch) 
+    if (window.location.pathname !== '/') hideMain(dispatch)
     const prevUser = window.localStorage.getItem('usernameTemp')
     if (prevUser) {
       logIntoApp(dispatch, prevUser, prevUser, prevUser + '-' + Math.floor(Math.random() * 1000))
@@ -33,7 +34,7 @@ function App() {
 
   return (
     <Router>
-
+      <Modal />
       <NavMain />
 
       <Main />
