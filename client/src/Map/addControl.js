@@ -49,11 +49,11 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
     const data = draw.getAll();
 
     if (data.features.length > 0) {
-      const area = window.turf.area(data);
-      // restrict to area to 2 decimal points
-      const rounded_area = Math.round(area * 100) / 100;
-      // console.log('%c⧭', 'color: #99adcc', rounded_area);
       // TODO if area > 30_000 show error notification, also check for too little area. Also chek if nothing inside
+      // const area = window.turf.area(data);
+      // restrict to area to 2 decimal points
+      // const rounded_area = Math.round(area * 100) / 100;
+      // console.log('%c⧭', 'color: #99adcc', rounded_area);
       const feature = { ...data.features[0] }
       feature.properties.amount = 0
       feature.properties.created = true
@@ -66,7 +66,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
         _y: Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))
       }
 
-      // feature.properties.name = await getAdress(lat, lng)
+      feature.properties.name = await getAdress(lat, lng)
       setFeature(feature)
     }
     // if (e.type !== 'draw.delete')

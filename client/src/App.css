@@ -32,10 +32,33 @@ body {
   pointer-events: none;
 }
 
+.align-center {
+  text-align: center;
+}
+
+.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* #endregion */
 
 /* #region  Modal dialog */
-.modal-dialog-wrap{
+
+.modal-dialog-wrap {
   position: fixed;
   top: 0;
   left: 0;
@@ -44,7 +67,8 @@ body {
   z-index: 99999;
   background-color: #00000085;
 }
-.modal-dialog{  
+
+.modal-dialog {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -53,19 +77,30 @@ body {
   border-radius: 2px;
   padding: 8px;
 }
-.modal-content{
+
+.modal-content {
   padding: 6px 4px;
   min-width: 50vw;
   margin: 2px 8px;
 }
-.modal-buttons{
+
+.modal-buttons {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
 }
-.modal-buttons button{
+
+.modal-buttons button {
   display: inline-block;
   text-transform: uppercase;
   font-size: 14px;
-} 
+}
+
+/* #endregion */
+
+/* #region  Responser */
+.responser{
+  border: 1px solid;
+  border-radius: 2px;
+}
 /* #endregion */

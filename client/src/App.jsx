@@ -6,7 +6,7 @@ import {
   // useLocation
 } from "react-router-dom";
 // Components
-import { Main } from "./Map/Main";
+// import { Main } from "./Map/Main";
 import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
 
@@ -37,7 +37,7 @@ function App() {
       <Modal />
       <NavMain />
 
-      <Main />
+      {/* <Main /> */}
 
       {/* Extra subpages */}
 

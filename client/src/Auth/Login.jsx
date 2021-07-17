@@ -5,12 +5,17 @@ import { logIntoApp, logOutOfApp } from '../store/user';
 
 export const Login = () => {
   const [username, setUsername] = useState('')
+  const [pword, setPword] = useState('')
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
+  
 
   function onInput(e) {
     setUsername(e.target.value)
+  }
+  function onPword(e) {
+    setPword(e.target.value)
   }
   function onSubmit() {
     logIntoApp(dispatch, username, username, username + '-' + Math.floor(Math.random() * 1000))
@@ -23,7 +28,7 @@ export const Login = () => {
   }
 
   useEffect(() => {
-    if (username !== user.name) setUsername(user.name)
+    if (username !== user.name && app.isLogged) setUsername(user.name)
   }, [user.name, username])
 
 
@@ -35,11 +40,14 @@ export const Login = () => {
         <button className="primary" onClick={logOut}>{TEXT.logout}</button>
       </div>
         :
-        <>
-          <label htmlFor="name">{TEXT.yourName}</label>
-          <input type="text" name="name" value={username} onInput={onInput} />
-          <button className="primary" onClick={onSubmit}>{TEXT.confirm}</button>
-        </>
+        <div className="login-form">
+          <label htmlFor="name">{TEXT.yourLogin}:</label>
+          <input type="text" name="name" value={username} onInput={onInput} autoFocus />
+          <br />
+          <label htmlFor="pword">{TEXT.yourPword}:</label>
+          <input type="password" name="pword" value={pword} onInput={onPword} />
+          <button className="primary small" onClick={onSubmit}>{TEXT.confirm}</button>
+        </div>
     }
     </div>
   )
