@@ -4,11 +4,15 @@ const mysql = require('mysql2');
 class Database {
   connection
   constructor() {
-    // console.log('constructut did run');
-    this.connection = process.env.PRODUCTIONDB ? 
-    mysql.createPool({ host: process.env.DBSERVER, user: process.env.DBUSER, 
-    database: process.env.DBNAME, password: process.env.DBSERVERP }) : 
-    mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' });
+    console.log('DB connection established, production status: ' + process.env.PRODUCTIONDB);
+    if (process.env.PRODUCTIONDB && process.env.PRODUCTIONDB !== 'false') {
+      this.connection = mysql.createPool({
+        host: process.env.DBSERVER, user: process.env.DBUSER,
+        database: process.env.DBNAME, password: process.env.DBSERVERP
+      })
+    } else {
+      this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' })
+    }
   }
   query(sql, args) {
     return new Promise((resolve, reject) => {

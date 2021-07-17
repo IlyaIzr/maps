@@ -24,7 +24,6 @@ badrequests error handlers
 userSql: login, pword, comments: Number, level: Number|1.0 features: avatar, secret, question, friends: Array, name
 
 Alpha features:
-dialog when posting 0 rate + modal
 login, registration (with secret), login params (login=stas&level=5) - Alpha only
 onLoad - check login, if (!login) login dialog
 app themes: [standart, b&w, dark, blueprint]
