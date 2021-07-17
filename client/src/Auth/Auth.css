@@ -18,8 +18,10 @@ height: calc(100vh - 34px);
 }
 
 .register-form{
-  padding: 24px 4px 6px 4;
-
+  padding: 8px 18px;
+}
+.register-form h4{
+  margin: 6px 12px 16px 12px
 }
 .register-form button{
   display: block;

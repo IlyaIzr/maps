@@ -35,6 +35,8 @@ const rus = {
   secretHint: 'Для восстановления пароля',
   secterAnswer: 'Ответ на секрет',
   secretValidation: 'Вы указали вопрос, укажите и ответ',
+  secretReplica: 'Но это не я написал вопрос!',
+  secretReplica2: 'А ответ нам всё равно нужен',
   fillRequiredFields: 'Заполните необходимые поля',
   secretExample: 'Имя, которое вы тайно ненавидите',
   submit: 'Отправить',

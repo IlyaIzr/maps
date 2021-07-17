@@ -11,7 +11,8 @@ export const AuthMain = () => {
     <div className="auth-container relative">
       <div className="absolute center auth-subcontainer">
 
-        <h3 className="align-center">{isLogging ? TEXT.login : TEXT.register}</h3>
+      {isLogging ? <h3 className="align-center">{TEXT.login}</h3> : null}
+      {/* TODO uptop label is good when form is borderless, else put header inside borders like in reg component */}
 
         <div className="auth-action-wrap mp-border-secondary">
           {isLogging ? <Login /> : <Register />}
