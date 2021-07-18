@@ -28,6 +28,7 @@ export const Register = () => {
     console.log(creds)
     // request
     // finally
+    setMsg('')
     setCreds(initCreds)
   }
 

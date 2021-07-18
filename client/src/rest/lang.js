@@ -63,6 +63,8 @@ const rus = {
   acceptDefault: 'принять',
   cancelDefault: 'отклонить',
   rateZeroModal: 'Действительно поставить оценку 0?',
+  toMain: 'На главную',
+  menu: 'Меню',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

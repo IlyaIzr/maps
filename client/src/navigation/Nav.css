@@ -20,6 +20,10 @@
 /* #openLeftMenu img{
 }
 #backToMain */
+.nav-menu-back-wrap .nav-icon{
+  margin-right: 8px;
+}
+
 .nav-icon{
   width: 27px;
   height: 27px;
