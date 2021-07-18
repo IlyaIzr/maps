@@ -23,8 +23,7 @@ const initialState = {
   //   acceptLabel: 'YES',
   //   cancelLabel: 'NO',
   //   acceptAction: () => { },
-  //   cancelAction: () => { },
-  //   childComponent
+  //   cancelAction: () => { }
   // },
   theme: appThemes[0],
 }
@@ -109,7 +108,6 @@ export const setModal = (d, modalInfo = {
   cancelLabel: '',
   acceptAction() { },
   cancelAction() { },
-  childComponent: null
 }) => {
   d({ type: SET_MODAL, modalInfo })
 }

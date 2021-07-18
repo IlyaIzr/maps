@@ -1,15 +1,18 @@
-import { TEXT } from "../rest/lang"
-import { appThemes } from "../store/app"
+// import { TEXT } from "../rest/lang"
+// import { appThemes } from "../store/app"
 
 
-export const PickTheme = ({ themeN, setThemeN, tryTheme }) => {
-  function onClick(e) {
-    setThemeN(e.target.attributes.name.value)
-    tryTheme(e.target.attributes.name.value)
-  }
+export const PickTheme = (props) => {
+  console.log('%c%s', 'color: #807160', props, typeof props);
+  console.dir(props);
+  // function onClick(e) {
+  //   setThemeN(e.target.attributes.name.value)
+  //   tryTheme(e.target.attributes.name.value)
+  // }
   return (
-    <div className="pickTheme-container">
-      {appThemes.map((theme, i) => {
+    <div className="pickTheme-container pps">
+    1j2jsnafs
+      {/* {appThemes.map((theme, i) => {
         return (
           <div
             className={"pickTheme-item " + theme + "-theme" + (i === themeN ? ' events-none?' : '')}
@@ -22,7 +25,7 @@ export const PickTheme = ({ themeN, setThemeN, tryTheme }) => {
             {TEXT[theme]}
           </div>
         )
-      })}
+      })} */}
     </div>
   )
 }

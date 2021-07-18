@@ -23,7 +23,6 @@ export const Modal = () => {
       <div className="modal-dialog mp-border-dark mp-bg-light">
         <div className="modal-dialog-content mp-dark">
           <div className="modal-content">{data.message}</div>
-          {data.childComponent}
           <div className="modal-buttons">
             <button className="modal-cancel" onClick={cancel}>{cancelLabel}</button>
             <button className="modal-accept" onClick={accept}>{acceptLabel}</button>

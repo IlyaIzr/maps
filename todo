@@ -33,6 +33,7 @@ animations: loader animations, transition animations
 set location to user location, or show a dialog window to chose a city
 ?remove logged comment or edit it
 ?tag search
+bryanks only or launch some alt places query system
 
 1.0 features
 friend functional, friend-marks
