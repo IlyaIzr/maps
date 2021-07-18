@@ -54,6 +54,15 @@ body {
   cursor: pointer;
 }
 
+.events-none{
+  pointer-events: none;
+}
+
+.little-hint{
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
 .flex-wrap{
   display: flex;
   flex-wrap: wrap;

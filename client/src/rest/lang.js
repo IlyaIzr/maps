@@ -1,3 +1,5 @@
+import { appThemes } from "../store/app"
+
 // const basicLanguage = {
 //   homeLinkBtn: "Home",
 //   authLinkBtn: "Authorize",
@@ -16,6 +18,8 @@
 //   push: 'Push',
 //   commentPlacehol: 'any comments?'
 // }
+
+
 const rus = {
   homeLinkBtn: "Главная",
   authLinkBtn: "Логин",
@@ -65,6 +69,12 @@ const rus = {
   rateZeroModal: 'Действительно поставить оценку 0?',
   toMain: 'На главную',
   menu: 'Меню',
+  pickTheme: 'Выберете тему',
+  apply: 'Применить',
+  [appThemes[0]]: 'Стандартная',
+  [appThemes[1]]: 'Тёмная',
+  [appThemes[2]]: 'Black&White',
+  [appThemes[3]]: 'Чертёжная',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

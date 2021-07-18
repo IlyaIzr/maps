@@ -7,6 +7,9 @@ const SHOW_MAIN = 'app/show_main'
 const HIDE_MAIN = 'app/hide_main'
 const SET_MODAL = 'app/set_modal'
 const CLOSE_MODAL = 'app/close_modal'
+const SWITCH_THEME = 'app/switch_theme'
+// Other consts
+export const appThemes = ['standart', 'dark', 'b&w', 'blueprint']
 
 // Reducer
 const initialState = {
@@ -21,7 +24,9 @@ const initialState = {
   //   cancelLabel: 'NO',
   //   acceptAction: () => { },
   //   cancelAction: () => { },
-  // }
+  //   childComponent
+  // },
+  theme: appThemes[0],
 }
 
 export function appReducer(state = initialState, act) {
@@ -66,6 +71,11 @@ export function appReducer(state = initialState, act) {
         ...state, modal: false
       }
     }
+    case SWITCH_THEME: {
+      return {
+        ...state, theme: act.theme
+      }
+    }
     default:
       return state
   }
@@ -99,10 +109,16 @@ export const setModal = (d, modalInfo = {
   cancelLabel: '',
   acceptAction() { },
   cancelAction() { },
+  childComponent: null
 }) => {
   d({ type: SET_MODAL, modalInfo })
 }
 
 export const closeModal = (d) => {
   d({ type: CLOSE_MODAL })
+}
+
+export const switchTheme = (d, theme) => {
+  if (appThemes.indexOf(theme) < 0) theme = appThemes[0]
+  d({ type: SWITCH_THEME, theme })
 }

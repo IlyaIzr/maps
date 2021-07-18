@@ -46,7 +46,7 @@ export const Register = () => {
         <label htmlFor="secret">{TEXT.secretQuestion}:</label>
         <br />
         <textarea type="text" name="secret" value={creds.secret} onInput={onInput} />
-        <p className="hint">{TEXT.secretHint}</p>
+        <p className="little-hint">{TEXT.secretHint}</p>
 
         <label htmlFor="answer">{TEXT.secterAnswer}:</label>
         <input type="text" name="answer" value={creds.answer} onInput={onInput} required={Boolean(creds.secret)} ref={ref} />

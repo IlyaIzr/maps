@@ -29,7 +29,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (username !== user.name && app.isLogged) setUsername(user.name)
-  }, [user.name, username])
+  }, [user.name, username, app.isLogged])
 
 
   return (

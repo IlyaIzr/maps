@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
-import { hideMain } from '../store/app'
+import { appThemes, hideMain, setModal, switchTheme } from '../store/app'
+import { PickTheme } from './PickTheme'
 
 export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
   const app = useSelector(state => state.app)
@@ -15,7 +17,26 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
     hideMain(dispatch)
     hideSelf()
   }
+  const [themeN, setThemeN] = useState(appThemes.indexOf(app.theme));
+  function pickTheme() {
+    function tryTheme(themeN = 0) {
+      switchTheme(dispatch, appThemes[themeN])
+    }
+    setModal(dispatch, {
+      message: TEXT.pickTheme,
+      acceptLabel: TEXT.apply,
+      // acceptAction() {
+      //   switchTheme(dispatch, themeN)
+      // },
+      cancelAction() {
+        switchTheme(dispatch, themeN)
+      },
+      childComponent: PickTheme({ themeN, setThemeN, tryTheme })
+    })
+  }
+
   const cn = "mp-bg-light mp-border-secondary"
+
   return (
     <div id="left-menu" className={leftMenu ? "active " + cn : cn}>
       <div className="left-menu-container">
@@ -30,9 +51,11 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
           </div>
         </div>
         <div>
-          <Link to="/auth" onClick={hideMainMenu}> {app.isLogged ? TEXT.profile : TEXT.login}</Link>
+          <Link to="/auth" onClick={hideMainMenu} className="left-menu-item"> {app.isLogged ? TEXT.profile : TEXT.login}</Link>
         </div>
-        <div className="readonly">{TEXT.theme}</div>
+        <div onClick={pickTheme} className="left-menu-item mp-counter-hover pick-theme-item">{TEXT.theme}
+          <label className="little-hint">({TEXT[app.theme]})</label>
+        </div>
         <div className="readonly">{TEXT.friends}</div>
         <div className="readonly">{TEXT.routes}</div>
         <div className="readonly">{TEXT.language}</div>

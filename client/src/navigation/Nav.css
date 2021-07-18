@@ -17,14 +17,16 @@
 } */
 
 /* #region Main */
+
 /* #openLeftMenu img{
 }
 #backToMain */
-.nav-menu-back-wrap .nav-icon{
+
+.nav-menu-back-wrap .nav-icon {
   margin-right: 8px;
 }
 
-.nav-icon{
+.nav-icon {
   width: 27px;
   height: 27px;
   cursor: pointer;
@@ -63,13 +65,14 @@
   left: 0px;
 }
 
-.menu-user{
+.menu-user {
   position: relative;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 4px;
 }
-.menu-avatar{
+
+.menu-avatar {
   width: 26px;
   height: 26px;
   border-radius: 22px;
@@ -78,22 +81,54 @@
   margin-right: 6px;
   text-align: center;
 }
-.menu-avatar .letter{
+
+.menu-avatar .letter {
   font-size: 18px;
   margin-top: -1px;
 }
-.menu-user-subcontainer{
-  display: inline-block;
 
+.menu-user-subcontainer {
+  display: inline-block;
 }
-.menu-username{
+
+.menu-username {
   font-weight: 550;
 }
-.menu-userlevel{
+
+.menu-userlevel {
   font-size: 14px;
   text-transform: capitalize;
 }
-.menu-userlevel span{
+
+.menu-userlevel span {
   font-weight: 550;
 }
+
+.left-menu-item {
+  cursor: pointer;
+  transition: 0.6s;
+}
+
+.pick-theme-item label {
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+}
+
+/* #endregion */
+
+/* #region  Pick Theme */
+.pickTheme-container{
+  padding: 2px 16px;
+}
+
+.pickTheme-item{
+  transition: 0.3s;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 16px;
+  margin: 8px 0px;
+  padding: 4px 12px;
+}
+
 /* #endregion */
