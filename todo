@@ -27,6 +27,7 @@ Alpha features:
 login, registration (with secret), login params (login=stas&level=5) - Alpha only
 onLoad - check login, if (!login) login dialog
 app themes: [standart, b&w, dark, blueprint]
+store preferences in localstorage
 pick fonts
 two languages
 animations: loader animations, transition animations

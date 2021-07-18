@@ -12,8 +12,8 @@
   color: #e6e4e0;
 }
 
-.mp-light-bg-hover:hover {
-  color: #e6e4e0;
+.mp-bg-light-hover:hover {
+  background-color: #e6e4e0;
 }
 
 .mp-border-light {
@@ -38,8 +38,8 @@
   color: #555;
 }
 
-.mp-dark-bg-hover:hover {
-  color: #555;
+.mp-bg-dark-hover:hover {
+  background-color: #555;
 }
 
 .mp-border-dark {
@@ -64,8 +64,8 @@
   color: #ffc900;
 }
 
-.mp-accent-bg-hover:hover {
-  color: #ffc900;
+.mp-bg-accent-hover:hover {
+  background-color: #ffc900;
 }
 
 .mp-border-accent {
@@ -86,8 +86,8 @@
   color: aliceblue;
 }
 
-.mp-primary-bg-hover:hover {
-  color: aliceblue;
+.mp-bg-primary-hover:hover {
+  background-color: aliceblue;
 }
 
 .mp-border-primary {
@@ -112,8 +112,8 @@
   color: #b3b0ae;
 }
 
-.mp-secondary-bg-hover:hover {
-  color: #b3b0ae;
+.mp-bg-secondary-hover:hover {
+  background-color: #b3b0ae;
 }
 
 .mp-border-secondary {
@@ -134,8 +134,8 @@
   color: #3e69db;
 }
 
-.mp-counter-bg-hover:hover {
-  color: #3e69db;
+.mp-bg-counter-hover:hover {
+  background-color: #3e69db;
 }
 
 .mp-border-counter {

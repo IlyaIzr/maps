@@ -117,13 +117,14 @@
 
 /* #endregion */
 
-/* #region  Pick Theme */
+/* #region  Theme menu*/
+
 .pickTheme-container{
   padding: 2px 16px;
+  /* max-width: 200px; */
 }
 
 .pickTheme-item{
-  transition: 0.3s;
   cursor: pointer;
   border: 1px solid;
   border-radius: 16px;
