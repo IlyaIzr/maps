@@ -1,4 +1,3 @@
-import { appThemes } from "../store/app"
 
 // const basicLanguage = {
 //   homeLinkBtn: "Home",
@@ -18,6 +17,8 @@ import { appThemes } from "../store/app"
 //   push: 'Push',
 //   commentPlacehol: 'any comments?'
 // }
+
+import { appThemes } from "./config"
 
 
 const rus = {

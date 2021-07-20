@@ -1,3 +1,5 @@
+import { appThemes } from "../rest/config"
+
 // Name consts
 const LOGINUSER = 'app/log_in'
 const LOGOUTUSER = 'app/log_out'
@@ -8,8 +10,6 @@ const HIDE_MAIN = 'app/hide_main'
 const SET_MODAL = 'app/set_modal'
 const CLOSE_MODAL = 'app/close_modal'
 const SWITCH_THEME = 'app/switch_theme'
-// Other consts
-export const appThemes = ['standart', 'dark', 'b&w', 'blueprint']
 
 // Reducer
 const initialState = {

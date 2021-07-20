@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { appThemes } from '../../rest/config';
 import { TEXT } from '../../rest/lang';
-import { appThemes, switchTheme } from '../../store/app';
+import { switchTheme } from '../../store/app';
 import { navStates } from '../LeftMenu';
 
 export const ThemeNav = ({ setNavState }) => {
@@ -14,6 +15,7 @@ export const ThemeNav = ({ setNavState }) => {
     const themeNumber = e.target.attributes.name.value
     setThemeN(themeNumber)
     switchTheme(dispatch, appThemes[themeNumber])
+    document.querySelector(":root").style.setProperty('--accent', '#33ff00');
   }
   function onBack() {
     setNavState(navStates.default)

@@ -5,15 +5,20 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { store } from './store/root';
 import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
+import { initActions } from './rest/beforeApp';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+(async function () {
+  await initActions()
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}())
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -11,7 +11,6 @@ import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
 
 import './App.css'
-import './rest/colors.css'
 import { logIntoApp } from "./store/user";
 import { useDispatch } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
