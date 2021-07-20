@@ -68,6 +68,16 @@ input::placeholder, textarea::placeholder {
   color: var(--secondary);
 }
 
+a{  
+  text-decoration:none;
+}
+a:visited{
+  color: var(--dark);
+}
+a:hover{
+  color: var(--accent);
+}
+
 
 /* #endregion */
 

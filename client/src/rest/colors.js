@@ -37,17 +37,18 @@ const colors = [
   'accent',
   'light',
   'dark',
-  'counter'
+  'counter',
+  // 'comply'?
 ]
 
 export const themeColors = {
   standart: {
-    primary: "aliceblue",
-    secondary: "#b3b0ae",
-    accent: "#ffc900",
+    primary: "#66a7e0",
+    secondary: "#1c5485",
+    accent: "#ada800",
     light: "#e6e4e0",
     dark: "#555",
-    counter: "#3e69db",
+    counter: "#611414",
   },
   dark: {
     primary: '#BB86FC',
@@ -55,7 +56,8 @@ export const themeColors = {
     accent: '#03DAC6',
     light: '#383736',
     dark: '#d8d8d8',
-    counter: '#0383da',
+    counter: '#265139',
+    // comply: '#0383da'
   },
   'b&w': {
     primary: '#444444',

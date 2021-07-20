@@ -1,10 +1,10 @@
 :Standart theme{
-  --primary: aliceblue;
-  --secondary: #b3b0ae;
-  --accent: #ffc900;
+  --primary: #66a7e0;
+  --secondary: #1c5485;
+  --accent: #ada800;
   --light: #e6e4e0;
   --dark: #555;
-  --counter: #3e69db;
+  --counter: #611414;
 }
 :Dark {
   --primary: #BB86FC;
