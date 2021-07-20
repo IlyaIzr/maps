@@ -48,6 +48,30 @@ export const themeColors = {
     light: "#e6e4e0",
     dark: "#555",
     counter: "#3e69db",
+  },
+  dark: {
+    primary: '#BB86FC',
+    secondary: '#03DAC6',
+    accent: '#ffcf66',
+    light: '#383736',
+    dark: '#d8d8d8',
+    counter: '#6083f5',
+  },
+  'b&w': {
+    primary: '#444444',
+    secondary: '#747474',
+    accent: '#313131',
+    light: '#f1f1f1',
+    dark: '#0f0f0f',
+    counter: '#cccccc',
+  },
+  blueprint: {
+    'primary': '#1937e4',
+    'secondary': '#199CE4',
+    'accent': '#9de419',
+    'light': '#d4d4d4',
+    'dark': '#353535',
+    'counter': '#e46119',
   }
 }
 

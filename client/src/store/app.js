@@ -12,7 +12,7 @@ const CLOSE_MODAL = 'app/close_modal'
 const SWITCH_THEME = 'app/switch_theme'
 
 // Reducer
-const initialState = {
+export const initialState = {
   isLogged: false,
   language: 'ru',
   reviewsShown: true,
