@@ -7,16 +7,13 @@ body {
   background-color: black;
   color: antiquewhite;
 } */
-
-.map-container {
-  /* height: calc(100vh - 24px); */
-  /* height: calc(100vh - 100px); */
-  height: 100vh;
-  /* margin-top: 14px; */
+#mapplaceholder{
+  height: calc(100vh - 32px);
+  width: 100vw;
 }
 
 .map-container {
-  height: calc(100vh - 34px);
+  height: calc(100vh - 32px);
 }
 
 .routeWrapper {

@@ -12,6 +12,7 @@
   "author": "ilyaizr",
   "license": "ISC",
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
     "@turf/truncate": "^6.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

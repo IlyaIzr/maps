@@ -1,4 +1,4 @@
-#mainNavigation {
+.mainNavigation {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -6,7 +6,7 @@
   height: 28px;
   z-index: 1;
   padding: 2px 8px;
-  border: 1px solid;
+  border-top: 1px solid;
 }
 
 /* #mainNavigation * {

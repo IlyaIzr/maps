@@ -32,9 +32,10 @@ function App() {
   /* eslint-enable */
 
   return (
-    <Router>
+    <Router >
       <Modal />
       <NavMain />
+      <div id="mapplaceholder"></div>
 
       {/* <Main /> */}
 

@@ -51,11 +51,11 @@ export const themeColors = {
   },
   dark: {
     primary: '#BB86FC',
-    secondary: '#03DAC6',
-    accent: '#ffcf66',
+    secondary: '#392452',
+    accent: '#03DAC6',
     light: '#383736',
     dark: '#d8d8d8',
-    counter: '#6083f5',
+    counter: '#0383da',
   },
   'b&w': {
     primary: '#444444',

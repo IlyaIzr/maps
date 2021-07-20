@@ -5,6 +5,8 @@ import { TEXT } from '../rest/lang'
 import { showMain } from '../store/app'
 import { LeftMenu } from './LeftMenu'
 import './Nav.css'
+import { ReactComponent as Hamburger } from '../rest/svg/hamburger.svg';
+import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
@@ -22,16 +24,16 @@ export const NavMain = () => {
   }
 
   return (
-    <div id="mainNavigation" className="mp-bg-light mp-border-secondary">
+    <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
       <LeftMenu leftMenu={leftMenu} setLeftMenu={setLeftMenu} />
       <div className="flex-wrap nav-menu-back-wrap">
         {app.mapHidden &&
           <div id="backToMain" className="nav-icon" onClick={backToMain} title={TEXT.toMain}>
-            <img src="/icons/world2.svg" alt="schematic globe icon" />
+            <WoldIcon fill="var(--accent)" />
           </div>
         }
         <div id="openLeftMenu" className="nav-icon" onClick={showLeftMenu} title={TEXT.menu}>
-          <img src="/icons/hamburger.svg" alt="menu icon" />
+          <Hamburger fill="var(--primary)" />
         </div>
       </div>
 
