@@ -54,8 +54,8 @@ export const Register = () => {
           <Responser message={msg} setMessage={setMsg} />
         </div>
         {replica &&
-          <button className="small" onClick={onReplica}>{TEXT.secretReplica}</button>}
-        <button className="small mp-bg-primary mp-border-secondary" type="button" onClick={onSubmit}>{TEXT.submit}</button>
+          <button className="btn-replica mp-border-counter mp-primary-hover" onClick={onReplica}>{TEXT.secretReplica}</button>}
+        <button className="mp-border-accent" type="button" onClick={onSubmit}>{TEXT.submit}</button>
       </div>
 
     </div>

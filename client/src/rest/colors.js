@@ -51,7 +51,7 @@ export const themeColors = {
   },
   dark: {
     primary: '#BB86FC',
-    secondary: '#392452',
+    secondary: '#a485c8',
     accent: '#03DAC6',
     light: '#383736',
     dark: '#d8d8d8',

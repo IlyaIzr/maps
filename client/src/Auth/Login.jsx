@@ -46,7 +46,7 @@ export const Login = () => {
           <br />
           <label htmlFor="pword">{TEXT.yourPword}:</label>
           <input type="password" name="pword" value={pword} onInput={onPword} />
-          <button className="primary small" onClick={onSubmit}>{TEXT.confirm}</button>
+          <button className="primary mp-border-accent" onClick={onSubmit}>{TEXT.confirm}</button>
         </div>
     }
     </div>
