@@ -23,6 +23,8 @@ badrequests error handlers
 
 userSql: login, pword, comments: Number, level: Number|1.0 features: avatar, secret, question, friends: Array, name
 
+multy-tap-rating instead of stars rating?
+
 Alpha features:
 login, registration (with secret), login params (login=stas&level=5) - Alpha only
 onLoad - check login, if (!login) login dialog

@@ -1,143 +1,152 @@
+:root{
+  --primary: aliceblue;
+  --secondary: #b3b0ae;
+  --accent: #ffc900;
+  --light: #e6e4e0;
+  --dark: #555;
+  --counter: #3e69db;
+}
 /* Light */
 
 .mp-light {
-  color: #e6e4e0;
+  color: var(--light);
 }
 
 .mp-bg-light {
-  background-color: #e6e4e0;
+  background-color: var(--light);
 }
 
 .mp-light-hover:hover {
-  color: #e6e4e0;
+  color: var(--light);
 }
 
 .mp-bg-light-hover:hover {
-  background-color: #e6e4e0;
+  background-color: var(--light);
 }
 
 .mp-border-light {
-  border-color: #e6e4e0;
+  border-color: var(--light);
 }
 
 .mp-shadow-light {
-  box-shadow: #e6e4e0 2px 2px 4px;
+  box-shadow: var(--light) 2px 2px 4px;
 }
 
 /* Dark */
 
 .mp-dark {
-  color: #555;
+  color: var(--dark);
 }
 
 .mp-bg-dark {
-  background-color: #555;
+  background-color: var(--dark);
 }
 
 .mp-dark-hover:hover {
-  color: #555;
+  color: var(--dark);
 }
 
 .mp-bg-dark-hover:hover {
-  background-color: #555;
+  background-color: var(--dark);
 }
 
 .mp-border-dark {
-  border-color: #555;
+  border-color: var(--dark);
 }
 
 .mp-shadow-dark {
-  box-shadow: #555 2px 2px 4px;
+  box-shadow: var(--dark) 2px 2px 4px;
 }
 
 /* Accent */
 
 .mp-accent {
-  color: #ffc900;
+  color: var(--accent);
 }
 
 .mp-bg-accent {
-  background-color: #ffc900;
+  background-color: var(--accent);
 }
 
 .mp-accent-hover:hover {
-  color: #ffc900;
+  color: var(--accent);
 }
 
 .mp-bg-accent-hover:hover {
-  background-color: #ffc900;
+  background-color: var(--accent);
 }
 
 .mp-border-accent {
-  border-color: #ffc900;
+  border-color: var(--accent);
 }
+
 
 /* Primary */
 
 .mp-primary {
-  color: aliceblue;
+  color: var(--primary);
 }
 
 .mp-bg-primary {
-  background-color: aliceblue;
+  background-color: var(--primary);
 }
 
 .mp-primary-hover:hover {
-  color: aliceblue;
+  color: var(--primary);
 }
 
 .mp-bg-primary-hover:hover {
-  background-color: aliceblue;
+  background-color: var(--primary);
 }
 
 .mp-border-primary {
-  border-color: aliceblue;
+  border-color: var(--primary);
 }
 
 ::placeholder {
-  color: aliceblue;
+  color: var(--primary);
 }
 
 /* Secondary */
 
 .mp-secondary {
-  color: #b3b0ae;
+  color: var(--secondary);
 }
 
 .mp-bg-secondary {
-  background-color: #b3b0ae;
+  background-color: var(--secondary);
 }
 
 .mp-secondary-hover:hover {
-  color: #b3b0ae;
+  color: var(--secondary);
 }
 
 .mp-bg-secondary-hover:hover {
-  background-color: #b3b0ae;
+  background-color: var(--secondary);
 }
 
 .mp-border-secondary {
-  border-color: #b3b0ae;
+  border-color: var(--secondary);
 }
 
 /* Counter */
 
 .mp-counter {
-  color: #3e69db;
+  color: var(--counter);
 }
 
 .mp-bg-counter {
-  background-color: #3e69db;
+  background-color: var(--counter);
 }
 
 .mp-counter-hover:hover {
-  color: #3e69db;
+  color: var(--counter);
 }
 
 .mp-bg-counter-hover:hover {
-  background-color: #3e69db;
+  background-color: var(--counter);
 }
 
 .mp-border-counter {
-  border-color: #3e69db;
+  border-color: var(--counter);
 }
