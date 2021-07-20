@@ -35,7 +35,7 @@ function App() {
     <Router >
       <Modal />
       <NavMain />
-      <div id="mapplaceholder"></div>
+      {/* <div id="mapplaceholder"></div> */}
 
       {/* <Main /> */}
 
