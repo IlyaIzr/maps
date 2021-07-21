@@ -43,12 +43,12 @@ const colors = [
 
 export const themeColors = {
   standart: {
-    primary: "#66a7e0",
-    secondary: "#1c5485",
-    accent: "#ada800",
-    light: "#e6e4e0",
-    dark: "#555",
-    counter: "#611414",
+    primary: "#05304a",
+    secondary: "#b6c8d6",
+    accent: "#1bbc00",
+    light: "#ffffff",
+    dark: "#494949",
+    counter: "#2d8bcf",
   },
   dark: {
     primary: '#BB86FC',
@@ -56,7 +56,7 @@ export const themeColors = {
     accent: '#03DAC6',
     light: '#383736',
     dark: '#d8d8d8',
-    counter: '#265139',
+    counter: '#e4d737',
     // comply: '#0383da'
   },
   'b&w': {

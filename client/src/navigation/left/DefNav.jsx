@@ -22,7 +22,7 @@ export const DefNav = ({ setNavState, hideSelf }) => {
     <div className="left-menu-container">
       <div className="menu-user">
         <div className="menu-avatar mp-bg-counter">
-          <div className="letter mp-accent">{user.name?.[0] || "?"}</div>
+          <div className="letter mp-light">{user.name?.[0] || "?"}</div>
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{user.name || 'no name'}</div>

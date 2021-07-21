@@ -31,13 +31,14 @@ export const ThemeNav = ({ setNavState }) => {
       <div className="menu-user theme-menu">
         <div className="
         menu-avatar cursor-pointer 
-        mp-bg-accent  mp-bg-dark-hover  mp-counter mp-accent-hover
+        mp-bg-accent-hover mp-light-hover
+        mp-bg-primary mp-light
         transition">
           <div className="letter" onClick={onBack}>{"<"}</div>
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{TEXT.pickTheme}</div>
-          <div className="menu-userlevel">{TEXT.theme}: <span className="mp-counter">{TEXT[appThemes[themeN]]}</span>
+          <div className="menu-userlevel">{TEXT.theme}: <span className="mp-accent">{TEXT[appThemes[themeN]]}</span>
           </div>
         </div>
       </div>
@@ -48,7 +49,7 @@ export const ThemeNav = ({ setNavState }) => {
             <div
               className={`
               pickTheme-item ${theme}-theme mp-border-secondary mp-counter-hover transition-small
-              ${+i === +themeN ? ' current-theme mp-bg-dark mp-primary events-none' : ''}
+              ${+i === +themeN ? ' current-theme mp-accent mp-border-accent events-none' : ''}
               `}
               name={i}
               onClick={onClick}

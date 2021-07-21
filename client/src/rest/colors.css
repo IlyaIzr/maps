@@ -1,10 +1,10 @@
 :Standart theme{
-  --primary: #66a7e0;
-  --secondary: #1c5485;
-  --accent: #ada800;
+  --primary: #05304a;
+  --secondary: #b6c8d6;
+  --accent: #1bbc00;
   --light: #e6e4e0;
-  --dark: #555;
-  --counter: #611414;
+  --dark: #494949;
+  --counter: #2d8bcf;
 }
 :Dark {
   --primary: #BB86FC;
@@ -12,7 +12,7 @@
   --accent: #03DAC6;
   --light: #383736;
   --dark: #d8d8d8;
-  --counter: #0383da;
+  --counter: #e4d737;
 }
 :BW {
   --primary: #444444;
