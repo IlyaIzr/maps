@@ -4,6 +4,8 @@ const cors = require('cors');
 
 // api
 const maps = require('./routes/maps')
+const auth = require('./routes/auth')
+const users = require('./routes/users')
 
 const app = express()
 
@@ -17,6 +19,8 @@ app.use(cors())
 
 // Routes reducers
 app.use('/api/maps', maps)
+app.use('/api/auth', auth)
+app.use('/api/users', users)
 
 
 const port = (+process.env.PORT) || 1414

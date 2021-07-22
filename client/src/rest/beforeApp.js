@@ -4,9 +4,14 @@ import { initializeThemeColors, setColors } from "./colors"
 import { appThemes } from "./config"
 
 export async function initActions() {
+  // Prototypes
+  String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
+
   initLocalStorage()
 
-  let theme = appThemes[0]
+  let theme = appThemes[3]
   let preferences = getPreferences()
   // console.log('%c⧭', 'color: #bfffc8', preferences);
 

@@ -132,6 +132,16 @@ a:hover{
   transition: 0.3s;
 }
 
+.capitalize{
+  text-transform: capitalize;
+}
+.lowercase{
+  text-transform: lowercase;
+}
+.uppercase{
+  text-transform: uppercase;
+}
+
 /* #endregion */
 
 /* #region  Modal dialog */

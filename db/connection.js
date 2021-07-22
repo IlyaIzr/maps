@@ -16,6 +16,7 @@ class Database {
   }
   query(sql, args) {
     return new Promise((resolve, reject) => {
+      // execute for https://www.npmjs.com/package/mysql2#using-prepared-statements
       this.connection.query(sql, args, (err, rows) => {
         if (err)
           return reject(err);

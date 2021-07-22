@@ -35,6 +35,7 @@ const rus = {
   logout: 'Выйти',
   register: 'Регистрация',
   yourLogin: 'Ваш логин',
+  userName: 'Имя пользователя',
   yourPword: 'Ваш пароль',
   secretQuestion: 'Секретный вопрос',
   secretHint: 'Для восстановления пароля',
@@ -72,10 +73,17 @@ const rus = {
   menu: 'Меню',
   pickTheme: 'Выберете тему',
   apply: 'Применить',
+  password: 'Пароль',
+  field: 'поле',
+  tooLong: 'слишком длинное',
   [appThemes[0]]: 'Стандартная',
   [appThemes[1]]: 'Тёмная',
   [appThemes[2]]: 'Black&White',
   [appThemes[3]]: 'Чертёжная',
+  successfullReg: 'Успешная регистрация!', 
+  errorReg: 'Возникла ошибка при регистрации', 
+  errCode: 'код ошибки',
+  loginOccupied: 'Логин уже занят',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

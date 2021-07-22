@@ -29,11 +29,11 @@ export function userReducer(state = initialState, act) {
 }
 
 // Actions
-export const setCredentials = (d, name, login, id) => {
-  d({ type: WRITECREDENTIALS, credentials: { name, login, id } })
+export const setCredentials = (d, creds) => {
+  d({ type: WRITECREDENTIALS, credentials: { ...creds } })
 }
-export const logIntoApp = (d, name, login, id) => {
-  setCredentials(d, name, login, id)
+export const logIntoApp = (d, creds) => {
+  setCredentials(d, creds)
   setLoginStatus(d, true)
 }
 export const logOutOfApp = (d) => {
