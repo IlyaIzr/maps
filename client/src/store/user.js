@@ -8,7 +8,9 @@ const initialState = {
   name: 'anonimus',
   login: 'anonimus',
   level: 0,
-  id: 1
+  id: 1, 
+  comments: 0, 
+  avatar: null
 }
 
 export function userReducer(state = initialState, act) {
@@ -37,7 +39,7 @@ export const logIntoApp = (d, creds) => {
   setLoginStatus(d, true)
 }
 export const logOutOfApp = (d) => {
-  setCredentials(d, '', '', '')
+  setCredentials(d, initialState)
   setLoginStatus(d, false)
 }
 

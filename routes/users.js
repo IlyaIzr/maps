@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
   // Post review
   try {
     await dbConn.query(query, params)
-    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name } })
+    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level: 1 } })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, query })
   }

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { registerUser } from '../requests/users'
 import { TEXT } from '../rest/lang'
 import { Responser } from '../rest/Responser'
@@ -8,6 +9,7 @@ const initCreds = { login: '', pword: '', name: '', question: TEXT.secretExample
 
 export const Register = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [creds, setCreds] = useState(initCreds)
   const [msg, setMsg] = useState('')
@@ -39,13 +41,12 @@ export const Register = () => {
     if (creds.name.length > 140) return setMsg((TEXT.field + ' ' + TEXT.userName + ' ' + TEXT.tooLong).toLocaleLowerCase().capitalize())
 
 
-    console.log(creds)
     const res = await registerUser(creds)
-    console.log('%c⧭', 'color: #408059', res);
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
       logIntoApp(dispatch, res.data)
       setCreds(initCreds)
+      history.push('/')
     }
     else if (res.status === 'EXISTING') {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)

@@ -84,6 +84,7 @@ const rus = {
   errorReg: 'Возникла ошибка при регистрации', 
   errCode: 'код ошибки',
   loginOccupied: 'Логин уже занят',
+  wrongAuth: 'Неверные данные для входа',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage
