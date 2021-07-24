@@ -57,22 +57,37 @@
 /* #endregion */
 
 /* #region  Edit */
-.edit-profile-area{
+
+.edit-profile-area {
   width: 100vw;
   height: calc(100vh - 34px);
 }
-.edit-profile-wrapper{
+
+.edit-profile-wrapper {
   border: 1px solid;
   border-radius: 2px;
 }
-.edit-profile{
+
+.edit-profile {
   padding: 8px 18px;
 }
-.logout-container{
+
+.logout-container {
   padding: 8px 18px;
-  text-align: right;
 }
-.profile-logout{
-margin-top: 0px;
+
+.logout-container .mp-border-accent{
+  float: right;
+  margin-top: 0px;
 }
+
+.profile-logout {
+  margin-top: 0px;
+  border: 1px dashed;
+}
+
+.profile-logout:hover{
+  border: 1px dashed var(--counter);
+}
+
 /* #endregion */

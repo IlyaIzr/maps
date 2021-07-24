@@ -33,3 +33,20 @@ export async function updateUser(data) {
     return err
   }
 }
+export async function updateUserPword(data) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...data }),
+    credentials: 'include'
+  }
+  try {
+    const response = await fetch(api + 'users/updatePword', options)
+    const res = await response.json()
+    return res
+  } catch (err) {
+    return err
+  }
+}
