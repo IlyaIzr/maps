@@ -32,9 +32,9 @@ export const Login = () => {
       await logIntoApp(dispatch, res.data)
 
       setMsg(TEXT.greetings + ', ' + user.name)
-      // return setTimeout(() => {
-      //   history.push('/')
-      // }, 1000);
+      return setTimeout(() => {
+        history.push('/')
+      }, 1000);
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
 

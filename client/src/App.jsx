@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
 import { hideMain } from "./store/app";
 import { Modal } from "./rest/Modal";
+import { EditProfile } from "./Auth/EditProfile";
 
 
 function App() {
@@ -52,6 +53,12 @@ function App() {
         <Route path="/auth">
           <div className="routeWrapper">
             <AuthMain />
+          </div>
+        </Route>
+
+        <Route path="/editProfile">
+          <div className="routeWrapper">
+            <EditProfile />
           </div>
         </Route>
 

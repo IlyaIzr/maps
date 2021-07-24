@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
+const { auth } = require('./middleware')
 // rest
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
@@ -37,5 +38,36 @@ router.post('/register', async (req, res) => {
   }
 })
 
+// @ api/users/update
+
+router.post('/update', auth, async (req, res) => {
+  const id = req.userId
+  const { login, pword, name } = req.body
+
+  // get user info
+  const users = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [id])
+  const user = users[0]
+  if (!user) return res.json({ status: 'REAUTH' })
+  delete user.pword
+  delete user.answer
+
+  // Case password change
+  if (pword) return ({ status: 'PWORDCHANGE', data: user })
+
+  // Case login change
+  if (login !== user.login) {
+    const existing = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
+    if (existing.length) return res.json({ status: 'EXISTING', data: { login } })
+  }
+
+  // Update user
+  const query = `UPDATE users set login='${login}', name='${name}' WHERE id='${id}'`
+  try {
+    await dbConn.query(query)
+    return res.json({ status: 'OK', msg: 'User updated successfully', data: { login, name } })
+  } catch (err) {
+    return res.json({ status: 'ERR', msg: err, query })
+  }
+})
 
 module.exports = router

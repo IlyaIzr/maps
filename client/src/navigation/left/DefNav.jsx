@@ -31,7 +31,10 @@ export const DefNav = ({ setNavState, hideSelf }) => {
         </div>
       </div>
       <div>
-        <Link to="/auth" onClick={hideMainMenu} className="left-menu-item"> {app.isLogged ? TEXT.profile : TEXT.login}</Link>
+        {app.isLogged ?
+          <Link to="/editProfile" onClick={hideMainMenu} className="left-menu-item mp-dark"> {TEXT.profile}</Link> :
+          <Link to="/auth" onClick={hideMainMenu} className="left-menu-item mp-dark"> {TEXT.login}</Link>
+        }
       </div>
       <div onClick={pickTheme} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.theme}
         <label className="little-hint">({TEXT[app.theme]})</label>

@@ -85,6 +85,9 @@ const rus = {
   errCode: 'код ошибки',
   loginOccupied: 'Логин уже занят',
   wrongAuth: 'Неверные данные для входа',
+  editProfile: 'Редактирование профиля',
+  successfulUpdate: 'Успешное обновление',
+  secretChallenge: 'Вам нужно ответить на секретный вопрос, чтобы изменить пароль',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

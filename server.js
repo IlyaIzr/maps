@@ -13,13 +13,9 @@ const app = express()
 app.use(cookieP(process.env.COOKIE))
 app.use(express.json())
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/'], 
   credentials: true
 }))
-// app.use(cors({
-//   origin: 'http://localhost:8000',
-//   credentials: true
-// }))
 
 
 // Routes reducers

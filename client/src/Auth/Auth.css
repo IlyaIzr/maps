@@ -1,45 +1,71 @@
-.auth-container{
-width: 100vw;
-height: calc(100vh - 34px);
+.auth-container {
+  width: 100vw;
+  height: calc(100vh - 34px);
 }
-.auth-action-wrap{
+
+.auth-action-wrap {
   border: 1px solid;
   border-radius: 2px;
   padding: 6px;
 }
 
-.login-form{
+.login-form {
   padding: 20px 20px 6px 20px;
 }
-.login-form button{
+
+.login-form button {
   display: block;
   margin-right: 12px;
   margin-left: auto;
 }
 
-.register-form{
+/* #region  Register */
+
+.register-form {
   padding: 8px 18px;
 }
-.register-form h4{
+
+.register-form h4 {
   margin: 6px 12px 16px 12px
 }
-.register-form button{
+
+.register-form button {
   display: block;
   margin-right: 12px!important;
-  margin-left: auto!important;  
+  margin-left: auto!important;
 }
-.register-form textarea{
+
+.register-form textarea {
   width: calc(100% - 30px);
 }
-.register-responser{
+
+.register-responser {
   padding: 12px 6px;
 }
-.btn-replica{
+
+.btn-replica {
   margin-top: -2px;
-  margin-bottom: 10px;  
+  margin-bottom: 10px;
 }
-.btn-replica:hover{
+
+.btn-replica:hover {
   border: 1px solid var(--primary);
   margin-top: 2px;
-  margin-bottom: 6px;  
+  margin-bottom: 6px;
 }
+
+/* #endregion */
+
+/* #region  Edit */
+.edit-profile-area{
+  width: 100vw;
+  height: calc(100vh - 34px);
+}
+.edit-profile-wrapper{
+  border: 1px solid;
+  border-radius: 2px;
+}
+.edit-profile{
+  padding: 8px 18px;
+}
+/* #endregion */
