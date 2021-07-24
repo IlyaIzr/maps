@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { logout } from "../requests/auth"
 import { updateUser } from "../requests/users"
 import { TEXT } from "../rest/lang"
 import { Responser } from "../rest/Responser"
-import { logIntoApp } from "../store/user"
+import { logIntoApp, logOutOfApp } from "../store/user"
 const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
 
 export const EditProfile = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  const history = useHistory()
 
   const [creds, setCreds] = useState(initCreds)
   const [secretChallenge, setSecretChallenge] = useState(false)
@@ -59,6 +62,17 @@ export const EditProfile = () => {
     }
   }
 
+  async function logOut() {
+    const res = await logout()
+    if (res.status === 'OK') {
+      setCreds(initCreds)
+      setMsg('')
+      logOutOfApp(dispatch)
+      return history.push('/')
+    }
+    setMsg(TEXT.errCode + ': ' + (res.msg || res))
+  }
+
   return (
     <div className="edit-profile-area relative ">
 
@@ -89,6 +103,11 @@ export const EditProfile = () => {
 
           <button className="mp-border-accent" type="submit" onClick={onSubmit}>{TEXT.submit}</button>
         </form>
+
+        <hr className="mp-secondary" />
+        <div className="logout-container">
+          <button className="profile-logout" onClick={logOut}>{TEXT.logout}</button>
+        </div>
       </div>
     </div>
   )
