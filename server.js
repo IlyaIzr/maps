@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors');
+const cookieP = require('cookie-parser')
 
 // api
 const maps = require('./routes/maps')
@@ -9,8 +10,12 @@ const users = require('./routes/users')
 
 const app = express()
 
+app.use(cookieP(process.env.COOKIE))
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  credentials: true
+}))
 // app.use(cors({
 //   origin: 'http://localhost:8000',
 //   credentials: true

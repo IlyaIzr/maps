@@ -4,7 +4,7 @@ const WRITECREDENTIALS = 'user/set_credentials'
 const CHANGELEVEL = 'user/set_level'
 
 // Reducer
-const initialState = {
+export let initialState = {
   name: 'anonimus',
   login: 'anonimus',
   level: 0,

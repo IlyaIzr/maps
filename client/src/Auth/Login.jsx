@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { loginWithCreds } from '../requests/auth';
+import { loginWithCreds, logout } from '../requests/auth';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { logIntoApp, logOutOfApp } from '../store/user';
@@ -32,17 +32,23 @@ export const Login = () => {
       await logIntoApp(dispatch, res.data)
 
       setMsg(TEXT.greetings + ', ' + user.name)
-      return setTimeout(() => {
-        history.push('/')
-      }, 1000);
+      // return setTimeout(() => {
+      //   history.push('/')
+      // }, 1000);
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
 
     // window.localStorage.setItem('usernameTemp', login)
   }
-  function logOut() {
-    setLogin('')
-    logOutOfApp(dispatch)
+  async function logOut() {
+    const res = await logout()
+    if (res.status === 'OK') {
+      setLogin('')
+      setPword('')
+      setMsg('')
+      return logOutOfApp(dispatch)
+    }
+    setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
 
   // useEffect(() => {
