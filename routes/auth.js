@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
 
   // compare hash
   const compared = await bcrypt.compare(pword, user.pword)
-  if (!compared) return res.json({ status: 'WRONG' })
+  if (pword !== user.pword && !compared) return res.json({ status: 'WRONG' })
 
 
   delete user.pword

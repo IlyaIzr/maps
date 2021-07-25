@@ -24,12 +24,13 @@ export const Login = () => {
     setPword(e.target.value)
   }
   async function onSubmit() {
+    setMsg(TEXT.loading + '...')
     const res = await loginWithCreds({ login, pword })
     if (res.status === 'WRONG') {
       return setMsg(TEXT.wrongAuth)
     }
     if (res.status === 'OK') {
-      await logIntoApp(dispatch, res.data)
+      logIntoApp(dispatch, res.data)
 
       setMsg(TEXT.greetings + ', ' + user.name)
       return setTimeout(() => {

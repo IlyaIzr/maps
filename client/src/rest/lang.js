@@ -88,6 +88,7 @@ const rus = {
   editProfile: 'Редактирование профиля',
   successfulUpdate: 'Успешное обновление',
   secretChallenge: 'Вам нужно ответить на секретный вопрос, чтобы изменить пароль',
+  loading: 'Загрузка',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

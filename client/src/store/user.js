@@ -4,14 +4,15 @@ const WRITECREDENTIALS = 'user/set_credentials'
 const CHANGELEVEL = 'user/set_level'
 
 // Reducer
-export let initialState = {
+const basicState = {
   name: 'anonimus',
   login: 'anonimus',
   level: 0,
-  id: 1, 
-  comments: 0, 
+  id: 1,
+  comments: 0,
   avatar: null
 }
+export let initialState = { ...basicState }
 
 export function userReducer(state = initialState, act) {
   switch (act.type) {
@@ -39,7 +40,7 @@ export const logIntoApp = (d, creds) => {
   setLoginStatus(d, true)
 }
 export const logOutOfApp = (d) => {
-  setCredentials(d, initialState)
+  setCredentials(d, basicState)
   setLoginStatus(d, false)
 }
 

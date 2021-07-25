@@ -87,8 +87,9 @@ router.post('/updatePword', auth, async (req, res) => {
     if (existing.length) return res.json({ status: 'EXISTING', data: { login } })
   }
 
+  const hashed = await bcrypt.hash(pword, 10)
   // Update user
-  const query = `UPDATE users set login='${login}', name='${name}', pword='${pword}' WHERE id='${id}'`
+  const query = `UPDATE users set login='${login}', name='${name}', pword='${hashed}' WHERE id='${id}'`
   try {
     await dbConn.query(query)
     return res.json({ status: 'OK', msg: 'User updated successfully', data: { login, name } })
