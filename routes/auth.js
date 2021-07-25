@@ -14,7 +14,7 @@ const client = new OAuth2Client(process.env.GOAUTHCLIENTID);
 router.post('/login', async (req, res) => {
 
   const { login, pword } = req.body
-  if (!login || !pword) return res.json({ status: 'ERR' })
+  if (!login || !pword || pword === 'google') return res.json({ status: 'ERR' })
 
   // fetch user
   try {
@@ -115,9 +115,12 @@ router.post('/glogin', async (req, res) => {
   }
 
   // Case registration
-  const returnedCreds = {
-    name, avatar, login: gmail.split('@')[0]
-  }
+  // return availible login or else empty login field
+  let login = gmail.split('@')[0]
+  const loginOccupied = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
+  if (!loginOccupied.length) login = ''
+
+  const returnedCreds = { name, avatar, login, id: googleId }
   if (!user) return res.json({ status: 'FIRSTTIME', msg: 'proceed with the registration', data: returnedCreds })
 
   // Case just login

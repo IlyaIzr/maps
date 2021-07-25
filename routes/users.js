@@ -16,6 +16,7 @@ const bcrypt = require('bcrypt');
 router.post('/register', async (req, res) => {
   const data = req.body
   const { login, pword, name, question, answer } = data
+  if (pword === 'google') return res.json({ status: 'BANEDPWORD', data: pword })
   const id = crypto.randomUUID().replaceAll('-', '')
 
   // Check for existing user
@@ -29,6 +30,7 @@ router.post('/register', async (req, res) => {
   const query = 'INSERT INTO `users` (`id`, `login`, `pword`, `name`, `question`, `answer`) VALUES (?, ?, ?, ?, ?, ?);'
   const params = [id, login, hashed, (name || login), question, answer]
 
+  // TODO do we need to send cookie right after?
   // Post review
   try {
     await dbConn.query(query, params)
@@ -37,6 +39,34 @@ router.post('/register', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, query })
   }
 })
+
+router.post('/gregister', async (req, res) => {
+  const data = req.body
+  const { login, name, id, avatar } = data
+
+  // Check for existing user
+  const existing = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
+  if (existing.length) return res.json({ status: 'EXISTING', login })
+
+  // Form review query
+  const query = 'INSERT INTO `users` (`id`, `login`, `pword`, `name`, `avatar`) VALUES (?, ?, ?, ?, ?);'
+  const params = [id, login, 'google', (name || login), avatar]
+
+  // Post review
+  try {
+    await dbConn.query(query, params)
+
+    res.cookie('mp/auth', id, {
+      httpOnly: true,
+      expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+      secure: true
+    })
+    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level: 1, avatar } })
+  } catch (err) {
+    return res.json({ status: 'ERR', msg: err, query })
+  }
+})
+
 
 // @ api/users/update
 

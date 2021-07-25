@@ -51,6 +51,9 @@ export const Register = () => {
     else if (res.status === 'EXISTING') {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)
     }
+    else if (res.status === 'BANEDPWORD') {
+      return setMsg(TEXT.bannedPwod + ' - ' + creds.pword)
+    }
     else {
       setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
     }
@@ -64,7 +67,7 @@ export const Register = () => {
         <input type="text" name="login" value={creds.login} onInput={onInput} autoFocus required />
         <br />
         <label htmlFor="name">{TEXT.userName}:</label>
-        <input type="text" name="name" value={creds.name} onInput={onInput} autoFocus required />
+        <input type="text" name="name" value={creds.name} onInput={onInput} required />
         <br />
         <label htmlFor="pword">{TEXT.password}:</label>
         <input type="password" name="pword" value={creds.pword} onInput={onInput} required />

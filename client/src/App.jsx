@@ -17,6 +17,7 @@ import { NavMain } from "./navigation/NavMain";
 import { hideMain } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
+import { GoogleConfirm } from "./Auth/GoogleConfirm";
 
 
 function App() {
@@ -61,7 +62,12 @@ function App() {
             <EditProfile />
           </div>
         </Route>
-
+        <Route path="/googleConfirm">
+          <div className="routeWrapper">
+            <GoogleConfirm />
+          </div>
+        </Route>
+        
       </Switch>
     </Router>
   );

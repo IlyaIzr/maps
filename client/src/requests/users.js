@@ -16,6 +16,24 @@ export async function registerUser(data) {
     return err
   }
 }
+
+export async function registerGUser(data) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...data })
+  }
+  try {
+    const response = await fetch(api + 'users/gregister', options)
+    const res = await response.json()
+    return res
+  } catch (err) {
+    return err
+  }
+}
+
 export async function updateUser(data) {
   const options = {
     method: 'POST',

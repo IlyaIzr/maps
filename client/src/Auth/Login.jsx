@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
+import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { logIntoApp, logOutOfApp } from '../store/user';
@@ -69,6 +70,7 @@ export const Login = () => {
       });
 
     });
+    // eslint-disable-next-line
   }, [])
 
   async function onOAuth(googleUser) {
@@ -78,13 +80,30 @@ export const Login = () => {
     // console.log('Image URL: ' + profile.getImageUrl());
     // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     const data = {
-      id: profile.getId(), 
-      name: profile.getName(), 
-      avatar: profile.getImageUrl(), 
+      name: profile.getName(),
+      avatar: profile.getImageUrl(),
       gmail: profile.getEmail()
     }
     const res = await loginbyGoogle(data, googleUser.getAuthResponse().id_token)
-    console.log('%c⧭', 'color: #e50000', res);
+
+    if (res.status === 'FIRSTTIME') {
+      googleCreds.token = googleUser.getAuthResponse().id_token
+      googleCreds.name = res.data.name
+      googleCreds.login = res.data.login
+      if (!res.data.login) googleCreds.occupiedLogin = profile.getEmail().split('@')[0]
+      googleCreds.avatar = res.data.avatar
+      googleCreds.id = profile.getId()
+      return history.push('/googleConfirm')
+    }
+    if (res.status === 'OK') {
+      logIntoApp(dispatch, res.data)
+
+      setMsg(TEXT.greetings + ', ' + user.name)
+      return setTimeout(() => {
+        history.push('/')
+      }, 1000);
+    }
+    setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
   function onFail(a) {
     console.log('%c⧭ failed', 'color: #00a3cc', a);
