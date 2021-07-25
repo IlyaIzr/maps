@@ -9,15 +9,21 @@
   padding: 6px;
 }
 
+/* #region  Login */
+
 .login-form {
   padding: 20px 20px 6px 20px;
 }
 
-.login-form button {
+.login-form .loginBtn {
   display: block;
   margin-right: 12px;
   margin-left: auto;
 }
+.oauthBtn{
+}
+
+/* #endregion */
 
 /* #region  Register */
 
@@ -76,7 +82,7 @@
   padding: 8px 18px;
 }
 
-.logout-container .mp-border-accent{
+.logout-container .mp-border-accent {
   float: right;
   margin-top: 0px;
 }
@@ -86,7 +92,7 @@
   border: 1px dashed;
 }
 
-.profile-logout:hover{
+.profile-logout:hover {
   border: 1px dashed var(--counter);
 }
 

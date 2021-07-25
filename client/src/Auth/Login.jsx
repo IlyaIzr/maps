@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { loginWithCreds, logout } from '../requests/auth';
+import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { logIntoApp, logOutOfApp } from '../store/user';
@@ -52,9 +52,43 @@ export const Login = () => {
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
 
-  // useEffect(() => {
-  //   if (login !== user.name && app.isLogged) setLogin(user.name)
-  // }, [user.name, login, app.isLogged])
+  useEffect(() => {
+    const { gapi } = window
+
+    gapi.load('auth2', () => {
+      gapi.auth2.init().then((auth) => {
+        auth.signOut().then(() => {
+          gapi.signin2.render('google-signin-button', {
+            width: 232,
+            height: 40,
+            longtitle: true,
+            onsuccess: onOAuth,
+            onfailure: onFail,
+          });
+        });
+      });
+
+    });
+  }, [])
+
+  async function onOAuth(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    const data = {
+      id: profile.getId(), 
+      name: profile.getName(), 
+      avatar: profile.getImageUrl(), 
+      gmail: profile.getEmail()
+    }
+    const res = await loginbyGoogle(data, googleUser.getAuthResponse().id_token)
+    console.log('%c⧭', 'color: #e50000', res);
+  }
+  function onFail(a) {
+    console.log('%c⧭ failed', 'color: #00a3cc', a);
+  }
 
 
   return (
@@ -74,7 +108,10 @@ export const Login = () => {
 
           <Responser message={msg} setMessage={setMsg} />
 
-          <button className="primary mp-border-accent" onClick={onSubmit}>{TEXT.confirm}</button>
+          <button className="primary mp-border-accent loginBtn" onClick={onSubmit}>{TEXT.confirm}</button>
+          {/* <button className="mp-border-secondary oauthBtn" onClick={oauth}>{'Google'}</button> */}
+          <div id="google-signin-button"
+            className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div>
         </div>
     }
     </div>

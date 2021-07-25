@@ -22,6 +22,8 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>OurMaps</title>
+  <!-- oauth -->
+  <meta name="google-signin-client_id" content="355268082476-daeiqa0g961kar6h9p2dvmvkkr35phqe.apps.googleusercontent.com">
 </head>
 
 <body>
@@ -41,6 +43,10 @@
 
   <!-- Google places -->
   <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GMAPKEY%&libraries=places&v=weekly"></script>
+
+  <!-- Google platform for oAuth -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
 
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>
