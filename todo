@@ -28,7 +28,7 @@ multy-tap-rating instead of stars rating?
 
 Alpha features:
 optimize requests
-login, registration (with secret), login params (login=stas&level=5) - Alpha only
+login params (login=stas&level=5) - Alpha only
 google auth
 onLoad - check login, if (!login) login dialog
 app themes with map integration: [standart, b&w, dark, blueprint]

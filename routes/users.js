@@ -33,7 +33,12 @@ router.post('/register', async (req, res) => {
   // TODO do we need to send cookie right after?
   // Post review
   try {
-    await dbConn.query(query, params)
+    await dbConn.query(query, params)    
+    res.cookie('mp/auth', id, {
+      httpOnly: true,
+      expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+      secure: true
+    })
     return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level: 1 } })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, query })

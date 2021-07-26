@@ -192,6 +192,23 @@ a:hover{
   border: 1px solid;
   text-align: center;
   border-radius: 2px;
+  padding: 4px 2px;
+}
+.responser .header{
+  font-size: 1.8em;
+  display: flex;
+  flex-wrap: wrap;
+}
+.responser .header h6{
+  display: inline-block;
+  margin: 0 4px 0 36px;
+  width: calc(100% - 30px - 40px);
+}
+.responser .close-cross{
+  display: inline-block;
+  width: 24px;
+  font-size: 22px;
+  margin: -6px 2px 0 4px;
 }
 
 /* #endregion */
