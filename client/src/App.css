@@ -25,7 +25,7 @@ body {
 /* #region  Common elements */
 
 button {
-  padding: 4px 10px 6px 10px; 
+  padding: 4px 10px 6px 10px;
   margin: 8px;
   cursor: pointer;
   /* text-transform: lowercase; */
@@ -59,6 +59,7 @@ input:focus, textarea:focus {
   border: 1px solid var(--secondary);
   outline: 1px solid var(--accent);
 }
+
 input:hover, textarea:hover {
   cursor: pointer;
   border: 1px solid var(--accent);
@@ -68,16 +69,17 @@ input::placeholder, textarea::placeholder {
   color: var(--secondary);
 }
 
-a{  
-  text-decoration:none;
-}
-a:visited{
-  color: var(--dark);
-}
-a:hover{
-  color: var(--accent);
+a {
+  text-decoration: none;
 }
 
+a:visited {
+  color: var(--dark);
+}
+
+a:hover {
+  color: var(--accent);
+}
 
 /* #endregion */
 
@@ -132,13 +134,15 @@ a:hover{
   transition: 0.3s;
 }
 
-.capitalize{
+.capitalize {
   text-transform: capitalize;
 }
-.lowercase{
+
+.lowercase {
   text-transform: lowercase;
 }
-.uppercase{
+
+.uppercase {
   text-transform: uppercase;
 }
 
@@ -194,21 +198,70 @@ a:hover{
   border-radius: 2px;
   padding: 4px 2px;
 }
-.responser .header{
+
+.responser .header {
   font-size: 1.8em;
   display: flex;
   flex-wrap: wrap;
 }
-.responser .header h6{
+
+.responser .header h6 {
   display: inline-block;
   margin: 0 4px 0 36px;
   width: calc(100% - 30px - 40px);
 }
-.responser .close-cross{
+
+.responser .close-cross {
   display: inline-block;
   width: 24px;
   font-size: 22px;
   margin: -6px 2px 0 4px;
+}
+
+/* #endregion */
+
+/* #region  Toast */
+
+.mp-toast {
+  position: fixed;
+  width: min(260px, 70vw);
+  top: 20px;
+  right: 10px;
+  z-index: 4;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 4px 2px;
+}
+
+.toast-header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.toast-header h6 {
+  font-size: 1.2em;
+  text-transform: capitalize;
+  display: inline-block;
+  margin: 0 4px 0 12px;
+  width: calc(100% - 30px - 16px);
+}
+.toast-header p {
+  font-size: 1em;
+  display: inline-block;
+  margin: 0 4px 0 12px;
+  width: calc(100% - 30px - 16px);
+}
+
+.toast-header .close-cross {
+  font-size: 1.8em;
+  display: inline-block;
+  width: 24px;
+  font-size: 22px;
+  margin: -6px 2px 0 4px;
+}
+
+.toast-contetnt{
+  padding: 0px 8px;
 }
 
 /* #endregion */

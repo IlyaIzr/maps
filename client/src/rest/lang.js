@@ -91,7 +91,10 @@ const rus = {
   loading: 'Загрузка',
   oauthTitle: 'Регистрация через google аккаунт',
   occupied: 'Занят',
-  bannedPwod: 'этот пароль недоступен'
+  bannedPwod: 'этот пароль недоступен', 
+  error: 'ошибка',
+  warning: 'внимание',
+  complete: 'выполнено',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

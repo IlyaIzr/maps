@@ -10,6 +10,8 @@ const HIDE_MAIN = 'app/hide_main'
 const SET_MODAL = 'app/set_modal'
 const CLOSE_MODAL = 'app/close_modal'
 const SWITCH_THEME = 'app/switch_theme'
+const SET_TOAST = 'app/set_toast'
+const CLOSE_TOAST = 'app/close_toast'
 
 // Reducer
 export const initialState = {
@@ -26,6 +28,12 @@ export const initialState = {
   //   cancelAction: () => { }
   // },
   theme: appThemes[0],
+  toast: {
+    message: 'some msg',
+    clickAction: () => { },
+    status: 'error', // also 'warning', 'info', 'complete',
+    title: ''
+  }
 }
 
 export function appReducer(state = initialState, act) {
@@ -75,6 +83,16 @@ export function appReducer(state = initialState, act) {
         ...state, theme: act.theme
       }
     }
+    case SET_TOAST: {
+      return {
+        ...state, toast: act.toastInfo
+      }
+    }
+    case CLOSE_TOAST: {
+      return {
+        ...state, toast: false
+      }
+    }
     default:
       return state
   }
@@ -119,4 +137,17 @@ export const closeModal = (d) => {
 export const switchTheme = (d, theme) => {
   if (appThemes.indexOf(theme) < 0) theme = appThemes[0]
   d({ type: SWITCH_THEME, theme })
+}
+
+export const setToast = (d, toastInfo = {
+  message: '',
+  clickAction() { },
+  status: 'error',
+  title: ''
+}) => {
+  d({ type: SET_TOAST, toastInfo })
+}
+
+export const closeToast = (d) => {
+  d({ type: CLOSE_TOAST })
 }

@@ -18,6 +18,7 @@ import { hideMain } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
+import { Toast } from "./rest/Toast";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
     <Router >
       <Modal />
       <NavMain />
+      <Toast />
       {/* <div id="mapplaceholder"></div> */}
 
       {/* <Main /> */}
@@ -44,12 +46,6 @@ function App() {
       {/* Extra subpages */}
 
       <Switch>
-
-        <Route path="/settings">
-          <div className="routeWrapper">
-            Settings component will be released soon
-          </div>
-        </Route>
 
         <Route path="/auth">
           <div className="routeWrapper">
