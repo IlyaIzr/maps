@@ -5,6 +5,7 @@ import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
+import { setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
 
 export const Login = () => {
@@ -55,6 +56,9 @@ export const Login = () => {
 
   useEffect(() => {
     const { gapi } = window
+    if (!gapi) return setToast(dispatch, {
+      message: TEXT.networkError
+    })
 
     gapi.load('auth2', () => {
       gapi.auth2.init().then((auth) => {

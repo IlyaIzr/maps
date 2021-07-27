@@ -1,70 +1,19 @@
-import { api } from './config'
-
 export async function registerUser(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data })
-  }
-  try {
-    const response = await fetch(api + 'users/register', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'users', 'register', { ...data }, false)
+  return await f()
 }
 
 export async function registerGUser(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data })
-  }
-  try {
-    const response = await fetch(api + 'users/gregister', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'users', 'gregister', { ...data }, false)
+  return await f()
 }
 
 export async function updateUser(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data }),
-    credentials: 'include'
-  }
-  try {
-    const response = await fetch(api + 'users/update', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'users', 'update', { ...data }, true)
+  return await f()
 }
+
 export async function updateUserPword(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data }),
-    credentials: 'include'
-  }
-  try {
-    const response = await fetch(api + 'users/updatePword', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'users', 'updatePword', { ...data }, true)
+  return await f()
 }

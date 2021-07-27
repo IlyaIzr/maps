@@ -27,11 +27,8 @@ friendsSql: userA, userB
 multy-tap-rating instead of stars rating?
 
 Alpha features:
-toasts
-error msg if refresh went wrong
 optimize requests
 login params (login=stas&level=5) - Alpha only
-google profile interface
 onLoad - check login, if (!login) login dialog
 app themes with map integration: [standart, b&w, dark, blueprint]
 two languages

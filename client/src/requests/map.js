@@ -1,76 +1,26 @@
-import { api } from './config'
-
+import { api, requsetMaker } from './config'
 
 export async function getPlaces(minx, maxx, miny, maxy) {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-  try {
-    let response
-    if (minx) response = await fetch(api + `maps/places?minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}`, options)
-    else response = await fetch(api + `maps/places`, options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('GET', 'maps', 'places', null, false, `minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}`)
+  return await f()
 }
-
-
 
 export async function getReviews(placeId) {
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-  try {
-    const response = await fetch(api + `maps/reviews?targetId=${placeId}`, options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('GET', 'maps', 'reviews', null, false, `targetId=${placeId}`)
+  return await f()
 }
 
-
 export async function postInitReview(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data })
-  }
-  try {
-    const response = await fetch(api + 'maps/postInitReview', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'maps', 'postInitReview', { ...data }, false)
+  return await f()
 }
 
 export async function postNextReview(data) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...data })
-  }
-  try {
-    const response = await fetch(api + 'maps/postNextReview', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
+  const f = requsetMaker('POST', 'maps', 'postNextReview', { ...data }, false)
+  return await f()
 }
+
+
 
 export async function getAdress(lat, lng) {
   const typesNeeded = new Set(
