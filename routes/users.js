@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
   // TODO do we need to send cookie right after?
   // Post review
   try {
-    await dbConn.query(query, params)    
+    await dbConn.query(query, params)
     res.cookie('mp/auth', id, {
       httpOnly: true,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
@@ -83,16 +83,28 @@ router.post('/update', auth, async (req, res) => {
   const users = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [id])
   const user = users[0]
   if (!user) return res.json({ status: 'REAUTH' })
-  delete user.pword
-  delete user.answer
 
   // Case password change
-  if (pword) return res.json({ status: 'PWORDCHANGE', data: user })
+  const userData = { ...user }
+  delete userData.pword
+  delete userData.answer
+  if (pword) return res.json({ status: 'PWORDCHANGE', data: userData })
 
   // Case login change
   if (login !== user.login) {
     const existing = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
     if (existing.length) return res.json({ status: 'EXISTING', data: { login } })
+  }
+
+  // Case pword first-time set for google account
+  if (user.pword === 'google') {
+    const hashed = await bcrypt.hash(pword, 10)
+    try {
+      await dbConn.query(`UPDATE users set login='${login}', name='${name}', pword='${hashed}' WHERE id='${id}'`)
+      return res.json({ status: 'OK', msg: 'User updated successfully', data: { login, name } })
+    } catch (err) {
+      return res.json({ status: 'ERR', msg: err, query })
+    }
   }
 
   // Update user
@@ -110,6 +122,8 @@ router.post('/update', auth, async (req, res) => {
 router.post('/updatePword', auth, async (req, res) => {
   const id = req.userId
   const { login, pword, name, answer } = req.body
+
+  if (pword === 'google') return res.json({ status: 'BANEDPWORD', data: pword })
 
   // get user info
   const users = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [id])

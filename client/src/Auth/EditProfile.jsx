@@ -42,12 +42,14 @@ export const EditProfile = () => {
 
     // Case pword change call
     if (secretChallenge) {
-      console.log('%c⧭', 'color: #607339', secretChallenge);
       const res = await updateUserPword(creds)
       if (res.status === 'OK') {
         setMsg(TEXT.successfulUpdate)
         setSecretChallenge(false)
         return logIntoApp(dispatch, res.data)
+      }
+      else if (res.status === 'BANEDPWORD') {
+        return setMsg(TEXT.bannedPwod + ' - ' + creds.pword)
       }
       return setMsg(TEXT.errCode + ': ' + (res.msg || res))
     }
