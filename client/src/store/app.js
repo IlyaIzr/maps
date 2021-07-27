@@ -28,12 +28,13 @@ export const initialState = {
   //   cancelAction: () => { }
   // },
   theme: appThemes[0],
-  toast: {
-    message: 'some msg',
-    clickAction: () => { },
-    status: 'error', // also 'warning', 'info', 'complete',
-    title: ''
-  }
+  toast: false,
+  // {
+  //   message: 'some msg',
+  //   clickAction: () => { },
+  //   status: 'error', // also 'warning', 'info', 'complete',
+  //   title: ''
+  // }
 }
 
 export function appReducer(state = initialState, act) {

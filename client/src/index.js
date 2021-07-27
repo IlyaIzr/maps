@@ -8,7 +8,9 @@ import reportWebVitals from './reportWebVitals';
 import { initActions } from './rest/beforeApp';
 
 (async function () {
+  // const refresh = 
   await initActions()
+  // if (refresh === 'connection_error')
 
   ReactDOM.render(
     <React.StrictMode>

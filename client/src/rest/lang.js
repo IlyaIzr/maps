@@ -95,6 +95,7 @@ const rus = {
   error: 'ошибка',
   warning: 'внимание',
   complete: 'выполнено',
+  initConnectionErr: 'Ошибка при подкючении к серверу, авторизация не удалась. Пожалуйста, сообщите об ошибке',
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

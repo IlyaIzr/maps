@@ -4,6 +4,7 @@ import { initialState as userInitialState } from "../store/user";
 import { getPreferences, initLocalStorage } from "../store/localstorage";
 import { initializeThemeColors, setColors } from "./colors"
 import { appThemes } from "./config"
+import { TEXT } from "./lang";
 
 export async function initActions() {
   // Prototypes
@@ -36,5 +37,11 @@ export async function initActions() {
       appInitialState.isLogged = true
     }
   }
-  // else TODO show toast network error
+
+  else {
+    appInitialState.toast = {
+      message: TEXT.initConnectionErr
+    }
+    return 'connection_error'
+  }
 }
