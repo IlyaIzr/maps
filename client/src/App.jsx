@@ -11,26 +11,38 @@ import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
 
 import './App.css'
-import { logIntoApp } from "./store/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
-import { hideMain } from "./store/app";
+import { hideMain, setModal } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
 import { Toast } from "./rest/Toast";
 import { AlphaReg } from "./Auth/AlphaReg";
+import { TEXT } from "./rest/lang";
+import { Login } from "./Auth/Login";
+import { getPreferences, setPreference } from "./store/localstorage";
 
 
 function App() {
   const dispatch = useDispatch()
+  const app = useSelector(state => state.app)
+  const children =
+    <div className="auth-modal-containter mp-border-secondary">
+      <Login />
+    </div>
 
   useEffect(() => {
     if (window.location.pathname !== '/') hideMain(dispatch)
-    const prevUser = window.localStorage.getItem('usernameTemp')
-    if (prevUser) {
-      logIntoApp(dispatch, prevUser, prevUser, prevUser + '-' + Math.floor(Math.random() * 1000))
-    }
+    if (!app.isLogged && !getPreferences().skipLogin) setModal(dispatch, {
+      acceptLabel: null,
+      cancelLabel: TEXT.skip,
+      cancelAction() {
+        setPreference('skipLogin', true)
+      },
+      message: TEXT.wannaAuthorize,
+      children,
+    })
     /* eslint-disable */
   }, [])
   /* eslint-enable */
@@ -70,7 +82,7 @@ function App() {
             <GoogleConfirm />
           </div>
         </Route>
-        
+
       </Switch>
     </Router>
   );

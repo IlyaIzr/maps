@@ -1,12 +1,12 @@
 import { requsetMaker } from "./config"
 
 export async function registerUser(data) {
-  const f = requsetMaker('POST', 'users', 'register', { ...data }, false)
+  const f = requsetMaker('POST', 'users', 'register', { ...data }, true)
   return await f()
 }
 
 export async function registerGUser(data) {
-  const f = requsetMaker('POST', 'users', 'gregister', { ...data }, false)
+  const f = requsetMaker('POST', 'users', 'gregister', { ...data }, true)
   return await f()
 }
 

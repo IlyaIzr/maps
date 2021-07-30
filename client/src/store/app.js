@@ -127,6 +127,7 @@ export const setModal = (d, modalInfo = {
   cancelLabel: '',
   acceptAction() { },
   cancelAction() { },
+  children: <></>
 }) => {
   d({ type: SET_MODAL, modalInfo })
 }

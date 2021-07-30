@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
-import { loginWithCreds, logout } from '../requests/auth'
+import { logout } from '../requests/auth'
 import { registerUser } from '../requests/users'
 import { TEXT } from '../rest/lang'
 import { Responser } from '../rest/Responser'
@@ -68,7 +68,7 @@ export const AlphaReg = () => {
     const res = await registerUser(creds)
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
-      await loginWithCreds({ login: creds.login, pword: creds.pword })
+      // await loginWithCreds({ login: creds.login, pword: creds.pword })
       logIntoApp(dispatch, res.data)
       setCreds(initCreds)
       history.push('/')
@@ -97,7 +97,7 @@ export const AlphaReg = () => {
             <input type="text" name="name" value={creds.name} onInput={onInput} required />
             <br />
             <label htmlFor="pword">{TEXT.password}:</label>
-            <input type="password" name="pword" value={creds.pword} onInput={onInput} required />
+            <input type="password" placeholder="пароль не обязателен" name="pword" value={creds.pword} onInput={onInput} required />
             <br />
             <br />
             <label htmlFor="question">{TEXT.secretQuestion}:</label>

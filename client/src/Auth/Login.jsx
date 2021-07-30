@@ -5,7 +5,7 @@ import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
-import { setToast } from '../store/app';
+import { closeModal, setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
 
 export const Login = () => {
@@ -33,6 +33,7 @@ export const Login = () => {
     }
     if (res.status === 'OK') {
       logIntoApp(dispatch, res.data)
+      closeModal(dispatch)
 
       setMsg(TEXT.greetings + ', ' + user.name)
       return setTimeout(() => {
@@ -91,16 +92,19 @@ export const Login = () => {
     const res = await loginbyGoogle(data, googleUser.getAuthResponse().id_token)
 
     if (res.status === 'FIRSTTIME') {
+      console.log('%c⧭', 'color: #731d6d', res);
       googleCreds.token = googleUser.getAuthResponse().id_token
       googleCreds.name = res.data.name
       googleCreds.login = res.data.login
       if (!res.data.login) googleCreds.occupiedLogin = profile.getEmail().split('@')[0]
       googleCreds.avatar = res.data.avatar
       googleCreds.id = profile.getId()
+      closeModal(dispatch)
       return history.push('/googleConfirm')
     }
     if (res.status === 'OK') {
       logIntoApp(dispatch, res.data)
+      closeModal(dispatch)
 
       setMsg(TEXT.greetings + ', ' + user.name)
       return setTimeout(() => {
@@ -111,6 +115,7 @@ export const Login = () => {
   }
   function onFail(a) {
     console.log('%c⧭ failed', 'color: #00a3cc', a);
+    setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + JSON.stringify(a))
   }
 
 

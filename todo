@@ -24,8 +24,6 @@ friendsSql: userA, userB
 multy-tap-rating instead of stars rating?
 
 Alpha features:
-login params (?login=stas&level=5&name=Стас) - Alpha only
-onLoad - check login, if (!login) login dialog
 app themes with map integration: [standart, b&w, dark, blueprint]
 two languages
 animations: loader animations, transition animations
@@ -36,6 +34,7 @@ bryanks only or launch some alt places query system
 pick fonts
 friends
 like counts
+close modal on outside click
 
 1.0 features
 user avatar

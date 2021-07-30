@@ -118,7 +118,7 @@ router.post('/glogin', async (req, res) => {
   // return availible login or else empty login field
   let login = gmail.split('@')[0]
   const loginOccupied = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
-  if (!loginOccupied.length) login = ''
+  if (loginOccupied.length) login = ''
 
   const returnedCreds = { name, avatar, login, id: googleId }
   if (!user) return res.json({ status: 'FIRSTTIME', msg: 'proceed with the registration', data: returnedCreds })
