@@ -2,12 +2,9 @@ Bugs:
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
 
 
-superUser interface + draw buildings functionality
-interface to name prev unnamed places
+?superUser interface
 
 
-// another color concept - one color density gradient, but map has a little of grey
-gradient - pale green(lil yellow) 
 
 comments history
 
@@ -27,8 +24,7 @@ friendsSql: userA, userB
 multy-tap-rating instead of stars rating?
 
 Alpha features:
-optimize requests
-login params (login=stas&level=5) - Alpha only
+login params (?login=stas&level=5&name=Стас) - Alpha only
 onLoad - check login, if (!login) login dialog
 app themes with map integration: [standart, b&w, dark, blueprint]
 two languages

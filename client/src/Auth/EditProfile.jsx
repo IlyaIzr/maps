@@ -113,7 +113,7 @@ export const EditProfile = () => {
 
         </form>
 
-        <hr className="mp-secondary" />
+        <hr className="mp-border-secondary" />
         <div className="logout-container">
           <button className="mp-border-secondary profile-logout" onClick={logOut}>{TEXT.logout}</button>
           <button className="mp-border-accent" onClick={onSubmit}>{TEXT.submit}</button>

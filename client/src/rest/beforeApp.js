@@ -37,6 +37,9 @@ export async function initActions() {
       appInitialState.isLogged = true
     }
   }
+  else if (res.status === 'REAUTH') {
+    return;// do nothing
+  }
 
   else {
     appInitialState.toast = {

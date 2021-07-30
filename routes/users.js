@@ -16,6 +16,7 @@ const bcrypt = require('bcrypt');
 router.post('/register', async (req, res) => {
   const data = req.body
   const { login, pword, name, question, answer } = data
+  const level = req.body.level || 1
   if (pword === 'google') return res.json({ status: 'BANEDPWORD', data: pword })
   const id = crypto.randomUUID().replaceAll('-', '')
 
@@ -27,8 +28,8 @@ router.post('/register', async (req, res) => {
   const hashed = await bcrypt.hash(pword, 10)
 
   // Form review query
-  const query = 'INSERT INTO `users` (`id`, `login`, `pword`, `name`, `question`, `answer`) VALUES (?, ?, ?, ?, ?, ?);'
-  const params = [id, login, hashed, (name || login), question, answer]
+  const query = 'INSERT INTO `users` (`id`, `login`, `pword`, `name`, `question`, `answer`, `level`) VALUES (?, ?, ?, ?, ?, ?, ?);'
+  const params = [id, login, hashed, (name || login), question, answer, level]
 
   // TODO do we need to send cookie right after?
   // Post review
@@ -39,7 +40,7 @@ router.post('/register', async (req, res) => {
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
       secure: true
     })
-    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level: 1 } })
+    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level } })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, query })
   }

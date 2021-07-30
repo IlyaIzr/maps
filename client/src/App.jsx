@@ -19,6 +19,7 @@ import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
 import { Toast } from "./rest/Toast";
+import { AlphaReg } from "./Auth/AlphaReg";
 
 
 function App() {
@@ -50,6 +51,12 @@ function App() {
         <Route path="/auth">
           <div className="routeWrapper">
             <AuthMain />
+          </div>
+        </Route>
+        {/* TODO alpha only */}
+        <Route path="/alphaReg">
+          <div className="routeWrapper">
+            <AlphaReg />
           </div>
         </Route>
 

@@ -14,7 +14,7 @@ const client = new OAuth2Client(process.env.GOAUTHCLIENTID);
 router.post('/login', async (req, res) => {
 
   const { login, pword } = req.body
-  if (!login || !pword || pword === 'google') return res.json({ status: 'ERR' })
+  if (!login || pword === 'google') return res.json({ status: 'ERR' })
 
   // fetch user
   try {
