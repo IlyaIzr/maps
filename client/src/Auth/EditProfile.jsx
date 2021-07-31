@@ -5,6 +5,7 @@ import { logout } from "../requests/auth"
 import { updateUser, updateUserPword } from "../requests/users"
 import { TEXT } from "../rest/lang"
 import { Responser } from "../rest/Responser"
+import { setToast } from "../store/app"
 import { logIntoApp, logOutOfApp } from "../store/user"
 const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
 
@@ -77,6 +78,11 @@ export const EditProfile = () => {
     if (res.status === 'OK') {
       setCreds(initCreds)
       setMsg('')
+      setToast(dispatch, {
+        message: TEXT.farewell + ', ' + user.name,
+        status: 'complete',
+        title: ''
+      })
       logOutOfApp(dispatch)
       return history.push('/')
     }

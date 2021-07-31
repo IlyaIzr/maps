@@ -99,6 +99,7 @@ const rus = {
   networkError: 'ошибка подключения к сети',
   wannaAuthorize: 'Хотите авторизоваться?',
   skip: 'пропустить',
+  farewell: 'До встречи'
 }
 
 // export const TEXT = window.APPTEXT || basicLanguage

@@ -29,7 +29,7 @@ export const initialState = {
   // },
   theme: appThemes[0],
   toast: false,
-  // {
+  // toast: {
   //   message: 'some msg',
   //   clickAction: () => { },
   //   status: 'error', // also 'warning', 'info', 'complete',
@@ -85,8 +85,9 @@ export function appReducer(state = initialState, act) {
       }
     }
     case SET_TOAST: {
+      const key = Math.random()
       return {
-        ...state, toast: act.toastInfo
+        ...state, toast: { ...act.toastInfo, key }
       }
     }
     case CLOSE_TOAST: {
@@ -144,7 +145,7 @@ export const switchTheme = (d, theme) => {
 export const setToast = (d, toastInfo = {
   message: '',
   clickAction() { },
-  status: 'error',
+  status: 'error', // also 'warning', 'info', 'complete',
   title: ''
 }) => {
   d({ type: SET_TOAST, toastInfo })

@@ -51,7 +51,7 @@ function App() {
     <Router >
       <Modal />
       <NavMain />
-      <Toast />
+      {app.toast && <Toast key={app.toast?.key} />}
       {/* <div id="mapplaceholder"></div> */}
 
       {/* <Main /> */}

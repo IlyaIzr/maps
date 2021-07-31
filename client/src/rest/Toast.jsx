@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeToast } from '../store/app'
 import { TEXT } from './lang'
@@ -6,6 +6,20 @@ import { TEXT } from './lang'
 export const Toast = () => {
   const data = useSelector(state => state.app.toast)
   const dispatch = useDispatch()
+  const [visibility, setVisibility] = useState(null)
+  const ref = useRef(null)
+
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setVisibility('opaque')
+    }, 4000);
+    if (ref?.current) ref.current.onmouseover = e => setVisibility(null)
+    return () => {
+      clearTimeout(t)
+    }
+  }, [])
+
 
   function onClick() {
     if (data.clickAction) data.clickAction()
@@ -20,7 +34,7 @@ export const Toast = () => {
   let info = 'dark'
   let bg = 'light'
   let border = 'accent'
-  let title = data.title || TEXT.error
+  let title = data.title !== undefined ? data.title : TEXT.error
   if (data.status === 'info') {
     main = 'counter'
     info = 'dark'
@@ -33,18 +47,22 @@ export const Toast = () => {
     info = 'accent'
     bg = 'light'
     border = 'accent'
-    title = TEXT.warning + '!'
+    title = data.title !== undefined ? data.title : TEXT.warning + '!'
   }
   else if (data.status === 'complete') {
     main = 'counter'
     info = 'dark'
     bg = 'light'
     border = 'counter'
-    title = TEXT.complete + '!'
+    title = data.title !== undefined ? data.title : TEXT.complete + '!'
   }
 
   return (
-    <div className={`mp-toast mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer`} onClick={onClick}>
+    <div
+      className={`mp-toast mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer ${visibility}`}
+      onClick={onClick} ref={ref}
+      key={data.key}
+    >
       <div className="toast-header">
         {title ? <>
           <h6>{title}</h6>

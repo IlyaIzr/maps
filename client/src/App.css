@@ -146,6 +146,10 @@ a:hover {
   text-transform: uppercase;
 }
 
+.opaque{
+  opacity: 0;
+}
+
 /* #endregion */
 
 /* #region  Modal dialog */
@@ -238,6 +242,7 @@ a:hover {
   border: 1px solid;
   border-radius: 2px;
   padding: 4px 2px;
+  transition: 1.6s;
 }
 
 .toast-header {
