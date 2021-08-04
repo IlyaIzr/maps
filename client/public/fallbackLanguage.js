@@ -1,29 +1,4 @@
-
-// const basicLanguage = {
-//   homeLinkBtn: "Home",
-//   authLinkBtn: "Authorize",
-//   setsLinkBtn: "Settings",
-//   login: "Login",
-//   register: 'Register',
-//   yourName: 'Your name',
-//   submit: 'Submit',
-//   confirm: 'Confirm',
-//   greetings: 'Hello there',
-//   firstTimeRate: 'You have an honor to be first to rate this place!',
-//   placeRatingPrefix: 'This place has rating of',
-//   placeAmountPrefix: 'Rated',
-//   placeAmountNumberEnds1: 'time',
-//   placeAmountNPostfix: 's',
-//   push: 'Push',
-//   commentPlacehol: 'any comments?'
-// }
-
-import { appThemes } from "./config"
-
-
-const ru = {
-  ru: 'русский',
-  en: 'английский',
+const rus = {
   homeLinkBtn: "Главная",
   authLinkBtn: "Логин",
   profile: "Профиль",
@@ -78,16 +53,16 @@ const ru = {
   password: 'Пароль',
   field: 'поле',
   tooLong: 'слишком длинное',
-  [appThemes[0]]: 'Стандартная',
-  [appThemes[1]]: 'Тёмная',
-  [appThemes[2]]: 'Black&White',
-  [appThemes[3]]: 'Чертёжная',
+  standart: 'Стандартная',
+  dark: 'Тёмная',
+  'b&w': 'Black&White',
+  blueprint: 'Чертёжная',
   successfullReg: 'Успешная регистрация!', 
   errorReg: 'Возникла ошибка при регистрации', 
   errCode: 'код ошибки',
   loginOccupied: 'Логин уже занят',
   wrongAuth: 'Неверные данные для входа',
-  editProfile: 'Редактирование профиля',
+  editProfile: 'Редактирование профиля 111',
   successfulUpdate: 'Успешное обновление',
   secretChallenge: 'Вам нужно ответить на секретный вопрос, чтобы изменить пароль',
   loading: 'Загрузка',
@@ -102,8 +77,7 @@ const ru = {
   wannaAuthorize: 'Хотите авторизоваться?',
   skip: 'пропустить',
   farewell: 'До встречи',
-  pickLanguage: 'Выберете язык',
+  pickLanguage: 'выберете язык',
 }
 
-// export const TEXT = window.APPTEXT || ru
-export const TEXT =  ru
+window.APPTEXT = rus

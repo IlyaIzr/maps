@@ -3,7 +3,7 @@ import { initialState as appInitialState } from "../store/app";
 import { initialState as userInitialState } from "../store/user";
 import { getPreferences, initLocalStorage } from "../store/localstorage";
 import { initializeThemeColors, setColors } from "./colors"
-import { appThemes } from "./config"
+import { appLanguages, appThemes } from "./config"
 import { TEXT } from "./lang";
 
 export async function initActions() {
@@ -20,6 +20,7 @@ export async function initActions() {
   let preferences = getPreferences()
   // console.log('%c⧭', 'color: #bfffc8', preferences);
 
+  // Rewrite theme if any
   if (preferences.theme && appThemes.indexOf(preferences.theme) > -1) {
     theme = preferences.theme
     appInitialState.theme = preferences.theme

@@ -27,6 +27,8 @@
 </head>
 
 <body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  
   <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
   <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script>
 
@@ -47,9 +49,11 @@
   <!-- Google platform for oAuth -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   
+  
 
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>
+  <script src="./fallbackLanguage.js"></script>
+
+  <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>  
 </body>
 
 </html>

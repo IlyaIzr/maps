@@ -29,12 +29,13 @@ export const ThemeNav = ({ setNavState }) => {
 
       {/* Avatar area */}
       <div className="menu-user theme-menu">
-        <div className="
-        menu-avatar cursor-pointer 
-        mp-bg-accent-hover mp-light-hover
-        mp-bg-primary mp-light
-        transition">
-          <div className="letter" onClick={onBack}>{"<"}</div>
+        <div onClick={onBack} className="
+          menu-avatar cursor-pointer 
+          mp-bg-accent-hover mp-light-hover
+          mp-bg-primary mp-light
+          transition"
+        >
+          <div className="letter" >{"<"}</div>
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{TEXT.pickTheme}</div>

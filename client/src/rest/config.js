@@ -10,3 +10,8 @@ export let googleCreds = {
   occupiedLogin: null,
   id: null
 }
+
+export const appLanguages = {
+  ru: 'ru',
+  en: 'en'
+}

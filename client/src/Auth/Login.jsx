@@ -110,13 +110,15 @@ export const Login = () => {
       return history.push('/googleConfirm')
     }
     if (res.status === 'OK') {
-      logIntoApp(dispatch, res.data)
+      closeModal(dispatch)
       setToast(dispatch, {
-        message: TEXT.greetings + ', ' + user.name,
-        status: 'complete'
+        message: TEXT.greetings + ', ' + res.data.name,
+        status: 'complete',
+        title: null
       })
       setMsg('')
       history.push('/')
+      return logIntoApp(dispatch, res.data)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }

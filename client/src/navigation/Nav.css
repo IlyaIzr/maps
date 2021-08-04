@@ -119,12 +119,12 @@
 
 /* #region  Theme menu*/
 
-.pickTheme-container{
+.pickTheme-container {
   padding: 2px 16px;
   /* max-width: 200px; */
 }
 
-.pickTheme-item{
+.pickTheme-item {
   cursor: pointer;
   border: 1px solid;
   border-radius: 16px;
@@ -132,4 +132,10 @@
   padding: 4px 12px;
 }
 
+/* #endregion */
+
+/* #region  LangNav */
+.lang-nav .pickTheme-item{
+  text-transform: capitalize;
+}
 /* #endregion */

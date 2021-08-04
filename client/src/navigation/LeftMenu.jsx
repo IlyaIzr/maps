@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { DefNav } from "./left/DefNav"
+import { LangNav } from "./left/LangNav"
 import { ThemeNav } from "./left/ThemeNav"
 export const navStates = { default: 'default', theme: 'theme', language: 'language' }
 
@@ -17,6 +18,7 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
 
       {navState === navStates.default && <DefNav hideSelf={hideSelf} setNavState={setNavState} />}
       {navState === navStates.theme && <ThemeNav hideSelf={hideSelf} setNavState={setNavState} />}
+      {navState === navStates.language && <LangNav setNavState={setNavState} />}
 
       <div id="closeLeftAtBottom">
         <button onClick={hideSelf}>x</button>

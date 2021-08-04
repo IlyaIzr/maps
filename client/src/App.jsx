@@ -82,6 +82,11 @@ function App() {
             <GoogleConfirm />
           </div>
         </Route>
+        
+        <Route path="/languageChanged">
+        {/* /languageChanged?prev=ru */}
+          Changed language wrap        
+        </Route>
 
       </Switch>
     </Router>

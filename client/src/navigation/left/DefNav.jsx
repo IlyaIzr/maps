@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TEXT } from '../../rest/lang'
 import { hideMain } from '../../store/app'
+import { navStates } from '../LeftMenu'
 
 export const DefNav = ({ setNavState, hideSelf }) => {
 
@@ -14,7 +15,10 @@ export const DefNav = ({ setNavState, hideSelf }) => {
     hideSelf()
   }
   function pickTheme() {
-    setNavState('theme')
+    setNavState(navStates.theme)
+  }
+  function pickLang() {
+    setNavState(navStates.language)
   }
 
 
@@ -39,9 +43,9 @@ export const DefNav = ({ setNavState, hideSelf }) => {
       <div onClick={pickTheme} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.theme}
         <label className="little-hint">({TEXT[app.theme]})</label>
       </div>
+      <div onClick={pickLang} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.language}</div>
       <div className="readonly">{TEXT.friends}</div>
       <div className="readonly">{TEXT.routes}</div>
-      <div className="readonly">{TEXT.language}</div>
       <div className="readonly">{TEXT.aboutUs}</div>
     </div>
   )
