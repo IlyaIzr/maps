@@ -16,7 +16,6 @@ const CLOSE_TOAST = 'app/close_toast'
 // Reducer
 export const initialState = {
   isLogged: false,
-  language: 'ru',
   reviewsShown: true,
   mapHidden: false,
   modal: false,

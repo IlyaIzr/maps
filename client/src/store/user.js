@@ -6,9 +6,9 @@ const CHANGELEVEL = 'user/set_level'
 // Reducer
 const basicState = {
   name: 'anonimus',
-  login: 'anonimus',
+  login: '',
   level: 0,
-  id: 1,
+  id: 'anonimus',
   comments: 0,
   avatar: null
 }

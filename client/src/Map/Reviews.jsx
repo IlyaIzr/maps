@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getReviews } from '../requests/map';
 import { TEXT } from '../rest/lang';
-import { expandComments, shrinkComments } from '../store/app';
+import { expandComments, setToast, shrinkComments } from '../store/app';
 
 export const Reviews = ({ feature }) => {
   const dispatch = useDispatch()
@@ -13,9 +13,9 @@ export const Reviews = ({ feature }) => {
   useEffect(() => {
     (async function () {
       if (feature?.source !== 'ratedFeaturesSource') return (null)
-      
+
       const res = await getReviews(feature.id)
-      if (res.status !== 'OK') return console.log('error with res', res);
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
       setReviews(res.data)
     })()
     // Cleanup. Do we need it?
@@ -28,22 +28,23 @@ export const Reviews = ({ feature }) => {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)
   }
 
-  
+
   if (feature?.source !== 'ratedFeaturesSource') return (null)
   return (
     <div className={`reviewsContainer ${reviewsShown ? 'expanded' : 'shrinked'}`}>
       {reviews.length ? reviews.map(review => {
+        if (!review.name) review.name = TEXT.anonimus
         return (
-          <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.grade + Math.random()}>
+          <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
             <div className="authorLogo mp-bg-counter">
-              <span className="mp-primary" title={review.author}>{String(review.author)?.[0]?.toUpperCase()}</span>
+              <span className="mp-primary" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
             </div>
             <div className="reviewBody">
-              <p className="author">{review.author}</p>
+              <p className="author">{review.name}</p>
               <div className="reviewDate mp-secondary">{new Date(review.timestamp).toLocaleDateString()}</div>
               {Boolean(review.comment) && <div className="reviewComment mp-bg-primary">{review.comment}</div>}
               <div className="reviewRating">{review.grade}/5
-              <span className="reviewStars stars">
+                <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {
                     index += 1;
                     return (
@@ -64,7 +65,7 @@ export const Reviews = ({ feature }) => {
 
       <div className="skipperContainer">
         <div className="skipper mp-bg-light mp-border-secondary" onClick={onClick}>
-          {reviewsShown ? 
+          {reviewsShown ?
             <span className="mp-secondary">&#8613;</span> :
             <span className="mp-secondary">&#8615;</span>
           }

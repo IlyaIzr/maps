@@ -11,7 +11,12 @@ router.get('/reviews', async (req, res) => {
   if (!targetId) return res.json({ status: 'OK', data: [] })
 
   try {
-    const data = await dbConn.query(`SELECT * FROM reviews WHERE targetId = ${targetId} ORDER BY timestamp DESC`)
+    const query = `
+    SELECT reviews.*, users.name, users.login FROM reviews
+    LEFT JOIN users ON reviews.author = users.id
+    WHERE reviews.targetId = ${targetId}
+    ORDER BY timestamp DESC `
+    const data = await dbConn.query(query)
     //TODO // LIMIT 10 OFFSET 10 
     return res.json({ status: 'OK', data })
   } catch (err) {
@@ -108,8 +113,8 @@ router.post('/postNextReview', async (req, res) => {
 
 router.post('/postPlaceName', async (req, res) => {
   const { name, id } = req.body
-  
-  
+
+
   const query1 =
     `UPDATE places set name='${name}' WHERE id=${id};`
 

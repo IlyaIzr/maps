@@ -60,7 +60,7 @@ export const Main = () => {
     }
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
-      const res = await postNextReview({ user: user.login, review, place: { ...feature.properties, id: feature.id } })
+      const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
       if (res.status !== 'OK') return console.log('%c⧭', 'color: #bf1d00', res);
       // Mutate geoData
       for (let i = 0; i < geoData.length; i++) {
@@ -79,7 +79,7 @@ export const Main = () => {
 
 
     // Case first time review
-    // console.log(user.login, review, place);
+    // console.log(user.id, review, place);
     setGeoData([...geoData, {
       type: 'Feature',
       properties: { rating, name, amount: 1 },
@@ -88,7 +88,7 @@ export const Main = () => {
       geometry: feature.geometry
     }])
     updateLayers()
-    const res = await postInitReview({ user: user.login, review, place })
+    const res = await postInitReview({ user: user.id, review, place })
     if (res.status !== 'OK') return console.log('%c⧭', 'color: #bf1d00', res);
 
     if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)

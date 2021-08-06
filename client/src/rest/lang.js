@@ -103,6 +103,8 @@ const ru = {
   skip: 'пропустить',
   farewell: 'До встречи',
   pickLanguage: 'Выберете язык',
+  requestError: 'ошибка при запросе, возможны проблемы с интернетом', 
+  anonimus: 'Анон'
 }
 
 // export const TEXT = window.APPTEXT || ru
