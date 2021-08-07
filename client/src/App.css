@@ -150,6 +150,10 @@ a:hover {
   opacity: 0;
 }
 
+.hidden{
+  display: none;
+}
+
 /* #endregion */
 
 /* #region  Modal dialog */

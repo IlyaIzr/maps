@@ -7,10 +7,16 @@ import { mapOnClick } from './onClick';
 import { getLocation, saveLocation } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { hideMain, showMain } from '../store/app';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 
 export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
+  const app = useSelector(state => state.app)
+  const location = useLocation()
+  const d = useDispatch()
   const mapContainer = useRef(null);
 
   const map = useRef(null);
@@ -39,8 +45,9 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         container: mapContainer.current,
         // style: 'mapbox://styles/mapbox/streets-v11',
         // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale basic styles
-        style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11       //pale basic styles
+        // style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11       //pale basic styles
         // style: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',     //blue shades  
+        style: 'mapbox://styles/ilyaizr/cks1rsp1d3jxs17qo1m3gwxf0',   //  blueprint
         // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || 34.354, lat || 53.235], // bryansk
         zoom: 16
@@ -89,11 +96,19 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   }, [feature]);
   /* eslint-enable */
 
+  // map hider, helps to awoid extra call to Mapbox
+  useEffect(() => {    
+    if (location.pathname !== '/') hideMain(d)
+    else showMain(d)
+    /* eslint-disable */
+  }, [location.pathname]);
+  /* eslint-enable */
+
 
 
   return (
     <div>
-      <div ref={mapContainer} className="map-container" />
+      <div ref={mapContainer} className={app.mapHidden ? "hidden" : "map-container"} />
       {/* Add button */}
       <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
         <img src="/icons/edit-pen.svg" alt="draw area" />

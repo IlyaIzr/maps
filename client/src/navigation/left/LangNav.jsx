@@ -53,7 +53,6 @@ export const LangNav = ({ setNavState }) => {
 
       <div className="pickTheme-container">
         {Object.keys(appLanguages).map((lng, i) => {
-          console.log('%c⧭', 'color: #73998c', lng);
           return (
             <div
               className={`

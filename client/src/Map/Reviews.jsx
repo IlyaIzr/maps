@@ -22,7 +22,9 @@ export const Reviews = ({ feature }) => {
     return () => {
       setReviews([])
     }
+    /* eslint-enable */
   }, [feature?.source, feature?.id])
+  /* eslint-enable */
 
   function onClick() {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)

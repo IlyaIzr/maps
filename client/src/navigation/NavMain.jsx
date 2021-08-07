@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
-import { showMain } from '../store/app'
 import { LeftMenu } from './LeftMenu'
 import './Nav.css'
 import { ReactComponent as Hamburger } from '../rest/svg/hamburger.svg';
@@ -12,14 +11,12 @@ export const NavMain = () => {
   const app = useSelector(state => state.app)
   const [leftMenu, setLeftMenu] = useState(false)
   const history = useHistory()
-  const d = useDispatch()
 
   function showLeftMenu() {
     setLeftMenu(true)
   }
   function backToMain() {
     setLeftMenu(false)
-    showMain(d)
     history.push('/')
   }
 

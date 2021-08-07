@@ -20,6 +20,7 @@ badrequests error handlers
 
 userSql: id, login, pword, name, commentsN: Number, level: Number, avatar, question, answer,
 friendsSql: userA, userB
+tagSql: unqueContent, placeId, amount
 
 multy-tap-rating instead of stars rating?
 

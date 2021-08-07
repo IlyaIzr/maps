@@ -2,18 +2,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Link,
-  // useLocation
 } from "react-router-dom";
 // Components
-// import { Main } from "./Map/Main";
+import { Main } from "./Map/Main";
 import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
 
 import './App.css'
 import { useDispatch, useSelector } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
-import { hideMain, setModal } from "./store/app";
+import { setModal } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
@@ -33,7 +31,6 @@ function App() {
     </div>
 
   useEffect(() => {
-    if (window.location.pathname !== '/') hideMain(dispatch)
     if (!app.isLogged && !getPreferences().skipLogin) setModal(dispatch, {
       acceptLabel: null,
       cancelLabel: TEXT.skip,
@@ -52,9 +49,8 @@ function App() {
       <Modal />
       <NavMain />
       {app.toast && <Toast key={app.toast?.key} />}
-      {/* <div id="mapplaceholder"></div> */}
 
-      {/* <Main /> */}
+      <Main />
 
       {/* Extra subpages */}
 
@@ -82,10 +78,10 @@ function App() {
             <GoogleConfirm />
           </div>
         </Route>
-        
+
         <Route path="/languageChanged">
-        {/* /languageChanged?prev=ru */}
-          Changed language wrap        
+          {/* /languageChanged?prev=ru */}
+          Changed language wrap
         </Route>
 
       </Switch>
