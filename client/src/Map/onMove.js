@@ -2,7 +2,7 @@ import { getPlacesByTiles } from "../requests/map";
 import { getLayoutCoords } from "../rest/helperFuncs";
 import { geoJsonFromResponse } from "./filters";
 
-export function mapOnMove(map, setlayoutXY, setTileData, range, setGeoData, setMapData) {
+export function mapOnMove(map, setlayoutXY, setTileData, range, setGeoData) {
   map.on('moveend', async function (e) {
     const { lng, lat } = map.getCenter()
     // const zoom = map.getZoom()
@@ -47,7 +47,5 @@ export function mapOnMove(map, setlayoutXY, setTileData, range, setGeoData, setM
 
     const geoJson = geoJsonFromResponse(res.data, dataWeHave)
     setGeoData(geoJson)
-    setMapData(map, geoJson, 'ratedFeaturesSource')
-
   })
 }

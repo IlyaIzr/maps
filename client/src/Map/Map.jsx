@@ -72,7 +72,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater, drawObject)
-      mapOnMove(map.current, setlayoutXY, setTileData, range, setGeoData, setMapData)
+      mapOnMove(map.current, setlayoutXY, setTileData, range, setGeoData)
       window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
@@ -91,7 +91,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     if (!map.current) return; // wait for map to initialize
     setMapData(map.current, geoData, 'ratedFeaturesSource')
     /* eslint-disable */
-  }, [featureTrigger]);
+  }, [featureTrigger, geoData]);
   /* eslint-enable */
 
   // Mark selected feature
@@ -135,7 +135,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 }
 
 export function setMapData(map, geoData, sourceId) {
-  map.getSource(sourceId).setData({
+  map.getSource(sourceId)?.setData({
     "type": "FeatureCollection",
     "features": geoData
   })
