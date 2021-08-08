@@ -1,4 +1,5 @@
 import { getAdress } from "../requests/map";
+// eslint-disable-line no-unused-vars
 
 export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt, resetRater) {
 

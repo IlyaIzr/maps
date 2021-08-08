@@ -1,41 +1,53 @@
-export function onMove(map, cs) {
-  
+import { getPlacesByTiles } from "../requests/map";
+import { getLayoutCoords } from "../rest/helperFuncs";
+import { geoJsonFromResponse } from "./filters";
+
+export function mapOnMove(map, setlayoutXY, setTileData, range, setGeoData, setMapData) {
+  map.on('moveend', async function (e) {
+    const { lng, lat } = map.getCenter()
+    // const zoom = map.getZoom()
+    const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, 16)
+    let prevXY
+    setlayoutXY(prev => {
+      prevXY = prev
+      return { x: currentX, y: currentY }
+    })
+
+    // Check changes
+    if (prevXY.x === currentX && prevXY.y === currentY) return;
+    // console.log('%c⧭ prevx:', 'color: #00bf00', prevXY);
+    // console.log('%c⧭ newx', 'color: #0088cc', currentX);
+    // console.log('%c⧭ newy', 'color: #0088cc', currentY);
+
+    // Case something changed
+
+    const dataWeNeed = new Set([])
+    let dataWeHave
+    setTileData(reactiveData => {
+      dataWeHave = reactiveData
+      return reactiveData
+    })
+
+
+    // Go from top row to bottom
+    for (let yOffset = range; yOffset > -range - 1; yOffset--) {
+      // From left to right (although in Mapbox y starts from top - North)
+      for (let xOffset = -range; xOffset < range + 1; xOffset++) {
+        const key = 'x' + (currentX + xOffset) + 'y' + (currentY + yOffset)
+        if (dataWeHave.has(key)) continue
+        // Add data
+        dataWeNeed.add(key)
+      }
+    }
+
+    const res = await getPlacesByTiles([...dataWeNeed])
+    console.log('%c⧭', 'color: #807160', res);
+
+    if (res.status !== 'OK') return console.log('err', res);
+
+    const geoJson = geoJsonFromResponse(res.data, dataWeHave)
+    setGeoData(geoJson)
+    setMapData(map, geoJson, 'ratedFeaturesSource')
+
+  })
 }
-const cs = {
-  x: 100, y: 100
-}
-const reviewsStore = {
-  x100y100: [1, 2, 3],
-  x100y101: [1, 2],
-  x101y101: [1, 2, 3],
-  x101y100: [1],
-}
-// one step right
-cs.x += 1
-// ?x setter reaction onXChange
-// check what we have
-// if (reviewsStore['x' + cs.x + 'y' + cs.y]) {
-//   // var cellsToRequest = []
-//   // check if reviewsStore has surrounding cells
-// }
-// else basic request if store was empty (xmin 101, xmax 102, ymin 100, ymax 101)
-const res = [
-  { x: 102, y: 100, data: [3] },
-  { x: 102, y: 101, data: [2, 1] }
-]
-res.forEach(({ x, y, data }) => {
-  // filling
-  reviewsStore['x' + x + 'y' + y] = data
-  // clearing
-})
-// still onXChange
-// define keys to delete onXChange
-// filter reviewsStore where x is not in the range
-const range = 1
-const dataWeNeed = new Set([])
-Object.keys(reviewsStore).forEach(coords => {
-  const [x, y] = coords.substr(1).split('y')
-  if (Math.abs(x - cs.x) > range) delete reviewsStore[coords]
-  // else compare with data we need
-  // if it's in store already, remove from needed data, else make request
-})

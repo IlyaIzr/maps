@@ -27,14 +27,43 @@ router.get('/reviews', async (req, res) => {
 // @ api/maps/places?minx=1&miny=1&maxx=1000&maxy=1000
 
 router.get('/places', async (req, res) => {
-  const minx = req.query.minx || 0
-  const miny = req.query.miny || 0
-  const maxx = req.query.maxx || 99999999
-  const maxy = req.query.maxy || 99999999
-  const args = [minx, maxx, miny, maxy]
+  const minx = Number(req.query.minx || 0)
+  const miny = Number(req.query.miny || 0)
+  const maxx = Number(req.query.maxx || 99999999)
+  const maxy = Number(req.query.maxy || 99999999)
+  const args = [minx - 1, maxx + 1, miny - 1, maxy + 1]
 
   try {
     const data = await dbConn.query("SELECT * FROM places WHERE x BETWEEN ? AND ? AND y BETWEEN ? AND ?", args)
+    return res.json({ status: 'OK', data })
+  } catch (err) {
+    return res.json({ status: 'ERR', msg: err, err })
+  }
+})
+
+
+// @ api/maps/placesByTiles
+
+router.post('/placesByTiles', async (req, res) => {
+  if (!req.body) return res.json({ status: 'OK', data: [] })
+
+  const xValues = []
+  const yValues = []
+  Object.values(req.body).forEach(val => {
+    const [x, y] = val.substr(1).split('y')
+    xValues.push(x)
+    yValues.push(y)
+  })
+
+  const query = `
+  SELECT * FROM places WHERE
+  x IN (${xValues.toString()})
+  AND
+  y IN (${yValues.toString()})
+  `
+
+  try {
+    const data = await dbConn.query(query)
     return res.json({ status: 'OK', data })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, err })

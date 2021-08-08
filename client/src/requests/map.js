@@ -1,12 +1,17 @@
 import { api, requsetMaker } from './config'
 
-export async function getPlaces(minx, maxx, miny, maxy) {
+export async function getPlaces(minx = 0, maxx = 99999999, miny = 0, maxy = 99999999) {
   const f = requsetMaker('GET', 'maps', 'places', null, false, `minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}`)
   return await f()
 }
 
 export async function getReviews(placeId) {
   const f = requsetMaker('GET', 'maps', 'reviews', null, false, `targetId=${placeId}`)
+  return await f()
+}
+
+export async function getPlacesByTiles(data) {
+  const f = requsetMaker('POST', 'maps', 'placesByTiles', { ...data }, false)
   return await f()
 }
 

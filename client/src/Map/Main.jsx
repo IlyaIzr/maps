@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { Map } from './Map'
+import { MapArea } from './Map'
 import { Rater } from './Rater'
 import { Featurer } from './Featurer';
 import { formatGeodata } from './formatGeodata'
@@ -10,6 +10,7 @@ import { postInitReview, postNextReview } from '../requests/map';
 import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
+import { getLayoutCoords } from '../rest/helperFuncs';
 
 
 export const Main = () => {
@@ -52,12 +53,15 @@ export const Main = () => {
     }
     const place = {
       lng, lat,
-      x: feature._vectorTileFeature._x,
-      y: feature._vectorTileFeature._y,
       id: feature.id,
       name: feature.properties.name || "",
       polyString
     }
+    const { x, y } = getLayoutCoords(lng, lat, 16)
+    place.x = x
+    place.y = y
+
+
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
       const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
@@ -98,7 +102,7 @@ export const Main = () => {
 
   return (
     <div className={app.mapHidden ? "hidden" : "mainWrapper"}>
-      <Map
+      <MapArea
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
         geoData={geoData} setGeoData={setGeoData}

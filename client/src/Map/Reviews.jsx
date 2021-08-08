@@ -22,7 +22,7 @@ export const Reviews = ({ feature }) => {
     return () => {
       setReviews([])
     }
-    /* eslint-enable */
+    /* eslint-disable */
   }, [feature?.source, feature?.id])
   /* eslint-enable */
 

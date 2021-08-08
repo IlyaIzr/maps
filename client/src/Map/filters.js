@@ -1,4 +1,4 @@
-export function geoJsonFromResponse(places) {
+export function geoJsonFromResponse(places, tileData) {
   if (!places?.length) return []
 
   const geoJson = places.map(placeData => {
@@ -13,7 +13,9 @@ export function geoJsonFromResponse(places) {
         amount: placeData.amount,
         name: placeData.name,
         lng: placeData.lng,
-        lat: placeData.lat
+        lat: placeData.lat,
+        // x: placeData.x,
+        // y: placeData.y
       },
       source: "composite",
       sourceLayer: "building",
@@ -25,6 +27,21 @@ export function geoJsonFromResponse(places) {
       return polyFigure.map(polygon => [polygon.x, polygon.y])
     }))
 
+    if (!tileData) 
+    return res
+
+    const key = 'x' + placeData.x + 'y' + placeData.y
+    if (tileData.has(key)) tileData.get(key).push(res)
+    else tileData.set(key, [res])
+
+
+    // some async problem, althought setstate has no promise so ;)
+    // setTileData(prevState => {
+    //   console.log('%c⧭', 'color: #00e600', prevState);
+    //   if (prevState.has(key)) prevState.get(key).push(res)
+    //   else prevState.set(key, [res])
+    //   console.log('%c⧭', 'color: #0c550c', prevState);
+    // })
     return res
   })
   return geoJson

@@ -4,16 +4,18 @@ import { getPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse } from './filters';
 import { mapOnClick } from './onClick';
-import { getLocation, saveLocation } from '../rest/helperFuncs';
+import { getLayoutCoords, getLocation, saveLocation } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { hideMain, showMain } from '../store/app';
+import { hideMain, setToast, showMain } from '../store/app';
+import { mapOnMove } from './onMove';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
+const range = 3
 
-export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
+export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
   const app = useSelector(state => state.app)
   const location = useLocation()
   const d = useDispatch()
@@ -23,8 +25,8 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   const createBtn = useRef(null);
   const deleteBtn = useRef(null);
   const [drawPrompt, setDrawPrompt] = useState(false);
-  // const [lng, setLng] = useState(-122.447303);
-  // const [lat, setLat] = useState(37.753574);
+  const [, setlayoutXY] = useState({ x: null, y: null });
+  const [tileData, setTileData] = useState(new Map())
   // const [zoom, setZoom] = useState(16);
 
 
@@ -32,12 +34,16 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   useEffect(() => {
     (async function () {
       const { lng, lat } = getLocation()
+      // const zoom = map.getZoom()
+      const zoom = 16
+      const { x, y } = getLayoutCoords(lng, lat, zoom)
+      setlayoutXY({ x, y })
 
-      const res = await getPlaces()
-      if (res.status !== 'OK') return console.log('bad request', res);
+      const res = await getPlaces(x - range, x + range, y - range, y + range)
+      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
       if (map.current) return; // initialize map only once, dev environment optimization
 
-      const geoJson = geoJsonFromResponse(res.data)
+      const geoJson = geoJsonFromResponse(res.data, tileData)
 
       setGeoData(geoJson)
 
@@ -50,7 +56,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
         style: 'mapbox://styles/ilyaizr/cks1rsp1d3jxs17qo1m3gwxf0',   //  blueprint
         // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || 34.354, lat || 53.235], // bryansk
-        zoom: 16
+        zoom
       });
 
       // Add search
@@ -66,6 +72,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson)
       mapOnClick(map.current, setFeature, resetRater, drawObject)
+      mapOnMove(map.current, setlayoutXY, setTileData, range, setGeoData, setMapData)
       window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
@@ -97,7 +104,7 @@ export const Map = ({ feature, setFeature, resetRater, geoData, setGeoData, feat
   /* eslint-enable */
 
   // map hider, helps to awoid extra call to Mapbox
-  useEffect(() => {    
+  useEffect(() => {
     if (location.pathname !== '/') hideMain(d)
     else showMain(d)
     /* eslint-disable */
