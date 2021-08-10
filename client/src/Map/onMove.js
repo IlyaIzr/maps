@@ -41,7 +41,6 @@ export function mapOnMove(map, setlayoutXY, setTileData, range, setGeoData) {
     }
 
     const res = await getPlacesByTiles([...dataWeNeed])
-    console.log('%c⧭', 'color: #807160', res);
 
     if (res.status !== 'OK') return console.log('err', res);
 

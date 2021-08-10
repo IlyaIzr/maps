@@ -1,7 +1,8 @@
-import { accentColor, counterAccent, gradient } from "../rest/colors";
+import { gradients, themeColors } from "../rest/colors";
 
-export function mapOnLoad(map, geoJson) {
+export function mapOnLoad(map, geoJson, theme) {
   map.on('load', function (e) {
+    const gradient = gradients[theme]
 
     // Define a source before using it to create a new layer
     map.addSource('ratedFeaturesSource', {
@@ -57,8 +58,8 @@ export function mapOnLoad(map, geoJson) {
       'type': 'fill',
       paint: {
         'fill-opacity': 0.9,
-        'fill-color': accentColor,
-        'fill-outline-color': counterAccent
+        'fill-color': themeColors[theme].accent,
+        'fill-outline-color': themeColors[theme].counter
       }
     }, firstSymbolId)
 

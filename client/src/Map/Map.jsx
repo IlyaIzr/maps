@@ -70,7 +70,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
       const drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
       // console.log('%c⧭', 'color: #5200cc', p.sty);
-      mapOnLoad(map.current, geoJson)
+      mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject)
       mapOnMove(map.current, setlayoutXY, setTileData, range, setGeoData)
       window.geocoderRef = new window.google.maps.Geocoder()

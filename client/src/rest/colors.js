@@ -10,18 +10,32 @@ import { appThemes } from "./config"
 
 // const lightGreenRed = ['#712d2d', '#a74b2f', '#e2734a', '#e8c337', '#abff38', '#88ff45']
 const brightGreenRed = ['#cd0c0c', '#e14612', '#e1922c', '#e8c337', '#94c52f', '#0aa112']
+const megaBrightGreenRed = [
+  '#610505', '#a82d00',
+  '#c7c400', '#b3a700',
+  '#88c70a', '#00e00b'
+]
+const paleGreenRed = [
+  '#422424', '#723e36',
+  '#866b3c', '#afb766',
+  '#96ce7e', '#5fb961'
+]
+const dynamicGreenRed = [
+  '#422424', '#723e36',
+  '#866b3c', '#afb766',
+  '#6bc41c', '#149f04'
+]
+
 
 export const gradient = brightGreenRed
 
+export const gradients = {
+  standart: brightGreenRed,
+  blueprint: dynamicGreenRed,
+  dark: megaBrightGreenRed,
+  'b&w': paleGreenRed
+}
 
-// Some green
-// export const accentColor = '#a5ec37'
-// pale red
-// export const accentColor = '#ffadad'
-
-export const accentColor = '#ffc900'
-// export const counterAccent = '#bcbfff' //good color that doesn't shown. TODO implemetation https://stackoverflow.com/questions/52162989/mapbox-gl-js-changing-polygon-border-width
-export const counterAccent = 'blue'
 
 // const colors = {
 //   primary: 'primary',

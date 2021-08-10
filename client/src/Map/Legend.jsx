@@ -1,8 +1,11 @@
-import React from 'react'
-import { gradient } from '../rest/colors'
+import { useSelector } from 'react-redux'
+import { gradients } from '../rest/colors'
 import { TEXT } from '../rest/lang'
 
 export const Legend = () => {
+  const theme = useSelector(s => s.app.theme)
+  const gradient = gradients[theme]
+
   return (
     <div className="mapLegend mp-bg-light mp-border-secondary mp-shadow-light">
       <div className="ratingLegend">
