@@ -26,23 +26,22 @@ multy-tap-rating instead of stars rating?
 
 Alpha features:
 app themes with map integration: [standart, b&w, dark, blueprint]
-animations: loader animations, transition animations
 set location to user location, or show a dialog window to chose a city
 ?remove logged comment or edit it
 ?tag search
-bryanks only or launch some alt places query system
-pick fonts
 friends
-like counts
+animations: loader animations, transition animations
 close modal on outside click
+profile view
+friend functional 
+friend-marks-mode
+tags-mode
 
 1.0 features
+pick fonts
+like counts
 user avatar
-friend functional, friend-marks
-menu filter, collapse menu
 rooftop raster view, example on https://www.mapbox.com/search-service
-profile view
-remove or change login params
 
 1.1 features
 routes

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { getPlaces } from '../requests/map';
+import { getPlaces, getPlacesByTiles } from '../requests/map';
 import { mapOnLoad } from './onLoad';
-import { geoJsonFromResponse } from './filters';
+import { processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
 import { getLayoutCoords, getLocation, saveLocation } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
@@ -25,13 +25,26 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   const createBtn = useRef(null);
   const deleteBtn = useRef(null);
   const [drawPrompt, setDrawPrompt] = useState(false);
+  // Map places data
   const [, setlayoutXY] = useState({ x: null, y: null });
-  const [tileData, setTileData] = useState(new Map())
+  const [tiledata, setTileData] = useState(new Map())
+  const [dataWeNeed, setWeDataNeed] = useState(new Set());
+
+  useEffect(() => {
+    (async function () {
+      if (dataWeNeed.size) {
+        const res = await getPlacesByTiles([...dataWeNeed])
+        processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+      }
+    })()
+  }, [dataWeNeed]);
+
   // const [zoom, setZoom] = useState(16);
 
 
   // Init map
   useEffect(() => {
+    if (map.current) return; // initialize map only once, dev environment optimization
     (async function () {
       const { lng, lat } = getLocation()
       // const zoom = map.getZoom()
@@ -40,12 +53,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       setlayoutXY({ x, y })
 
       const res = await getPlaces(x - range, x + range, y - range, y + range)
-      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
-      if (map.current) return; // initialize map only once, dev environment optimization
-
-      const geoJson = geoJsonFromResponse(res.data, tileData)
-
-      setGeoData(geoJson)
+      const geoJson = processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -72,7 +80,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject)
-      mapOnMove(map.current, setlayoutXY, setTileData, range, setGeoData)
+      mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData)
       window.geocoderRef = new window.google.maps.Geocoder()
     })()
 
