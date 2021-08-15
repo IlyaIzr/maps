@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getReviews } from '../requests/map';
+import { deleteReview, getReviews } from '../requests/map';
 import { TEXT } from '../rest/lang';
-import { expandComments, setToast, shrinkComments } from '../store/app';
+import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 
-export const Reviews = ({ feature }) => {
+export const Reviews = ({ feature, updateLayers, setGeoData }) => {
   const dispatch = useDispatch()
   const { reviewsShown } = useSelector(state => state.app)
+  const userId = useSelector(state => state.user.id)
 
   const [reviews, setReviews] = useState([])
 
@@ -30,6 +31,43 @@ export const Reviews = ({ feature }) => {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)
   }
 
+  function deleteClick(e) {
+    const timestamp = e.target.attributes.timestamp.value
+    const place = {
+      rating: feature.properties.rating,
+      amount: feature.properties.amount,
+      grade: e.target.attributes.grade.value,
+      id: feature.id
+    }
+
+    setModal(dispatch, {
+      message: TEXT.removeComment + '?',
+      async acceptAction() {
+        const res = await deleteReview(timestamp, place)
+
+        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+        setReviews(reviews.filter(rev => rev.timestamp + rev.author !== timestamp + userId))
+        feature.properties.rating = (place.amount * place.rating - place.grade) / (place.amount - 1)
+        feature.properties.amount -= 1
+        setGeoData(geoData => {
+
+          // Mutate geoData
+          for (let i = 0; i < geoData.length; i++) {
+            if (geoData[i].id === feature.id) {
+              const { amount, rating } = feature.properties
+              geoData[i].properties = {
+                rating: +((amount * rating - place.grade) / (amount - 1)).toFixed(5),  //toFixed - 5 numbers after point
+                amount: amount - 1
+              }
+              break;
+            }
+          } return geoData
+        })
+        updateLayers()
+      }
+    })
+  }
+
 
   if (feature?.source !== 'ratedFeaturesSource') return (null)
   return (
@@ -38,13 +76,21 @@ export const Reviews = ({ feature }) => {
         if (!review.name) review.name = TEXT.anonimus
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
-            <div className="authorLogo mp-bg-counter">
-              <span className="mp-primary" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
+            <div className="authorLogo mp-bg-primary">
+              <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
             </div>
             <div className="reviewBody">
-              <p className="author">{review.name}</p>
-              <div className="reviewDate mp-secondary">{new Date(review.timestamp).toLocaleDateString()}</div>
-              {Boolean(review.comment) && <div className="reviewComment mp-bg-primary">{review.comment}</div>}
+              <p className="author mp-primary">{review.name}</p>
+              <div className="reviewDate mp-secondary">
+                {new Date(review.timestamp).toLocaleDateString()}
+                {Boolean(review.author !== 'anonimus' && review.author === userId) &&
+                  <label
+                    onClick={deleteClick} className="deleteComment cursor-pointer" timestamp={review.timestamp} grade={review.grade}
+                  > ✕
+                  </label>
+                }
+              </div>
+              {Boolean(review.comment) && <div className="reviewComment ">{review.comment}</div>}
               <div className="reviewRating">{review.grade}/5
                 <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {

@@ -8,12 +8,12 @@ export const Modal = () => {
   const acceptLabel = data.acceptLabel !== undefined ? data.acceptLabel : TEXT.acceptDefault
   const cancelLabel = data.cancelLabel !== undefined ? data.cancelLabel : TEXT.cancelDefault
 
-  function cancel() {
-    data.cancelAction?.()
+  async function cancel() {
+    await data.cancelAction?.()
     closeModal(dispatch)
   }
-  function accept() {
-    data.acceptAction?.()
+  async function accept() {
+    await data.acceptAction?.()
     closeModal(dispatch)
   }
 

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
+// rest
+const { auth } = require('./middleware')
 
 
 // @ api/maps/reviews
@@ -75,10 +77,11 @@ router.post('/placesByTiles', async (req, res) => {
 router.post('/postInitReview', async (req, res) => {
   const { user, review, place } = req.body
   const { grade, comment, targetId } = review
+  const timestamp = Date.now()
 
   // Form review query
-  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`) VALUES (?, ?, ?, ?);'
-  const params = [targetId, user, grade, comment]
+  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`, `timestamp`) VALUES (?, ?, ?, ?, ?);'
+  const params = [targetId, user, grade, comment, timestamp]
 
   // Post review
   try {
@@ -111,10 +114,11 @@ router.post('/postInitReview', async (req, res) => {
 router.post('/postNextReview', async (req, res) => {
   const { user, review, place } = req.body
   const { grade, comment, targetId } = review
+  const timestamp = Date.now()
 
   // Form review query
-  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`) VALUES (?, ?, ?, ?);'
-  const params = [targetId, user, grade, comment]
+  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`, `timestamp`) VALUES (?, ?, ?, ?, ?);'
+  const params = [targetId, user, grade, comment, timestamp]
 
   // Post review
   try {
@@ -155,6 +159,41 @@ router.post('/postPlaceName', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, query1 })
   }
 })
+
+// @ /maps/test
+
+router.delete('/reviews', auth, async (req, res) => {
+
+  const author = req.userId
+  const { timestamp, place: { rating, amount, id, grade } } = req.body
+  console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
+  // return res.json({ status: 'OK', msg: 'Review deleted successfully' })
+  // Delete review
+
+  const query = `DELETE FROM reviews WHERE author = '${author}' AND timestamp = '${timestamp}'`
+  try {
+    const result = await dbConn.query(query)
+    if (!result.affectedRows) throw 'nothing was deleted'
+  } catch (error) {
+    return res.json({ status: 'ERR', msg: error, query })
+  }
+
+
+  // Update place
+  const updatedRating = (amount * rating - Number(grade)) / (amount - 1)
+  const placeQuery =
+    `UPDATE places set rating=${updatedRating}, amount=${amount - 1} WHERE id=${id};`
+
+  try {
+    const result = await dbConn.query(placeQuery)
+    if (result.affectedRows) return res.json({ status: 'OK', msg: 'Review deleted successfully' })
+    throw 'nothing was deleted'
+  } catch (error) {
+    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+  }
+
+})
+
 
 // @ /maps/test
 

@@ -104,7 +104,8 @@ const ru = {
   farewell: 'До встречи',
   pickLanguage: 'Выберете язык',
   requestError: 'ошибка при запросе, возможны проблемы с интернетом', 
-  anonimus: 'Анон'
+  anonimus: 'Анон',
+  removeComment: 'Удалить комментарий'
 }
 
 // export const TEXT = window.APPTEXT || ru

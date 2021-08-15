@@ -89,6 +89,14 @@ input.featureName::placeholder {
   cursor: pointer;
   margin: 0;
 }
+.starButton:hover{
+  border: none;
+}
+span.star{
+  display: inline-block;
+  width: min(1vw, 12px);
+  height: min(1vw, 12px);
+}
 
 .rater .starRating {
   margin: 0 4px 2px 4px;
@@ -104,8 +112,9 @@ input.featureName::placeholder {
 }
 
 .raterComment {
-  margin: 0;
-  width: 100%;
+  /* margin: 0; */
+  /* width: calc(100% - min(3vw, 36px)); */
+  width: 89%;
 }
 
 .raterBtnContainer {
@@ -176,6 +185,7 @@ input.featureName::placeholder {
 
 .reviewWrap {
   border: 1px solid;
+  border-radius: 1px;
   padding: 2px;
   margin-bottom: 4px;
   display: flex;
@@ -208,7 +218,6 @@ input.featureName::placeholder {
 
 .reviewComment {
   padding: 2px 6px;
-  border-radius: 2px;
 }
 
 .reviewDate {

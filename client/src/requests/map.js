@@ -25,6 +25,11 @@ export async function postNextReview(data) {
   return await f()
 }
 
+export async function deleteReview(timestamp, place) {
+  const f = requsetMaker('DELETE', 'maps', 'reviews', { timestamp, place }, true)
+  return await f()
+}
+
 
 
 export async function getAdress(lat, lng) {

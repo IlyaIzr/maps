@@ -1,6 +1,5 @@
-import React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { MapArea } from './Map'
 import { Rater } from './Rater'
@@ -11,18 +10,19 @@ import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
+import { setToast } from '../store/app';
+import { TEXT } from '../rest/lang';
 
 
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
+  const dispatch = useDispatch()
+
+  const [feature, setFeature] = useState(null);
   // Featurer
   const [name, setName] = useState('')
-  // Rater
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('')
-  const [feature, setFeature] = useState(null);
   // Map
   const [geoData, setGeoData] = useState(null)
   const [featureTrigger, setFeatureTrigger] = useState(0);
@@ -32,13 +32,11 @@ export const Main = () => {
   }
 
   function resetRater() {
-    setRating(0)
-    setComment('')
     setName('')
     setFeature(null)
   }
 
-  async function onSubmit() {
+  async function onSubmit(rating, comment) {
     // Calculations
     const [northEastest, southWestest, polyString] = formatGeodata(feature.geometry)
     const tempBox = new mapboxgl.LngLatBounds(northEastest, southWestest)
@@ -65,7 +63,7 @@ export const Main = () => {
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
       const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
-      if (res.status !== 'OK') return console.log('%c⧭', 'color: #bf1d00', res);
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
       // Mutate geoData
       for (let i = 0; i < geoData.length; i++) {
         if (geoData[i].id === feature.id) {
@@ -84,6 +82,9 @@ export const Main = () => {
 
     // Case first time review
     // console.log(user.id, review, place);
+    const res = await postInitReview({ user: user.id, review, place })
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
+
     setGeoData([...geoData, {
       type: 'Feature',
       properties: { rating, name, amount: 1 },
@@ -92,8 +93,6 @@ export const Main = () => {
       geometry: feature.geometry
     }])
     updateLayers()
-    const res = await postInitReview({ user: user.id, review, place })
-    if (res.status !== 'OK') return console.log('%c⧭', 'color: #bf1d00', res);
 
     if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
     // Restore init features
@@ -113,12 +112,8 @@ export const Main = () => {
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} name={name} setName={setName} />
-          <Rater
-            rating={rating} setRating={setRating}
-            comment={comment} setComment={setComment}
-            onSubmit={onSubmit}
-          />
-          <Reviews feature={feature} />
+          <Rater onSubmit={onSubmit} />
+          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData}/>
           <div className="closeFeature" onClick={resetRater}>&#10005;</div>
         </div>
       }

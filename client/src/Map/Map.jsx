@@ -9,7 +9,7 @@ import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { hideMain, setToast, showMain } from '../store/app';
+import { hideMain, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
@@ -37,6 +37,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
       }
     })()
+    // eslint-disable-next-line 
   }, [dataWeNeed]);
 
   // const [zoom, setZoom] = useState(16);

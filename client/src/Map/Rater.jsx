@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { gradient } from '../rest/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { gradients } from '../rest/colors';
 import { TEXT } from '../rest/lang';
 import { setModal } from '../store/app';
 
-export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
+export const Rater = ({ onSubmit }) => {
+  const theme = useSelector(s => s.app.theme)
+  const gradient = gradients[theme]
   const dispatch = useDispatch()
-  const [hover, setHover] = useState(0);
 
-  function onClick(e) {
+  const [hover, setHover] = useState(0);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+
+  function onClick() {
     setRating(hover)
   }
   function onInput(e) {
@@ -17,13 +22,13 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
   function onSub() {
     if (Number(rating) === 0) return setModal(dispatch, {
       message: TEXT.rateZeroModal,
-      acceptAction: submmitAction,
+      acceptAction: submitAction,
     })
-    submmitAction()
+    submitAction()
   }
-  function submmitAction() {
+  function submitAction() {
     setHover(0)
-    onSubmit()
+    onSubmit(rating, comment)
   }
   function onMouseEnter(e) {
     setHover(Number(e.target.name))
@@ -50,7 +55,7 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
               onClick={onClick}
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
-              style={index <= (hover || rating) ? { color: gradient[hover] } : {}}
+              style={index <= (hover || rating) ? { color: gradient[hover] } : { color: gradient[0] }}
             >
               <span className="star">&#9733;</span>
             </button>
@@ -60,7 +65,7 @@ export const Rater = ({ rating, setRating, comment, setComment, onSubmit }) => {
       </div>
 
       <textarea
-        name="comment" cols="31" rows="2"
+        name="comment" cols="25" rows="2"
         value={comment} onInput={onInput}
         className="raterComment"
         placeholder={TEXT.commentPlacehol}
