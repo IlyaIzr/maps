@@ -4,7 +4,8 @@ import {
   Route,
 } from "react-router-dom";
 // Components
-import { Main } from "./Map/Main";
+// import { Main } from "./Map/Main";
+import './Map/Maps.css'
 import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
 
@@ -20,6 +21,7 @@ import { AlphaReg } from "./Auth/AlphaReg";
 import { TEXT } from "./rest/lang";
 import { Login } from "./Auth/Login";
 import { getPreferences, setPreference } from "./store/localstorage";
+import { FriendsMain } from "./Friends/FriendsMain";
 
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
       <NavMain />
       {app.toast && <Toast key={app.toast?.key} />}
 
-      <Main />
+      {/* <Main /> */}
 
       {/* Extra subpages */}
 
@@ -79,9 +81,10 @@ function App() {
           </div>
         </Route>
 
-        <Route path="/languageChanged">
-          {/* /languageChanged?prev=ru */}
-          Changed language wrap
+        <Route path="/friends">
+          <div className="routeWrapper">
+            <FriendsMain />
+          </div>
         </Route>
 
       </Switch>

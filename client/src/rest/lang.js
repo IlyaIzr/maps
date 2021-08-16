@@ -105,7 +105,11 @@ const ru = {
   pickLanguage: 'Выберете язык',
   requestError: 'ошибка при запросе, возможны проблемы с интернетом', 
   anonimus: 'Анон',
-  removeComment: 'Удалить комментарий'
+  removeComment: 'Удалить комментарий',
+  friendList: 'Список друзей',
+  sadlyNoFriends: 'Печально, друзей у вас нет',
+  addFriends: 'добавить друзей',
+  noResults: 'Нет результатов'
 }
 
 // export const TEXT = window.APPTEXT || ru

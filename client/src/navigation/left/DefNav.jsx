@@ -44,7 +44,7 @@ export const DefNav = ({ setNavState, hideSelf }) => {
         <label className="little-hint">({TEXT[app.theme]})</label>
       </div>
       <div onClick={pickLang} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.language}</div>
-      <div className="readonly">{TEXT.friends}</div>
+      <Link to="/friends" onClick={hideMainMenu} className="left-menu-item mp-dark"> {TEXT.friends}</Link>
       <div className="readonly">{TEXT.routes}</div>
       <div className="readonly">{TEXT.aboutUs}</div>
     </div>

@@ -1,0 +1,21 @@
+.resultsContainer{  
+  display: flex;
+  flex-wrap: wrap;
+}
+.resultUser {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid;
+  border-radius: 1px;
+  padding: 7px 10px;
+  margin: 12px 8px;
+  min-width: 180px;
+}
+.resultUser-creds{
+  margin: 4px 8px;
+}
+.resultUser-creds p{
+  display: inline-block;
+  margin: 0;
+  margin-right: 4px;
+}
