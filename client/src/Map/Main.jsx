@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { MapArea } from './Map'
@@ -10,7 +10,7 @@ import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
-import { setToast } from '../store/app';
+import { setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 
 
@@ -98,6 +98,10 @@ export const Main = () => {
     // Restore init features
     resetRater()
   }
+
+  useEffect(() => {
+    showMain(dispatch)
+  }, [])
 
   return (
     <div className={app.mapHidden ? "hidden" : "mainWrapper"}>

@@ -1,17 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TEXT } from '../../rest/lang'
-import { hideMain } from '../../store/app'
 import { navStates } from '../LeftMenu'
 
 export const DefNav = ({ setNavState, hideSelf }) => {
 
-  const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
 
   function hideMainMenu() {
-    hideMain(dispatch)
     hideSelf()
   }
   function pickTheme() {

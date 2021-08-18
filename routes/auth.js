@@ -49,6 +49,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/refresh', async (req, res) => {
   const userId = req.cookies['mp/auth']
+  console.log('%c⧭', 'color: #7f2200', userId);
   if (!userId) return res.json({ status: 'REAUTH' })
 
   // fetch user
@@ -65,7 +66,7 @@ router.get('/refresh', async (req, res) => {
 
   res.cookie('mp/auth', user.id, {
     httpOnly: true,
-    expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+    expires: new Date(new Date().setDate(new Date().getDate() + 23)),
     secure: true
   })
 
@@ -130,7 +131,7 @@ router.post('/glogin', async (req, res) => {
 
   res.cookie('mp/auth', user.id, {
     httpOnly: true,
-    expires: new Date(new Date().setDate(new Date().getDate() + 7)),
+    expires: new Date(new Date().setDate(new Date().getDate() + 23)),
     secure: true
   })
 

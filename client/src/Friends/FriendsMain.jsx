@@ -1,21 +1,48 @@
 import { useState } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom"
+import { Link, Route, Switch, useRouteMatch } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 import { DefaultLayout } from "./DefaultLayout";
 import { Profile } from "./Profile";
 import { Results } from "./Results";
 import { SearchBar } from "./SearchBar";
 import "./Friends.css"
+import { useEffect } from "react";
+import { hideMain } from "../store/app";
+import { TEXT } from "../rest/lang";
 
 
 export const FriendsMain = () => {
-  let { path, url } = useRouteMatch();
+  // let { path, url } = useRouteMatch();
   const [searchResults, setSearchResults] = useState(null);
-  console.log('%c⧭', 'color: #731d6d', path, url);
+  const dispatch = useDispatch()
+  const app = useSelector(state => state.app)
+
+  useEffect(() => {
+    hideMain(dispatch)
+  }, [])
+
+  if (!app.isLogged) {
+    return (
+      // Styles from /Auth/Auth.css
+      <div className="friendsNotLoggedWrap auth-container relative">
+        <div className="absolute center auth-subcontainer">
+          <div className="auth-action-wrap mp-border-secondary">
+            <p>{TEXT.loginToUseThis}</p>
+            <Link to="/auth">
+              <button className="primary mp-border-accent loginBtn capitalize">
+                {TEXT.authorization}
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   // <Link to={`${url}/rendering`}>Rendering with React</Link>
   return (
     <div>
-    <SearchBar setSearchResults={setSearchResults}/>
+      <SearchBar setSearchResults={setSearchResults} />
 
       <Switch>
         <Route exact path="/friends">

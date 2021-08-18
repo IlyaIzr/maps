@@ -1,12 +1,22 @@
 import { useState } from 'react'
-/* eslint-disable */
+import { useDispatch } from 'react-redux'
+import { useEffect } from "react";
+import { hideMain } from "../store/app";
 import { TEXT } from '../rest/lang'
 import { Login } from './Login'
 import { Register } from './Register'
 import './Auth.css'
 
 export const AuthMain = () => {
+  const dispatch = useDispatch()
+  
   const [isLogging, setIsLogging] = useState(true)
+  
+  useEffect(() => {
+    hideMain(dispatch)    
+    // eslint-disable-next-line
+  }, [])
+  
   return (
     <div className="auth-container relative">
       <div className="absolute center auth-subcontainer">
@@ -27,3 +37,4 @@ export const AuthMain = () => {
     </div>
   )
 }
+/* eslint-disable */

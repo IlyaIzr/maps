@@ -1,3 +1,14 @@
+.friendsNotLoggedWrap{
+  font-size: 1em;
+}
+.friendsNotLoggedWrap .mp-border-secondary{
+  padding: 6px 10px;
+}
+
+.friendsNotLoggedWrap .mp-border-accent{
+  border: 1px solid;
+}
+
 .resultsContainer{  
   display: flex;
   flex-wrap: wrap;

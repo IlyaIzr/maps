@@ -109,7 +109,11 @@ const ru = {
   friendList: 'Список друзей',
   sadlyNoFriends: 'Печально, друзей у вас нет',
   addFriends: 'добавить друзей',
-  noResults: 'Нет результатов'
+  noResults: 'Нет результатов',
+  // TODO
+  loginToUseThis: 'Авторизуйтесь чтобы увидеть своих друзей, их оценки (и в будущем - маршруты), и добавлять новых друзей',
+  authorization: 'авторизация'
+
 }
 
 // export const TEXT = window.APPTEXT || ru

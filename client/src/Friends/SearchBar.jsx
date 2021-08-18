@@ -17,6 +17,7 @@ export const SearchBar = ({ setSearchResults }) => {
 
   async function submitEnter() {
     const res = await searchUsers(input)
+    console.log('%c⧭', 'color: #00ff88', res);
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
     setSearchResults(res.data)
     history.push('/friends/search?query=' + input)
