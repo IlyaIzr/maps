@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getProfileDetails, addFriend as addFriendReq, acceptRequest, removeFriend as removeFriendReq } from '../requests/friends';
 import { TEXT } from '../rest/lang';
 import { Loading } from '../rest/Loading';
 import { setToast } from '../store/app';
 
-export const Profile = ({ setFrom }) => {
-  const from = new URLSearchParams(useLocation().search).get('from')
+export const Profile = () => {
   const { userId } = useParams();
   const dispatch = useDispatch()
   const curUser = useSelector(store => store.user)
@@ -22,7 +21,7 @@ export const Profile = ({ setFrom }) => {
 
 
   useEffect(() => {
-    setFrom(from);
+    
     (async function () {
 
       // Case it's client wathing hos profile
@@ -40,15 +39,13 @@ export const Profile = ({ setFrom }) => {
       else setUser(res.data)
       setLoading(false)
     })()
-    return () => {
-      setFrom(null)
-    };
     // eslint-disable-next-line 
   }, [userId])
 
   useEffect(() => {
+    if (!user?.friendStatus) { }
     // Friend statuses
-    if (user.friendStatus === 'friends') setFriendButton(
+    else if (user.friendStatus === 'friends') setFriendButton(
       <div>
         <Link to="/friends">
           <button className="button" >{TEXT.inFriendlist}</button>
@@ -62,6 +59,7 @@ export const Profile = ({ setFrom }) => {
     else if (user.friendStatus === 'youAsked') setFriendButton(
       <button className="button mp-border-accent" onClick={confirmRequest}>{TEXT.confirmRequest}</button>
     )
+    // eslint-disable-next-line
   }, [user?.friendStatus]);
 
   if (loading) return (

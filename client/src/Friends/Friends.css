@@ -76,8 +76,29 @@
 /* #endregion */
 
 /* #region  Search */
-.searchContainer .backButton{
+
+.searchContainer .backButton {
   display: inline-block;
+}
+
+/* #endregion */
+
+/* #region  Default */
+.friendsDefault{
+  padding: 7px 10px;
+}
+.friendsDefault h4{
+  padding: 0 16px;
+  margin: 16px 0 8px 0;
+}
+.friendList{
+  display: flex;
+  max-height: min(70%, 400px );
+  overflow-y: auto;
+}
+.addMeLink input{
+  /* width: min(100%, calc(100vw)); */
+  width: 60%;
 }
 /* #endregion */
 

@@ -9,6 +9,7 @@ import "./Friends.css"
 import { useEffect } from "react";
 import { hideMain } from "../store/app";
 import { TEXT } from "../rest/lang";
+import { AddByLink } from "./AddByLink";
 
 
 export const FriendsMain = () => {
@@ -16,7 +17,6 @@ export const FriendsMain = () => {
   const app = useSelector(state => state.app)
 
   const [searchResults, setSearchResults] = useState(null);
-  const [from, setFrom] = useState(null)
 
 
 
@@ -46,17 +46,20 @@ export const FriendsMain = () => {
   // <Link to={`${url}/rendering`}>Rendering with React</Link>
   return (
     <div>
-      <SearchBar setSearchResults={setSearchResults} from={from} />
+      <SearchBar setSearchResults={setSearchResults} />
 
       <Switch>
         <Route exact path="/friends">
           <DefaultLayout />
         </Route>
         <Route path="/friends/user/:userId">
-          <Profile setFrom={setFrom} />
+          <Profile />
         </Route>
         <Route path="/friends/search">
           <Results searchResults={searchResults} />
+        </Route>
+        <Route path="/friends/addByLink">
+          <AddByLink />
         </Route>
 
       </Switch>

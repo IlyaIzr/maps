@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { searchUsers } from "../requests/friends"
 import { TEXT } from "../rest/lang"
 import { setToast } from "../store/app"
 
-export const SearchBar = ({ setSearchResults, from }) => {
+export const SearchBar = ({ setSearchResults }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -29,15 +29,15 @@ export const SearchBar = ({ setSearchResults, from }) => {
   }
 
   function onBack() {
-    history.push(`/friends/search?query=${from}`)
+    history.goBack()
   }
 
   return (
     <div className="searchContainer transition">
-      {from &&
-        <div onClick={onBack} className="backButton">
-          <button className="button mp-primary">{"<<"}</button>
-        </div>}
+
+      <div onClick={onBack} className="backButton">
+        <button className="button mp-primary">{"<<"}</button>
+      </div>
 
       <label htmlFor="search"></label>
       <input type="text" name="search" value={input} onInput={onInput} onKeyDown={onKeyDown} />

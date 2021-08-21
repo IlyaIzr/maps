@@ -121,6 +121,11 @@ const ru = {
   sent: 'Отправлено',
   youRequested: 'Вы оставили запрос',
   confirmRequest: 'Принять запрос',
+  addMeLink: 'Ссылка для добавления вас в друзья',
+  addByLink: 'Добавить по ссылке',
+  pasteAddLink: 'Вставьте ссылку для добавления',
+  yourFriendsNow: 'Теперь вы друзья',
+  goBack: 'Назад'
 }
 
 // export const TEXT = window.APPTEXT || ru

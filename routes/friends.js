@@ -11,14 +11,17 @@ const { auth } = require('./middleware')
 router.get('/all', auth, async (req, res) => {
   const author = req.userId
 
-  const query = `SELECT * FROM friends WHERE id1 = '${author}' OR id2 = '${author}'`
+  // const query = `SELECT * FROM friends WHERE id1 = '${author}' OR id2 = '${author}'`
 
-  const joinQuery = `
-    SELECT friends.*, users.name, users.login, users.id, users.level FROM friends
-    LEFT JOIN users ON friends.id1 = users.id OR friends.id2 = users.id`
-  // const query = `
-  // SELECT friends.*, users.name, users.login, users.id, users.level FROM friends
-  // LEFT JOIN users ON friends.id1 = users.id`
+  const query = `
+  SELECT users.id, users.login, users.name, users.commentsn, users.level, users.avatar, friends.*
+  FROM users
+  LEFT JOIN friends
+  ON (friends.id1 = '${author}' AND friends.id2 = users.id)
+  OR (friends.id2 = '${author}' AND friends.id1 = users.id)
+  WHERE friends.status1 > 0 AND friends.status2 > 0
+  `
+
   try {
     const data = await dbConn.query(query)
     return res.json({ status: 'OK', data })
@@ -81,6 +84,7 @@ router.get('/details', auth, async (req, res) => {
 })
 
 // @ api/friends/add
+// send if there's no init friendshop connection
 
 router.get('/add', auth, async (req, res) => {
   const { id } = req.query
@@ -145,6 +149,45 @@ router.get('/accept', auth, async (req, res) => {
     console.log('%c⧭', 'color: #d0bfff', error);
     return res.json({ status: 'ERR', msg: JSON.stringify(error), query })
   }
+})
+
+// @ api/friends/accept
+
+router.get('/addByLink', auth, async (req, res) => {
+  const { id: befriendID } = req.query
+  if (!befriendID) return res.json({ status: 'ERR' })
+  const author = req.userId
+  if (author === befriendID) return res.json({ status: 'ERR' })
+
+  const checkQuery = `
+  SELECT * FROM friends 
+  WHERE (id1 = '${author}' AND id2 = '${befriendID}')
+  OR (id2 = '${author}' AND id1 = '${befriendID}')
+  `
+  try {
+    const friendship = await dbConn.query(checkQuery)
+    if (friendship[0]) {
+      // Case connection established previously
+      const query = `
+        UPDATE friends 
+        SET status1 = true,
+            status2 = true
+        WHERE (id1 = '${author}' AND id2 = '${befriendID}')
+        OR (id2 = '${author}' AND id1 = '${befriendID}')
+      `
+      await dbConn.query(query)
+    }
+    else {
+      const query = 'INSERT INTO `friends` (`id1`, `id2`, `status1`, `status2`, `timestamp`) VALUES (?, ?, ?, ?, ?);'
+      await dbConn.query(query, [author, befriendID, true, true, Date.now()])
+    }
+    return res.json({ status: 'OK' })
+  } catch (error) {
+    console.log('%c⧭', 'color: #d0bfff', error);
+    return res.json({ status: 'ERR', msg: JSON.stringify(error), query })
+  }
+
+
 })
 
 

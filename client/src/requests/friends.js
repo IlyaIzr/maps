@@ -31,3 +31,8 @@ export async function acceptRequest(id) {
   const f = requsetMaker('GET', 'friends', 'accept', null, true, 'id=' + id)
   return await f()
 }
+
+export async function addByLink(id) {
+  const f = requsetMaker('GET', 'friends', 'addByLink', null, true, 'id=' + id)
+  return await f()  
+}
