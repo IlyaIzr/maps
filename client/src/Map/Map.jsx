@@ -89,42 +89,50 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       const loc = map.current?.getCenter?.()
       if (loc) saveLocation(loc)
     }, 10000);
+    // canvas.style.width = '100%'
+    // canvas.style.height = '100%'
 
     return () => clearInterval(interval)
-    /* eslint-disable */
+    // eslint-disable-next-line
   }, []);
-  /* eslint-enable */
+  
 
   // Dynamic geodata
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     setMapData(map.current, geoData, 'ratedFeaturesSource')
-    /* eslint-disable */
+    // eslint-disable-next-line
   }, [featureTrigger, geoData]);
-  /* eslint-enable */
 
+  
   // Mark selected feature
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
 
     setMapData(map.current, [feature || {}], 'selectedFeatureSrc')
-    /* eslint-disable */
+    // eslint-disable-next-line
   }, [feature]);
-  /* eslint-enable */
+
 
   // map hider, helps to awoid extra call to Mapbox
   useEffect(() => {
     if (location.pathname !== '/') hideMain(d)
-    else showMain(d)
-    /* eslint-disable */
+    else {
+      showMain(d)
+      // Fix map shrinking. I'm sorry, it only works this wayzz
+      setTimeout(() => {
+        map.current?.resize()        
+      }, 0);
+    }
+    // eslint-disable-next-line
   }, [location.pathname]);
-  /* eslint-enable */
+
 
 
 
   return (
     <div>
-      <div ref={mapContainer} className={app.mapHidden ? "hidden" : "map-container"} />
+      <div ref={mapContainer} className={app.mapHidden ? "map-container hidden" : "map-container"} />
       {/* Add button */}
       <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
         <img src="/icons/edit-pen.svg" alt="draw area" />

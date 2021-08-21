@@ -25,6 +25,7 @@
   padding: 0 4px;
 }
 
+
 /* #region  Featurer */
 
 .featurer {
@@ -174,7 +175,7 @@ span.star{
 
 .reviewsContainer {
   max-height: 160px;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 6px;
   -moz-transition: max-height .5s;
   -ms-transition: max-height .5s;

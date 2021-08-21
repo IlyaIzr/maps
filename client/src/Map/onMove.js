@@ -12,7 +12,7 @@ export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData) {
     })
 
     // Check changes
-    if (prevXY.x === currentX && prevXY.y === currentY) return;
+    if (!prevXY || (prevXY.x === currentX && prevXY.y === currentY)) return;
     // console.log('%c⧭ prevx:', 'color: #00bf00', prevXY);
     // console.log('%c⧭ newx', 'color: #0088cc', currentX);
     // console.log('%c⧭ newy', 'color: #0088cc', currentY);
@@ -44,7 +44,8 @@ export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData) {
           // console.log('%c⧭ tileKey is', 'color: #9c66cc', tileKey);
           // console.log('%c⧭ DWN is', 'color: #00a3cc', dataWeNeed);
           // console.log('%c⧭ DWN has', 'color: #00e600', dataWeNeed.has(tileKey));
-          if (dataWeNeed.has(tileKey)) {return console.log('%c⧭ it had tilekey', 'color: #e50000', tileKey);
+          if (dataWeNeed.has(tileKey)) {
+            return console.log('%c⧭ it had tilekey', 'color: #e50000', tileKey);
           }
           dataWeHave.delete(tileKey)
         })

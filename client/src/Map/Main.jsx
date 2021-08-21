@@ -100,7 +100,8 @@ export const Main = () => {
   }
 
   useEffect(() => {
-    showMain(dispatch)
+    showMain(dispatch)    
+    // eslint-disable-next-line
   }, [])
 
   return (

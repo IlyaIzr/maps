@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { deleteReview, getReviews } from '../requests/map';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
@@ -73,12 +74,15 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
   return (
     <div className={`reviewsContainer ${reviewsShown ? 'expanded' : 'shrinked'}`}>
       {reviews.length ? reviews.map(review => {
+        console.log('%c⧭', 'color: #d90000', review);
         if (!review.name) review.name = TEXT.anonimus
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
-            <div className="authorLogo mp-bg-primary">
-              <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
-            </div>
+            <Link to={"/friends/user/" + review.author}>
+              <div className="authorLogo mp-bg-primary">
+                <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
+              </div>
+            </Link>
             <div className="reviewBody">
               <p className="author mp-primary">{review.name}</p>
               <div className="reviewDate mp-secondary">

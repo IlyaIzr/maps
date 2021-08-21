@@ -21,7 +21,6 @@ export const Profile = () => {
 
 
   useEffect(() => {
-    
     (async function () {
 
       // Case it's client wathing hos profile
@@ -35,7 +34,7 @@ export const Profile = () => {
 
       const res = await getProfileDetails(userId)
 
-      if (res.status !== 'OK') setToast(dispatch, { message: 'seabob' + TEXT.requestError })
+      if (res.status !== 'OK') setToast(dispatch, { message: TEXT.requestError })
       else setUser(res.data)
       setLoading(false)
     })()
@@ -88,7 +87,13 @@ export const Profile = () => {
     setUser({ ...user, friendStatus: 'friends' })
   }
 
-
+  if (!user) return (
+    <div className="profileContainer">
+      <div className="userProfile mp-border-dark">
+        <p>{TEXT.noResults}</p>
+      </div>
+    </div>
+  )
 
   return (
     <div className="profileContainer">

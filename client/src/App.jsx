@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 // Components
-// import { Main } from "./Map/Main";
+import { Main } from "./Map/Main";
 import './Map/Maps.css'
 import { AuthMain } from './Auth/AuthMain'
 import { useEffect } from "react";
@@ -52,7 +52,7 @@ function App() {
       <NavMain />
       {app.toast && <Toast key={app.toast?.key} />}
 
-      {/* <Main /> */}
+      <Main />
 
       {/* Extra subpages */}
 

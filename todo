@@ -28,8 +28,6 @@ Alpha features:
 app themes with map integration: [standart, b&w, dark, blueprint]
 set location to user location, or show a dialog window to chose a city
 ?tag search
-friends
-friend functional 
 animations: loader animations, transition animations
 close modal on outside click
 profile view
