@@ -49,7 +49,6 @@ router.post('/login', async (req, res) => {
 
 router.get('/refresh', async (req, res) => {
   const userId = req.cookies['mp/auth']
-  console.log('%c⧭', 'color: #7f2200', userId);
   if (!userId) return res.json({ status: 'REAUTH' })
 
   // fetch user

@@ -112,8 +112,15 @@ const ru = {
   noResults: 'Нет результатов',
   // TODO
   loginToUseThis: 'Авторизуйтесь чтобы увидеть своих друзей, их оценки (и в будущем - маршруты), и добавлять новых друзей',
-  authorization: 'авторизация'
-
+  authorization: 'авторизация',
+  avatar: 'аватар',
+  commentsn: 'Количество комментариев',
+  addFriend: 'Добавить в друзья',
+  removeFriend: 'Убрать из друзей',
+  inFriendlist: 'В списке друзей',
+  sent: 'Отправлено',
+  youRequested: 'Вы оставили запрос',
+  confirmRequest: 'Принять запрос',
 }
 
 // export const TEXT = window.APPTEXT || ru

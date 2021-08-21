@@ -1,18 +1,20 @@
-.friendsNotLoggedWrap{
+.friendsNotLoggedWrap {
   font-size: 1em;
 }
-.friendsNotLoggedWrap .mp-border-secondary{
+
+.friendsNotLoggedWrap .mp-border-secondary {
   padding: 6px 10px;
 }
 
-.friendsNotLoggedWrap .mp-border-accent{
+.friendsNotLoggedWrap .mp-border-accent {
   border: 1px solid;
 }
 
-.resultsContainer{  
+.resultsContainer {
   display: flex;
   flex-wrap: wrap;
 }
+
 .resultUser {
   display: flex;
   flex-wrap: wrap;
@@ -22,11 +24,60 @@
   margin: 12px 8px;
   min-width: 180px;
 }
-.resultUser-creds{
+
+.resultUser-creds {
   margin: 4px 8px;
 }
-.resultUser-creds p{
+
+.resultUser-creds p {
   display: inline-block;
   margin: 0;
   margin-right: 4px;
 }
+
+/* #region  Profile */
+
+.userProfile, .friends-actionButton {
+  max-width: 280px;
+}
+
+.userProfile {
+  padding: 12px 24px;
+  margin: 12px;
+  border-left: 1px solid;
+  border-radius: 1px;
+}
+
+.userProfile .commentsn, .userProfile .credentials, .userProfile .avatar, .userProfile .level {
+  margin: 8px;
+}
+
+.userProfile :first-child {
+  margin-top: 0px;
+}
+
+.userProfile :last-child {
+  margin-bottom: 0px;
+}
+
+.userProfile .avatar img {
+  border-radius: 2px;
+}
+
+.friends-actionButton {
+  text-align: left;
+  padding-left: 24px;
+  border-left: 1px solid white;
+  /* border-top: 1px solid white; */
+  margin-left: 12px;
+  /* margin-left: 5px; */
+}
+
+/* #endregion */
+
+/* #region  Search */
+.searchContainer .backButton{
+  display: inline-block;
+}
+/* #endregion */
+

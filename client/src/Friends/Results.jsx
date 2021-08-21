@@ -21,7 +21,7 @@ export const Results = ({ searchResults }) => {
     <div className="resultsContainer">
       {searchResults.map(user => {
         return (
-          <div className="resultUser cursor-pointer mp-primary-hover transition-small"
+          <div className="resultUser cursor-pointer mp-accent-hover transition-small"
             key={user.id} onClick={() => onClick(user.id)}
           >
 
@@ -30,7 +30,7 @@ export const Results = ({ searchResults }) => {
             </div>
 
             <div className="resultUser-creds">
-              <p className="mp-primary">{user.name}</p>
+              <p className="mp-secondary">{user.name}</p>
               <label className="cursor-pointer">({user.login})</label>
             </div>
           </div>

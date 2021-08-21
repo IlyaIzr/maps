@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom"
+import { Link, Route, Switch } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { DefaultLayout } from "./DefaultLayout";
 import { Profile } from "./Profile";
@@ -12,13 +12,17 @@ import { TEXT } from "../rest/lang";
 
 
 export const FriendsMain = () => {
-  // let { path, url } = useRouteMatch();
-  const [searchResults, setSearchResults] = useState(null);
   const dispatch = useDispatch()
   const app = useSelector(state => state.app)
 
+  const [searchResults, setSearchResults] = useState(null);
+  const [from, setFrom] = useState(null)
+
+
+
   useEffect(() => {
     hideMain(dispatch)
+    // eslint-disable-next-line
   }, [])
 
   if (!app.isLogged) {
@@ -42,14 +46,14 @@ export const FriendsMain = () => {
   // <Link to={`${url}/rendering`}>Rendering with React</Link>
   return (
     <div>
-      <SearchBar setSearchResults={setSearchResults} />
+      <SearchBar setSearchResults={setSearchResults} from={from} />
 
       <Switch>
         <Route exact path="/friends">
           <DefaultLayout />
         </Route>
         <Route path="/friends/user/:userId">
-          <Profile />
+          <Profile setFrom={setFrom} />
         </Route>
         <Route path="/friends/search">
           <Results searchResults={searchResults} />

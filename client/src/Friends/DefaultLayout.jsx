@@ -11,9 +11,9 @@ export const DefaultLayout = () => {
 
   useEffect(() => {
     (async function () {
-      // const res = getFriends()
-      // if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-      // setFriends(res.data)
+      const res = getFriends()
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+      setFriends(res.data)
     })()
     // eslint-disable-next-line
   }, []);
