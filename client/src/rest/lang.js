@@ -125,7 +125,8 @@ const ru = {
   addByLink: 'Добавить по ссылке',
   pasteAddLink: 'Вставьте ссылку для добавления',
   yourFriendsNow: 'Теперь вы друзья',
-  goBack: 'Назад'
+  goBack: 'Назад',
+  friendRequests: 'Предложения дружбы'
 }
 
 // export const TEXT = window.APPTEXT || ru

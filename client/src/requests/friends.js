@@ -5,6 +5,10 @@ export async function getFriends() {
   return await f()
 }
 
+export async function getRequests() {
+  const f = requsetMaker('GET', 'friends', 'requests', null, true)
+  return await f()
+}
 
 export async function searchUsers(input) {
   const f = requsetMaker('GET', 'friends', 'search', null, true, 'input=' + input)

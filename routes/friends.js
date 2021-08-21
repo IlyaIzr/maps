@@ -30,6 +30,31 @@ router.get('/all', auth, async (req, res) => {
   }
 })
 
+// @ api/friends/requests
+
+router.get('/requests', auth, async (req, res) => {
+  const author = req.userId
+
+  // const query = `SELECT * FROM friends WHERE id1 = '${author}' OR id2 = '${author}'`
+
+  const query = `
+  SELECT users.id, users.login, users.name, users.commentsn, users.level, users.avatar, friends.*
+  FROM users
+  LEFT JOIN friends
+  ON (friends.id1 = '${author}' AND friends.id2 = users.id)
+  OR (friends.id2 = '${author}' AND friends.id1 = users.id)
+  WHERE (friends.id1 = '${author}' AND friends.status1 = 0 AND friends.status2 > 0)
+  OR (friends.id2 = '${author}' AND friends.status2 = 0 AND friends.status1 > 0)
+  `
+
+  try {
+    const data = await dbConn.query(query)
+    return res.json({ status: 'OK', data })
+  } catch (error) {
+    return res.json({ status: 'ERR', msg: error, query })
+  }
+})
+
 
 
 // @ api/friends/search
