@@ -16,6 +16,7 @@ export const Profile = ({ setFrom }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [friendButton, setFriendButton] = useState(
+    // user.friendStatus === 'init'
     <button className="button" onClick={addFriend}>{TEXT.addFriend}</button>
   )
 
@@ -35,26 +36,8 @@ export const Profile = ({ setFrom }) => {
 
       const res = await getProfileDetails(userId)
 
-      if (res.status !== 'OK') {
-        setToast(dispatch, { message: 'seabob' + TEXT.requestError })
-        return setLoading(false)
-      }
-      setUser(res.data)
-      const user = res.data
-      // Friend statuses
-      if (user.friendStatus === 'friends') setFriendButton(
-        <div>
-          <button className="button" >{TEXT.inFriendlist}</button>
-          <button className="button mp-border-counter" onClick={removeFriend}>{TEXT.removeFriend}</button>
-        </div>
-      )
-      else if (user.friendStatus === 'youRequested') setFriendButton(
-        <button className="button mp-border-secondary mp-secondary" >{TEXT.youRequested}</button>
-      )
-      else if (user.friendStatus === 'youAsked') setFriendButton(
-        <button className="button mp-border-accent" onClick={confirmRequest}>{TEXT.confirmRequest}</button>
-      )
-
+      if (res.status !== 'OK') setToast(dispatch, { message: 'seabob' + TEXT.requestError })
+      else setUser(res.data)
       setLoading(false)
     })()
     return () => {
@@ -62,6 +45,24 @@ export const Profile = ({ setFrom }) => {
     };
     // eslint-disable-next-line 
   }, [userId])
+
+  useEffect(() => {
+    // Friend statuses
+    if (user.friendStatus === 'friends') setFriendButton(
+      <div>
+        <Link to="/friends">
+          <button className="button" >{TEXT.inFriendlist}</button>
+        </Link>
+        <button className="button mp-border-counter" onClick={removeFriend}>{TEXT.removeFriend}</button>
+      </div>
+    )
+    else if (user.friendStatus === 'youRequested') setFriendButton(
+      <button className="button mp-border-secondary mp-secondary" >{TEXT.youRequested}</button>
+    )
+    else if (user.friendStatus === 'youAsked') setFriendButton(
+      <button className="button mp-border-accent" onClick={confirmRequest}>{TEXT.confirmRequest}</button>
+    )
+  }, [user?.friendStatus]);
 
   if (loading) return (
     <div className="profileContainer">
@@ -80,22 +81,13 @@ export const Profile = ({ setFrom }) => {
   async function removeFriend() {
     const res = await removeFriendReq(userId)
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-    setFriendButton(
-      <button className="button mp-border-accent" onClick={confirmRequest}>{TEXT.confirmRequest}</button>
-    )
+    setUser({ ...user, friendStatus: 'youAsked' })
   }
 
   async function confirmRequest() {
     const res = await acceptRequest(userId)
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-    setFriendButton(
-      <div>
-        <Link to="/friends">
-          <button className="button" >{TEXT.inFriendlist}</button>
-        </Link>
-        <button className="button mp-border-counter" onClick={removeFriend}>{TEXT.removeFriend}</button>
-      </div>
-    )
+    setUser({ ...user, friendStatus: 'friends' })
   }
 
 
