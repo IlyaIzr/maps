@@ -35,7 +35,6 @@ friend-marks-mode
 tags-mode
 
 1.0 features
-optimize map reloading
 expanding comments with tags
 pick fonts
 like counts

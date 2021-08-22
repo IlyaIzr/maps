@@ -9,11 +9,13 @@ import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { hideMain, rerenderMap, setToast, showMain } from '../store/app';
+import { hideMain, setToast, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
 
+// Settings
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 const range = 3
+const zoom = 16
 
 export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
   const app = useSelector(state => state.app)
@@ -46,19 +48,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    // if (map.current) { return; }; // initialize map only once, dev environment optimizatio
-    (async function () {
-      const { lng, lat } = getLocation()
-      // const zoom = map.getZoom()
-      const zoom = 16
-      const { x, y } = getLayoutCoords(lng, lat, zoom)
-      setlayoutXY({ x, y })
+    if (map.current) { return; }; // initialize map only once, dev environment optimization
 
-      const res = app.friendModeId ?
-        await getUserPlaces(app.friendModeId) :
-        await getPlaces(x - range, x + range, y - range, y + range)
-        console.log('%c⧭', 'color: #ffcc00', res);
-      const geoJson = processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+    (async function () {
+      const geoJson = await initPlacesCall()
+      const { lng, lat } = getLocation()
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -99,7 +93,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, [app.mapKey]);
+  }, []);
 
 
   // Dynamic geodata
@@ -138,20 +132,33 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     if (!map.current) return; // wait for map to initialize
 
     (async function () {
-      console.log('%c⧭', 'color: #bfffc8', app.friendModeId);
-      if (!app.friendModeId) return rerenderMap(d)
+      let geoJson
+      if (!app.friendModeId) {
+        geoJson = await initPlacesCall()
+      } else {
+        const res = await getUserPlaces(app.friendModeId)
+        if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
+        geoJson = geoJsonFromResponse(res.data)
+      }
 
-      const res = await getUserPlaces(app.friendModeId)
-      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
-      const geoJson = geoJsonFromResponse(res.data)
       setGeoData(geoJson)
-      setMapData(map.current, geoData, 'ratedFeaturesSource')
     })()
-
     // eslint-disable-next-line
-  }, [app.friendModeId]);
+  }, [app.friendModeId, app.mapKey]);
 
 
+  async function initPlacesCall() {
+    const { lng, lat } = getLocation()
+    // const zoom = map.getZoom()
+    const { x, y } = getLayoutCoords(lng, lat, zoom)
+    setlayoutXY({ x, y })
+
+    const res = app.friendModeId ?
+      await getUserPlaces(app.friendModeId) :
+      await getPlaces(x - range, x + range, y - range, y + range)
+    const geoJson = processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+    return geoJson
+  }
 
   return (
     <div>
