@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { getPlaces, getPlacesByTiles } from '../requests/map';
+import { getPlaces, getPlacesByTiles, getUserPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
-import { processPlacesResponse } from './filters';
+import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
 import { getLayoutCoords, getLocation, saveLocation } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { hideMain, showMain } from '../store/app';
+import { hideMain, rerenderMap, setToast, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
@@ -32,6 +32,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   useEffect(() => {
     (async function () {
+      if (app.friendModeId) return;
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed])
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
@@ -45,7 +46,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    if (map.current) return; // initialize map only once, dev environment optimization
+    // if (map.current) { return; }; // initialize map only once, dev environment optimizatio
     (async function () {
       const { lng, lat } = getLocation()
       // const zoom = map.getZoom()
@@ -53,7 +54,10 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       const { x, y } = getLayoutCoords(lng, lat, zoom)
       setlayoutXY({ x, y })
 
-      const res = await getPlaces(x - range, x + range, y - range, y + range)
+      const res = app.friendModeId ?
+        await getUserPlaces(app.friendModeId) :
+        await getPlaces(x - range, x + range, y - range, y + range)
+        console.log('%c⧭', 'color: #ffcc00', res);
       const geoJson = processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
 
       map.current = new mapboxgl.Map({
@@ -83,7 +87,8 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       mapOnClick(map.current, setFeature, resetRater, drawObject)
       mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData)
       window.geocoderRef = new window.google.maps.Geocoder()
-    })()
+    })();
+
 
     const interval = setInterval(() => {
       const loc = map.current?.getCenter?.()
@@ -94,8 +99,8 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, []);
-  
+  }, [app.mapKey]);
+
 
   // Dynamic geodata
   useEffect(() => {
@@ -104,7 +109,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // eslint-disable-next-line
   }, [featureTrigger, geoData]);
 
-  
+
   // Mark selected feature
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
@@ -121,12 +126,30 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       showMain(d)
       // Fix map shrinking. I'm sorry, it only works this wayzz
       setTimeout(() => {
-        map.current?.resize()        
+        map.current?.resize()
       }, 0);
     }
     // eslint-disable-next-line
   }, [location.pathname]);
 
+
+  // user watchMode
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
+
+    (async function () {
+      console.log('%c⧭', 'color: #bfffc8', app.friendModeId);
+      if (!app.friendModeId) return rerenderMap(d)
+
+      const res = await getUserPlaces(app.friendModeId)
+      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
+      const geoJson = geoJsonFromResponse(res.data)
+      setGeoData(geoJson)
+      setMapData(map.current, geoData, 'ratedFeaturesSource')
+    })()
+
+    // eslint-disable-next-line
+  }, [app.friendModeId]);
 
 
 

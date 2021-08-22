@@ -43,6 +43,28 @@ router.get('/places', async (req, res) => {
   }
 })
 
+// @ api/maps/userPlaces?id=userid
+
+router.get('/userPlaces', async (req, res) => {
+  const { id: author } = req.query
+
+  const query = `
+  SELECT reviews.targetId, reviews.author, places.*
+  FROM reviews
+  LEFT JOIN places
+  ON reviews.targetId = places.id
+  WHERE reviews.author = '${author}'
+  `
+  try {
+    const data = await dbConn.query(query)
+    console.log('%c⧭', 'color: #e57373', data[0]);
+    return res.json({ status: 'OK', data })
+  } catch (err) {
+    return res.json({ status: 'ERR', msg: err, err })
+  }
+})
+
+
 
 // @ api/maps/placesByTiles
 

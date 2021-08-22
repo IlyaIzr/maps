@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
 import { LeftMenu } from './LeftMenu'
 import './Nav.css'
@@ -9,6 +9,7 @@ import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
+  const friends = useSelector(state => state.user.friends)
   const [leftMenu, setLeftMenu] = useState(false)
   const history = useHistory()
 
@@ -18,6 +19,10 @@ export const NavMain = () => {
   function backToMain() {
     setLeftMenu(false)
     history.push('/')
+  }
+  function initials() {
+    const friend = friends.find(friend => friend.id === app.friendModeId)
+    return friend.name + ' (' + friend.login + ')'
   }
 
   return (
@@ -32,11 +37,12 @@ export const NavMain = () => {
         <div id="openLeftMenu" className="nav-icon" onClick={showLeftMenu} title={TEXT.menu}>
           <Hamburger fill="var(--primary)" />
         </div>
+        <Link to="/watchMode">
+          <span className="mp-dark">{TEXT.watchMode + ': '} </span><span className="mp-counter">
+            {(app.friendModeId ? initials() : TEXT.default)}
+          </span>
+        </Link>
       </div>
-
-      <span>Avatar and lvl</span>
-      <span>Mode</span>
-      <span>Collapse</span>
     </div>
   )
 }

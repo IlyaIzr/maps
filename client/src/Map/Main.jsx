@@ -10,7 +10,7 @@ import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
-import { setToast, showMain } from '../store/app';
+import { friendModeId, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 
 
@@ -58,6 +58,9 @@ export const Main = () => {
     const { x, y } = getLayoutCoords(lng, lat, 16)
     place.x = x
     place.y = y
+    
+    // Go out from watchMode
+    friendModeId(dispatch, null)
 
 
     // Case next review

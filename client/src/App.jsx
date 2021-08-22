@@ -24,6 +24,7 @@ import { getPreferences, setPreference } from "./store/localstorage";
 import { FriendsMain } from "./Friends/FriendsMain";
 import { getFriends, getRequests } from "./requests/friends";
 import { setUserFriends, setUserRequests } from "./store/user";
+import { WatchMode } from "./navigation/WatchMode";
 
 
 function App() {
@@ -98,6 +99,12 @@ function App() {
         <Route path="/friends">
           <div className="routeWrapper">
             <FriendsMain />
+          </div>
+        </Route>
+
+        <Route path="/watchMode">
+          <div className="routeWrapper">
+            <WatchMode />
           </div>
         </Route>
 

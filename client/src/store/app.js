@@ -1,6 +1,7 @@
 import { appThemes } from "../rest/config"
 
-// Name consts
+/* #region Name consts  */
+
 const LOGINUSER = 'app/log_in'
 const LOGOUTUSER = 'app/log_out'
 const EXPAND_COMMENTS = 'app/expand_comms'
@@ -12,8 +13,14 @@ const CLOSE_MODAL = 'app/close_modal'
 const SWITCH_THEME = 'app/switch_theme'
 const SET_TOAST = 'app/set_toast'
 const CLOSE_TOAST = 'app/close_toast'
+const RERENDERMAP = 'app/rerender_map'
+const SET_FRIEND_ID = 'app/friend_id'
 
-// Reducer
+/* #endregion */
+
+
+/* #region  Init State */
+
 export const initialState = {
   isLogged: false,
   reviewsShown: true,
@@ -34,7 +41,13 @@ export const initialState = {
   //   status: 'error', // also 'warning', 'info', 'complete',
   //   title: ''
   // }
+  mapKey: 1000,
+  friendModeId: null
 }
+
+/* #endregion */
+
+// Reducer
 
 export function appReducer(state = initialState, act) {
   switch (act.type) {
@@ -94,12 +107,23 @@ export function appReducer(state = initialState, act) {
         ...state, toast: false
       }
     }
+    case RERENDERMAP: {
+      return {
+        ...state, mapKey: Number(state.mapKey) + 1
+      }
+    }
+    case SET_FRIEND_ID: {
+      return {
+        ...state, friendModeId: act.id
+      }
+    }
     default:
       return state
   }
 }
 
-// Actions
+/* #region  Actions */
+
 export const setLoginStatus = (d, status = false) => {
   if (status) d({ type: LOGINUSER })
   else d({ type: LOGOUTUSER })
@@ -153,3 +177,13 @@ export const setToast = (d, toastInfo = {
 export const closeToast = (d) => {
   d({ type: CLOSE_TOAST })
 }
+
+export const rerenderMap = (d) => {
+  d({ type: RERENDERMAP })
+}
+
+export const friendModeId = (d, id) => {
+  d({ type: SET_FRIEND_ID, id })
+}
+
+/* #endregion */

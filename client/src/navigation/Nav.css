@@ -139,3 +139,9 @@
   text-transform: capitalize;
 }
 /* #endregion */
+.watchMode {
+  padding: 8px;
+}
+.watchMode h4{
+  margin: 0 0 16px 0;
+}

@@ -5,6 +5,11 @@ export async function getPlaces(minx = 0, maxx = 99999999, miny = 0, maxy = 9999
   return await f()
 }
 
+export async function getUserPlaces(id) {
+  const f = requsetMaker('GET', 'maps', 'userPlaces', null, false, `id=${id}`)
+  return await f()
+}
+
 export async function getReviews(placeId) {
   const f = requsetMaker('GET', 'maps', 'reviews', null, false, `targetId=${placeId}`)
   return await f()

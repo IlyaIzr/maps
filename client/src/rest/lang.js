@@ -126,7 +126,12 @@ const ru = {
   pasteAddLink: 'Вставьте ссылку для добавления',
   yourFriendsNow: 'Теперь вы друзья',
   goBack: 'Назад',
-  friendRequests: 'Предложения дружбы'
+  friendRequests: 'Предложения дружбы',
+  watchMode: 'Режим просмотра',
+  watchModeSub1: 'Посмотрите на карте оценки отдельного друга',
+  watchModeSub2: 'Добавьте друзей, чтобы увидеть их оценки отдельно',
+  default: 'обычный',
+  reset: 'сбросить',
 }
 
 // export const TEXT = window.APPTEXT || ru
