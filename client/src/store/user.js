@@ -2,6 +2,8 @@ import { setLoginStatus } from './app'
 // Name consts
 const WRITECREDENTIALS = 'user/set_credentials'
 const CHANGELEVEL = 'user/set_level'
+const SETFRIENDS = 'user/set_friends'
+const SETREQUESTS = 'user/set_requests'
 
 // Reducer
 const basicState = {
@@ -10,7 +12,9 @@ const basicState = {
   level: 0,
   id: 'anonimus',
   comments: 0,
-  avatar: null
+  avatar: null,
+  friends: [],
+  requests: []
 }
 export let initialState = { ...basicState }
 
@@ -24,6 +28,16 @@ export function userReducer(state = initialState, act) {
     case CHANGELEVEL: {
       return {
         ...state, level: act.newLevel
+      }
+    }
+    case SETFRIENDS: {
+      return {
+        ...state, friends: [...act.friendsArr]
+      }
+    }
+    case SETREQUESTS: {
+      return {
+        ...state, requests: [...act.requestsArr]
       }
     }
     default:
@@ -46,4 +60,11 @@ export const logOutOfApp = (d) => {
 
 export const setUserLevel = (d, level) => {
   d({ type: WRITECREDENTIALS, newLevel: Number(level) })
+}
+
+export const setUserFriends = (d, friends = []) => {
+  d({ type: SETFRIENDS, friendsArr: friends })
+}
+export const setUserRequests = (d, requests = []) => {
+  d({ type: SETREQUESTS, requestsArr: requests })
 }

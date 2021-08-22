@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import './App.css'
 import { useDispatch, useSelector } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
-import { setModal } from "./store/app";
+import { setModal, setToast } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
@@ -22,6 +22,8 @@ import { TEXT } from "./rest/lang";
 import { Login } from "./Auth/Login";
 import { getPreferences, setPreference } from "./store/localstorage";
 import { FriendsMain } from "./Friends/FriendsMain";
+import { getFriends, getRequests } from "./requests/friends";
+import { setUserFriends, setUserRequests } from "./store/user";
 
 
 function App() {
@@ -33,15 +35,27 @@ function App() {
     </div>
 
   useEffect(() => {
-    if (!app.isLogged && !getPreferences().skipLogin) setModal(dispatch, {
-      acceptLabel: null,
-      cancelLabel: TEXT.skip,
-      cancelAction() {
-        setPreference('skipLogin', true)
-      },
-      message: TEXT.wannaAuthorize,
-      children,
-    })
+    if (!app.isLogged && !getPreferences().skipLogin) {
+      setModal(dispatch, {
+        acceptLabel: null,
+        cancelLabel: TEXT.skip,
+        cancelAction() {
+          setPreference('skipLogin', true)
+        },
+        message: TEXT.wannaAuthorize,
+        children,
+      })
+    }
+    // call for friends info
+    (async function () {
+      const res = await getFriends()
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+      setUserFriends(dispatch, res.data)
+
+      const reqs = await getRequests()
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+      setUserRequests(dispatch, reqs.data)
+    })()
     /* eslint-disable */
   }, [])
   /* eslint-enable */

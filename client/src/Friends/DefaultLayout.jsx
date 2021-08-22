@@ -1,30 +1,12 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { getFriends, getRequests } from "../requests/friends";
 import { TEXT } from "../rest/lang";
-import { setToast } from "../store/app";
 const link = window.location.origin + '/friends/addByLink?id='
 
 export const DefaultLayout = () => {
-  const dispatch = useDispatch()
   const history = useHistory()
-  const userID = useSelector(s => s.user.id)
+  const { id: userID, friends, requests } = useSelector(s => s.user)
 
-  const [friends, setFriends] = useState(null)
-  const [rquests, setRquests] = useState(null)
-
-  useEffect(() => {
-    (async function () {
-      const res = await getFriends()
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-      setFriends(res.data)
-      const reqs = await getRequests()
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-      setRquests(reqs.data)
-    })()
-    // eslint-disable-next-line
-  }, []);
 
   function onClick(id) {
     history.push(`/friends/user/${id}`)
@@ -32,7 +14,6 @@ export const DefaultLayout = () => {
   function onLink(e) {
     e.target.select()
   }
-
 
 
   return (
@@ -66,10 +47,10 @@ export const DefaultLayout = () => {
           </div>}
       </div>
       {/* My requests */}
-      <h4>{Boolean(rquests?.length) && TEXT.friendRequests}</h4>{
-        Boolean(rquests?.length) &&
+      <h4>{Boolean(requests?.length) && TEXT.friendRequests}</h4>{
+        Boolean(requests?.length) &&
         <div className="friendList">
-          {Boolean(rquests?.length) && rquests.map(user => {
+          {Boolean(requests?.length) && requests.map(user => {
             return (
               <div className="friendContainer" key={user.id1 + user.id2}>
                 <div className="resultUser cursor-pointer mp-accent-hover transition-small"
@@ -103,3 +84,4 @@ export const DefaultLayout = () => {
     </div>
   )
 }
+
