@@ -163,6 +163,7 @@ export const closeModal = (d) => {
 export const switchTheme = (d, theme) => {
   if (appThemes.indexOf(theme) < 0) theme = appThemes[0]
   d({ type: SWITCH_THEME, theme })
+  console.log('%c⧭', 'color: #7f7700', 'theme switched');
 }
 
 export const setToast = (d, toastInfo = {

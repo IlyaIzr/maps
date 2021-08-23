@@ -16,6 +16,12 @@ import { mapOnMove } from './onMove';
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 const range = 3
 const zoom = 16
+const mbStyles = {
+  standart: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',
+  dark: 'mapbox://styles/ilyaizr/cks1rsp1d3jxs17qo1m3gwxf0',  //from blueprint but with more vary colors
+  'b&w': 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8', //todo, basic map
+  blueprint: 'mapbox://styles/ilyaizr/cksp4jldx0b1z17mog8wzg0jm'  //blueprint with less colors
+}
 
 export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
   const app = useSelector(state => state.app)
@@ -48,7 +54,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    if (map.current) { return; }; // initialize map only once, dev environment optimization
+    if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
 
     (async function () {
       const geoJson = await initPlacesCall()
@@ -56,11 +62,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        // style: 'mapbox://styles/mapbox/streets-v11',
-        // style: 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51',     //pale basic styles
-        // style: 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8',    //pale-ish from streets-v11       //pale basic styles
-        // style: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',     //blue shades  
-        style: 'mapbox://styles/ilyaizr/cks1rsp1d3jxs17qo1m3gwxf0',   //  blueprint
+        style: mbStyles[app.theme],   //  blueprint
         // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || 34.354, lat || 53.235], // bryansk
         zoom
@@ -93,7 +95,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, []);
+  }, [app.theme]);
 
 
   // Dynamic geodata
