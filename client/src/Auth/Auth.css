@@ -15,14 +15,21 @@
   padding: 20px 20px 6px 20px;
 }
 
+.login-form-bordered{
+  border: 1px solid;
+  border-radius: 1px;
+}
+
 .login-form .loginBtn {
   display: block;
   margin-right: 12px;
   margin-left: auto;
 }
-
-.oauthBtn {}
-
+.abcRioButton{
+margin-right: 12px;
+margin-left: auto;
+margin-bottom: 4px;
+}
 /* #endregion */
 
 /* #region  Register */

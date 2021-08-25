@@ -133,7 +133,8 @@ const ru = {
   default: 'обычный',
   reset: 'сбросить',
   asAnonius: 'как аноним',
-  send: 'Отправить'
+  send: 'Отправить',
+  signWithGoogle: 'Войти через Google'
 }
 
 // export const TEXT = window.APPTEXT || ru

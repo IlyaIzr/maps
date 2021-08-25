@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
-import { closeModal, setToast } from '../store/app';
+import { closeModal, setModal, setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
 
@@ -14,6 +14,7 @@ export const Login = () => {
   const history = useHistory()
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
+  const loc = useLocation().pathname
 
   const [login, setLogin] = useState('')
   const [pword, setPword] = useState('')
@@ -29,11 +30,12 @@ export const Login = () => {
       gapi.auth2.init().then((auth) => {
         auth.signOut().then(() => {
           gapi.signin2.render('google-signin-button', {
-            width: 232,
-            height: 40,
+            width: 200,
+            height: 32,
             longtitle: true,
             onsuccess: onOAuth,
             onfailure: onFail,
+            theme: (app.theme === 'dark' || app.theme === 'blueprint') ? 'dark' : 'white'
           });
         });
       });
@@ -130,6 +132,9 @@ export const Login = () => {
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + JSON.stringify(a))
   }
 
+  function onInitReg() {
+    closeModal(dispatch)
+  }
 
   return (
     <div>{
@@ -139,19 +144,28 @@ export const Login = () => {
         <button className="primary" onClick={logOut}>{TEXT.logout}</button>
       </div>
         :
-        <div className="login-form">
-          <label htmlFor="name">{TEXT.yourLogin}:</label>
-          <input type="text" name="login" value={login} onInput={onInput} autoFocus />
-          <br />
-          <label htmlFor="pword">{TEXT.yourPword}:</label>
-          <input type="password" name="pword" value={pword} onInput={onPword} />
+        <div>
+          <div className={loc !== '/auth' ? 'login-form login-form-bordered mp-border-secondary' : 'login-form'}>
+            <label htmlFor="name">{TEXT.yourLogin}:</label>
+            <input type="text" name="login" value={login} onInput={onInput} autoFocus />
+            <br />
+            <label htmlFor="pword">{TEXT.yourPword}:</label>
+            <input type="password" name="pword" value={pword} onInput={onPword} />
 
-          <Responser message={msg} setMessage={setMsg} />
+            <Responser message={msg} setMessage={setMsg} />
 
-          <button className="primary mp-border-accent loginBtn" onClick={onSubmit}>{TEXT.confirm}</button>
-          {/* <button className="mp-border-secondary oauthBtn" onClick={oauth}>{'Google'}</button> */}
-          <div id="google-signin-button"
-            className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div>
+            <button className="primary mp-border-accent loginBtn" onClick={onSubmit}>{TEXT.confirm}</button>
+            {/* <button className="mp-border-secondary oauthBtn" onClick={oauth}>{'Google'}</button> */}
+            <div id="google-signin-button"
+              className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div>
+          </div>
+          {loc !== '/auth' &&
+            <div className="align-center">
+              <Link to="/auth?reg=true" onClick={onInitReg}>
+                <button className="button">{TEXT.register}</button>
+              </Link>
+            </div>}
+
         </div>
     }
     </div>
