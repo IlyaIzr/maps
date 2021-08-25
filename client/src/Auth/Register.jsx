@@ -42,6 +42,7 @@ export const Register = () => {
 
 
     const res = await registerUser(creds)
+    console.log('%c⧭', 'color: #86bf60', creds, res);
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
       logIntoApp(dispatch, res.data)

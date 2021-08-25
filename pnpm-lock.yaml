@@ -6,6 +6,7 @@ specifiers:
   bcrypt: ^5.0.1
   cookie-parser: ^1.4.5
   cors: ^2.8.5
+  crypto: ^1.0.1
   dotenv: ^8.2.0
   express: ^4.17.1
   google-auth-library: ^7.3.0
@@ -19,6 +20,7 @@ dependencies:
   bcrypt: 5.0.1
   cookie-parser: 1.4.5
   cors: 2.8.5
+  crypto: 1.0.1
   dotenv: 8.6.0
   express: 4.17.1
   google-auth-library: 7.3.0
@@ -1830,6 +1832,11 @@ packages:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
     engines: {node: '>=8'}
     dev: true
+
+  /crypto/1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+    dev: false
 
   /css-select-base-adapter/0.1.1:
     resolution: {integrity: sha512-jQVeeRG70QI08vSTwf1jHxp74JoZsr2XSgETae8/xC8ovSnL2WF87GTLO86Sbwdt2lK4Umg4HnnwMO4YF3Ce7w==}

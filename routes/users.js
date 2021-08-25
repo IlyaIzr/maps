@@ -42,6 +42,7 @@ router.post('/register', async (req, res) => {
     })
     return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level } })
   } catch (err) {
+    console.log('%c⧭', 'color: #9c66cc', err);
     return res.json({ status: 'ERR', msg: err, query })
   }
 })
