@@ -5,7 +5,7 @@ import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
-import { closeModal, setModal, setToast } from '../store/app';
+import { closeModal, setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
 

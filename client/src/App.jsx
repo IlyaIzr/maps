@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import './App.css'
 import { useDispatch, useSelector } from "react-redux";
 import { NavMain } from "./navigation/NavMain";
-import { setModal, setToast } from "./store/app";
+import { setModal } from "./store/app";
 import { Modal } from "./rest/Modal";
 import { EditProfile } from "./Auth/EditProfile";
 import { GoogleConfirm } from "./Auth/GoogleConfirm";
@@ -22,8 +22,6 @@ import { TEXT } from "./rest/lang";
 import { Login } from "./Auth/Login";
 import { getPreferences, setPreference } from "./store/localstorage";
 import { FriendsMain } from "./Friends/FriendsMain";
-import { getFriends, getRequests } from "./requests/friends";
-import { setUserFriends, setUserRequests } from "./store/user";
 import { WatchMode } from "./navigation/WatchMode";
 import { getFriendsInfo } from "./rest/helperFuncs";
 
