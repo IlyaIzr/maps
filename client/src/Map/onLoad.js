@@ -34,20 +34,28 @@ export function mapOnLoad(map, geoJson, theme) {
       'minzoom': 11,
       'type': 'fill',
       paint: {
+        // TODO opacity formula
+        // 'fill-opacity': [
+        //   "interpolate", ["linear"], ['get', 'amount'],
+
+        //   0, 0,
+        //   1, 0.3,
+        //   2, 0.4,
+        //   3, 0.5,
+        //   4, 0.6,
+        //   5, 0.7,
+        //   10, 0.8,
+        //   15, 0.9
+        // ],
         'fill-opacity': [
           "interpolate", ["linear"], ['get', 'amount'],
 
           0, 0,
-          1, 0.3,
-          2, 0.4,
-          3, 0.5,
-          4, 0.6,
-          5, 0.7,
-          10, 0.8,
-          15, 0.9
-          // 1, '#eee2cc',
-          // 5, gradient[5]
+          1, 0.5,
+          2, 0.8,
+          5, 0.9,
         ],
+        // 'fill-opacity': 0.9,
 
         'fill-color': [
           "interpolate", ["linear"], ['get', 'rating'],

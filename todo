@@ -25,6 +25,9 @@ tagSql: unqueContent, placeId, amount
 multy-tap-rating instead of stars rating?
 
 Alpha features:
+create users of old reviews logins
+push new id's to reviews database
+mobile styles
 set location to user location, or show a dialog window to chose a city
 ?tag search
 animations: loader animations, transition animations

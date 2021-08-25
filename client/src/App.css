@@ -13,7 +13,8 @@ body {
 }
 
 .map-container {
-  height: calc(100vh - 32px);
+  /* height: calc(100vh - 32px); */
+  height: 100vh
 }
 
 .routeWrapper {

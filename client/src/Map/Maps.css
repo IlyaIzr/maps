@@ -62,7 +62,7 @@
   border: 5px double;
   border-radius: 6px;
   display: inline-block;
-  margin: 0;
+  margin: 6px 0;
   padding: 3px 8px;
 }
 
@@ -80,7 +80,7 @@ input.featureName::placeholder {
 /* #region  Rater */
 
 .rater {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .starButton {
@@ -95,8 +95,8 @@ input.featureName::placeholder {
 }
 span.star{
   display: inline-block;
-  width: min(1vw, 12px);
-  height: min(1vw, 12px);
+  width: min(1.4vw, 16px);
+  height: min(1.4vw, 16px);
 }
 
 .rater .starRating {
@@ -126,6 +126,12 @@ span.star{
 
 .raterBtnContainer button {
   margin: 0;
+}
+
+.raterBtnContainer .subtitle{
+  font-size: 0.95em;
+  opacity: 0.9;
+
 }
 
 /* #endregion */
@@ -218,7 +224,7 @@ span.star{
 }
 
 .reviewComment {
-  padding: 2px 6px;
+  padding: 2px 0px;
 }
 
 .reviewDate {
@@ -259,6 +265,10 @@ span.star{
 
 .reviewsContainer.shrinked {
   max-height: 20px;
+}
+
+.reviewRating{
+  margin: 0 4px;
 }
 
 /* #endregion */

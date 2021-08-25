@@ -94,7 +94,6 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
                   </label>
                 }
               </div>
-              {Boolean(review.comment) && <div className="reviewComment ">{review.comment}</div>}
               <div className="reviewRating">{review.grade}/5
                 <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {
@@ -108,6 +107,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
                   })}
                 </span>
               </div>
+              {Boolean(review.comment) && <div className="reviewComment ">{review.comment}</div>}
             </div>
           </div>
         )

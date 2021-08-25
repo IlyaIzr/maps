@@ -5,7 +5,7 @@ import { TEXT } from '../rest/lang';
 import { setModal } from '../store/app';
 
 export const Rater = ({ onSubmit }) => {
-  const theme = useSelector(s => s.app.theme)
+  const { theme, isLogged } = useSelector(s => s.app)
   const gradient = gradients[theme]
   const dispatch = useDispatch()
 
@@ -42,7 +42,7 @@ export const Rater = ({ onSubmit }) => {
     <div className="rater">
 
       <div className="stars">
-        <h5 className="starRating">{TEXT.rating} :</h5> <span className="hoverValue mp-dark">{hover}</span>
+        <h5 className="starRating">{TEXT.rating} :</h5> <span className="hoverValue mp-dark">{hover + 1 ? hover : 0}</span>
         <br />
         {[...Array(5)].map((star, index) => {
           index += 1;
@@ -72,7 +72,10 @@ export const Rater = ({ onSubmit }) => {
       />
 
       <div className="raterBtnContainer">
-        <button type="button" onClick={onSub}>{TEXT.push}</button>
+        <button type="button" onClick={onSub}>{TEXT.send}</button>
+        {!isLogged &&
+          <div className="subtitle">{TEXT.asAnonius}</div>
+        }
       </div>
     </div>
   );

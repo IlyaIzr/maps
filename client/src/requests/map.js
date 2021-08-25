@@ -1,4 +1,4 @@
-import { api, requsetMaker } from './config'
+import { requsetMaker } from './config'
 
 export async function getPlaces(minx = 0, maxx = 99999999, miny = 0, maxy = 99999999) {
   const f = requsetMaker('GET', 'maps', 'places', null, false, `minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}`)
@@ -67,19 +67,19 @@ export async function getAdress(lat, lng) {
 
 // TMP
 
-export async function postPlaceName(name, id) {
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, id })
-  }
-  try {
-    const response = await fetch(api + 'maps/postPlaceName', options)
-    const res = await response.json()
-    return res
-  } catch (err) {
-    return err
-  }
-}
+// export async function postPlaceName(name, id) {
+//   const options = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ name, id })
+//   }
+//   try {
+//     const response = await fetch(api + 'maps/postPlaceName', options)
+//     const res = await response.json()
+//     return res
+//   } catch (err) {
+//     return err
+//   }
+// }

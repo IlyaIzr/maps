@@ -132,6 +132,8 @@ const ru = {
   watchModeSub2: 'Добавьте друзей, чтобы увидеть их оценки отдельно',
   default: 'обычный',
   reset: 'сбросить',
+  asAnonius: 'как аноним',
+  send: 'Отправить'
 }
 
 // export const TEXT = window.APPTEXT || ru
