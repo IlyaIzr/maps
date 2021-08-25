@@ -42,7 +42,7 @@ export function geoJsonFromResponse(places) {
 
 
 export function processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData) {
-  if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
+  if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: typeof res.msg === 'object' ? JSON.stringify(res.msg) : res.msg || JSON.stringify(res.smg) })
   // Pass array of places upwards, to mapbox
   const geoJson = geoJsonFromResponse(res.data)
   setGeoData(geoJson)

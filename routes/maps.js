@@ -34,11 +34,13 @@ router.get('/places', async (req, res) => {
   const maxx = Number(req.query.maxx || 99999999)
   const maxy = Number(req.query.maxy || 99999999)
   const args = [minx - 1, maxx + 1, miny - 1, maxy + 1]
+  const query = `SELECT * FROM places WHERE x BETWEEN ${args[0]} AND ${args[1]} AND y BETWEEN ${args[2]} AND ${args[3]}`
 
   try {
-    const data = await dbConn.query("SELECT * FROM places WHERE x BETWEEN ? AND ? AND y BETWEEN ? AND ?", args)
+    const data = await dbConn.query(query, args)
     return res.json({ status: 'OK', data })
   } catch (err) {
+    console.log('%c⧭', 'color: #d0bfff', err);
     return res.json({ status: 'ERR', msg: err, err })
   }
 })
@@ -57,9 +59,9 @@ router.get('/userPlaces', async (req, res) => {
   `
   try {
     const data = await dbConn.query(query)
-    console.log('%c⧭', 'color: #e57373', data[0]);
     return res.json({ status: 'OK', data })
   } catch (err) {
+    console.log('%c⧭', 'color: #cc0036', err);
     return res.json({ status: 'ERR', msg: err, err })
   }
 })
@@ -90,6 +92,7 @@ router.post('/placesByTiles', async (req, res) => {
     const data = await dbConn.query(query)
     return res.json({ status: 'OK', data })
   } catch (err) {
+    console.log('%c⧭', 'color: #ff6600', err);
     return res.json({ status: 'ERR', msg: err, err })
   }
 })

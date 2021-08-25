@@ -7,6 +7,7 @@ import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { closeModal, setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
+import { getFriendsInfo } from '../rest/helperFuncs'
 
 export const Login = () => {
   const dispatch = useDispatch()
@@ -62,6 +63,7 @@ export const Login = () => {
         title: null
       })
       setMsg('')
+      await getFriendsInfo(dispatch)
       history.push('/')
       return logIntoApp(dispatch, res.data)
     }
@@ -117,6 +119,7 @@ export const Login = () => {
         title: null
       })
       setMsg('')
+      await getFriendsInfo(dispatch)
       history.push('/')
       return logIntoApp(dispatch, res.data)
     }

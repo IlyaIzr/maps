@@ -25,6 +25,7 @@ import { FriendsMain } from "./Friends/FriendsMain";
 import { getFriends, getRequests } from "./requests/friends";
 import { setUserFriends, setUserRequests } from "./store/user";
 import { WatchMode } from "./navigation/WatchMode";
+import { getFriendsInfo } from "./rest/helperFuncs";
 
 
 function App() {
@@ -47,15 +48,8 @@ function App() {
         children,
       })
     }
-    // call for friends info
     (async function () {
-      const res = await getFriends()
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-      setUserFriends(dispatch, res.data)
-
-      const reqs = await getRequests()
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-      setUserRequests(dispatch, reqs.data)
+      await getFriendsInfo(dispatch)      
     })()
     /* eslint-disable */
   }, [])

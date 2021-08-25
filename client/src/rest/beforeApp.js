@@ -16,7 +16,7 @@ export async function initActions() {
   initLocalStorage()
 
   // Set prefered theme
-  let theme = appThemes[3]
+  let theme = appThemes[0]
   let preferences = getPreferences()
   // console.log('%c⧭', 'color: #bfffc8', preferences);
 
@@ -25,7 +25,7 @@ export async function initActions() {
     theme = preferences.theme
     appInitialState.theme = preferences.theme
   }
-
+  
   initializeThemeColors()
   document.head.insertAdjacentHTML("beforeend", `<style>:root{}</style>`)
   setColors(theme)

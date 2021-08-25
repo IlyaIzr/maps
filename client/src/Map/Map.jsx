@@ -16,6 +16,9 @@ import { mapOnMove } from './onMove';
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
 const range = 3
 const zoom = 16
+const bryansk = {
+  lng: 34.354, lat: 53.235
+}
 const mbStyles = {
   standart: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',
   dark: 'mapbox://styles/ilyaizr/cks1rsp1d3jxs17qo1m3gwxf0',  //from blueprint but with more vary colors
@@ -152,8 +155,9 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   async function initPlacesCall() {
     const { lng, lat } = getLocation()
     // const zoom = map.getZoom()
-    const { x, y } = getLayoutCoords(lng, lat, zoom)
+    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom)
     setlayoutXY({ x, y })
+    
 
     const res = app.friendModeId ?
       await getUserPlaces(app.friendModeId) :
