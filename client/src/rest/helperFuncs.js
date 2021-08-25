@@ -23,10 +23,10 @@ export function getLayoutCoords(lng, lat, zoom) {
 
 export async function getFriendsInfo(dispatch) {
   const res = await getFriends()
-  if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+  if (res.status !== 'OK' && res.status !== 'REAUTH') return setToast(dispatch, { message: TEXT.requestError });
   setUserFriends(dispatch, res.data)
 
   const reqs = await getRequests()
-  if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+  if (res.status !== 'OK' && res.status !== 'REAUTH') return setToast(dispatch, { message: TEXT.requestError });
   setUserRequests(dispatch, reqs.data)
 }
