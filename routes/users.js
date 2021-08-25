@@ -5,7 +5,6 @@ const Connection = require('../db/connection')
 const dbConn = new Connection()
 const { auth } = require('./middleware')
 // rest
-const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
 
@@ -18,7 +17,14 @@ router.post('/register', async (req, res) => {
   const { login, pword, name, question, answer } = data
   const level = req.body.level || 1
   if (pword === 'google') return res.json({ status: 'BANEDPWORD', data: pword })
-  const id = crypto.randomUUID().replaceAll('-', '')
+  function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  const id = uuidv4().replaceAll('-', '')
 
   // Check for existing user
   const existing = await dbConn.query("SELECT * FROM users WHERE `login` = ? OR `id` = ?", [login, id])
