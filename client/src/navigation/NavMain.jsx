@@ -24,6 +24,13 @@ export const NavMain = () => {
     const friend = friends.find(friend => friend.id === app.friendModeId)
     return friend.name + ' (' + friend.login + ')'
   }
+  function modeLabel() {
+    const { mode } = app
+    if (mode === 'watch') return TEXT.marksOf + ' ' + initials()
+    if (mode === 'draw') return TEXT.drawing
+    if (mode === 'drawRoute') return TEXT.drawRouteMode
+    return TEXT.defaultMode
+  }
 
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
@@ -38,8 +45,8 @@ export const NavMain = () => {
           <Hamburger fill="var(--primary)" />
         </div>
         <Link to="/watchMode">
-          <span className="mp-dark">{TEXT.watchMode + ': '} </span><span className="mp-counter">
-            {(app.friendModeId ? initials() : TEXT.default)}
+          <span className="mp-dark">{TEXT.mode + ': '} </span><span className="mp-counter">
+            {modeLabel()}
           </span>
         </Link>
       </div>

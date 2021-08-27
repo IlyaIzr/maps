@@ -23,6 +23,7 @@ export const Rater = ({ onSubmit }) => {
     if (Number(rating) === 0) return setModal(dispatch, {
       message: TEXT.rateZeroModal,
       acceptAction: submitAction,
+      cancelLabel: TEXT.goBack
     })
     submitAction()
   }

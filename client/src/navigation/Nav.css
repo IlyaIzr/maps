@@ -135,13 +135,50 @@
 /* #endregion */
 
 /* #region  LangNav */
-.lang-nav .pickTheme-item{
+
+.lang-nav .pickTheme-item {
   text-transform: capitalize;
 }
+
 /* #endregion */
-.watchMode {
+
+/* #region  Mode */
+
+.modeSwitch {
   padding: 8px;
 }
-.watchMode h4{
+
+.modeSwitch h4 {
   margin: 0 0 16px 0;
+  padding-left: 8px;
 }
+
+.modeSwitch .subtitle {
+  margin: 4px 0;
+}
+
+.modeSwitch .modeType {
+  width: 98%;
+  padding: 12px;
+  margin: 12px auto;
+  border-top: 1px solid;
+  border-radius: 1px;
+}
+
+.drawModeButton {
+  padding: 7px 10px;
+  margin: 12px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.1em;
+}
+
+.drawModeButton img {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  margin-left: -4px;
+  padding: 4px 4px 0px 4px;
+}
+
+/* #endregion */

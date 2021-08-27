@@ -40,7 +40,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
     const ratedBefore = features.find(feature => feature.source === 'ratedFeaturesSource')
     if (ratedBefore) {
       console.log('found rated feature', ratedBefore);
-      drawObject.trash()
+      drawObject?.trash()
 
 
       flyToFeature(map, ratedBefore)
@@ -52,7 +52,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
     const featureToRate = features.find(feature => featuresNeeded.has(feature.sourceLayer))
     if (featureToRate?.id) {
       console.log('found feature', featureToRate);
-      drawObject.trash()
+      drawObject?.trash()
 
 
       const zoom = map.getZoom()
@@ -66,7 +66,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
 
     } else if (featureToRate) {
       console.log('interesting, but no id', featureToRate);
-      drawObject.trash()
+      drawObject?.trash()
 
       zoomOnEvent(map.getZoom() + 1)
       setFeature(null)

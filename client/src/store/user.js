@@ -1,4 +1,4 @@
-import { setLoginStatus } from './app'
+import { friendModeId, setLoginStatus, setMapMode } from './app'
 // Name consts
 const WRITECREDENTIALS = 'user/set_credentials'
 const CHANGELEVEL = 'user/set_level'
@@ -54,6 +54,8 @@ export const logIntoApp = (d, creds) => {
   setLoginStatus(d, true)
 }
 export const logOutOfApp = (d) => {
+  friendModeId(d, null)
+  setMapMode(d, 'default')
   setCredentials(d, basicState)
   setLoginStatus(d, false)
 }

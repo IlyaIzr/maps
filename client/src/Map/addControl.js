@@ -11,6 +11,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
     },
     // defaultMode: 'draw_polygon'
   });
+  console.log('%c⧭ control was added', 'color: #e50000', );
   
   // Create custom controls
   createBtn.onclick = function () {
@@ -68,6 +69,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
       }
 
       feature.properties.name = await getAdress(lat, lng)
+      console.log('%c⧭', 'color: #917399', feature.properties.name);
       setFeature(feature)
     }
     // if (e.type !== 'draw.delete')

@@ -53,20 +53,18 @@ export const Featurer = ({ feature, name, setName }) => {
         {TEXT.newFeature}
       </p>
 
-      <div className="featureNameWrap">
-        <input
-          type="text" value={name} onInput={onInput}
-          placeholder={TEXT.newFeaturePHolder} title={TEXT.newFeaturePHolder}
-          className="featureName mp-bg-counter mp-border-counter  mp-primary"
-        />
-      </div>
-      {/* {feature.properties.name ?
+
+      {feature.properties.name ?
         <div className="featureNameWrap">
           <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
         </div>
-        : <div>
-          <input type="text" value={name} onInput={onInput} placeholder={'enter name or name'}/>
-        </div>} */}
+        : <div className="featureNameWrap">
+          <input
+            type="text" value={name} onInput={onInput}
+            placeholder={TEXT.newFeaturePHolder} title={TEXT.newFeaturePHolder}
+            className="featureName mp-bg-counter mp-border-counter  mp-primary"
+          />
+        </div>}
     </div>
   )
   // Case new feature

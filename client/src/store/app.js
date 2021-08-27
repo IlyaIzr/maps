@@ -15,6 +15,7 @@ const SET_TOAST = 'app/set_toast'
 const CLOSE_TOAST = 'app/close_toast'
 const RERENDERMAP = 'app/rerender_map'
 const SET_FRIEND_ID = 'app/friend_id'
+const SET_MODE = 'app/set_mode'
 
 /* #endregion */
 
@@ -42,7 +43,9 @@ export const initialState = {
   //   title: ''
   // }
   mapKey: 1000,
-  friendModeId: null
+  friendModeId: null,
+  mode: null, // special modes: 'watch', 'draw', 'drawRoute', '?withRoutes'
+
 }
 
 /* #endregion */
@@ -117,6 +120,25 @@ export function appReducer(state = initialState, act) {
         ...state, friendModeId: act.id
       }
     }
+    case SET_MODE: {
+      const mode = act.mode
+      const prevMode = state.mode
+      if (mode === prevMode) return { ...state }
+
+      const res = {
+        ...state, mode
+      }
+      console.log('%c⧭', 'color: #733d00', res.mapKey);
+      if (mode === 'draw' || prevMode === 'draw') res.mapKey += 1
+      console.log('%c⧭', 'color: #00bf00', res.mapKey);
+      if (mode !== 'watch') res.friendModeId = null
+      return res
+    }
+    case 'app/reset': {
+      return {
+        ...initialState
+      }
+    }
     default:
       return state
   }
@@ -163,7 +185,6 @@ export const closeModal = (d) => {
 export const switchTheme = (d, theme) => {
   if (appThemes.indexOf(theme) < 0) theme = appThemes[0]
   d({ type: SWITCH_THEME, theme })
-  console.log('%c⧭', 'color: #7f7700', 'theme switched');
 }
 
 export const setToast = (d, toastInfo = {
@@ -186,5 +207,14 @@ export const rerenderMap = (d) => {
 export const friendModeId = (d, id) => {
   d({ type: SET_FRIEND_ID, id })
 }
+
+export const setMapMode = (d, mode) => {
+  const modes = ['watch', 'draw', 'drawRoute', '?withRoutes']
+  if (!modes.includes(mode)) mode = null
+  d({ type: SET_MODE, mode })
+  rerenderMap(d)
+}
+
+export const resetAppState = (d) => d({ type: 'app/reset' })
 
 /* #endregion */

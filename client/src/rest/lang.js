@@ -65,7 +65,7 @@ const ru = {
   searchPHolder: 'Найти',
   newFeature: 'Новый объект на карте',
   newFeaturePHolder: 'Адрес или название места',
-  drawPromptHeader: 'Режим рисования',
+  drawMode: 'Режим рисования',
   drawPrompt: 'Завершите создание, дважды нажав на последнюю точку полигона',
   level: 'уровень',
   acceptDefault: 'принять',
@@ -128,13 +128,19 @@ const ru = {
   goBack: 'Назад',
   friendRequests: 'Предложения дружбы',
   watchMode: 'Режим просмотра',
-  watchModeSub1: 'Посмотрите на карте оценки отдельного друга',
+  watchModeSub1: 'Оценки отдельного друга',
   watchModeSub2: 'Добавьте друзей, чтобы увидеть их оценки отдельно',
+  watchModeSub3: 'Отмечайте недостающие здания. В режиме рисования клики на обычные здания могут не работать',
   default: 'обычный',
   reset: 'сбросить',
   asAnonius: 'как аноним',
   send: 'Отправить',
-  signWithGoogle: 'Войти через Google'
+  signWithGoogle: 'Войти через Google',
+  defaultMode: 'обычный',
+  drawRouteMode: 'рисование маршрута',
+  drawing: 'рисование',
+  mode: 'режим',
+  marksOf: 'оценки'
 }
 
 // export const TEXT = window.APPTEXT || ru

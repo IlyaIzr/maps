@@ -57,7 +57,8 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
+    // console.log('%c⧭ init map effect', 'color: #0088cc', app.mode);
+    // if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
 
     (async function () {
       const geoJson = await initPlacesCall()
@@ -72,7 +73,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       });
 
       // Add search
-      map.current.addControl(
+      if (app.mode !== 'draw') map.current.addControl(
         new window.MapboxGeocoder({
           accessToken: process.env.REACT_APP_MAPBOX_T,
           mapboxgl: mapboxgl,
@@ -80,10 +81,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         })
       );
 
-      const drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
+      if (app.mode === 'draw')
+        var drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson, app.theme)
-      mapOnClick(map.current, setFeature, resetRater, drawObject)
+      mapOnClick(map.current, setFeature, resetRater, drawObject || null)
       mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData)
       window.geocoderRef = new window.google.maps.Geocoder()
     })();
@@ -97,8 +99,9 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // canvas.style.height = '100%'
 
     return () => clearInterval(interval)
+
     // eslint-disable-next-line
-  }, [app.theme]);
+  }, [app.theme, app.mapKey]);
 
 
   // Dynamic geodata
@@ -149,7 +152,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       setGeoData(geoJson)
     })()
     // eslint-disable-next-line
-  }, [app.friendModeId, app.mapKey]);
+  }, [app.mode]);
 
 
   async function initPlacesCall() {
@@ -157,7 +160,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // const zoom = map.getZoom()
     const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom)
     setlayoutXY({ x, y })
-    
+
 
     const res = app.friendModeId ?
       await getUserPlaces(app.friendModeId) :
@@ -169,17 +172,22 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   return (
     <div>
       <div ref={mapContainer} className={app.mapHidden ? "map-container hidden" : "map-container"} />
+
       {/* Add button */}
-      <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
-        <img src="/icons/edit-pen.svg" alt="draw area" />
-      </button>
+      {(app.mode === 'draw') &&
+        <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
+          <img src="/icons/edit-pen.svg" alt="draw area" />
+        </button>}
+
       {/* Delete button */}
-      <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-primary controlButton">
-        <img src="/icons/trash.svg" alt="cancel drawing" />
-      </button>
+      {(app.mode === 'draw') &&
+        <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-primary controlButton">
+          <img src="/icons/trash.svg" alt="cancel drawing" />
+        </button>}
+
       {/* Helper prompt */}
       {drawPrompt && <div className="controlPrompt mp-border-counter mp-bg-light">
-        <h6>{TEXT.drawPromptHeader}</h6>
+        <h6>{TEXT.drawMode}</h6>
         <p>{TEXT.drawPrompt}</p>
       </div>
       }
