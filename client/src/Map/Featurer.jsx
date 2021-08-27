@@ -27,17 +27,9 @@ export const Featurer = ({ feature, name, setName }) => {
   // Case rated before
   if (feature.source === 'ratedFeaturesSource') return (
     <div className="featurer">
-      <p className="rateAmount">
-        {TEXT.placeAmountPrefix + ' ' + feature.properties.amount + ' '}
-        {String(feature.properties.amount).endsWith('1') ? TEXT.placeAmountNumberEnds1 : TEXT.placeAmountEndsMultiple}
-      </p>
-      <h5 className="rateValue">
-        {TEXT.placeRatingPrefix}:
-        <span className="rateNumber"> {feature.properties.rating}</span>
-      </h5>
       {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-dark mp-border-primary mp-light">{feature.properties.name}</p>
+          <p className="featureName mp-bg-light mp-border-primary mp-dark">{feature.properties.name}</p>
         </div>
         : <></>}
     </div>
@@ -56,13 +48,13 @@ export const Featurer = ({ feature, name, setName }) => {
 
       {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-counter  mp-primary">{feature.properties.name}</p>
+          <p className="featureName mp-bg-light mp-border-primary mp-dark">{feature.properties.name}</p>
         </div>
         : <div className="featureNameWrap">
           <input
             type="text" value={name} onInput={onInput}
             placeholder={TEXT.newFeaturePHolder} title={TEXT.newFeaturePHolder}
-            className="featureName mp-bg-counter mp-border-counter  mp-primary"
+            className="featureName mp-bg-light mp-border-primary mp-dark"
           />
         </div>}
     </div>
@@ -75,7 +67,7 @@ export const Featurer = ({ feature, name, setName }) => {
       </p>
       {feature.properties.name ?
         <div className="featureNameWrap">
-          <p className="featureName mp-bg-counter mp-border-primary  mp-primary">{feature.properties.name}</p>
+          <p className="featureName mp-bg-light mp-border-primary mp-dark">{feature.properties.name}</p>
         </div>
         : <></>}
     </div>

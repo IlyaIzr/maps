@@ -143,6 +143,9 @@
 /* #endregion */
 
 /* #region  Mode */
+.currModeLabels{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 
 .modeSwitch {
   padding: 8px;

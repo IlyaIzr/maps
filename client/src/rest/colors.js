@@ -57,7 +57,7 @@ const colors = [
 
 export const themeColors = {
   standart: {
-    primary: "#05304a",
+    primary: "#124c81",
     secondary: "#b6c8d6",
     accent: "#1bbc00",
     light: "#ffffff",

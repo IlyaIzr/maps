@@ -4,10 +4,17 @@ import { gradients } from '../rest/colors';
 import { TEXT } from '../rest/lang';
 import { setModal } from '../store/app';
 
-export const Rater = ({ onSubmit }) => {
+export const Rater = ({ feature, onSubmit }) => {
   const { theme, isLogged } = useSelector(s => s.app)
   const gradient = gradients[theme]
   const dispatch = useDispatch()
+
+  function color() {
+    if (!feature?.properties?.rating) return gradients[theme][0]
+    for (let i = 0; i < gradients[theme].length; i++) {
+      if (feature.properties.rating -1 < i) return gradients[theme][i]
+    }
+  }
 
   const [hover, setHover] = useState(0);
   const [rating, setRating] = useState(0);
@@ -37,34 +44,45 @@ export const Rater = ({ onSubmit }) => {
   function onMouseLeave() {
     setHover(rating)
   }
+  function ratingData() {
+    return String(Number(feature.properties.rating).toPrecision(3)).split('.')
+  }
 
   // TODO make stars with rating gradient
   return (
     <div className="rater">
+      <div className="starsAndRating">
 
-      <div className="stars">
-        <h5 className="starRating">{TEXT.rating} :</h5> <span className="hoverValue mp-dark">{hover + 1 ? hover : 0}</span>
-        <br />
-        {[...Array(5)].map((star, index) => {
-          index += 1;
-          return (
-            <button
-              type="button"
-              key={index}
-              name={index}
-              className={index <= (hover || rating) ? "mp-accent starButton" : "mp-secondary starButton"}
-              onClick={onClick}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
-              style={index <= (hover || rating) ? { color: gradient[hover] } : { color: gradient[0] }}
-            >
-              <span className="star">&#9733;</span>
-            </button>
-          );
-        })}
+        <div className="stars">
+          <h5 className="starRating">{TEXT.yourRating} :</h5> <span className="hoverValue mp-dark">{hover + 1 ? hover : 0}</span>
+          <br />
+          {[...Array(5)].map((star, index) => {
+            index += 1;
+            return (
+              <button
+                type="button"
+                key={index}
+                name={index}
+                className="starButton"
+                onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                style={index <= (hover || rating) ? { color: gradient[hover] } : { color: gradient[0] }}
+              >
+                <span className="star">&#9733;</span>
+              </button>
+            );
+          })}
 
+        </div>
+
+        <div className="rating">
+          <div className="ratingAmount mp-border-primary relative" style={{ borderColor: color() }} title={TEXT.rating}>
+            {ratingData()[0]}.<span >{ratingData()[1]}</span>
+            <sub className="mp-dark mp-bg-light" style={{ color: color() }} title={TEXT.marks}> ( {feature.properties.amount} ) </sub>
+          </div>
+        </div>
       </div>
-
       <textarea
         name="comment" cols="25" rows="2"
         value={comment} onInput={onInput}

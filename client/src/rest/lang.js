@@ -53,11 +53,12 @@ const ru = {
   firstTimeRate: 'Вам выпала честь первым оценить это место!',
   placeRatingPrefix: 'Общий рейтинг',
   placeAmountPrefix: 'Это место оценили',
-  placeAmountNumberEnds1: 'раз',
-  placeAmountEndsMultiple: 'раза',
+  singleMark: 'оценка',
+  marks: 'оценок',
   push: 'Нажать',
   commentPlacehol: 'есть комментарии?',
-  rating: 'Ваша оценка',
+  rating: 'Рейтинг',
+  yourRating: 'Ваша оценка',
   bestRating: 'Замечательно',
   worstRating: 'Ужасно',
   reviews: 'Отзывы',
@@ -140,7 +141,8 @@ const ru = {
   drawRouteMode: 'рисование маршрута',
   drawing: 'рисование',
   mode: 'режим',
-  marksOf: 'оценки'
+  marksOf: 'оценки',
+  close: 'Закрыть'
 }
 
 // export const TEXT = window.APPTEXT || ru

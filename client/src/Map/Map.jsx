@@ -57,9 +57,10 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    // console.log('%c⧭ init map effect', 'color: #0088cc', app.mode);
+    
+    // turns-off draw mode in development
     // if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
-
+    setFeature(null);
     (async function () {
       const geoJson = await initPlacesCall()
       const { lng, lat } = getLocation()
