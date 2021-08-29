@@ -11,21 +11,17 @@ comments history
 
 
 add #tags and tag search
-tagsSql: tag, mentions: Number, usage: JSON{placeId: Number}, 
-+placesSql: tags: JSON{tag: Number}
 
 make first/next review logig on server
 
 badrequests error handlers
 
 userSql: id, login, pword, name, commentsN: Number, level: Number, avatar, question, answer,
-friendsSql: userA, userB
-tagSql: unqueContent, placeId, amount
+tagSql: tag, placeId, amount
 
 multy-tap-rating instead of stars rating?
 
 Alpha features:
-move drawing to menu
 set location to user location, or show a dialog window to chose a city
 ?tag search
 animations: loader animations, transition animations

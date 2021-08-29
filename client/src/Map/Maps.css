@@ -162,11 +162,6 @@ span.star{
   font-size: 14px;
 }
 
-.raterComment {
-  /* margin: 0; */
-  /* width: calc(100% - min(3vw, 36px)); */
-  width: 89%;
-}
 
 .raterBtnContainer {
   text-align: right;
@@ -181,6 +176,27 @@ span.star{
 .raterBtnContainer .subtitle{
   font-size: 0.95em;
   opacity: 0.9;
+}
+
+/* Comment */
+.raterComment {
+  /* margin: 0; */
+  /* width: calc(100% - min(3vw, 36px)); */
+  width: 89%;
+}
+
+.suggContainer{
+  padding: 2px 4px;
+  margin: 4px 3px -2px 6px;
+  /* border: 1px solid; */
+  border-radius: 1px;
+  /* font-size: .7em; */
+}
+.sugg{
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: .75em;
 
 }
 

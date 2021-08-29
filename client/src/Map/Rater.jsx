@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { gradients } from '../rest/colors';
 import { TEXT } from '../rest/lang';
 import { setModal } from '../store/app';
+import { Comment } from './Comment';
 
 export const Rater = ({ feature, onSubmit }) => {
   const { theme, isLogged } = useSelector(s => s.app)
@@ -12,7 +13,7 @@ export const Rater = ({ feature, onSubmit }) => {
   function color() {
     if (!feature?.properties?.rating) return gradients[theme][0]
     for (let i = 0; i < gradients[theme].length; i++) {
-      if (feature.properties.rating -1 < i) return gradients[theme][i]
+      if (feature.properties.rating - 1 < i) return gradients[theme][i]
     }
   }
 
@@ -22,9 +23,6 @@ export const Rater = ({ feature, onSubmit }) => {
 
   function onClick() {
     setRating(hover)
-  }
-  function onInput(e) {
-    setComment(e.target.value)
   }
   function onSub() {
     if (Number(rating) === 0) return setModal(dispatch, {
@@ -83,12 +81,8 @@ export const Rater = ({ feature, onSubmit }) => {
           </div>
         </div>
       </div>
-      <textarea
-        name="comment" cols="25" rows="2"
-        value={comment} onInput={onInput}
-        className="raterComment"
-        placeholder={TEXT.commentPlacehol}
-      />
+
+      <Comment comment={comment} setComment={setComment} />
 
       <div className="raterBtnContainer">
         <button type="button" onClick={onSub}>{TEXT.send}</button>

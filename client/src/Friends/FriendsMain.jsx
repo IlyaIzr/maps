@@ -52,7 +52,7 @@ export const FriendsMain = () => {
         <Route exact path="/friends">
           <DefaultLayout />
         </Route>
-        <Route path="/friends/user/:userId">
+        <Route path="/friends/item/:userId">
           <Profile />
         </Route>
         <Route path="/friends/search">

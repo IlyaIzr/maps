@@ -2,9 +2,11 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { searchUsers } from "../requests/friends"
+import { searchTags } from "../requests/tags"
 import { TEXT } from "../rest/lang"
 import { setToast } from "../store/app"
 
+// Used both for friends and tags
 export const SearchBar = ({ setSearchResults }) => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -17,10 +19,14 @@ export const SearchBar = ({ setSearchResults }) => {
   }
 
   async function submitEnter() {
-    const res = await searchUsers(input)
+    const chapter = history.location.pathname.split('/')[1]
+    let res
+    if (chapter === 'friends') { res = await searchUsers(input) }
+    else { res = await searchTags(input) }
+
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
     setSearchResults(res.data)
-    history.push('/friends/search?query=' + input)
+    history.push(`/${chapter}/search?query=${input}`)
   }
 
   function onKeyDown(e) {

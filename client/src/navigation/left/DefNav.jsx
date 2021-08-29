@@ -1,14 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TEXT } from '../../rest/lang'
-import { friendModeId, setMapMode } from '../../store/app'
 import { navStates } from '../LeftMenu'
 
 export const DefNav = ({ setNavState, hideSelf }) => {
 
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
-  const dispatch = useDispatch()
 
   function hideMainMenu() {
     hideSelf()
@@ -18,12 +16,6 @@ export const DefNav = ({ setNavState, hideSelf }) => {
   }
   function pickLang() {
     setNavState(navStates.language)
-  }
-
-  function drawMode() {
-    hideSelf()
-    friendModeId(dispatch, null)
-    setMapMode(dispatch, 'draw')
   }
 
 
@@ -54,16 +46,16 @@ export const DefNav = ({ setNavState, hideSelf }) => {
 
       <div onClick={pickLang} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.language}</div>
 
-      <div className="left-menu-item mp-dark">
-        <Link to="/friends" onClick={hideMainMenu} className="transition">{TEXT.friends}
+      <div className="left-menu-item">
+        <Link to="/friends" onClick={hideMainMenu} className="transition mp-dark">{TEXT.friends}
           {Boolean(user.requests.length) &&
             <span className="mp-accent">{' (' + user.requests.length + ')'}</span>
           }
         </Link>
       </div>
 
-      <div className="left-menu-item mp-dark">
-        <Link to="/" className="transition" onClick={drawMode} >{TEXT.drawMode}</Link>
+      <div className="left-menu-item">
+        <Link to="/tags" className="transition mp-dark" onClick={hideMainMenu}>{TEXT.tags}</Link>
       </div>
 
       <div className="readonly">{TEXT.routes}</div>

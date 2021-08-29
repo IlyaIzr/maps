@@ -14,7 +14,7 @@ export const Results = ({ searchResults }) => {
   )
 
   function onClick(id) {
-    history.push(`/friends/user/${id}?from=${query}`)
+    history.push(`/friends/item/${id}?from=${query}`)
   }
 
   return (

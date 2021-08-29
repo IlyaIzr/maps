@@ -15,3 +15,7 @@ export const appLanguages = {
   ru: 'ru',
   en: 'en'
 }
+
+export const restrictedLetters = [
+  '@', '!', '$', '№', '#', '%', '^', '*', '(', ')', '.', ',', '`', '|', '\', '/'', '[', ']', '{', '}', ' '
+]

@@ -78,7 +78,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
         if (!review.name) review.name = TEXT.anonimus
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
-            <Link to={"/friends/user/" + review.author}>
+            <Link to={"/friends/item/" + review.author}>
               <div className="authorLogo mp-bg-primary">
                 <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
               </div>

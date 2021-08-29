@@ -9,7 +9,7 @@ export const DefaultLayout = () => {
 
 
   function onClick(id) {
-    history.push(`/friends/user/${id}`)
+    history.push(`/friends/item/${id}`)
   }
   function onLink(e) {
     e.target.select()

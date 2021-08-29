@@ -10,6 +10,7 @@ const auth = require('./routes/auth')
 const users = require('./routes/users')
 const settings = require('./routes/settings')
 const friends = require('./routes/friends')
+const tags = require('./routes/tags')
 // rest
 const { appLanguages } = settings
 
@@ -29,6 +30,7 @@ app.use('/api/auth', auth)
 app.use('/api/users', users)
 app.use('/api/settings', settings)
 app.use('/api/friends', friends)
+app.use('/api/tags', tags)
 
 // Host react statics
 app.use(express.static(__dirname + '/client/build'));

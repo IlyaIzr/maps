@@ -64,22 +64,3 @@ export async function getAdress(lat, lng) {
   }
   return adress
 }
-
-// TMP
-
-// export async function postPlaceName(name, id) {
-//   const options = {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ name, id })
-//   }
-//   try {
-//     const response = await fetch(api + 'maps/postPlaceName', options)
-//     const res = await response.json()
-//     return res
-//   } catch (err) {
-//     return err
-//   }
-// }

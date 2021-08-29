@@ -107,7 +107,7 @@ export const EditProfile = () => {
           <label htmlFor="name">{TEXT.userName}:</label>
           <input type="text" name="name" value={creds.name} onInput={onInput} autoFocus required />
           <br />
-          <label htmlFor="pword">{TEXT.password}:</label>
+          <label htmlFor="pword">{TEXT.newPassword}:</label>
           <input type="password" name="pword" value={creds.pword} onInput={onInput} />
           <br />
           <br />

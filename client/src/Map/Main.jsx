@@ -12,6 +12,7 @@ import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
 import { friendModeId, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
+import { postTags } from '../requests/tags';
 
 
 export const Main = () => {
@@ -58,7 +59,7 @@ export const Main = () => {
     const { x, y } = getLayoutCoords(lng, lat, 16)
     place.x = x
     place.y = y
-    
+
     // Go out from watchMode
     friendModeId(dispatch, null)
 
@@ -66,7 +67,9 @@ export const Main = () => {
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
       const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
+      const res2 = await postTags({ user: user.id, comment, placeId: feature.id })
+      if (res2.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg1' })
       // Mutate geoData
       for (let i = 0; i < geoData.length; i++) {
         if (geoData[i].id === feature.id) {
@@ -103,7 +106,7 @@ export const Main = () => {
   }
 
   useEffect(() => {
-    showMain(dispatch)    
+    showMain(dispatch)
     // eslint-disable-next-line
   }, [])
 
@@ -121,7 +124,7 @@ export const Main = () => {
         <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} name={name} setName={setName} />
           <Rater feature={feature} onSubmit={onSubmit} />
-          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData}/>
+          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData} />
           <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>&#10005;</div>
         </div>
       }

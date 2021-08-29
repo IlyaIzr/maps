@@ -142,7 +142,14 @@ const ru = {
   drawing: 'рисование',
   mode: 'режим',
   marksOf: 'оценки',
-  close: 'Закрыть'
+  close: 'Закрыть',
+  tags: 'Тэги',
+  tagsAmount: 'количество тэгов',
+  watchAtMap: 'посмотреть на карте',
+  recentTags: 'Новые тэги',
+  mostPopular: 'Самые популярные',
+  newPassword: 'Новый пароль'
+  
 }
 
 // export const TEXT = window.APPTEXT || ru

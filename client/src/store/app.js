@@ -209,7 +209,7 @@ export const friendModeId = (d, id) => {
 }
 
 export const setMapMode = (d, mode) => {
-  const modes = ['watch', 'draw', 'drawRoute', '?withRoutes']
+  const modes = ['watch', 'draw', 'drawRoute', 'tags', '?withRoutes']
   if (!modes.includes(mode)) mode = null
   d({ type: SET_MODE, mode })
   rerenderMap(d)
