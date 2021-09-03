@@ -66,6 +66,27 @@ router.get('/userPlaces', async (req, res) => {
   }
 })
 
+// @ api/maps/taggedPlaces?tag=tag
+
+router.get('/taggedPlaces', async (req, res) => {
+  const { tag } = req.query
+
+  const query = `
+  SELECT tags.placeId, places.*
+  FROM tags
+  LEFT JOIN places
+  ON tags.placeId = places.id
+  WHERE tags.tag = '${tag}'
+  `
+  try {
+    const data = await dbConn.query(query)
+    return res.json({ status: 'OK', data })
+  } catch (err) {
+    console.log('%c⧭', 'color: #cc0036', err);
+    return res.json({ status: 'ERR', msg: err, err })
+  }
+})
+
 
 
 // @ api/maps/placesByTiles

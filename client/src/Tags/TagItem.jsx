@@ -8,16 +8,15 @@ export const TagItem = ({ tagInfo, onClick }) => {
   }
 
   return (
-    <div className="tagItem cursor-pointer mp-accent-hover transition-small" onClick={click}>
+    <div className="tagItem cursor-pointer mp-accent-hover transition-small mp-border-dark " onClick={click}>
 
-      <div className="mp-dark bigHashtag">
-        #
+      <div className="mp-dark tagWrap">
+        <span className="bigHashtag"># </span>
+        <span className="tagContent mp-accent">{tagInfo.tag}</span>
       </div>
 
-      <div className="resultTags">
-        <p className="mp-secondary">{tagInfo.tag}</p>
-        <p>{TEXT.tagsAmount}: <span>{tagInfo.amount}</span></p>
-      </div>
+
+      <p className="tagAmount mp-dark">{TEXT.tagsAmount}: <span>{tagInfo.amount}</span></p>
     </div>
   )
 }

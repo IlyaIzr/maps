@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { getPlaces, getPlacesByTiles, getUserPlaces } from '../requests/map';
+import { getPlaces, getPlacesByTiles, getTagPlaces, getUserPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
@@ -43,7 +43,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   useEffect(() => {
     (async function () {
-      if (app.friendModeId) return;
+      if (app.mode === 'watch' || app.mode === 'tags') return;
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed])
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
@@ -57,7 +57,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // Init map
   useEffect(() => {
-    
+
     // turns-off draw mode in development
     // if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
     setFeature(null);
@@ -141,32 +141,34 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     if (!map.current) return; // wait for map to initialize
 
     (async function () {
-      let geoJson
-      if (!app.friendModeId) {
-        geoJson = await initPlacesCall()
-      } else {
-        const res = await getUserPlaces(app.friendModeId)
-        if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg || JSON.stringify(res) })
-        geoJson = geoJsonFromResponse(res.data)
-      }
-
-      setGeoData(geoJson)
+      await initPlacesCall()
     })()
     // eslint-disable-next-line
   }, [app.mode]);
 
 
   async function initPlacesCall() {
+    let geoJson
     const { lng, lat } = getLocation()
     // const zoom = map.getZoom()
     const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom)
     setlayoutXY({ x, y })
 
+    if (app.mode === 'watch') {
+      const res = await getUserPlaces(app.friendModeId)
+      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg + '#mp1' || JSON.stringify(res) })
+      geoJson = geoJsonFromResponse(res.data)
+    } else if (app.mode === 'tags') {
+      const res = await getTagPlaces(app.tagModeTag, x - range, x + range, y - range, y + range)
+      console.log('%c⧭', 'color: #408059', res);
+      if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg + '#mp2' || JSON.stringify(res) })
+      geoJson = geoJsonFromResponse(res.data)
+    } else {
+      const res = await getPlaces(x - range, x + range, y - range, y + range)
+      return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+    }
 
-    const res = app.friendModeId ?
-      await getUserPlaces(app.friendModeId) :
-      await getPlaces(x - range, x + range, y - range, y + range)
-    const geoJson = processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+    setGeoData(geoJson)
     return geoJson
   }
 

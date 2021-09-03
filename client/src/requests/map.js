@@ -10,6 +10,11 @@ export async function getUserPlaces(id) {
   return await f()
 }
 
+export async function getTagPlaces(tag) {
+  const f = requsetMaker('GET', 'maps', 'taggedPlaces', null, false, `tag=${tag}`)
+  return await f()
+}
+
 export async function getReviews(placeId) {
   const f = requsetMaker('GET', 'maps', 'reviews', null, false, `targetId=${placeId}`)
   return await f()

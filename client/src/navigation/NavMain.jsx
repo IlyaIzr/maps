@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
@@ -10,8 +10,10 @@ import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 export const NavMain = () => {
   const app = useSelector(state => state.app)
   const friends = useSelector(state => state.user.friends)
-  const [leftMenu, setLeftMenu] = useState(false)
   const history = useHistory()
+
+  const [leftMenu, setLeftMenu] = useState(false)
+  const [modeLabel, setModeLabel] = useState(TEXT.defaultMode);
 
   function showLeftMenu() {
     setLeftMenu(true)
@@ -20,17 +22,24 @@ export const NavMain = () => {
     setLeftMenu(false)
     history.push('/')
   }
-  function initials() {
+  function friendName() {
     const friend = friends.find(friend => friend.id === app.friendModeId)
     return friend.name + ' (' + friend.login + ')'
   }
-  function modeLabel() {
-    const { mode } = app
-    if (mode === 'watch') return TEXT.marksOf + ' ' + initials()
-    if (mode === 'draw') return TEXT.drawing
-    if (mode === 'drawRoute') return TEXT.drawRouteMode
-    return TEXT.defaultMode
-  }
+
+  useEffect(() => {
+    console.log('%c⧭', 'color: #7f7700', app, app.tagModeTag);
+    (function() {
+      const { mode } = app
+      if (mode === 'watch') return setModeLabel(TEXT.marksOf + ' ' + friendName())
+      if (mode === 'draw') return setModeLabel(TEXT.drawing)
+      if (mode === 'drawRoute') return setModeLabel(TEXT.drawRouteMode)
+      if (mode === 'tags') return setModeLabel(TEXT.tag + ' ' + app.tagModeTag)
+      return setModeLabel(TEXT.defaultMode)
+    })()
+
+    // eslint-disable-next-line
+  }, [app.mode, app.friendModeId, app.tagModeTag])
 
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
@@ -46,7 +55,7 @@ export const NavMain = () => {
         </div>
         <Link to="/watchMode" className="currModeLabels">
           <span className="mp-dark">{TEXT.mode + ': '} </span><span className="mp-counter">
-            {modeLabel()}
+            {modeLabel}
           </span>
         </Link>
       </div>

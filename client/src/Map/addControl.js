@@ -11,7 +11,6 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
     },
     // defaultMode: 'draw_polygon'
   });
-  console.log('%c⧭ control was added', 'color: #e50000', );
   
   // Create custom controls
   createBtn.onclick = function () {

@@ -29,16 +29,16 @@ export const FeaturedTags = () => {
 
   return (
     <div>
+      <h4 className="title">{TEXT.recentTags}</h4>
       <div className="tagsGroup">
-        <h4 className="title">{TEXT.recentTags}</h4>
 
         {Boolean(recent.length) && recent.map(tagInfo => {
           return <TagItem tagInfo={tagInfo} key={tagInfo.tag + 'recent'} onClick={onClick} />
         })}
       </div>
 
+      <h4 className="title">{TEXT.mostPopular}</h4>
       <div className="tagsGroup">
-        <h4 className="title">{TEXT.mostPopular}</h4>
 
         {Boolean(popular.length) && popular.map(tagInfo => {
           return <TagItem tagInfo={tagInfo} key={tagInfo.tag + 'popular'} onClick={onClick} />

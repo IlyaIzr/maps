@@ -1,0 +1,69 @@
+.tags {
+  padding: 7px 10px;
+}
+
+.tags .title {
+  padding: 0 16px;
+  margin: 16px 0 8px 0;
+}
+
+.tagsGroup {
+  display: flex;
+  max-height: min(70%, 400px);
+  overflow-y: auto;
+}
+
+.tagItem {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid;
+  border-radius: 1px;
+  padding: 7px 10px;
+  margin: 12px 8px;
+  min-width: 140px;
+  max-width: 180px;
+}
+.tagItem:hover{
+  border: 1px solid var(--counter);
+}
+.tagWrap{
+  line-height: 1.5em;
+}
+.bigHashtag{
+  margin: 0;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+.tagContent{
+  display: inline;
+  margin: 0;
+  font-size: 1.2em;
+  vertical-align: super;
+}
+
+.tagAmount{
+  display: block;
+  min-width: 100%;
+  margin: -4px 0 0 0;
+  padding-right: 8px;
+  text-align: right;
+}
+
+.tagOverview .title{ 
+  font-size: 1.4em;
+  margin: 8px 0;
+}
+.title .bigHashtag{
+  margin-right: 4px;
+}
+
+.tagOverview .subtitle{
+  margin: -4px 0 12px 0;
+  padding-left: 20px;
+}
+
+.titlePopular{
+  font-size: 1.3em;
+  padding-left: 16px;
+}

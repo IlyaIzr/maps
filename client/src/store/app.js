@@ -15,6 +15,7 @@ const SET_TOAST = 'app/set_toast'
 const CLOSE_TOAST = 'app/close_toast'
 const RERENDERMAP = 'app/rerender_map'
 const SET_FRIEND_ID = 'app/friend_id'
+const SET_TAG = 'app/set_tag'
 const SET_MODE = 'app/set_mode'
 
 /* #endregion */
@@ -43,9 +44,9 @@ export const initialState = {
   //   title: ''
   // }
   mapKey: 1000,
+  mode: null, // special modes: 'watch', 'draw', 'drawRoute', 'tags', '?withRoutes'
   friendModeId: null,
-  mode: null, // special modes: 'watch', 'draw', 'drawRoute', '?withRoutes'
-
+  tagModeTag: null,
 }
 
 /* #endregion */
@@ -120,6 +121,12 @@ export function appReducer(state = initialState, act) {
         ...state, friendModeId: act.id
       }
     }
+    case SET_TAG: {
+      return {
+        ...state,
+        tagModeTag: act.tag
+      }
+    }
     case SET_MODE: {
       const mode = act.mode
       const prevMode = state.mode
@@ -128,9 +135,7 @@ export function appReducer(state = initialState, act) {
       const res = {
         ...state, mode
       }
-      console.log('%c⧭', 'color: #733d00', res.mapKey);
       if (mode === 'draw' || prevMode === 'draw') res.mapKey += 1
-      console.log('%c⧭', 'color: #00bf00', res.mapKey);
       if (mode !== 'watch') res.friendModeId = null
       return res
     }
@@ -208,11 +213,15 @@ export const friendModeId = (d, id) => {
   d({ type: SET_FRIEND_ID, id })
 }
 
+export const tagModeTag = (d, tag) => {
+  d({ type: SET_TAG, tag })
+}
+
 export const setMapMode = (d, mode) => {
   const modes = ['watch', 'draw', 'drawRoute', 'tags', '?withRoutes']
   if (!modes.includes(mode)) mode = null
   d({ type: SET_MODE, mode })
-  rerenderMap(d)
+  // rerenderMap(d)
 }
 
 export const resetAppState = (d) => d({ type: 'app/reset' })

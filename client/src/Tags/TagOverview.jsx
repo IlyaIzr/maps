@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { Link, useParams } from "react-router-dom"
+import { Link, useHistory, useParams } from "react-router-dom"
 import { getTagInfo } from "../requests/tags"
 import { TEXT } from "../rest/lang"
-import { setMapMode, setToast } from "../store/app"
+import { setMapMode, setToast, tagModeTag } from "../store/app"
 
 export const TagOverview = () => {
   const dispatch = useDispatch()
   const { tag } = useParams()
+  const history = useHistory()
+
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
-    tagReq()    
+    tagReq()
     // eslint-disable-next-line 
   }, [])
   async function tagReq() {
@@ -22,7 +24,7 @@ export const TagOverview = () => {
     const result = { amount: 0, places: [] }
     res.data.forEach(tagObj => {
       result.amount += tagObj.amount
-      result.places.push(tagObj.placeId, tagObj.amount)
+      result.places.push({ id: tagObj.placeId, amount: tagObj.amount })
     })
     setInfo(result)
   }
@@ -30,24 +32,28 @@ export const TagOverview = () => {
   if (!info) return null
 
   function onClick() {
+    tagModeTag(dispatch, tag)
     setMapMode(dispatch, 'tags')
+    history.push('/')
   }
 
   // should we show tops of the buildings
   return (
     <div className="tagOverview">
       {/* Common info */}
-      <h3 className="title"><span>#</span>{info.tag}</h3>
-      <p>{TEXT.tagsAmount}: {info.amount}</p>
+      <h3 className="title tagWrap"><span className="bigHashtag">#</span>
+        <span className="tagContent mp-accent">{tag}</span>
+      </h3>
+      <p className="subtitle">{TEXT.tagsAmount}: {info.amount}</p>
       <Link to="/">
         <button className="button" onClick={onClick}>{TEXT.watchAtMap}</button>
       </Link>
 
       {/* Popular buildings */}
-      <h4 className="subTitle">{TEXT.mostPopular}</h4>
-      {Boolean(info.places.length) && info.places.map(([id, amount]) => {
+      <h4 className="title titlePopular">{TEXT.mostPopularPlaces}</h4>
+      {Boolean(info.places) && info.places.map(({ id, amount }) => {
         return (
-          <div className="placeInTag">
+          <div className="placeInTag" key={id}>
             {id}
             <br />
             {amount}

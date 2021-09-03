@@ -147,9 +147,9 @@ const ru = {
   tagsAmount: 'количество тэгов',
   watchAtMap: 'посмотреть на карте',
   recentTags: 'Новые тэги',
-  mostPopular: 'Самые популярные',
-  newPassword: 'Новый пароль'
-  
+  mostPopularPlaces: 'Самые популярные места',
+  newPassword: 'Новый пароль',
+  tag: 'тэг'
 }
 
 // export const TEXT = window.APPTEXT || ru
