@@ -2,29 +2,7 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
-// rest
-const { auth } = require('./middleware')
 
-
-// @ api/maps/reviews
-
-router.get('/reviews', async (req, res) => {
-  const { targetId } = req.query
-  if (!targetId) return res.json({ status: 'OK', data: [] })
-
-  try {
-    const query = `
-    SELECT reviews.*, users.name, users.login FROM reviews
-    LEFT JOIN users ON reviews.author = users.id
-    WHERE reviews.targetId = ${targetId}
-    ORDER BY timestamp DESC `
-    const data = await dbConn.query(query)
-    //TODO // LIMIT 10 OFFSET 10 
-    return res.json({ status: 'OK', data })
-  } catch (err) {
-    return res.json({ status: 'ERR', msg: err, err })
-  }
-})
 
 // @ api/maps/places?minx=1&miny=1&maxx=1000&maxy=1000
 
@@ -159,110 +137,6 @@ router.post('/taggedByTiles', async (req, res) => {
 
 
 
-// @ api/maps/postInitReview
-
-router.post('/postInitReview', async (req, res) => {
-  const { user, review, place } = req.body
-  const { grade, comment, targetId } = review
-  const timestamp = Date.now()
-
-  // Form review query
-  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`, `timestamp`) VALUES (?, ?, ?, ?, ?);'
-  const params = [targetId, user, grade, comment, timestamp]
-
-  // Post review
-  try {
-    await dbConn.query(query, params)
-  } catch (err) {
-    return res.json({ status: 'ERR', msg: err, query })
-  }
-
-  // Initialize place
-
-  const { x, y, lng, lat, polyString, name } = place
-
-
-  const query1 =
-    'INSERT INTO `places` (`id`, `rating`,`name`, `amount`, `x`, `y`, `lng`, `lat`, `polygon`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ST_MPointFromText(?));'
-  const params1 = [targetId, grade, name, 1, x, y, lng, lat, polyString]
-
-  // Post place
-  try {
-    await dbConn.query(query1, params1)
-    return res.json({ status: 'OK', msg: 'Review posted successfully' })
-  } catch (err) {
-    return res.json({ status: 'ERR', msg: err, query1, params1 })
-  }
-})
-
-// @ api/maps/postNextReview
-
-router.post('/postNextReview', async (req, res) => {
-  const { user, review, place } = req.body
-  const { grade, comment, targetId } = review
-  const timestamp = Date.now()
-
-  // Form review query
-  const query = 'INSERT INTO `reviews` (`targetId`, `author`, `grade`, `comment`, `timestamp`) VALUES (?, ?, ?, ?, ?);'
-  const params = [targetId, user, grade, comment, timestamp]
-
-  // Post review
-  try {
-    await dbConn.query(query, params)
-  } catch (err) {
-    return res.json({ status: 'ERR', msg: err, query })
-  }
-
-  // Update place
-
-  const { id, rating, amount } = place
-  const updatedRating = (amount * rating + grade) / (amount + 1)
-  const query1 =
-    `UPDATE places set rating=${updatedRating}, amount=${amount + 1} WHERE id=${id};`
-
-  // Post it
-  try {
-    await dbConn.query(query1)
-    return res.json({ status: 'OK', msg: 'Review posted successfully' })
-  } catch (err) {
-    return res.json({ status: 'ERR', msg: err, query1 })
-  }
-})
-
-
-// @ /maps/reviews
-
-router.delete('/reviews', auth, async (req, res) => {
-
-  const author = req.userId
-  const { timestamp, place: { rating, amount, id, grade } } = req.body
-  // console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
-  // return res.json({ status: 'OK', msg: 'Review deleted successfully' })
-  // Delete review
-
-  const query = `DELETE FROM reviews WHERE author = '${author}' AND timestamp = '${timestamp}'`
-  try {
-    const result = await dbConn.query(query)
-    if (!result.affectedRows) throw 'nothing was deleted'
-  } catch (error) {
-    return res.json({ status: 'ERR', msg: error, query })
-  }
-
-
-  // Update place
-  const updatedRating = (amount * rating - Number(grade)) / (amount - 1)
-  const placeQuery =
-    `UPDATE places set rating=${updatedRating}, amount=${amount - 1} WHERE id=${id};`
-
-  try {
-    const result = await dbConn.query(placeQuery)
-    if (result.affectedRows) return res.json({ status: 'OK', msg: 'Review deleted successfully' })
-    throw 'nothing was deleted'
-  } catch (error) {
-    return res.json({ status: 'ERR', msg: error, query: placeQuery })
-  }
-
-})
 
 
 // @ /maps/test

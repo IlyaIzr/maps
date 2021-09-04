@@ -6,6 +6,7 @@ const cookieP = require('cookie-parser')
 
 // api
 const maps = require('./routes/maps')
+const reviews = require('./routes/reviews')
 const auth = require('./routes/auth')
 const users = require('./routes/users')
 const settings = require('./routes/settings')
@@ -26,6 +27,7 @@ app.use(cors({
 
 // Routes reducers
 app.use('/api/maps', maps)
+app.use('/api/reviews', reviews)
 app.use('/api/auth', auth)
 app.use('/api/users', users)
 app.use('/api/settings', settings)

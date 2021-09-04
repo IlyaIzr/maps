@@ -10,9 +10,10 @@ import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
-import { friendModeId, setToast, showMain } from '../store/app';
+import { friendModeId, setMapMode, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 import { postTags } from '../requests/tags';
+import { postReview } from '../requests/reviews';
 
 
 export const Main = () => {
@@ -61,47 +62,54 @@ export const Main = () => {
     place.y = y
 
     // Go out from watchMode
-    friendModeId(dispatch, null)
+    setMapMode(dispatch, null)
 
+    let newGeodata = [...geoData]
 
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
-      const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
+      const res = await postReview({ userId: user.id, review, place: { ...feature.properties, id: feature.id, polyString } })
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
-      const res2 = await postTags({ user: user.id, comment, placeId: feature.id })
-      if (res2.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg2' })
       // Mutate geoData
-      for (let i = 0; i < geoData.length; i++) {
-        if (geoData[i].id === feature.id) {
+      for (let i = 0; i < newGeodata.length; i++) {
+        if (newGeodata[i].id === feature.id) {
           const { amount, rating } = feature.properties
-          geoData[i].properties = {
+          newGeodata[i].properties = {
             rating: +((amount * rating + review.grade) / (amount + 1)).toFixed(5),  //toFixed - 5 numbers after point
             amount: amount + 1
           }
           break;
         }
-      } setGeoData(geoData)
-      updateLayers()
-      return resetRater()
+      }
+    } else {
+      // Case first time
+
+      const res = await postReview({ userId: user.id, review, place })
+      // return;
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr2' })
+
+      newGeodata.push({
+        type: 'Feature',
+        properties: { rating, name, amount: 1 },
+        id: feature.id,
+        // geometry: {...feature.geometry}
+        geometry: feature.geometry
+      })
+
     }
 
+    // Common block
 
-    // Case first time review
-    // console.log(user.id, review, place);
-    const res = await postInitReview({ user: user.id, review, place })
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
+    const tagReq = await postTags({ user: user.id, comment, placeId: feature.id })
+    if (tagReq.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg_Main_3' })
 
-    setGeoData([...geoData, {
-      type: 'Feature',
-      properties: { rating, name, amount: 1 },
-      id: feature.id,
-      // geometry: {...feature.geometry}
-      geometry: feature.geometry
-    }])
+    setGeoData(newGeodata)
     updateLayers()
 
+    // end
     if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
-    // Restore init features
+
+    // finally restore init features
     resetRater()
   }
 

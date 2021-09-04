@@ -15,7 +15,8 @@ export const Featurer = ({ feature, name, setName }) => {
   // }
 
   useEffect(() => {
-    if (feature?.name) setName(feature.properties.name)
+    if (feature?.name) setName(feature.name)
+    else if (feature?.properties?.name) setName(feature.properties.name)
 
     console.log('%c⧭', 'color: #d0bfff', feature);
   }, [feature, setName])

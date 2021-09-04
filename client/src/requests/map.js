@@ -20,32 +20,11 @@ export async function getTagPlacesTiles(tag, data) {
   return await f()
 }
 
-export async function getReviews(placeId) {
-  const f = requsetMaker('GET', 'maps', 'reviews', null, false, `targetId=${placeId}`)
-  return await f()
-}
 
 export async function getPlacesByTiles(data) {
   const f = requsetMaker('POST', 'maps', 'placesByTiles', { ...data }, false)
   return await f()
 }
-
-export async function postInitReview(data) {
-  const f = requsetMaker('POST', 'maps', 'postInitReview', { ...data }, false)
-  return await f()
-}
-
-export async function postNextReview(data) {
-  const f = requsetMaker('POST', 'maps', 'postNextReview', { ...data }, false)
-  return await f()
-}
-
-export async function deleteReview(timestamp, place) {
-  const f = requsetMaker('DELETE', 'maps', 'reviews', { timestamp, place }, true)
-  return await f()
-}
-
-
 
 export async function getAdress(lat, lng) {
   const typesNeeded = new Set(

@@ -10,23 +10,16 @@ comments history
 
 
 
-add #tags and tag search
-
-make first/next review logig on server
 
 badrequests error handlers
 
-userSql: id, login, pword, name, commentsN: Number, level: Number, avatar, question, answer,
-tagSql: tag, placeId, amount
 
 multy-tap-rating instead of stars rating?
 
 Alpha features:
 set location to user location, or show a dialog window to chose a city
-?tag search
 animations: loader animations, transition animations
 close modal on outside click
-tags-mode
 
 Bugs
 no place update after removn last comment
