@@ -35,7 +35,9 @@ export async function postTags({ user, comment, placeId }) {
   })
 
   if (!tags.length) return { status: 'OK' }
+  console.log('%c⧭', 'color: #e5de73', [...tags]);
   tags = tags.filter((item, i, ar) => ar.indexOf(item) === i)
+  console.log('%c⧭', 'color: #33cc99', tags);
 
   const f = requsetMaker('POST', 'tags', 'postTags', { user, placeId, tags }, false)
   return await f()

@@ -70,6 +70,11 @@ router.get('/userPlaces', async (req, res) => {
 
 router.get('/taggedPlaces', async (req, res) => {
   const { tag } = req.query
+  const minx = Number(req.query.minx || 0)
+  const miny = Number(req.query.miny || 0)
+  const maxx = Number(req.query.maxx || 99999999)
+  const maxy = Number(req.query.maxy || 99999999)
+  const args = [minx - 1, maxx + 1, miny - 1, maxy + 1]
 
   const query = `
   SELECT tags.placeId, places.*
@@ -77,13 +82,14 @@ router.get('/taggedPlaces', async (req, res) => {
   LEFT JOIN places
   ON tags.placeId = places.id
   WHERE tags.tag = '${tag}'
+  AND places.x BETWEEN ${args[0]} AND ${args[1]} AND places.y BETWEEN ${args[2]} AND ${args[3]}
   `
   try {
     const data = await dbConn.query(query)
     return res.json({ status: 'OK', data })
   } catch (err) {
-    console.log('%c⧭', 'color: #cc0036', err);
-    return res.json({ status: 'ERR', msg: err, err })
+    console.log(err)
+    return res.json({ status: 'ERR', msg: err, err, query })
   }
 })
 
@@ -118,6 +124,41 @@ router.post('/placesByTiles', async (req, res) => {
   }
 })
 
+// @ api/maps/taggedByTiles
+
+router.post('/taggedByTiles', async (req, res) => {
+  if (!req.body) return res.json({ status: 'OK', data: [] })
+  const { tag, data } = req.body
+
+  const xValues = []
+  const yValues = []
+  Object.values(data).forEach(val => {
+    const [x, y] = val.substr(1).split('y')
+    xValues.push(x)
+    yValues.push(y)
+  })
+  
+  const query = `
+  SELECT tags.placeId, places.*
+  FROM tags
+  LEFT JOIN places
+  ON tags.placeId = places.id
+  WHERE tags.tag = '${tag}'
+  AND places.x IN (${xValues.toString()})
+  AND places.y IN (${yValues.toString()})
+  `
+
+  try {
+    const data = await dbConn.query(query)
+    return res.json({ status: 'OK', data })
+  } catch (err) {
+    console.log(err);
+    return res.json({ status: 'ERR', msg: err, err, query })
+  }
+})
+
+
+
 // @ api/maps/postInitReview
 
 router.post('/postInitReview', async (req, res) => {
@@ -139,7 +180,6 @@ router.post('/postInitReview', async (req, res) => {
   // Initialize place
 
   const { x, y, lng, lat, polyString, name } = place
-  console.log('%c⧭', 'color: #e57373', name);
 
 
   const query1 =
@@ -196,7 +236,7 @@ router.delete('/reviews', auth, async (req, res) => {
 
   const author = req.userId
   const { timestamp, place: { rating, amount, id, grade } } = req.body
-  console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
+  // console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
   // return res.json({ status: 'OK', msg: 'Review deleted successfully' })
   // Delete review
 

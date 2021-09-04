@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import { getPlaces, getPlacesByTiles, getTagPlaces, getUserPlaces } from '../requests/map';
+import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
@@ -43,7 +43,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   useEffect(() => {
     (async function () {
-      if (app.mode === 'watch' || app.mode === 'tags') return;
+      if (app.mode === 'watch') return;
+      if (app.mode === 'tags' && dataWeNeed.size) {
+        const res = await getTagPlacesTiles(app.tagModeTag, [...dataWeNeed])
+        return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+      }
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed])
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
@@ -88,7 +92,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject || null)
       mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData)
-      window.geocoderRef = new window.google.maps.Geocoder()
+      if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
     })();
 
 
@@ -96,8 +100,6 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       const loc = map.current?.getCenter?.()
       if (loc) saveLocation(loc)
     }, 10000);
-    // canvas.style.width = '100%'
-    // canvas.style.height = '100%'
 
     return () => clearInterval(interval)
 
@@ -160,7 +162,6 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       geoJson = geoJsonFromResponse(res.data)
     } else if (app.mode === 'tags') {
       const res = await getTagPlaces(app.tagModeTag, x - range, x + range, y - range, y + range)
-      console.log('%c⧭', 'color: #408059', res);
       if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg + '#mp2' || JSON.stringify(res) })
       geoJson = geoJsonFromResponse(res.data)
     } else {

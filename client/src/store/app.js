@@ -130,7 +130,7 @@ export function appReducer(state = initialState, act) {
     case SET_MODE: {
       const mode = act.mode
       const prevMode = state.mode
-      if (mode === prevMode) return { ...state }
+      if (mode === prevMode) return { ...state, mapKey: state.mapKey + 1 }
 
       const res = {
         ...state, mode

@@ -10,8 +10,13 @@ export async function getUserPlaces(id) {
   return await f()
 }
 
-export async function getTagPlaces(tag) {
-  const f = requsetMaker('GET', 'maps', 'taggedPlaces', null, false, `tag=${tag}`)
+export async function getTagPlaces(tag, minx = 0, maxx = 99999999, miny = 0, maxy = 99999999) {
+  const f = requsetMaker('GET', 'maps', 'taggedPlaces', null, false, `tag=${tag}&minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}`)
+  return await f()
+}
+
+export async function getTagPlacesTiles(tag, data) {
+  const f = requsetMaker('POST', 'maps', 'taggedByTiles', { tag, data }, false)
   return await f()
 }
 

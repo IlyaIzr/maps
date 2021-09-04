@@ -64,7 +64,7 @@
 }
 
 .featurerGreetings {
-  margin-right: 16px;
+  margin: -6px 16px 6px 4px;
 }
 
 .featureName {
@@ -136,6 +136,10 @@ span.star{
 .stars{
   width: 160px;
   margin-top: 20px;
+}
+
+.starsAndRating.noRating .stars{
+  margin: 5px 0;
 }
 /* .rating{
   width: 80px;

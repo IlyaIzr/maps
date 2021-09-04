@@ -69,7 +69,7 @@ export const Main = () => {
       const res = await postNextReview({ user: user.id, review, place: { ...feature.properties, id: feature.id } })
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
       const res2 = await postTags({ user: user.id, comment, placeId: feature.id })
-      if (res2.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg1' })
+      if (res2.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg2' })
       // Mutate geoData
       for (let i = 0; i < geoData.length; i++) {
         if (geoData[i].id === feature.id) {

@@ -28,7 +28,6 @@ export const NavMain = () => {
   }
 
   useEffect(() => {
-    console.log('%c⧭', 'color: #7f7700', app, app.tagModeTag);
     (function() {
       const { mode } = app
       if (mode === 'watch') return setModeLabel(TEXT.marksOf + ' ' + friendName())
