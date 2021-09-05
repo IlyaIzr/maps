@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { gradients } from '../rest/colors';
 import { TEXT } from '../rest/lang';
@@ -45,6 +45,12 @@ export const Rater = ({ feature, onSubmit }) => {
   function ratingData() {
     return String(Number(feature.properties.rating).toPrecision(3)).split('.')
   }
+
+  useEffect(() => {
+    setHover(0)
+    setRating(0)
+    setComment('')    
+  }, [feature])
 
   // TODO make stars with rating gradient
   return (

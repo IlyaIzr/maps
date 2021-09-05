@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteReview, getReviews } from '../requests/reviews';
+import { restrictedLetters } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 
@@ -70,11 +71,44 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
   }
 
 
-  if (feature?.source !== 'ratedFeaturesSource') return (null)
+  if (feature?.source !== 'ratedFeaturesSource') return null
+
+  function parseTags(text = "") {
+    if (!text || !text.includes('#')) return text
+
+    let res = []
+    let composingTag = ""
+    let plain = ""
+
+    for (let i = 0; i < text.length; i++) {
+      const letter = text[i]
+      if (plain && letter === '#') {
+        res.push(<span>{plain}</span>)
+        plain = ""
+        composingTag = '#'
+      }
+      else if (plain && i === text.length - 1) res.push(<span>{plain + letter}</span>)
+      else if (letter === '#') composingTag = '#'
+
+      else if (!composingTag) plain += letter
+      else if (restrictedLetters.includes(letter)) {
+        res.push(<Link to={"/tags/item/" + composingTag.substr(1) + letter}>
+          <span className="commentTag cursor-pointer mp-counter">{composingTag + letter}</span>
+        </Link>)
+        composingTag = ""
+        plain += letter
+      } else if (i === text.length - 1) {
+        // last letter is in tag
+        res.push(<Link to={"/tags/item/" + composingTag.substr(1) + letter}>
+          <span className="commentTag cursor-pointer mp-counter">{composingTag + letter}</span>
+        </Link>)
+      } else composingTag += letter
+    }
+    return <div>{res}</div>
+  }
   return (
     <div className={`reviewsContainer ${reviewsShown ? 'expanded' : 'shrinked'}`}>
       {reviews.length ? reviews.map(review => {
-        console.log('%c⧭', 'color: #d90000', review);
         if (!review.name) review.name = TEXT.anonimus
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
@@ -107,7 +141,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
                   })}
                 </span>
               </div>
-              {Boolean(review.comment) && <div className="reviewComment ">{review.comment}</div>}
+              {Boolean(review.comment) && <div className="reviewComment ">{parseTags(review.comment)}</div>}
             </div>
           </div>
         )

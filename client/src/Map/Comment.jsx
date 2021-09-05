@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { tagSuggestions } from '../requests/tags';
+import { restrictedLetters } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { setToast } from '../store/app';
 
@@ -16,7 +17,7 @@ export const Comment = ({ comment, setComment }) => {
     const currCase = e.nativeEvent.data
 
     if (currCase === '#') setTagSuggestion('')
-    if (!currCase || currCase === ' ' || currCase === ',' || currCase === '.' || currCase === '/') setTagSuggestion(null)
+    else if (!currCase || restrictedLetters.includes(currCase)) setTagSuggestion(null)
     else if (typeof tagSuggestion === 'string') setTagSuggestion(tagSuggestion + currCase)
   }
 

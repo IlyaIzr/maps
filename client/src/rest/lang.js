@@ -148,6 +148,7 @@ const ru = {
   watchAtMap: 'посмотреть на карте',
   recentTags: 'Новые тэги',
   mostPopularPlaces: 'Самые популярные места',
+  mostPopular: 'Самые популярные',
   newPassword: 'Новый пароль',
   tag: 'тэг'
 }

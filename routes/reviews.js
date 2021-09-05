@@ -54,7 +54,7 @@ router.post('/postReview', async (req, res) => {
   VALUES 
   ( ${targetId}, '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}') )
   ON DUPLICATE KEY UPDATE 
-  rating = '${notNaN(updatedRating)}', amount = '${notNaN(amount + 1)}'
+  rating = '${notNaN(updatedRating)}', amount = '${notNaN(amount + 1)}', polygon = ST_MPointFromText('${polyString}')
   `
 
   try {
