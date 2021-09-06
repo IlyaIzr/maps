@@ -27,7 +27,13 @@ router.get('/getTag', async (req, res) => {
   if (!tag) return res.json({ status: 'ERR' })
 
   // TBC join
-  const query = `SELECT * FROM tags WHERE tag = '${tag}' ORDER BY amount DESC`
+  const query = `
+  SELECT tags.*, places.rating, places.amount, places.lng, places.lat, places.polygon, places.name FROM tags 
+  LEFT JOIN places ON tags.placeId = places.id
+  WHERE tags.tag = '${tag}' 
+  ORDER BY tags.amount DESC
+  `
+
   try {
     const data = await dbConn.query(query)
     return res.json({ status: 'OK', data })

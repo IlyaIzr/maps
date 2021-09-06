@@ -17,6 +17,7 @@ const RERENDERMAP = 'app/rerender_map'
 const SET_FRIEND_ID = 'app/friend_id'
 const SET_TAG = 'app/set_tag'
 const SET_MODE = 'app/set_mode'
+const SET_MAPREF = 'app/set_mapref'
 
 /* #endregion */
 
@@ -47,6 +48,7 @@ export const initialState = {
   mode: null, // special modes: 'watch', 'draw', 'drawRoute', 'tags', '?withRoutes'
   friendModeId: null,
   tagModeTag: null,
+  mapRef: null
 }
 
 /* #endregion */
@@ -132,7 +134,7 @@ export function appReducer(state = initialState, act) {
       const prevMode = state.mode
       if (!mode) return { ...state, mode: null, friendModeId: null, tagModeTag: null }
       
-      if (mode === prevMode) return { ...state, mapKey: state.mapKey + 1 }
+      if (mode === prevMode) return { ...state }
 
       const res = {
         ...state, mode
@@ -146,6 +148,12 @@ export function appReducer(state = initialState, act) {
         ...initialState
       }
     }
+    case SET_MAPREF: {
+      return {
+        ...state, mapRef: act.mapRef
+      }
+    }
+
     default:
       return state
   }
@@ -227,5 +235,7 @@ export const setMapMode = (d, mode) => {
 }
 
 export const resetAppState = (d) => d({ type: 'app/reset' })
+
+export const setMapRef = (d, mapRef) => d({ type: SET_MAPREF, mapRef })
 
 /* #endregion */

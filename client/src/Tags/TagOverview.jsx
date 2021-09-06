@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory, useParams } from "react-router-dom"
 import { getTagInfo } from "../requests/tags"
 import { TEXT } from "../rest/lang"
@@ -9,6 +9,7 @@ export const TagOverview = () => {
   const dispatch = useDispatch()
   const { tag } = useParams()
   const history = useHistory()
+  const mapRef = useSelector(s => s.app.mapRef)
 
   const [info, setInfo] = useState(null);
 
@@ -18,13 +19,14 @@ export const TagOverview = () => {
   }, [])
   async function tagReq() {
     const res = await getTagInfo(tag)
+    console.log('%c⧭', 'color: #00e600', res);
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #tow1' });
     // receive array of tags of buildings
     if (!res.data.length) return;
     const result = { amount: 0, places: [] }
     res.data.forEach(tagObj => {
       result.amount += tagObj.amount
-      result.places.push({ id: tagObj.placeId, amount: tagObj.amount })
+      result.places.push({ ...tagObj })
     })
     setInfo(result)
   }
@@ -51,15 +53,27 @@ export const TagOverview = () => {
 
       {/* Popular buildings */}
       <h4 className="title titlePopular">{TEXT.mostPopularPlaces}</h4>
-      {Boolean(info.places) && info.places.map(({ id, amount }) => {
-        return (
-          <div className="placeInTag" key={id}>
-            {id}
-            <br />
-            {amount}
-          </div>
-        )
-      })}
+      <div className="tagPlaces">
+        {Boolean(info.places) && info.places.map(({ placeId, amount, name, lng, lat }) => {
+          
+          function onClick() {
+            mapRef.flyTo({ center: [lng, lat], zoom: 16, speed: 0.5 })
+            tagModeTag(dispatch, tag)
+            setMapMode(dispatch, 'tags')
+            history.push('/')
+          }
+          
+          return (<div key={placeId}>
+            <div className="placeInTag" >
+              <div className="amount mp-accent" title={TEXT.mentionsAmount}>{amount}</div>
+              <div className="placeTagInfo">
+                <div className="name">{name}</div>
+                <button className="button" onClick={onClick}>{TEXT.show}</button>
+              </div>
+            </div>
+          </div>)
+        })}
+      </div>
 
     </div>
   )

@@ -67,3 +67,38 @@
   font-size: 1.3em;
   padding-left: 16px;
 }
+
+.tagPlaces{  
+  display: flex;
+  flex-wrap: wrap;
+}
+.placeInTag{
+  display: flex;
+  border: 1px solid;
+  border-radius: 1px;
+  padding: 5px 8px;
+  margin: 12px 8px;
+  width: 220px;
+}
+
+.placeTagInfo{
+  width: 174px;
+  text-align: right;
+}
+
+.placeInTag .amount{
+  display: inline-block;
+  font-size: 2em;
+  text-align: center;
+  margin-right: 8px;
+  padding: 0 10px;
+  max-width: 40px;
+  margin-top: -4px;
+}
+
+.placeTagInfo .name{
+  text-align: left;
+  /* display: inline-block; */
+  min-height: 30px;
+  padding-top: 2px;
+}

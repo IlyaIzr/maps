@@ -150,7 +150,9 @@ const ru = {
   mostPopularPlaces: 'Самые популярные места',
   mostPopular: 'Самые популярные',
   newPassword: 'Новый пароль',
-  tag: 'тэг'
+  tag: 'тэг',
+  mentionsAmount: 'Колчество упоминаний',
+  show: 'Показать',
 }
 
 // export const TEXT = window.APPTEXT || ru

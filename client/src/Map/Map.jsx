@@ -9,7 +9,7 @@ import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { hideMain, setToast, showMain } from '../store/app';
+import { hideMain, setMapRef, setToast, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
 
 // Settings
@@ -76,6 +76,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         center: [lng || 34.354, lat || 53.235], // bryansk
         zoom
       });
+      setMapRef(d, map.current)
 
       // Add search
       if (app.mode !== 'draw') map.current.addControl(
@@ -146,7 +147,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       await initPlacesCall()
     })()
     // eslint-disable-next-line
-  }, [app.mode]);
+  }, [app.mode, app.friendModeId, app.tagModeTag]);
 
 
   async function initPlacesCall() {

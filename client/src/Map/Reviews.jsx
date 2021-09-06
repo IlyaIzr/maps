@@ -15,7 +15,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
 
   useEffect(() => {
     (async function () {
-      if (feature?.source !== 'ratedFeaturesSource') return (null)
+      if (feature?.source !== 'ratedFeaturesSource') return setReviews([])
 
       const res = await getReviews(feature.id)
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
@@ -28,6 +28,8 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
     /* eslint-disable */
   }, [feature?.source, feature?.id])
   /* eslint-enable */
+  
+  if (feature?.source !== 'ratedFeaturesSource') return null
 
   function onClick() {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)
@@ -71,7 +73,6 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
   }
 
 
-  if (feature?.source !== 'ratedFeaturesSource') return null
 
   function parseTags(text = "") {
     if (!text || !text.includes('#')) return text
@@ -146,7 +147,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
           </div>
         )
       }) :
-        <div>{TEXT.noreviews}</div>
+        <div key={'whatever'}>{TEXT.noreviews}</div>
       }
 
       <div className="skipperContainer">

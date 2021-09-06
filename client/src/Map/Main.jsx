@@ -5,12 +5,11 @@ import { MapArea } from './Map'
 import { Rater } from './Rater'
 import { Featurer } from './Featurer';
 import { formatGeodata } from './formatGeodata'
-import { postInitReview, postNextReview } from '../requests/map';
 import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
 import { getLayoutCoords } from '../rest/helperFuncs';
-import { friendModeId, setMapMode, setToast, showMain } from '../store/app';
+import { setMapMode, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 import { postTags } from '../requests/tags';
 import { postReview } from '../requests/reviews';

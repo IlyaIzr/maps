@@ -1,5 +1,6 @@
 Bugs:
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
+tag #1 -> tag #2 
 
 
 ?superUser interface
@@ -31,6 +32,7 @@ expanding comments with tags
 pick fonts
 like counts
 user avatar
+to visit markers
 rooftop raster view, example on https://www.mapbox.com/search-service
 
 1.1 features
