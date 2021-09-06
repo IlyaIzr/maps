@@ -60,7 +60,7 @@ export const Main = () => {
     place.x = x
     place.y = y
 
-    // Go out from watchMode
+    // Go out from mapMode
     setMapMode(dispatch, null)
 
     let newGeodata = [...geoData]

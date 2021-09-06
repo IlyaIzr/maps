@@ -52,7 +52,7 @@ export const NavMain = () => {
         <div id="openLeftMenu" className="nav-icon" onClick={showLeftMenu} title={TEXT.menu}>
           <Hamburger fill="var(--primary)" />
         </div>
-        <Link to="/watchMode" className="currModeLabels">
+        <Link to="/mapMode" className="currModeLabels">
           <span className="mp-dark">{TEXT.mode + ': '} </span><span className="mp-counter">
             {modeLabel}
           </span>

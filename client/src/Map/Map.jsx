@@ -139,7 +139,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   }, [location.pathname]);
 
 
-  // user watchMode
+  // user maphMode
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
 

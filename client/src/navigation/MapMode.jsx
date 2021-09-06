@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
 import { friendModeId, hideMain, setMapMode } from '../store/app'
 
-export const WatchMode = () => {
+export const MapMode = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { friends } = useSelector(s => s.user)

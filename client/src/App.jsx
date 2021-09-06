@@ -22,7 +22,7 @@ import { TEXT } from "./rest/lang";
 import { Login } from "./Auth/Login";
 import { getPreferences, setPreference } from "./store/localstorage";
 import { FriendsMain } from "./Friends/FriendsMain";
-import { WatchMode } from "./navigation/WatchMode";
+import { MapMode } from "./navigation/MapMode";
 import { getFriendsInfo } from "./rest/helperFuncs";
 import { TagsMain } from "./Tags/TagsMain";
 
@@ -95,9 +95,9 @@ function App() {
           </div>
         </Route>
 
-        <Route path="/watchMode">
+        <Route path="/mapMode">
           <div className="routeWrapper">
-            <WatchMode />
+            <MapMode />
           </div>
         </Route>
 
