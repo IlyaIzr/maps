@@ -151,13 +151,22 @@
   padding: 8px;
 }
 
-.modeSwitch h4 {
+.modeSwitch .currentMode {
   margin: 0 0 16px 0;
   padding-left: 8px;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.modeSwitch .title {
+  margin: 0 0 0px 0;
+  font-size: 1.1em;
+  font-weight: 560;
 }
 
 .modeSwitch .subtitle {
   margin: 4px 0;
+  font-size: 0.9em;
 }
 
 .modeSwitch .modeType {
@@ -167,21 +176,29 @@
   border-top: 1px solid;
   border-radius: 1px;
 }
-
-.drawModeButton {
+.modeButton {
   padding: 7px 10px;
   margin: 12px 8px;
+  font-size: 17px;
+}
+.drawModeButton {
   display: flex;
   flex-wrap: wrap;
-  font-size: 1.1em;
 }
 
-.drawModeButton img {
-  width: 24px;
-  height: 24px;
-  margin-right: 4px;
-  margin-left: -4px;
-  padding: 4px 4px 0px 4px;
+.drawModeButton .nav-icon {
+  margin-right: 8px;
+}
+.tagModeButton{
+  padding-bottom: 2px;
+}
+.tagModeButton .bigHashtag{
+  font-size: 32px;
+  margin-right: 6px;
+
+}
+.tagModeButton .tagContent{
+  font-size: 17px;
 }
 
 /* #endregion */

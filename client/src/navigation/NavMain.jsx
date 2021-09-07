@@ -13,7 +13,7 @@ export const NavMain = () => {
   const history = useHistory()
 
   const [leftMenu, setLeftMenu] = useState(false)
-  const [modeLabel, setModeLabel] = useState(TEXT.defaultMode);
+  const [modeLabel, setModeLabel] = useState(TEXT.defaultMode)
 
   function showLeftMenu() {
     setLeftMenu(true)
@@ -22,21 +22,12 @@ export const NavMain = () => {
     setLeftMenu(false)
     history.push('/')
   }
-  function friendName() {
-    const friend = friends.find(friend => friend.id === app.friendModeId)
-    return friend.name + ' (' + friend.login + ')'
-  }
 
   useEffect(() => {
-    (function() {
-      const { mode } = app
-      if (mode === 'watch') return setModeLabel(TEXT.marksOf + ' ' + friendName())
-      if (mode === 'draw') return setModeLabel(TEXT.drawing)
-      if (mode === 'drawRoute') return setModeLabel(TEXT.drawRouteMode)
-      if (mode === 'tags') return setModeLabel(TEXT.tag + ' ' + app.tagModeTag)
-      return setModeLabel(TEXT.defaultMode)
+    (function () {
+      const label = getMapModeLabel(app, friends)
+      return setModeLabel(label)
     })()
-
     // eslint-disable-next-line
   }, [app.mode, app.friendModeId, app.tagModeTag])
 
@@ -60,4 +51,18 @@ export const NavMain = () => {
       </div>
     </div>
   )
+}
+
+export function getMapModeLabel(app, friends) {
+  const { mode, tagModeTag } = app
+  if (mode === 'watch') return TEXT.marksOf + ' ' + friendName(friends, app)
+  if (mode === 'draw') return TEXT.drawing
+  if (mode === 'drawRoute') return TEXT.drawRouteMode
+  if (mode === 'tags') return TEXT.tag + ' #' + tagModeTag
+  return TEXT.defaultMode
+}
+
+export function friendName(friends, app) {
+  const friend = friends.find(friend => friend.id === app.friendModeId)
+  return friend.name + ' (' + friend.login + ')'
 }

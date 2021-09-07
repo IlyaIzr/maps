@@ -67,6 +67,7 @@ const ru = {
   newFeature: 'Новый объект на карте',
   newFeaturePHolder: 'Адрес или название места',
   drawMode: 'Режим рисования',
+  toDrawMode: 'К режиму рисования',
   drawPrompt: 'Завершите создание, дважды нажав на последнюю точку полигона',
   level: 'уровень',
   acceptDefault: 'принять',
@@ -128,7 +129,7 @@ const ru = {
   yourFriendsNow: 'Теперь вы друзья',
   goBack: 'Назад',
   friendRequests: 'Предложения дружбы',
-  watchMode: 'Режим просмотра',
+  currentMode: 'Текущий режим',
   watchModeSub1: 'Оценки отдельного друга',
   watchModeSub2: 'Добавьте друзей, чтобы увидеть их оценки отдельно',
   watchModeSub3: 'Отмечайте недостающие здания. В режиме рисования клики на обычные здания могут не работать',
@@ -153,6 +154,9 @@ const ru = {
   tag: 'тэг',
   mentionsAmount: 'Колчество упоминаний',
   show: 'Показать',
+  mapTagModeSub: 'Посмотрите карту по отдельному #тэгу',
+  toTags: 'К тэгам',
+  standartMode: 'Обычный режим',
 }
 
 // export const TEXT = window.APPTEXT || ru

@@ -1,16 +1,34 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
 import { friendModeId, hideMain, setMapMode } from '../store/app'
+import { getMapModeLabel } from './NavMain'
+import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg';
 
 export const MapMode = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { friends } = useSelector(s => s.user)
-  const mode = useSelector(s => s.app.mode)
+  const app = useSelector(s => s.app)
 
-  function onClick(id) {
+
+  const [modeLabel, setModeLabel] = useState(TEXT.defaultMode)
+
+  useEffect(() => {
+    (function () {
+      const label = getMapModeLabel(app, friends)
+      return setModeLabel(label)
+    })()
+    // eslint-disable-next-line
+  }, [app.mode, app.friendModeId, app.tagModeTag])
+
+  useEffect(() => {
+    hideMain(dispatch)
+    // eslint-disable-next-line
+  }, [])
+
+  function runFriendMode(id) {
     history.push('/')
     friendModeId(dispatch, id)
     setMapMode(dispatch, 'watch')
@@ -21,12 +39,7 @@ export const MapMode = () => {
     setMapMode(dispatch, 'default')
   }
 
-  useEffect(() => {
-    hideMain(dispatch)
-    // eslint-disable-next-line
-  }, [])
-
-  function drawMode() {
+  function runDrawMode() {
     history.push('/')
     setMapMode(dispatch, 'draw')
   }
@@ -34,15 +47,21 @@ export const MapMode = () => {
   return (
     <div className="modeSwitch">
 
-      <h4>{TEXT.watchMode}</h4>
+      <h5 className="currentMode">{TEXT.currentMode + ': '}
+        <span className="mp-counter">
+          {modeLabel}
+        </span>
+      </h5>
+
+      {/* friendMode */}
       <div className="modeType mp-border-secondary">
-        <p className="subtitle">{TEXT.watchModeSub1}</p>
+        <h5 className="title">{TEXT.watchModeSub1}</h5>
         <div className="friendList">
           {Boolean(friends?.length) ? friends.map(user => {
             return (
               <div className="friendContainer" key={user.id1 + user.id2}>
                 <div className="resultUser cursor-pointer mp-accent-hover transition-small"
-                  key={user.id} onClick={() => onClick(user.id)}
+                  key={user.id} onClick={() => runFriendMode(user.id)}
                 >
 
                   <div className="authorLogo mp-bg-secondary">
@@ -65,21 +84,45 @@ export const MapMode = () => {
             </div>}
         </div>
       </div>
-      {(mode !== 'draw') &&
 
+      {/* drawMode */}
+      {app.mode !== 'draw' &&
         <div className="modeType mp-border-secondary">
-          <p className="subtitle">{TEXT.watchModeSub3}</p>
+          <h5 className="title">{TEXT.drawMode}</h5>
           <Link to="/">
-            <button className="button drawModeButton" onClick={drawMode}>
-              <img src="/icons/edit-pen.svg" alt="draw area" />
-              {TEXT.drawMode}
+            <button className="button modeButton drawModeButton" onClick={runDrawMode}>
+              <DrawIcon fill="var(--secondary)" className="nav-icon"/>
+              {TEXT.toDrawMode}
             </button>
           </Link>
+          <p className="subtitle">{TEXT.watchModeSub3}</p>
         </div>
       }
 
-      {mode &&
-        <button className="button capitalize mp-counter mp-border-counter" onClick={reset}>{TEXT.reset}</button>
+      {/* tagMode */}
+      <div className="modeType mp-border-secondary">{app.tagModeTag ?
+        <div>
+          <h5 className="title">
+            <span className="capitalize">{TEXT.tag + ': '}</span>
+            <Link to={"/tags/item/" + app.tagModeTag} className="cursor-pointer">
+              <span className="mp-secondary">#</span><span className="mp-counter mp-accent-hover">{app.tagModeTag}</span>
+            </Link>
+          </h5>
+        </div> : <div>
+          <h5 className="title">{TEXT.tags}</h5>
+          <Link to="/tags">
+            <button className="button modeButton tagModeButton tagWrap">
+              <span className="bigHashtag mp-secondary">#</span><span className="tagContent">{TEXT.toTags}</span>
+            </button>
+          </Link>
+          <p className="subtitle">{TEXT.mapTagModeSub}</p>
+        </div>}
+      </div>
+
+      {app.mode &&
+        <div className="modeType mp-border-secondary">
+          <button className="button modeButton capitalize mp-counter mp-border-counter" onClick={reset}>{TEXT.reset}</button>
+        </div>
       }
 
     </div>
