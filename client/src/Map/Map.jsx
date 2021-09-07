@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { hideMain, setMapRef, setToast, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
+import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
+import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
 
 // Settings
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
@@ -180,18 +182,18 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
       {/* Add button */}
       {(app.mode === 'draw') &&
-        <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-primary controlButton">
-          <img src="/icons/edit-pen.svg" alt="draw area" />
+        <button id="createBtn" ref={createBtn} className="mp-bg-light mp-border-accent controlButton">
+          <DrawIcon fill="var(--accent)" className="nav-icon" />
         </button>}
 
       {/* Delete button */}
       {(app.mode === 'draw') &&
-        <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-primary controlButton">
-          <img src="/icons/trash.svg" alt="cancel drawing" />
+        <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-accent controlButton">
+          <TrashIcon fill="var(--accent)" className="nav-icon" />
         </button>}
 
       {/* Helper prompt */}
-      {drawPrompt && <div className="controlPrompt mp-border-counter mp-bg-light">
+      {(drawPrompt && app.mode === 'draw') && <div className="controlPrompt mp-border-secondary mp-bg-light">
         <h6>{TEXT.drawMode}</h6>
         <p>{TEXT.drawPrompt}</p>
       </div>

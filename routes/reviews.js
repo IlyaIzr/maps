@@ -17,7 +17,7 @@ router.get('/reviews', async (req, res) => {
     const query = `
     SELECT reviews.*, users.name, users.login FROM reviews
     LEFT JOIN users ON reviews.author = users.id
-    WHERE reviews.targetId = ${targetId}
+    WHERE reviews.targetId = '${targetId}'
     ORDER BY timestamp DESC `
     const data = await dbConn.query(query)
     //TODO // LIMIT 10 OFFSET 10 
@@ -52,7 +52,7 @@ router.post('/postReview', async (req, res) => {
   INSERT INTO places
   ( id, rating,name, amount, x, y, lng, lat, polygon ) 
   VALUES 
-  ( ${targetId}, '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}') )
+  ( '${targetId}', '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}') )
   ON DUPLICATE KEY UPDATE 
   rating = '${notNaN(updatedRating)}', amount = '${notNaN(amount + 1)}', polygon = ST_MPointFromText('${polyString}')
   `
@@ -66,7 +66,7 @@ router.post('/postReview', async (req, res) => {
   const reviewQuery = `
   INSERT INTO reviews 
   (targetId, author, grade, comment, timestamp) 
-  VALUES (${targetId}, '${userId}', ${grade}, '${comment}', ${Date.now()})
+  VALUES ('${targetId}', '${userId}', ${grade}, '${comment}', ${Date.now()})
   `
 
   try {
@@ -102,7 +102,7 @@ router.delete('/reviews', auth, async (req, res) => {
   // Update place
   const updatedRating = (amount * rating - Number(grade)) / (amount - 1)
   const placeQuery =
-    `UPDATE places set rating=${updatedRating}, amount=${amount - 1} WHERE id=${id};`
+    `UPDATE places set rating=${updatedRating}, amount=${amount - 1} WHERE id='${id}'`
 
   try {
     const result = await dbConn.query(placeQuery)
@@ -111,7 +111,6 @@ router.delete('/reviews', auth, async (req, res) => {
   } catch (error) {
     return res.json({ status: 'ERR', msg: error, query: placeQuery })
   }
-
 })
 
 
