@@ -134,7 +134,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
                   {[...Array(5)].map((star, index) => {
                     index += 1;
                     return (
-                      <span key={index}
+                      <span key={index + review.timestamp}
                         className={index <= (review.grade) ? "mp-accent starButton" : "mp-secondary starButton"}
                       >&#9733;
                       </span>

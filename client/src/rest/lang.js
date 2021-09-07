@@ -157,6 +157,7 @@ const ru = {
   mapTagModeSub: 'Посмотрите карту по отдельному #тэгу',
   toTags: 'К тэгам',
   standartMode: 'Обычный режим',
+  nowYourLevel: 'Теперь ваш уровень'
 }
 
 // export const TEXT = window.APPTEXT || ru

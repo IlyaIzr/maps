@@ -4,6 +4,7 @@ const WRITECREDENTIALS = 'user/set_credentials'
 const CHANGELEVEL = 'user/set_level'
 const SETFRIENDS = 'user/set_friends'
 const SETREQUESTS = 'user/set_requests'
+const COMMENT_N = 'user/comments_number'
 
 // Reducer
 const basicState = {
@@ -11,7 +12,7 @@ const basicState = {
   login: '',
   level: 0,
   id: 'anonimus',
-  comments: 0,
+  commentsn: 0,
   avatar: null,
   friends: [],
   requests: []
@@ -38,6 +39,11 @@ export function userReducer(state = initialState, act) {
     case SETREQUESTS: {
       return {
         ...state, requests: [...act.requestsArr]
+      }
+    }
+    case COMMENT_N: {
+      return {
+        ...state, commentsn: act.number
       }
     }
     default:
@@ -70,3 +76,6 @@ export const setUserFriends = (d, friends = []) => {
 export const setUserRequests = (d, requests = []) => {
   d({ type: SETREQUESTS, requestsArr: requests })
 }
+
+
+export const setCommentsNumber = (d, number) => d({ type: COMMENT_N, number })

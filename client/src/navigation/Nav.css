@@ -190,7 +190,7 @@
   margin-right: 8px;
 }
 .tagModeButton{
-  padding-bottom: 2px;
+  padding: 4px 8px 2px 8px;
 }
 .tagModeButton .bigHashtag{
   font-size: 32px;

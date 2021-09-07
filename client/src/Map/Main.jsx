@@ -13,11 +13,13 @@ import { setMapMode, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 import { postTags } from '../requests/tags';
 import { postReview } from '../requests/reviews';
+import { setCommentsNumber, setUserLevel } from '../store/user';
 
 
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
+  console.log('%c⧭', 'color: #807160', user);
   const app = useSelector(state => state.app)
   const dispatch = useDispatch()
 
@@ -65,10 +67,23 @@ export const Main = () => {
 
     let newGeodata = [...geoData]
 
+    function resLevelHandler(res) {
+      if (res.newLevel) {
+        setToast(dispatch, { status: 'complete', message: TEXT.nowYourLevel + ' ' + res.newLevel })
+        setUserLevel(dispatch, res.newLevel )
+      }
+      setCommentsNumber(dispatch, user.commentsn + 1)
+    }
+
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
-      const res = await postReview({ userId: user.id, review, place: { ...feature.properties, id: feature.id, polyString } })
+      const res = await postReview({
+        userId: user.id, review, place: { ...feature.properties, id: feature.id, polyString },
+        userLevel: user.level, commentsNumber: user.commentsn
+      })
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
+      resLevelHandler(res)
+      
       // Mutate geoData
       for (let i = 0; i < newGeodata.length; i++) {
         if (newGeodata[i].id === feature.id) {
@@ -83,9 +98,12 @@ export const Main = () => {
     } else {
       // Case first time
 
-      const res = await postReview({ userId: user.id, review, place })
+      const res = await postReview({
+        userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
+      })
       // return;
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr2' })
+      resLevelHandler(res)
 
       newGeodata.push({
         type: 'Feature',

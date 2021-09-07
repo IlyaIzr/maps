@@ -40,7 +40,7 @@ function notNaN(val) {
 }
 
 router.post('/postReview', async (req, res) => {
-  const { userId, review, place } = req.body
+  const { userId, userLevel, commentsNumber, review, place } = req.body
   const { grade, comment, targetId } = review
   const { x, y, lng, lat, polyString, name } = place
   // next rew
@@ -69,9 +69,27 @@ router.post('/postReview', async (req, res) => {
   VALUES ('${targetId}', '${userId}', ${grade}, '${comment}', ${Date.now()})
   `
 
+  let newLevel = null
   try {
     await dbConn.query(reviewQuery)
-    return res.json({ status: 'OK', msg: 'Review posted successfully' })
+
+    await (async function levelUp() {
+      if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
+
+      let commentStep = 2 + (6 * 10)  //amount of comments for level 10
+      for (let i = 10; i > 0; i--) {
+        if (commentsNumber + 1 >= commentStep) {
+          await dbConn.query(`UPDATE users SET level = ${i}, commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
+          newLevel = i
+          break;
+        }
+        commentStep = 2 + (6 * (i - 1))
+      }
+    })()
+    if (!newLevel && userId !== 'anonimus')
+      await dbConn.query(`UPDATE users SET commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
+
+    return res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }
