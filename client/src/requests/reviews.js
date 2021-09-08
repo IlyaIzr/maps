@@ -23,6 +23,10 @@ export async function postReview(data) {
   return await f()
 }
 
+export async function postFeedback(comment) {
+  const f = requsetMaker('POST', 'reviews', 'postFeedback', { comment }, false)
+  return await f()
+}
 
 export async function deleteReview(timestamp, place) {
   const f = requsetMaker('DELETE', 'reviews', 'reviews', { timestamp, place }, true)

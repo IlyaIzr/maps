@@ -136,4 +136,17 @@ router.delete('/reviews', auth, async (req, res) => {
 })
 
 
+
+router.post('/postFeedback', async (req, res) => {
+  const { comment } = req.body
+  const query = `INSERT INTO feedback (comment, date, ip) VALUES ('${comment}', ${Date.now()}, '${req.ip}')`
+  try {
+    await dbConn.query(query)
+    return res.json({ status: 'OK' })
+  } catch (error) {
+    return res.json({ status: 'ERR', msg: error, query })
+  }
+
+})
+
 module.exports = router

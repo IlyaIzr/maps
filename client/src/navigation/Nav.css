@@ -143,7 +143,8 @@
 /* #endregion */
 
 /* #region  Mode */
-.currModeLabels{
+
+.currModeLabels {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -176,11 +177,13 @@
   border-top: 1px solid;
   border-radius: 1px;
 }
+
 .modeButton {
   padding: 7px 10px;
   margin: 12px 8px;
   font-size: 17px;
 }
+
 .drawModeButton {
   display: flex;
   flex-wrap: wrap;
@@ -189,16 +192,43 @@
 .drawModeButton .nav-icon {
   margin-right: 8px;
 }
-.tagModeButton{
+
+.tagModeButton {
   padding: 4px 8px 2px 8px;
 }
-.tagModeButton .bigHashtag{
+
+.tagModeButton .bigHashtag {
   font-size: 32px;
   margin-right: 6px;
-
 }
-.tagModeButton .tagContent{
+
+.tagModeButton .tagContent {
   font-size: 17px;
 }
 
+/* #endregion */
+
+/* #region  About */
+.aboutPage{
+  min-height: calc(100vh - 32px);
+  padding: 14px 20px;
+
+}
+.aboutPage p {
+  margin: 0;
+}
+.aboutPage h5{
+  border-bottom: 1px solid;
+  padding: 8px 10px;
+  font-size: 1em;
+  margin: 14px 0 21px 0;
+}
+
+.aboutPage .version{
+  position: absolute;
+  bottom: 32px;
+  left: 14px;
+  font-size: 0.9em;
+  font-family: monospace;
+}
 /* #endregion */

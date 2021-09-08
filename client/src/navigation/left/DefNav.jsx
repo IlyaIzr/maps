@@ -59,7 +59,9 @@ export const DefNav = ({ setNavState, hideSelf }) => {
       </div>
 
       <div className="readonly">{TEXT.routes}</div>
-      <div className="readonly">{TEXT.aboutUs}</div>
+      <div className="left-menu-item">
+        <Link to="/about" className="transition mp-dark" onClick={hideMainMenu}>{TEXT.aboutUs}</Link>
+      </div>
     </div>
   )
 }

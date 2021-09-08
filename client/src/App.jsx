@@ -25,6 +25,7 @@ import { FriendsMain } from "./Friends/FriendsMain";
 import { MapMode } from "./navigation/MapMode";
 import { getFriendsInfo } from "./rest/helperFuncs";
 import { TagsMain } from "./Tags/TagsMain";
+import { About } from "./navigation/About";
 
 
 function App() {
@@ -104,6 +105,12 @@ function App() {
         <Route path="/tags">
           <div className="routeWrapper">
             <TagsMain />
+          </div>
+        </Route>
+        
+        <Route path="/about">
+          <div className="routeWrapper">
+            <About />
           </div>
         </Route>
 
