@@ -30,3 +30,8 @@ export async function getFriendsInfo(dispatch) {
   if (res.status !== 'OK' && res.status !== 'REAUTH') return setToast(dispatch, { message: TEXT.requestError });
   setUserRequests(dispatch, reqs.data)
 }
+
+export function notNaN(val) {
+  if (!val && typeof val === 'number' && val !== 0) return 0
+  return val
+}

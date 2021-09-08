@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { gradients } from '../rest/colors';
+import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { setModal } from '../store/app';
 import { Comment } from './Comment';
@@ -58,7 +59,7 @@ export const Rater = ({ feature, onSubmit }) => {
       <div className={`starsAndRating ${feature.properties.rating === undefined && 'noRating'}`}>
 
         <div className="stars">
-          <h5 className="starRating">{TEXT.yourRating} :</h5> <span className="hoverValue mp-dark">{hover + 1 ? hover : 0}</span>
+          <h5 className="starRating">{TEXT.yourRating} :</h5> <span className="hoverValue mp-dark">{notNaN(hover)}</span>
           <br />
           {[...Array(5)].map((star, index) => {
             index += 1;
@@ -82,7 +83,7 @@ export const Rater = ({ feature, onSubmit }) => {
 
         {feature.properties.rating !== undefined && <div className="rating">
           <div className="ratingAmount mp-border-primary relative" style={{ borderColor: color() }} title={TEXT.rating}>
-            {ratingData()[0]}.<span >{ratingData()[1]}</span>
+            {notNaN(ratingData()[0])}.<span >{notNaN(ratingData()[1])}</span>
             <sub className="mp-dark mp-bg-light" style={{ color: color() }} title={TEXT.marks}> ( {feature.properties.amount} ) </sub>
           </div>
         </div>}

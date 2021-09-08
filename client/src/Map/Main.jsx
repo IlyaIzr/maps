@@ -8,7 +8,7 @@ import { formatGeodata } from './formatGeodata'
 import './Maps.css'
 import { Legend } from './Legend';
 import { Reviews } from './Reviews';
-import { getLayoutCoords } from '../rest/helperFuncs';
+import { getLayoutCoords, notNaN } from '../rest/helperFuncs';
 import { setMapMode, setToast, showMain } from '../store/app';
 import { TEXT } from '../rest/lang';
 import { postTags } from '../requests/tags';
@@ -19,7 +19,6 @@ import { setCommentsNumber, setUserLevel } from '../store/user';
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
-  console.log('%c⧭', 'color: #807160', user);
   const app = useSelector(state => state.app)
   const dispatch = useDispatch()
 
@@ -70,7 +69,7 @@ export const Main = () => {
     function resLevelHandler(res) {
       if (res.newLevel) {
         setToast(dispatch, { status: 'complete', message: TEXT.nowYourLevel + ' ' + res.newLevel })
-        setUserLevel(dispatch, res.newLevel )
+        setUserLevel(dispatch, res.newLevel)
       }
       setCommentsNumber(dispatch, user.commentsn + 1)
     }
@@ -83,15 +82,15 @@ export const Main = () => {
       })
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
       resLevelHandler(res)
-      
+
       // Mutate geoData
       for (let i = 0; i < newGeodata.length; i++) {
         if (newGeodata[i].id === feature.id) {
           const { amount, rating } = feature.properties
-          newGeodata[i].properties = {
-            rating: +((amount * rating + review.grade) / (amount + 1)).toFixed(5),  //toFixed - 5 numbers after point
-            amount: amount + 1
-          }
+          if (newGeodata[i].properties) newGeodata[i].properties = { ...feature.properties }
+          else newGeodata[i].properties = {}
+          newGeodata[i].properties.rating = notNaN(+((amount * rating + review.grade) / (amount + 1)).toFixed(5))  //toFixed - 5 numbers after point
+          newGeodata[i].properties.amount = amount + 1
           break;
         }
       }
@@ -149,7 +148,7 @@ export const Main = () => {
         <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} name={name} setName={setName} />
           <Rater feature={feature} onSubmit={onSubmit} />
-          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData} />
+          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData} resetRater={resetRater} />
           <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>&#10005;</div>
         </div>
       }

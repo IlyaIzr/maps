@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteReview, getReviews } from '../requests/reviews';
 import { restrictedLetters } from '../rest/config';
+import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 
-export const Reviews = ({ feature, updateLayers, setGeoData }) => {
+export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
   const dispatch = useDispatch()
   const { reviewsShown } = useSelector(state => state.app)
   const userId = useSelector(state => state.user.id)
@@ -48,19 +49,16 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
       message: TEXT.removeComment + '?',
       async acceptAction() {
         const res = await deleteReview(timestamp, place)
+        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
 
-        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
-        setReviews(reviews.filter(rev => rev.timestamp + rev.author !== timestamp + userId))
-        feature.properties.rating = (place.amount * place.rating - place.grade) / (place.amount - 1)
-        feature.properties.amount -= 1
         setGeoData(geoData => {
-
           // Mutate geoData
           for (let i = 0; i < geoData.length; i++) {
             if (geoData[i].id === feature.id) {
               const { amount, rating } = feature.properties
               geoData[i].properties = {
-                rating: +((amount * rating - place.grade) / (amount - 1)).toFixed(5),  //toFixed - 5 numbers after point
+                ...geoData[i].properties,
+                rating: notNaN(+((amount * rating - place.grade) / (amount - 1)).toFixed(5)),  //toFixed - 5 numbers after point
                 amount: amount - 1
               }
               break;
@@ -68,6 +66,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
           } return geoData
         })
         updateLayers()
+        resetRater()
       }
     })
   }
@@ -130,7 +129,7 @@ export const Reviews = ({ feature, updateLayers, setGeoData }) => {
                 }
               </div>
               <div className="reviewRating">{review.grade}/5
-                <span className="reviewStars stars">
+                  <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {
                     index += 1;
                     return (
