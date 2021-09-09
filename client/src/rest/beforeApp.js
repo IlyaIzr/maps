@@ -16,16 +16,15 @@ export async function initActions() {
   initLocalStorage()
 
   // Set prefered theme
-  let theme = appThemes[0]
-  let preferences = getPreferences()
-  // console.log('%c⧭', 'color: #bfffc8', preferences);
-
-  // Rewrite theme if any
-  if (preferences.theme && appThemes.indexOf(preferences.theme) > -1) {
-    theme = preferences.theme
-    appInitialState.theme = preferences.theme
-  }
+  let theme = appThemes[3]
   
+  let preferences = getPreferences()
+  // console.log('%c⧭', 'color: #bfffc8', preferences)
+  // Rewrite theme if any
+  if (preferences.theme && appThemes.indexOf(preferences.theme) > -1) theme = preferences.theme
+
+  appInitialState.theme = theme
+
   initializeThemeColors()
   document.head.insertAdjacentHTML("beforeend", `<style>:root{}</style>`)
   setColors(theme)
