@@ -35,15 +35,19 @@ export const About = () => {
       <p>{TEXT.aboutFuture}</p>
 
       <br />
-      <label htmlFor="comment">{TEXT.comment}:</label>
+      <p htmlFor="comment">{TEXT.comment}:</p>
       <textarea
-        name="comment" cols="25" rows="2"
+        name="comment" rows="3"
         value={comment} onInput={onInput}
         className="raterComment mp-border-dark mp-dark"
         placeholder={TEXT.aboutPlaceholder}
       />
+      <br />
       <button className="button" onClick={onClick}>{TEXT.submit}</button>
-      <p className="version mp-counter">{TEXT.version}: 'alpha'</p>
+      <br />
+      <br />
+      <br />
+      <p className="version mp-counter">{TEXT.version}: alpha 3</p>
     </div>
   )
 }

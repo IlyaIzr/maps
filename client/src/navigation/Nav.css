@@ -171,8 +171,8 @@
 }
 
 .modeSwitch .modeType {
-  width: 98%;
   padding: 12px;
+  margin-right: 12px;
   margin: 12px auto;
   border-top: 1px solid;
   border-radius: 1px;

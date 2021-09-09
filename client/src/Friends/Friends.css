@@ -81,24 +81,45 @@
   display: inline-block;
 }
 
+.searchButton {
+  display: inline-block;
+  /* height: 30px; */
+}
+
+.searchButton .button {
+  min-width: 36px;
+  margin-left: 0;
+}
+
+.searchButton svg {
+  position: absolute;
+  left: 9px;
+  width: 18px;
+  height: 18px;
+}
+
 /* #endregion */
 
 /* #region  Default */
-.friendsDefault{
+
+.friendsDefault {
   padding: 7px 10px;
 }
-.friendsDefault h4{
+
+.friendsDefault h4 {
   padding: 0 16px;
   margin: 16px 0 8px 0;
 }
-.friendList{
+
+.friendList {
   display: flex;
-  max-height: min(70%, 400px );
+  max-height: min(70%, 400px);
   overflow-y: auto;
 }
-.addMeLink input{
+
+.addMeLink input {
   /* width: min(100%, calc(100vw)); */
   width: 60%;
 }
-/* #endregion */
 
+/* #endregion */

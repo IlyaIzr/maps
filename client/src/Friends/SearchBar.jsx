@@ -5,6 +5,7 @@ import { searchUsers } from "../requests/friends"
 import { searchTags } from "../requests/tags"
 import { TEXT } from "../rest/lang"
 import { setToast } from "../store/app"
+import { ReactComponent as SearchIcon } from '../rest/svg/search.svg';
 
 // Used both for friends and tags
 export const SearchBar = ({ setSearchResults }) => {
@@ -45,9 +46,10 @@ export const SearchBar = ({ setSearchResults }) => {
         <button className="button mp-primary">{"<<"}</button>
       </div>
 
-      <label htmlFor="search"></label>
       <input type="text" name="search" value={input} onInput={onInput} onKeyDown={onKeyDown} />
-      <button onClick={submitEnter}>searchPH</button>
+      <div className="searchButton relative">
+        <button onClick={submitEnter} className="button">&#8203;<SearchIcon fill="var(--accent)" /></button>
+      </div>
     </div>
   )
 }
