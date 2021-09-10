@@ -32,8 +32,6 @@ router.get('/reviews', async (req, res) => {
 // @ api/reviews/postReview
 
 // change table to have id
-// ALTER TABLE `places`
-// MODIFY COLUMN `id` INT(10) PRIMARY KEY 
 function notNaN(val) {
   if (!val && typeof val === 'number' && val !== 0) return 0
   return val
