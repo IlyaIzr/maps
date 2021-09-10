@@ -9,15 +9,16 @@ import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
 export const MapMode = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { friends } = useSelector(s => s.user)
+  const { friends, id } = useSelector(s => s.user)
   const app = useSelector(s => s.app)
+  const user = useSelector(s => s.user)
 
 
   const [modeLabel, setModeLabel] = useState(TEXT.defaultMode)
 
   useEffect(() => {
     (function () {
-      const label = getMapModeLabel(app, friends)
+      const label = getMapModeLabel(app, friends, id)
       return setModeLabel(label)
     })()
     // eslint-disable-next-line
@@ -57,20 +58,20 @@ export const MapMode = () => {
       <div className="modeType mp-border-secondary">
         <h5 className="title">{TEXT.watchModeSub1}</h5>
         <div className="friendList">
-          {Boolean(friends?.length) ? friends.map(user => {
+          {Boolean(friends?.length) ? friends.map(friend => {
             return (
-              <div className="friendContainer" key={user.id1 + user.id2}>
+              <div className="friendContainer" key={friend.id1 + friend.id2}>
                 <div className="resultUser cursor-pointer mp-accent-hover transition-small"
-                  key={user.id} onClick={() => runFriendMode(user.id)}
+                  onClick={() => runFriendMode(friend.id)}
                 >
 
                   <div className="authorLogo mp-bg-secondary">
-                    <span className="mp-dark" title={user.login}>{String(user.name)?.[0]?.toUpperCase()}</span>
+                    <span className="mp-dark" title={friend.login}>{String(friend.name)?.[0]?.toUpperCase()}</span>
                   </div>
 
                   <div className="resultUser-creds">
-                    <p className="mp-secondary">{user.name}</p>
-                    <label className="cursor-pointer">({user.login})</label>
+                    <p className="mp-secondary">{friend.name}</p>
+                    <label className="cursor-pointer">({friend.login})</label>
                   </div>
                 </div>
               </div>
@@ -82,7 +83,16 @@ export const MapMode = () => {
                 <button>{TEXT.addFriends}</button>
               </Link>
             </div>}
+
         </div>
+      </div>
+
+      {/* my marks */}
+
+      <div className="myMarks">
+        <button className="button" onClick={() => runFriendMode(user.id)}>
+          <h5 className="title cursor-pointer capitalize" >{TEXT.myMarks}</h5>
+        </button>
       </div>
 
       {/* drawMode */}
@@ -91,7 +101,7 @@ export const MapMode = () => {
           <h5 className="title">{TEXT.drawMode}</h5>
           <Link to="/">
             <button className="button modeButton drawModeButton" onClick={runDrawMode}>
-              <DrawIcon fill="var(--secondary)" className="nav-icon"/>
+              <DrawIcon fill="var(--secondary)" className="nav-icon" />
               {TEXT.toDrawMode}
             </button>
           </Link>

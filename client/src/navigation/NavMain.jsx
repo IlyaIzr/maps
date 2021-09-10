@@ -9,7 +9,7 @@ import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
-  const friends = useSelector(state => state.user.friends)
+  const { friends, id } = useSelector(state => state.user)
   const history = useHistory()
 
   const [leftMenu, setLeftMenu] = useState(false)
@@ -25,7 +25,7 @@ export const NavMain = () => {
 
   useEffect(() => {
     (function () {
-      const label = getMapModeLabel(app, friends)
+      const label = getMapModeLabel(app, friends, id)
       return setModeLabel(label)
     })()
     // eslint-disable-next-line
@@ -53,8 +53,9 @@ export const NavMain = () => {
   )
 }
 
-export function getMapModeLabel(app, friends) {
-  const { mode, tagModeTag } = app
+export function getMapModeLabel(app, friends, myId) {
+  const { mode, tagModeTag, friendModeId } = app
+  if (mode === 'watch' && friendModeId === myId) return TEXT.myMarks
   if (mode === 'watch') return TEXT.marksOf + ' ' + friendName(friends, app)
   if (mode === 'draw') return TEXT.drawing
   if (mode === 'drawRoute') return TEXT.drawRouteMode

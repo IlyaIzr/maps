@@ -184,6 +184,11 @@
   font-size: 17px;
 }
 
+.myMarks{
+  padding: 7px 12px;
+  margin: -7px 0;
+}
+
 .drawModeButton {
   display: flex;
   flex-wrap: wrap;

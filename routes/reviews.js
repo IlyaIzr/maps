@@ -43,9 +43,6 @@ router.post('/postReview', async (req, res) => {
   const { userId, userLevel, commentsNumber, review, place } = req.body
   const { grade, comment, targetId } = review
   const { x, y, lng, lat, polyString, name } = place
-  // next rew
-  const { rating, amount } = place
-  const updatedRating = (amount * rating + grade) / (amount + 1)
 
   // upsert into db
   const placesQuery = `
@@ -54,7 +51,9 @@ router.post('/postReview', async (req, res) => {
   VALUES 
   ( '${targetId}', '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}') )
   ON DUPLICATE KEY UPDATE 
-  rating = '${notNaN(updatedRating)}', amount = '${notNaN(amount + 1)}', polygon = ST_MPointFromText('${polyString}')
+  rating = ((amount * rating + ${grade}) / (amount + 1)), 
+  amount = (amount + 1), 
+  polygon = ST_MPointFromText('${polyString}')
   `
 
   try {
@@ -66,12 +65,12 @@ router.post('/postReview', async (req, res) => {
   const reviewQuery = `
   INSERT INTO reviews 
   (targetId, author, grade, comment, timestamp) 
-  VALUES ('${targetId}', '${userId}', ${grade}, '${comment}', ${Date.now()})
+  VALUES ('${targetId}', '${userId}', ${grade}, ?, ${Date.now()})
   `
 
   let newLevel = null
   try {
-    await dbConn.query(reviewQuery)
+    await dbConn.query(reviewQuery, [comment])
 
     await (async function levelUp() {
       if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
@@ -104,7 +103,7 @@ router.post('/postReview', async (req, res) => {
 router.delete('/reviews', auth, async (req, res) => {
 
   const userId = req.userId
-  const { timestamp, place: { rating, amount, id, grade } } = req.body
+  const { timestamp, place: { id, grade } } = req.body
   // console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
   // return res.json({ status: 'OK', msg: 'Review deleted successfully' })
   // Delete review
@@ -123,9 +122,12 @@ router.delete('/reviews', auth, async (req, res) => {
 
 
   // Update place
-  const updatedRating = (amount * rating - Number(grade)) / (amount - 1)
-  const placeQuery =
-    `UPDATE places set rating=${notNaN(updatedRating)}, amount=${amount - 1} WHERE id='${id}'`
+  const placeQuery = `
+    UPDATE places SET 
+    rating = ((amount * rating - ${grade}) / (amount - 1)), 
+    amount = (amount - 1), 
+    WHERE id='${id}'
+    `
   try {
     const result = await dbConn.query(placeQuery)
     if (result.affectedRows) return res.json({ status: 'OK', msg: 'Review deleted successfully' })
@@ -139,9 +141,9 @@ router.delete('/reviews', auth, async (req, res) => {
 
 router.post('/postFeedback', async (req, res) => {
   const { comment } = req.body
-  const query = `INSERT INTO feedback (comment, date, ip) VALUES ('${comment}', ${Date.now()}, '${req.ip}')`
+  const query = `INSERT INTO feedback (comment, date, ip) VALUES (?, ${Date.now()}, '${req.ip}')`
   try {
-    await dbConn.query(query)
+    await dbConn.query(query, [comment])
     return res.json({ status: 'OK' })
   } catch (error) {
     return res.json({ status: 'ERR', msg: error, query })

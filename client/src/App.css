@@ -135,8 +135,8 @@ a:hover {
   transition: 0.3s;
 }
 
-.capitalize {
-  text-transform: capitalize;
+.capitalize:first-letter  {
+  text-transform: uppercase;
 }
 
 .lowercase {

@@ -168,6 +168,7 @@ const ru = {
   В комментарии вы можете оставить предложения или впечатления о сайте, либо свяжитесь со мной 
   напрямую через ilyaizrailyan@gmail.com или @ilyaizr в какой-нибудь соц сети`,
   version: 'версия',
+  myMarks: 'мои оценки'
 }
 
 // export const TEXT = window.APPTEXT || ru
