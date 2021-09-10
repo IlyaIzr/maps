@@ -62,4 +62,4 @@ app.get('*', async function (request, response) {
 
 const port = (+process.env.PORT) || 1414
 
-app.listen(port, () => console.log(`Server is running on port ${port}, date is ${Date.now()} or ${new Date().getTime()}`))
+app.listen(port, () => console.log(`Server started at port ${port}, ${new Date()}`))

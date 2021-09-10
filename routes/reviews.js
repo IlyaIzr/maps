@@ -23,6 +23,7 @@ router.get('/reviews', async (req, res) => {
     //TODO // LIMIT 10 OFFSET 10 
     return res.json({ status: 'OK', data })
   } catch (err) {
+    console.log(err)
     return res.json({ status: 'ERR', msg: err, err })
   }
 })
@@ -57,6 +58,7 @@ router.post('/postReview', async (req, res) => {
   try {
     await dbConn.query(placesQuery)
   } catch (err) {
+    console.log(err)
     return res.json({ status: 'ERR', msg: err, query: placesQuery })
   }
 
@@ -89,6 +91,7 @@ router.post('/postReview', async (req, res) => {
 
     return res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
   } catch (err) {
+    console.log(err)
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }
 
@@ -113,6 +116,7 @@ router.delete('/reviews', auth, async (req, res) => {
     if (userId !== 'anonimus')
       await dbConn.query(`UPDATE users SET commentsn = (commentsn - 1) WHERE id = '${userId}'`)
   } catch (error) {
+    console.log(error)
     return res.json({
       status: 'ERR', msg: error, query, commentsQuery: `UPDATE users SET commentsn = (commentsn - 1) WHERE id = '${userId}'`
     })
@@ -131,6 +135,7 @@ router.delete('/reviews', auth, async (req, res) => {
     if (result.affectedRows) return res.json({ status: 'OK', msg: 'Review deleted successfully' })
     throw 'nothing was deleted'
   } catch (error) {
+    console.log(error)
     return res.json({ status: 'ERR', msg: error, query: placeQuery })
   }
 })
@@ -144,6 +149,7 @@ router.post('/postFeedback', async (req, res) => {
     await dbConn.query(query, [comment])
     return res.json({ status: 'OK' })
   } catch (error) {
+    console.log(error)
     return res.json({ status: 'ERR', msg: error, query })
   }
 
