@@ -24,7 +24,7 @@ const bryansk = {
 const mbStyles = {
   standart: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',
   dark: 'mapbox://styles/ilyaizr/cktd77j8u12ch18swzrqikqor',
-  'b&w': 'mapbox://styles/ilyaizr/ckpk88ybo17tn17mzmd5etst8', //todo, basic map
+  'b&w': 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51', //todo, basic map
   blueprint: 'mapbox://styles/ilyaizr/cksp4jldx0b1z17mog8wzg0jm'  //blueprint with less colors
 }
 

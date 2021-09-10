@@ -44,7 +44,7 @@
   max-height: 50px;
 }
 
-@media (max-width:820px) {
+@media (max-width:640px) {
   .mapboxgl-ctrl-geocoder--input {
     z-index: 0;
     max-width: 200px;
@@ -272,7 +272,7 @@ span.star {
   height: 4px;
 }
 
-@media (max-width:961px) {
+@media (max-width:640px) {
   .mapLegend {
     bottom: 38px;
     right: 4px;
@@ -281,12 +281,11 @@ span.star {
   .ratingDescription {
     font-size: 0.9em;
     padding: 0 6px;
-
   }
   .ratingDescription>* {
     margin: 0px 3px;
   }
-  .ratingUnitsWrap{
+  .ratingUnitsWrap {
     justify-content: center;
     margin: -7px 0 0 0;
     padding: 0 6px;
