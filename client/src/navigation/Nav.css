@@ -16,11 +16,26 @@
   border: 1px solid ;
 } */
 
-/* #region Main */
-
-/* #openLeftMenu img{
+/* #region  Default */
+.menu-items-container{
+  margin-top: 7px;
+  padding-left: 4px;
 }
-#backToMain */
+.navIcon{
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  width: 15px;
+  height: 15px;
+  margin-right: 9px;
+}
+
+.pick-theme-item{
+  display: block;
+}
+/* #endregion */
+
+/* #region Main */
 
 .nav-menu-back-wrap .nav-icon {
   margin-right: 8px;
@@ -184,7 +199,7 @@
   font-size: 17px;
 }
 
-.myMarks{
+.myMarks {
   padding: 7px 12px;
   margin: -7px 0;
 }
@@ -214,26 +229,29 @@
 /* #endregion */
 
 /* #region  About */
-.aboutPage{
+
+.aboutPage {
   min-height: calc(100vh - 32px);
   padding: 14px 20px;
-
 }
+
 .aboutPage p {
   margin: 0;
 }
-.aboutPage h5{
+
+.aboutPage h5 {
   border-bottom: 1px solid;
   padding: 8px 10px;
   font-size: 1em;
   margin: 14px 0 21px 0;
 }
 
-.aboutPage .version{
+.aboutPage .version {
   position: absolute;
   bottom: 32px;
   left: 14px;
   font-size: 0.9em;
   font-family: monospace;
 }
+
 /* #endregion */

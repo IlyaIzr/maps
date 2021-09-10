@@ -2,6 +2,15 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { TEXT } from '../../rest/lang'
 import { navStates } from '../LeftMenu'
+// icons
+import { ReactComponent as ProfileIcon } from '../../rest/svg/profile.svg'
+import { ReactComponent as LoginIcon } from '../../rest/svg/login.svg'
+import { ReactComponent as ThemeIcon } from '../../rest/svg/theme.svg'
+import { ReactComponent as LangIcon } from '../../rest/svg/language.svg'
+import { ReactComponent as FriendsIcon } from '../../rest/svg/friends.svg'
+import { ReactComponent as TagIcon } from '../../rest/svg/tag.svg'
+import { ReactComponent as RouteIcon } from '../../rest/svg/route.svg'
+import { ReactComponent as AboutIcon } from '../../rest/svg/about.svg'
 
 export const DefNav = ({ setNavState, hideSelf }) => {
 
@@ -33,34 +42,53 @@ export const DefNav = ({ setNavState, hideSelf }) => {
         </div>
       </div>
 
-      <div>
-        {app.isLogged ?
-          <Link to="/editProfile" onClick={hideMainMenu} className="left-menu-item mp-dark"> {TEXT.profile}</Link> :
-          <Link to="/auth" onClick={hideMainMenu} className="left-menu-item mp-dark"> {TEXT.login}</Link>
-        }
-      </div>
+      <div className="menu-items-container">
+        <div>
+          {app.isLogged ?
+            <Link to="/editProfile" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+              <ProfileIcon fill="var(--dark)" className="navIcon" />
+              <span className="menu-text">{TEXT.profile}</span>
+            </Link> :
+            <Link to="/auth" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+              <LoginIcon fill="var(--dark)" className="navIcon" />
+              <span className="menu-text">{TEXT.login}</span>
+            </Link>
+          }
+        </div>
 
-      <div onClick={pickTheme} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.theme}
-        <label className="little-hint">({TEXT[app.theme]})</label>
-      </div>
+        <div onClick={pickTheme} className="left-menu-item mp-accent-hover pick-theme-item">
+          <ThemeIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.theme}</span>
+          <label className="little-hint">({TEXT[app.theme]})</label>
+        </div>
 
-      <div onClick={pickLang} className="left-menu-item mp-accent-hover pick-theme-item">{TEXT.language}</div>
+        <div onClick={pickLang} className="left-menu-item mp-accent-hover pick-theme-item">
+          <LangIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.language}</span>
+        </div>
 
-      <div className="left-menu-item">
-        <Link to="/friends" onClick={hideMainMenu} className="transition mp-dark">{TEXT.friends}
+        <Link to="/friends" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+          <FriendsIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.friends}</span>
           {Boolean(user.requests.length) &&
             <span className="mp-accent">{' (' + user.requests.length + ')'}</span>
           }
         </Link>
-      </div>
 
-      <div className="left-menu-item">
-        <Link to="/tags" className="transition mp-dark" onClick={hideMainMenu}>{TEXT.tags}</Link>
-      </div>
+        <Link to="/tags" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
+          <TagIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.tags}</span>
+        </Link>
 
-      <div className="readonly">{TEXT.routes}</div>
-      <div className="left-menu-item">
-        <Link to="/about" className="transition mp-dark" onClick={hideMainMenu}>{TEXT.aboutUs}</Link>
+        <div className="readonly">
+          <RouteIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.routes}</span>
+        </div>
+
+        <Link to="/about" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
+          <AboutIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.aboutUs}</span>
+        </Link>
       </div>
     </div>
   )
