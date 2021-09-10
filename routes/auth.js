@@ -54,6 +54,13 @@ router.get('/refresh', async (req, res) => {
   // fetch user
   try {
     const res = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [userId])
+    await dbConn.query(`
+      INSERT INTO visits ( ip, time, amount ) 
+      VALUES ( '${req.ip}', ${Date.now()}, 1)
+      ON DUPLICATE KEY UPDATE 
+      time =  ${Date.now()}, 
+      amount = (amount + 1)
+    `)
     if (!res[0]) return res.status(403).json({ status: 'REAUTH' })
     var user = res[0]
     delete user.pword
