@@ -16,13 +16,13 @@ const tags = require('./routes/tags')
 const { appLanguages } = settings
 
 const app = express()
-
-app.use(cookieP(process.env.COOKIE))
-app.use(express.json())
 app.use(cors({
   origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/'],
   credentials: true
 }))
+
+app.use(cookieP(process.env.COOKIE))
+app.use(express.json())
 
 
 // Routes reducers

@@ -11,7 +11,9 @@ export function requsetMaker(method = 'GET', meta = 'auth', path = 'refresh', bo
     method,
     headers: {
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': host
     },
+    mode: "cors"
   }
 
   if (withCreds) options.credentials = 'include'
