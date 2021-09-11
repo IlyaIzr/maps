@@ -17,10 +17,11 @@ const { appLanguages } = settings
 
 const app = express()
 app.use(cors({
-  // origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/'],
-  origin: '*',
+  origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/'],
+  // origin: '*',
   credentials: true,
-  
+  preflightContinue: true,
+  // allowedHeaders: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
 }))
 
 app.use(cookieP(process.env.COOKIE))
