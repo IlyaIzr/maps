@@ -19,7 +19,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       if (feature?.source !== 'ratedFeaturesSource') return setReviews([])
 
       const res = await getReviews(feature.id)
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #revEr2'});
       setReviews(res.data)
     })()
     // Cleanup. Do we need it?
@@ -49,7 +49,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       message: TEXT.removeComment + '?',
       async acceptAction() {
         const res = await deleteReview(timestamp, place)
-        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError })
+        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1'})
 
         setGeoData(geoData => {
           // Mutate geoData

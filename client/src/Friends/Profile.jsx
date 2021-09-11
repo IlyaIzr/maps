@@ -34,7 +34,7 @@ export const Profile = () => {
 
       const res = await getProfileDetails(userId)
 
-      if (res.status !== 'OK') setToast(dispatch, { message: TEXT.requestError })
+      if (res.status !== 'OK') setToast(dispatch, { message: TEXT.requestError + ' #profEr1' })
       else setUser(res.data)
       setLoading(false)
     })()
@@ -69,7 +69,7 @@ export const Profile = () => {
 
   async function addFriend() {
     const res = await addFriendReq(userId)
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr2' });
     setFriendButton(
       <button className="button">{TEXT.sent}</button>
     )
@@ -77,13 +77,13 @@ export const Profile = () => {
 
   async function removeFriend() {
     const res = await removeFriendReq(userId)
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr3' });
     setUser({ ...user, friendStatus: 'youAsked' })
   }
 
   async function confirmRequest() {
     const res = await acceptRequest(userId)
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr4' });
     setUser({ ...user, friendStatus: 'friends' })
   }
 

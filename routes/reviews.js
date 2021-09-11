@@ -127,7 +127,7 @@ router.delete('/reviews', auth, async (req, res) => {
   const placeQuery = `
     UPDATE places SET 
     rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1), 
+    amount = (amount - 1)
     WHERE id='${id}'
     `
   try {

@@ -44,7 +44,7 @@ export const AddByLink = () => {
   async function addFriend() {
     const res = await addByLink(id)
     console.log('%c⧭', 'color: #00e600', res);
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #adBLi1'});
     setToast(dispatch, { message: TEXT.yourFriendsNow, status: 'complete' })
     setReadOnly(true)
   }

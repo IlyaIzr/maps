@@ -25,7 +25,7 @@ export const SearchBar = ({ setSearchResults }) => {
     if (chapter === 'friends') { res = await searchUsers(input) }
     else { res = await searchTags(input) }
 
-    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError });
+    if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #subErr1'});
     setSearchResults(res.data)
     history.push(`/${chapter}/search?query=${input}`)
   }
