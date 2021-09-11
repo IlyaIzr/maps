@@ -171,5 +171,5 @@ const ru = {
   myMarks: 'мои оценки'
 }
 
-// export const TEXT = window.APPTEXT || ru
-export const TEXT =  ru
+export const TEXT = window.APPTEXT || ru
+// export const TEXT =  ru
