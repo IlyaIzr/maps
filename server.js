@@ -21,12 +21,13 @@ app.use(cors({
   // origin: '*',
   credentials: true,
   optionsSuccessStatus: 200,
-  // allowedHeaders: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH', 'OPTIONS']
 }))
 app.options('*', cors({
   origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/'],
   credentials: true,
   optionsSuccessStatus: 200,
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH', 'OPTIONS']
 }))
 
 app.use(cookieP(process.env.COOKIE))

@@ -56,7 +56,7 @@ router.get('/featuredTags', async (req, res) => {
     return res.json({ status: 'OK', data })
   } catch (error) {
     console.log('%c⧭', error);
-    return res.json({ status: 'ERR', msg: error, query })
+    return res.json({ status: 'ERR', msg: error, query: [popular, latter] })
   }
 })
 
