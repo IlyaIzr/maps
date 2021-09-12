@@ -242,9 +242,14 @@ span.star {
   padding: min(0.5vw, 8px) min(1vw, 12px);
   border: 1px solid;
 }
+.ratingDescription{
+  display: flex;
+  justify-content: space-between;
+  width: 220px;
+}
 
 .ratingDescription>* {
-  margin: 0px 6px;
+  padding: 0px 10px;
 }
 
 .ratingUnitsWrap {
@@ -413,19 +418,19 @@ span.star {
 /* Track */
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--light);
 }
 
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--secondary);
 }
 
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--primary);
 }
 
 /* #endregion */

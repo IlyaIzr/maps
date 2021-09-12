@@ -103,7 +103,7 @@ export const Profile = () => {
           className="mp-dark" title={TEXT.login}>({user.login})
         </label>
         </div>
-        {Boolean(user.commentsn + 1) && <div className="commentsn">{TEXT.commentsn}: {user.commentsn}</div>}
+        {Boolean(user.commentsn) && <div className="commentsn">{TEXT.commentsn}: {user.commentsn}</div>}
         <div className="level capitalize">{TEXT.level}: <label className="mp-dark">{user.level}</label></div>
       </div>
       <div className="friends-actionButton">

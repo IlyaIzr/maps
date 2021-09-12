@@ -11,9 +11,6 @@ export const Legend = () => {
       <div className="ratingLegend">
         <div className="ratingDescription">
           <span>{TEXT.worstRating}</span>
-          <span></span>
-          <span></span>
-          <span></span>
           <span>{TEXT.bestRating}</span>
         </div>
         <div className="ratingUnitsWrap">

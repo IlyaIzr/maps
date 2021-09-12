@@ -57,16 +57,16 @@ const colors = [
 
 export const themeColors = {
   standart: {
-    primary: "#124c81",
-    secondary: "#b6c8d6",
-    accent: "#1bbc00",
-    light: "#ffffff",
-    dark: "#494949",
-    counter: "#2d8bcf",
+    primary: "#5e7ba1",
+    secondary: "#99a6b8",
+    accent: "#b86a05",
+    light: "#f2f2f2",
+    dark: "#575757",
+    counter: "#344079",
   },
   dark: {
-    primary: '#BB86FC',
-    secondary: '#a485c8',
+    primary: '#b68de7',
+    secondary: '#755a96',
     accent: '#03DAC6',
     light: '#383736',
     dark: '#d8d8d8',
@@ -74,15 +74,15 @@ export const themeColors = {
     // comply: '#0383da'
   },
   'b&w': {
-    primary: '#444444',
-    secondary: '#747474',
-    accent: '#676767',
+    primary: '#8c8c8c',
+    secondary: '#999999',
+    accent: '#000000',
     light: '#ffffff',
-    dark: '#000000',
-    counter: '#616161',
+    dark: '#575757',
+    counter: '#454545',
   },
   blueprint: {
-    'primary': '#f0a2de',
+    'primary': '#e49bd3',
     'secondary': '#c9abca',
     'accent': '#e9eb7d',
     'light': '#34568b',
