@@ -6,6 +6,7 @@ import { restrictedLetters } from '../rest/config';
 import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
+import { ReactComponent as TopIcon } from '../rest/svg/top.svg'
 
 export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       if (feature?.source !== 'ratedFeaturesSource') return setReviews([])
 
       const res = await getReviews(feature.id)
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #revEr2'});
+      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #revEr2' });
       setReviews(res.data)
     })()
     // Cleanup. Do we need it?
@@ -29,7 +30,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
     /* eslint-disable */
   }, [feature?.source, feature?.id])
   /* eslint-enable */
-  
+
   if (feature?.source !== 'ratedFeaturesSource') return null
 
   function onClick() {
@@ -49,7 +50,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       message: TEXT.removeComment + '?',
       async acceptAction() {
         const res = await deleteReview(timestamp, place)
-        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1'})
+        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1' })
 
         setGeoData(geoData => {
           // Mutate geoData
@@ -129,7 +130,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
                 }
               </div>
               <div className="reviewRating">{review.grade}/5
-                  <span className="reviewStars stars">
+                <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {
                     index += 1;
                     return (
@@ -150,10 +151,12 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       }
 
       <div className="skipperContainer">
-        <div className="skipper mp-bg-light mp-border-secondary" onClick={onClick}>
+        <div className="skipper mp-bg-light mp-border-secondary" >
           {reviewsShown ?
-            <span className="mp-secondary">&#8613;</span> :
-            <span className="mp-secondary">&#8615;</span>
+
+            <TopIcon fill="var(--secondary)" className="nav-icon" onClick={onClick}/>
+            :
+            <span className="mp-secondary" onClick={onClick}>&#8615;</span>
           }
         </div>
       </div>

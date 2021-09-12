@@ -309,7 +309,7 @@ span.star {
 /* #region  Reviews */
 
 .reviewsContainer {
-  max-height: 160px;
+  max-height: 240px;
   overflow-y: auto;
   padding: 6px;
   -moz-transition: max-height .5s;
@@ -370,10 +370,7 @@ span.star {
 .skipperContainer {
   position: absolute;
   bottom: -15px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  right: -4px;
   width: 32px;
 }
 
@@ -393,7 +390,7 @@ span.star {
 }
 
 .reviewsContainer.shrinked {
-  max-height: 20px;
+  max-height: 22px;
 }
 
 .reviewRating {

@@ -10,9 +10,9 @@ import { appThemes } from "./config"
 
 // const lightGreenRed = ['#712d2d', '#a74b2f', '#e2734a', '#e8c337', '#abff38', '#88ff45']
 const brightGreenRed = ['#cd0c0c', '#e14612', '#e1922c', '#e8c337', '#94c52f', '#0aa112']
-const megaBrightGreenRed = [
-  '#610505', '#a82d00',
-  '#c7c400', '#b3a700',
+const darkGradient = [
+  '#521414', '#9c330d',
+  '#b8740f', '#b3a700',
   '#88c70a', '#00e00b'
 ]
 const paleGreenRed = [
@@ -32,7 +32,7 @@ export const gradient = brightGreenRed
 export const gradients = {
   standart: brightGreenRed,
   blueprint: dynamicGreenRed,
-  dark: megaBrightGreenRed,
+  dark: darkGradient,
   'b&w': paleGreenRed
 }
 
