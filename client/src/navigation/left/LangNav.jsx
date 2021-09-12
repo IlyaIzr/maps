@@ -24,6 +24,7 @@ export const LangNav = ({ setNavState }) => {
 
   useEffect(() => {
     setLang(document.documentElement.lang)
+    console.log('%c⧭', 'color: #7f7700', document.documentElement.lang);
   }, [])
 
   function onBack() {

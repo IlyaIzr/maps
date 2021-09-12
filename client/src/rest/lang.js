@@ -171,5 +171,6 @@ const ru = {
   myMarks: 'мои оценки'
 }
 
+console.log('%c⧭ apptextwas', 'color: #f279ca', window.APPTEXT);
 export const TEXT = window.APPTEXT || ru
 // export const TEXT =  ru

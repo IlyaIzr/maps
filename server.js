@@ -17,7 +17,7 @@ const { appLanguages } = settings
 
 const app = express()
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://m4ps.herokuapp.com/', 'http://m4ps.herokuapp.com/'],
+  origin: ['http://localhost:3000', 'http://localhost:1414', 'https://m4ps.herokuapp.com/', 'http://m4ps.herokuapp.com/'],
   // origin: '*',
   credentials: true,
   // optionsSuccessStatus: 200,
@@ -37,10 +37,21 @@ app.use('/api/settings', settings)
 app.use('/api/friends', friends)
 app.use('/api/tags', tags)
 
+app.get('/', async function (req, res) {
+  const indexFile = await languageSetter(req, res)
+  response.send(indexFile)
+})
+
 // Host react statics
 app.use(express.static(__dirname + '/client/build'));
 
-app.get('*', async function (request, response) {
+
+app.get('*', async (req, res) => {
+  const indexFile = await languageSetter(req, res)
+  res.send(indexFile)
+});
+
+async function languageSetter(request, response) {
   const lang = (function () {
     const preferedLang = request.cookies['mp/lang']
     if (preferedLang && preferedLang in appLanguages) return preferedLang
@@ -59,8 +70,8 @@ app.get('*', async function (request, response) {
   indexFile = indexFile.replace('html lang="en"', `html lang="${lang}"`)
   indexFile = indexFile.replace('<script src="./fallbackLanguage.js">', `<script src="./${lang}.js">`)
 
-  return response.send(indexFile)
-});
+  return indexFile
+}
 
 
 const port = (+process.env.PORT) || 1414
