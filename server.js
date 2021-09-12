@@ -39,7 +39,7 @@ app.use('/api/tags', tags)
 
 app.get('/', async function (req, res) {
   const indexFile = await languageSetter(req, res)
-  response.send(indexFile)
+  res.send(indexFile)
 })
 
 // Host react statics
