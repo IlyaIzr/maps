@@ -142,7 +142,7 @@ const en = {
   aboutFutureTitle: 'Future plans',
   aboutFuture: `First of i'm planning to add 'routes' that would also be sharable and on the map just like reviews, but
   a bit different. Also coming up with project name would be nice. You can share you thoughts, reviews and suggestions 
-  in comment section below or through email ilyaizrailyan@gmail.com or via some social network by @ilyaizr`,
+  in comment section below or through email ilyaizrailyan@gmail.com or via some social network via @ilyaizr`,
   version: 'version',
   myMarks: 'my reviews'
 }

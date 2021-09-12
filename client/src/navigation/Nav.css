@@ -42,6 +42,9 @@
   margin-right: 8px;
 }
 
+.menu-text{
+  font-size: 17px;
+}
 .nav-icon {
   width: 27px;
   height: 27px;
@@ -74,11 +77,15 @@
   margin: 0;
   padding: 6px;
 }
-
 #closeLeftAtBottom {
   position: absolute;
-  bottom: 10px;
-  left: 0px;
+  bottom: 12px;
+  left: 12px;
+  width: 100%;
+}
+#closeLeftAtBottom .nav-icon{
+  display: block;
+  margin: -1px;
 }
 
 .menu-user {
