@@ -169,8 +169,7 @@ const ru = {
   напрямую через ilyaizrailyan@gmail.com или @ilyaizr в какой-нибудь соц сети`,
   version: 'версия',
   myMarks: 'мои оценки'
+  // alpha 3
 }
 
-console.log('%c⧭ apptextwas', 'color: #f279ca', window.APPTEXT);
 export const TEXT = window.APPTEXT || ru
-// export const TEXT =  ru

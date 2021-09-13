@@ -23,12 +23,12 @@
     -->
   <title>OurMaps</title>
   <!-- oauth -->
-  <meta name="google-signin-client_id" content="355268082476-daeiqa0g961kar6h9p2dvmvkkr35phqe.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="%REACT_APP_GAUTHKEY%">
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  
+
   <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
   <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script>
 
@@ -48,12 +48,12 @@
 
   <!-- Google platform for oAuth -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  
-  
+
+
 
   <script src="./fallbackLanguage.js"></script>
 
-  <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>  
+  <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>
 </body>
 
 </html>

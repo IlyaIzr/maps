@@ -34,7 +34,6 @@ export const Profile = () => {
       }
 
       const res = await getProfileDetails(userId)
-      console.log('%c⧭', 'color: #00258c', res);
 
       if (res.status !== 'OK') setToast(dispatch, { message: TEXT.requestError + ' #profEr1' })
       else setUser(res.data)
