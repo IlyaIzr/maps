@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getProfileDetails, addFriend as addFriendReq, acceptRequest, removeFriend as removeFriendReq } from '../requests/friends';
+import { getFriendsInfo } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { Loading } from '../rest/Loading';
 import { setToast } from '../store/app';
@@ -33,6 +34,7 @@ export const Profile = () => {
       }
 
       const res = await getProfileDetails(userId)
+      console.log('%c⧭', 'color: #00258c', res);
 
       if (res.status !== 'OK') setToast(dispatch, { message: TEXT.requestError + ' #profEr1' })
       else setUser(res.data)
@@ -70,6 +72,7 @@ export const Profile = () => {
   async function addFriend() {
     const res = await addFriendReq(userId)
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr2' });
+    await getFriendsInfo(dispatch)
     setFriendButton(
       <button className="button">{TEXT.sent}</button>
     )
@@ -78,12 +81,14 @@ export const Profile = () => {
   async function removeFriend() {
     const res = await removeFriendReq(userId)
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr3' });
+    await getFriendsInfo(dispatch)
     setUser({ ...user, friendStatus: 'youAsked' })
   }
 
   async function confirmRequest() {
     const res = await acceptRequest(userId)
     if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #profEr4' });
+    await getFriendsInfo(dispatch)
     setUser({ ...user, friendStatus: 'friends' })
   }
 
