@@ -18,7 +18,7 @@ router.get('/reviews', async (req, res) => {
     SELECT reviews.*, users.name, users.login FROM reviews
     LEFT JOIN users ON reviews.author = users.id
     WHERE reviews.targetId = '${targetId}'
-    ORDER BY timestamp DESC `
+    ORDER BY LENGTH(comment) DESC, timestamp DESC `
     const data = await dbConn.query(query)
     //TODO // LIMIT 10 OFFSET 10 
     return res.json({ status: 'OK', data })
