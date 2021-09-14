@@ -14,6 +14,7 @@ import { TEXT } from '../rest/lang';
 import { postTags } from '../requests/tags';
 import { postReview } from '../requests/reviews';
 import { setCommentsNumber, setUserLevel } from '../store/user';
+import { ReactComponent as CloseIcon } from '../rest/svg/close5.svg';
 
 
 export const Main = () => {
@@ -143,16 +144,21 @@ export const Main = () => {
         featureTrigger={featureTrigger}
         key={mapTrigger}
       />
-      <Legend />
+      {
+        app.legendShown && <Legend />
+      }
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} name={name} setName={setName} />
           <Rater feature={feature} onSubmit={onSubmit} />
           <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData} resetRater={resetRater} />
-          <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>&#10005;</div>
+          <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>
+
+            <CloseIcon fill="var(--dark)" className="close-legend" />
+          </div>
         </div>
       }
-      
+
       <div className="bottom"></div>
     </div>
   )

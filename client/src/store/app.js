@@ -6,6 +6,7 @@ const LOGINUSER = 'app/log_in'
 const LOGOUTUSER = 'app/log_out'
 const EXPAND_COMMENTS = 'app/expand_comms'
 const SHRINK_COMMENTS = 'app/shrink_comms'
+const CLOSE_LEGEND = 'app/close_legend'
 const SHOW_MAIN = 'app/show_main'
 const HIDE_MAIN = 'app/hide_main'
 const SET_MODAL = 'app/set_modal'
@@ -27,6 +28,7 @@ const SET_MAPREF = 'app/set_mapref'
 export const initialState = {
   isLogged: false,
   reviewsShown: true,
+  legendShown: true,
   mapHidden: false,
   modal: false,
   // modal: {
@@ -75,6 +77,11 @@ export function appReducer(state = initialState, act) {
     case EXPAND_COMMENTS: {
       return {
         ...state, reviewsShown: true
+      }
+    }
+    case CLOSE_LEGEND: {
+      return {
+        ...state, legendShown: false
       }
     }
     case SHOW_MAIN: {
@@ -172,6 +179,10 @@ export const expandComments = (d) => {
 
 export const shrinkComments = (d) => {
   d({ type: SHRINK_COMMENTS })
+}
+
+export const closeMapLegend = (d) => {
+  d({ type: CLOSE_LEGEND })
 }
 
 export const showMain = (d) => {

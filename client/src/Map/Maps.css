@@ -24,10 +24,12 @@
   border-left: none;
   right: -27px;
   top: -1px;
-  font-weight: bold;
   cursor: pointer;
-  padding: 0 6px;
-  font-size: 16px;
+  text-align: center;
+  width: 25px;
+}
+.closeFeature svg{
+  margin-bottom: -1px;
 }
 
 .mapboxgl-ctrl-geocoder {
@@ -242,7 +244,8 @@ span.star {
   padding: min(0.5vw, 8px) min(1vw, 12px);
   border: 1px solid;
 }
-.ratingDescription{
+
+.ratingDescription {
   display: flex;
   justify-content: space-between;
   width: 220px;
@@ -276,6 +279,13 @@ span.star {
 .ratingGradient {
   height: 4px;
 }
+.close-legend-wrap{
+  display: none;
+}
+.close-legend {
+  width: 16px;
+  height: 16px;
+}
 
 @media (max-width:640px) {
   .mapLegend {
@@ -302,9 +312,20 @@ span.star {
     width: 32px;
     height: 4px;
   }
-  .ratingGradientWrap{
+  .ratingGradientWrap {
     padding: 0 5px;
-
+  }
+  .close-legend-wrap {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    top: -6px;
+    left: -7px;
+    border-radius: 32px;
+    border: 1px solid;
+    text-align: center;
   }
 }
 
