@@ -63,6 +63,8 @@ export const FriendsMain = () => {
         </Route>
 
       </Switch>
+      
+      <div className="bottom"></div>
     </div>
   )
 }

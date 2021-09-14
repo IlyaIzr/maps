@@ -145,7 +145,9 @@ const en = {
   a bit different. Also coming up with project name would be nice. You can share you thoughts, reviews and suggestions 
   in comment section below or through email ilyaizrailyan@gmail.com or via some social network by @ilyaizr`,
   version: 'version',
-  myMarks: 'my reviews'
+  myMarks: 'my reviews',
+  // alpha 3
+  author: 'author'
 }
 
 window.APPTEXT = en

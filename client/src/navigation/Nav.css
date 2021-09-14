@@ -51,6 +51,19 @@
   cursor: pointer;
 }
 
+.bottom{    
+  min-height: 32px;
+}
+
+@media (max-width: 640px) {
+  .mainNavigation{
+    height: 40px;
+  }
+  .bottom{    
+    min-height: 40px;
+  }
+}
+
 /* #endregion */
 
 /* #region Left menu */
@@ -138,6 +151,20 @@
   margin-left: 4px;
 }
 
+@media (max-width: 640px) {
+  .nav-menu-back-wrap{
+    height: 40px;
+    align-items: center;
+  }
+  .nav-menu-back-wrap .nav-icon{
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+  }
+  .nav-menu-back-wrap .currModeLabels{
+    font-size: 18px;
+  }
+}
 /* #endregion */
 
 /* #region  Theme menu*/
@@ -255,9 +282,6 @@
 }
 
 .aboutPage .version {
-  position: absolute;
-  bottom: 32px;
-  left: 14px;
   font-size: 0.9em;
   font-family: monospace;
 }

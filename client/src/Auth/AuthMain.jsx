@@ -37,6 +37,8 @@ export const AuthMain = () => {
           }
         </div>
       </div>
+      
+      <div className="bottom"></div>
     </div>
   )
 }

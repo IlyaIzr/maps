@@ -152,6 +152,8 @@ export const Main = () => {
           <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>&#10005;</div>
         </div>
       }
+      
+      <div className="bottom"></div>
     </div>
   )
 }

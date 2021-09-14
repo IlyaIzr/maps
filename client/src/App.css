@@ -162,11 +162,6 @@ a:hover {
   display: none;
 }
 
-@media (max-width: var(--mobile-width)) {
-  .mainNavigation{
-    height: 64px;
-  }
-}
 
 /* #endregion */
 
