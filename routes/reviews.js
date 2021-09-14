@@ -74,10 +74,9 @@ router.post('/postReview', async (req, res) => {
 
     await (async function levelUp() {
       if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
-console.log('commentsNumber ', commentsNumber, 'userLevel', userLevel);
+
       let commentStep = 2 + (4 * 10)  //amount of comments for level 10
       for (let i = 10; i > 0; i--) {
-        console.log(i + ' ', commentStep);
         if (commentsNumber + 1 >= commentStep) {
           if (i === userLevel) break;
           await dbConn.query(`UPDATE users SET level = ${i}, commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
