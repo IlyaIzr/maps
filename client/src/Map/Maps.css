@@ -291,16 +291,20 @@ span.star {
     margin: 0px 3px;
   }
   .ratingUnitsWrap {
-    justify-content: center;
-    margin: -7px 0 0 0;
-    padding: 0 6px;
+    justify-content: space-between;
+    margin: -9px 0 0 0;
+    padding: 0 3px;
   }
   .ratingUnit {
     margin: 0 2px;
   }
   .ratingColor {
-    width: 25px;
+    width: 32px;
     height: 4px;
+  }
+  .ratingGradientWrap{
+    padding: 0 5px;
+
   }
 }
 

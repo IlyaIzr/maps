@@ -6,6 +6,9 @@ body {
   -webkit-text-size-adjust: 100%;
   font-size: 1em;
 }
+:root{
+  --mobile-width: 640px;
+}
 
 #mapplaceholder {
   height: calc(100vh - 32px);
@@ -13,8 +16,12 @@ body {
 }
 
 .map-container {
-  /* height: calc(100vh - 32px); */
-  height: 100vh
+  height: calc(100vh - 29px);
+  /* height: 100vh */
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none;
 }
 
 .routeWrapper {
@@ -135,7 +142,7 @@ a:hover {
   transition: 0.3s;
 }
 
-.capitalize:first-letter  {
+.capitalize:first-letter {
   text-transform: uppercase;
 }
 
@@ -147,12 +154,18 @@ a:hover {
   text-transform: uppercase;
 }
 
-.opaque{
+.opaque {
   opacity: 0;
 }
 
-.hidden{
+.hidden {
   display: none;
+}
+
+@media (max-width: var(--mobile-width)) {
+  .mainNavigation{
+    height: 64px;
+  }
 }
 
 /* #endregion */
@@ -196,6 +209,7 @@ a:hover {
   text-transform: uppercase;
   font-size: 14px;
 }
+
 .auth-modal-containter {
   /* border: 1px solid;
   border-radius: 2px; */
@@ -262,6 +276,7 @@ a:hover {
   margin: 0 4px 0 12px;
   width: calc(100% - 30px - 16px);
 }
+
 .toast-header p {
   font-size: 1em;
   display: inline-block;
@@ -277,7 +292,7 @@ a:hover {
   margin: -6px 2px 0 4px;
 }
 
-.toast-contetnt{
+.toast-contetnt {
   padding: 0px 8px;
 }
 
