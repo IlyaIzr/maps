@@ -146,7 +146,15 @@ const ru = {
   В комментарии вы можете оставить предложения или впечатления о сайте, либо свяжитесь со мной 
   напрямую через ilyaizrailyan@gmail.com или @ilyaizr в какой-нибудь соц сети`,
   version: 'версия',
-  myMarks: 'мои оценки'
+  myMarks: 'мои оценки',
+  // alpha 3
+  author: 'автор',
+  techInfo: 'Техническая информация',
+  techSpecs: `Зависимости бек-энда: express, cors, mysql2, dotenv, bcrypt, cookie-parser, google-auth-library. Зависимости 
+  фронт-энда: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`,
+  drawModeLevelOnly: 'Пользователи с уровнем 2 или выше могут рисовать недостающие здания на карте. Для получения 2 уровня напишите 10 отзывов',
+  yes: 'да',
+  no: 'нет',
 }
 
 window.APPTEXT = ru
