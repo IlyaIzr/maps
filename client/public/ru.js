@@ -148,7 +148,10 @@ const ru = {
   version: 'версия',
   myMarks: 'мои оценки',
   // alpha 3
-  author: 'автор'
+  author: 'автор',
+  techInfo: 'Техническая информация',
+  techSpecs: `Зависимости бек-энда: express, cors, mysql2, dotenv, bcrypt, cookie-parser, google-auth-library. Зависимости 
+  фронт-энда: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`
 }
 
 window.APPTEXT = ru

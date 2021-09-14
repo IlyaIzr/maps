@@ -30,28 +30,33 @@ export const About = () => {
 
   return (
     <div className="aboutPage relative">
-      <p>{TEXT.aboutMain}</p>
-      <h5 className="mp-border-dark">{TEXT.aboutFutureTitle}</h5>
-      <p>{TEXT.aboutFuture}</p>
+      <div className="paddingcontainer">
+        <p>{TEXT.aboutMain}</p>
+        <h5 className="mp-border-dark">{TEXT.aboutFutureTitle}</h5>
+        <p>{TEXT.aboutFuture}</p>
 
-      <br />
-      <p htmlFor="comment">{TEXT.comment}:</p>
-      <textarea
-        name="comment" rows="3"
-        value={comment} onInput={onInput}
-        className="raterComment mp-border-dark mp-dark"
-        placeholder={TEXT.aboutPlaceholder}
-      />
-      <br />
-      <button className="button" onClick={onClick}>{TEXT.submit}</button>
-      <br />
-      <br />
-      <br />
-      <p className="version mp-counter">
-        <div>{TEXT.author}: @ilyaizr</div>
-        <div>{TEXT.version}: alpha 3.1</div>
-      </p>
-      <div className="bottom"></div>
+        <br />
+        <p htmlFor="comment">{TEXT.comment}:</p>
+        <textarea
+          name="comment" rows="3"
+          value={comment} onInput={onInput}
+          className="raterComment mp-border-dark mp-dark"
+          placeholder={TEXT.aboutPlaceholder}
+        />
+        <br />
+        <button className="button" onClick={onClick}>{TEXT.submit}</button>
+        <br />
+        <h5 className="mp-border-dark">{TEXT.techInfo}</h5>
+        <p>{TEXT.techSpecs}</p>
+
+        <br />
+        <br />
+
+        <p className="version mp-counter">{TEXT.author}: @ilyaizr</p>
+        <p className="version mp-counter">{TEXT.version}: alpha 3.1</p>
+
+        <div className="bottom"></div>
+      </div>
     </div>
   )
 }

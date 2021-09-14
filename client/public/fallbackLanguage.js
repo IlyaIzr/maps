@@ -57,12 +57,12 @@ const en = {
   password: 'Password',
   field: 'field',
   tooLong: 'too long',
-  standart:  'Standart',
-  dark:  'Dark',
+  standart: 'Standart',
+  dark: 'Dark',
   'b&w': 'Black&White',
-  blueprint:  'Blueprint',
-  successfullReg: 'Successfully registred!', 
-  errorReg: 'Error while registering', 
+  blueprint: 'Blueprint',
+  successfullReg: 'Successfully registred!',
+  errorReg: 'Error while registering',
   errCode: 'error code',
   loginOccupied: 'Login occupied',
   wrongAuth: 'Wrong authorization credentials',
@@ -72,7 +72,7 @@ const en = {
   loading: 'Loading',
   oauthTitle: 'Register via Google',
   occupied: 'occupied',
-  bannedPwod: 'this password is unacceptable', 
+  bannedPwod: 'this password is unacceptable',
   error: 'error',
   warning: 'warning',
   complete: 'complete',
@@ -82,7 +82,7 @@ const en = {
   skip: 'skip',
   farewell: 'Farewell',
   pickLanguage: 'Pick language',
-  requestError: 'request error, possible connection troubles', 
+  requestError: 'request error, possible connection troubles',
   anonimus: 'Anonimus',
   removeComment: 'Remove comment',
   friendList: 'Friend list',
@@ -147,6 +147,9 @@ const en = {
   myMarks: 'my reviews',
   // alpha 3
   author: 'author',
+  techInfo: 'Tech info',
+  techSpecs: `Back-end dependencies: express, cors, mysql2, dotenv, bcrypt, cookie-parser, google-auth-library. Front-end
+   dependencies: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`
 }
 
 window.APPTEXT = en
