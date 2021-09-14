@@ -59,20 +59,30 @@ export const themeColors = {
   standart: {
     primary: "#5e7ba1",
     secondary: "#99a6b8",
-    accent: "#b86a05",
+    accent: "#c78605",
     light: "#f2f2f2",
     dark: "#575757",
-    counter: "#344079",
+    counter: "#2f396f",
   },
   dark: {
-    primary: '#b68de7',
-    secondary: '#755a96',
-    accent: '#03DAC6',
-    light: '#383736',
+    primary: '#d93fa1',
+    secondary: '#843f92',
+    accent: '#dab11b',
+    light: '#262626',
     dark: '#d8d8d8',
-    counter: '#e4d737',
+    counter: '#35d5e3',
     // comply: '#0383da'
   },
+  
+  // olddark: {
+  //   primary: '#b68de7',
+  //   secondary: '#755a96',
+  //   accent: '#03DAC6',
+  //   light: '#383736',
+  //   dark: '#d8d8d8',
+  //   counter: '#e4d737',
+  //   // comply: '#0383da'
+  // },
   'b&w': {
     primary: '#8c8c8c',
     secondary: '#999999',
