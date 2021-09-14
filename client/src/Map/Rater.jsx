@@ -29,7 +29,8 @@ export const Rater = ({ feature, onSubmit }) => {
     if (Number(rating) === 0) return setModal(dispatch, {
       message: TEXT.rateZeroModal,
       acceptAction: submitAction,
-      cancelLabel: TEXT.goBack
+      acceptLabel: TEXT.yes,
+      cancelLabel: TEXT.goBack,
     })
     submitAction()
   }
