@@ -67,7 +67,7 @@ export const logOutOfApp = (d) => {
 }
 
 export const setUserLevel = (d, level) => {
-  d({ type: WRITECREDENTIALS, newLevel: Number(level) })
+  d({ type: CHANGELEVEL, newLevel: Number(level) })
 }
 
 export const setUserFriends = (d, friends = []) => {

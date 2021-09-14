@@ -68,6 +68,7 @@ export const Main = () => {
     let newGeodata = [...geoData]
 
     function resLevelHandler(res) {
+      console.log('%c⧭', 'color: #e5de73', res);
       if (res.newLevel) {
         setToast(dispatch, { status: 'complete', message: TEXT.nowYourLevel + ' ' + res.newLevel })
         setUserLevel(dispatch, res.newLevel)
