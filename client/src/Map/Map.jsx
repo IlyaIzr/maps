@@ -211,6 +211,6 @@ export function setMapData(map, geoData, sourceId) {
 
 export function flyToFeature(map, feature, zoom = 16, speed = 0.5) {
   const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
-  map.flyTo({ center: [lng, lat], zoom, speed });
+  map.flyTo({ center: [lng - 0.0015, lat + 0.0005], zoom, speed });
   return [lng, lat]
 }
