@@ -7,10 +7,12 @@ import { switchTheme } from '../../store/app';
 import { setPreference } from '../../store/localstorage';
 import { navStates } from '../LeftMenu';
 import { ReactComponent as BackIcon } from '../../rest/svg/back2.svg';
+import { useHistory } from 'react-router-dom'
 
-export const ThemeNav = ({ setNavState }) => {
+export const ThemeNav = ({ setNavState, hideSelf }) => {
   const app = useSelector(state => state.app)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [themeN, setThemeN] = useState(appThemes.indexOf(app.theme));
 
@@ -20,6 +22,8 @@ export const ThemeNav = ({ setNavState }) => {
     switchTheme(dispatch, appThemes[themeNumber])
     setColors(appThemes[themeNumber])
     setPreference('theme', appThemes[themeNumber])
+    hideSelf()
+    history.push('/')
   }
   function onBack() {
     setNavState(navStates.default)

@@ -2,8 +2,6 @@ import { gradients, themeColors } from "../rest/colors";
 
 export function mapOnLoad(map, geoJson, theme) {
   map.on('load', function (e) {
-
-    console.log('%c⧭', 'color: #7f2200', 'laod fird');
     const gradient = gradients[theme]
 
     // Define a source before using it to create a new layer
