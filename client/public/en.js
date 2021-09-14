@@ -150,7 +150,8 @@ const en = {
   author: 'author',
   techInfo: 'Tech info',
   techSpecs: `Back-end dependencies: express, cors, mysql2, dotenv, bcrypt, cookie-parser, google-auth-library. Front-end
-   dependencies: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`
+   dependencies: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`,
+  drawModeLevelOnly: 'Users with level 2 or higher can draw missing buildings on map. You get level 2 after posting 10 reviews',
 }
 
 window.APPTEXT = en

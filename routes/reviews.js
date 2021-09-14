@@ -75,7 +75,7 @@ router.post('/postReview', async (req, res) => {
     await (async function levelUp() {
       if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
 
-      let commentStep = 2 + (6 * 10)  //amount of comments for level 10
+      let commentStep = 2 + (4 * 10)  //amount of comments for level 10
       for (let i = 10; i > 0; i--) {
         if (commentsNumber + 1 >= commentStep) {
           if (i === userLevel) break
@@ -83,7 +83,7 @@ router.post('/postReview', async (req, res) => {
           newLevel = i
           break;
         }
-        commentStep = 2 + (6 * (i - 1))
+        commentStep = 2 + (4 * (i - 1))
       }
     })()
     if (!newLevel && userId !== 'anonimus')

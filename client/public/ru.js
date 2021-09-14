@@ -151,7 +151,8 @@ const ru = {
   author: 'автор',
   techInfo: 'Техническая информация',
   techSpecs: `Зависимости бек-энда: express, cors, mysql2, dotenv, bcrypt, cookie-parser, google-auth-library. Зависимости 
-  фронт-энда: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`
+  фронт-энда: create-react-app libraries, react-router-dom, redux, react-redux, mapbox-gl`,
+  drawModeLevelOnly: 'Пользователи с уровнем 2 или выше могут рисовать недостающие здания на карте. Для получения 2 уровня напишите 10 отзывов',
 }
 
 window.APPTEXT = ru

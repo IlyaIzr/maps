@@ -99,13 +99,17 @@ export const MapMode = () => {
       {app.mode !== 'draw' &&
         <div className="modeType mp-border-secondary">
           <h5 className="title">{TEXT.drawMode}</h5>
-          <Link to="/">
-            <button className="button modeButton drawModeButton" onClick={runDrawMode}>
-              <DrawIcon fill="var(--secondary)" className="nav-icon" />
-              {TEXT.toDrawMode}
-            </button>
-          </Link>
-          <p className="subtitle">{TEXT.watchModeSub3}</p>
+          {Boolean(user?.level < 2) ?
+            <p className="subtitle">{TEXT.drawModeLevelOnly}</p>
+            : <>
+              <Link to="/" disabled>
+                <button className="button modeButton drawModeButton" onClick={runDrawMode}>
+                  <DrawIcon fill="var(--secondary)" className="nav-icon" />
+                  {TEXT.toDrawMode}
+                </button>
+              </Link>
+              <p className="subtitle">{TEXT.watchModeSub3}</p>
+            </>}
         </div>
       }
 
