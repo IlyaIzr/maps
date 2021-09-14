@@ -185,6 +185,18 @@
   padding: 4px 12px;
 }
 
+.back-icon-container{
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  margin-top: 6px;
+  margin-right: 6px;
+  opacity: 0.8;
+}
+.back-icon-container:hover{
+  opacity: 1;
+}
+
 /* #endregion */
 
 /* #region  LangNav */

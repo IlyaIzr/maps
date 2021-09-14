@@ -5,6 +5,7 @@ import { appLanguages } from '../../rest/config';
 import { TEXT } from '../../rest/lang';
 import { setToast } from '../../store/app';
 import { navStates } from '../LeftMenu';
+import { ReactComponent as BackIcon } from '../../rest/svg/back2.svg';
 
 export const LangNav = ({ setNavState }) => {
   const d = useDispatch()
@@ -36,14 +37,11 @@ export const LangNav = ({ setNavState }) => {
 
       {/* Avatar area */}
       <div className="menu-user theme-menu">
-        <div onClick={onBack}
-          className="
-          menu-avatar cursor-pointer 
-          mp-bg-accent-hover mp-light-hover
-          mp-bg-primary mp-light
+        <div onClick={onBack} className="
+          back-icon-container cursor-pointer 
           transition"
         >
-          <div className="letter" >{"<"}</div>
+          <BackIcon fill="var(--accent)" className="nav-icon"/>
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{TEXT.pickLanguage}</div>

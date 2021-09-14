@@ -6,6 +6,7 @@ import { TEXT } from '../../rest/lang';
 import { switchTheme } from '../../store/app';
 import { setPreference } from '../../store/localstorage';
 import { navStates } from '../LeftMenu';
+import { ReactComponent as BackIcon } from '../../rest/svg/back2.svg';
 
 export const ThemeNav = ({ setNavState }) => {
   const app = useSelector(state => state.app)
@@ -30,12 +31,10 @@ export const ThemeNav = ({ setNavState }) => {
       {/* Avatar area */}
       <div className="menu-user theme-menu">
         <div onClick={onBack} className="
-          menu-avatar cursor-pointer 
-          mp-bg-accent-hover mp-light-hover
-          mp-bg-primary mp-light
+          back-icon-container cursor-pointer 
           transition"
         >
-          <div className="letter" >{"<"}</div>
+          <BackIcon fill="var(--accent)" className="nav-icon"/>
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{TEXT.pickTheme}</div>
