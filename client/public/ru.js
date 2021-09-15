@@ -123,7 +123,7 @@ const ru = {
   marksOf: 'оценки',
   close: 'Закрыть',
   tags: 'Тэги',
-  tagsAmount: 'количество тэгов',
+  tagsAmount: 'к-во тэгов',
   watchAtMap: 'посмотреть на карте',
   recentTags: 'Новые тэги',
   mostPopularPlaces: 'Самые популярные места',
@@ -155,6 +155,7 @@ const ru = {
   drawModeLevelOnly: 'Пользователи с уровнем 2 или выше могут рисовать недостающие здания на карте. Для получения 2 уровня напишите 10 отзывов',
   yes: 'да',
   no: 'нет',
+  noName: 'нет названия'
 }
 
 window.APPTEXT = ru

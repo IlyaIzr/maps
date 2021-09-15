@@ -55,6 +55,7 @@ export const TagOverview = () => {
       <h4 className="title titlePopular">{TEXT.mostPopularPlaces}</h4>
       <div className="tagPlaces">
         {Boolean(info.places) && info.places.map(({ placeId, amount, name, lng, lat }) => {
+          if (!name) name = TEXT.noName
           
           function onClick() {
             mapRef.flyTo({ center: [lng, lat], zoom: 16, speed: 0.5 })

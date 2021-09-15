@@ -16,7 +16,7 @@ export const TagItem = ({ tagInfo, onClick }) => {
       </div>
 
 
-      <p className="tagAmount mp-dark">{TEXT.tagsAmount}: <span>{tagInfo.amount}</span></p>
+      <p className="tagAmount mp-dark">{TEXT.tagsAmount}: <span className="mp-accent">{tagInfo.amount}</span></p>
     </div>
   )
 }

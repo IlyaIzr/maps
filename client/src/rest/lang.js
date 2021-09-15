@@ -145,7 +145,7 @@ const ru = {
   marksOf: 'оценки',
   close: 'Закрыть',
   tags: 'Тэги',
-  tagsAmount: 'количество тэгов',
+  tagsAmount: 'к-во тэгов',
   watchAtMap: 'посмотреть на карте',
   recentTags: 'Новые тэги',
   mostPopularPlaces: 'Самые популярные места',
@@ -168,8 +168,9 @@ const ru = {
   В комментарии вы можете оставить предложения или впечатления о сайте, либо свяжитесь со мной 
   напрямую через ilyaizrailyan@gmail.com или @ilyaizr в какой-нибудь соц сети`,
   version: 'версия',
-  myMarks: 'мои оценки'
+  myMarks: 'мои оценки',
   // alpha 3
+  noName: 'без названия'
 }
 
 export const TEXT = window.APPTEXT || ru

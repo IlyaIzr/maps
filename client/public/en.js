@@ -154,6 +154,7 @@ const en = {
   drawModeLevelOnly: 'Users with level 2 or higher can draw missing buildings on map. You get level 2 after posting 10 reviews',
   yes: 'yes',
   no: 'no',
+  noName: 'no name'
 }
 
 window.APPTEXT = en

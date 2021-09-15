@@ -123,7 +123,7 @@ const ru = {
   marksOf: 'оценки',
   close: 'Закрыть',
   tags: 'Тэги',
-  tagsAmount: 'количество тэгов',
+  tagsAmount: 'к-во тэгов',
   watchAtMap: 'посмотреть на карте',
   recentTags: 'Новые тэги',
   mostPopularPlaces: 'Самые популярные места',
