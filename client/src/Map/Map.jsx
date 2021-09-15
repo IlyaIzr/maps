@@ -16,7 +16,7 @@ import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
 
 // Settings
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
-const range = 3
+const range = 5
 const zoom = 16
 const bryansk = {
   lng: 34.354, lat: 53.235
