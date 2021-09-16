@@ -57,15 +57,23 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
     // eslint-disable-next-line
   }, [touchEnd, touchStart])
 
+  function onLeftClick(e) {
+    e.stopPropagation()
+    if (navState !== navStates.default) setNavState(navStates.default)
+  }
+  function doNothing(e) {
+    e.stopPropagation()    
+  }
+
   const cn = "mp-bg-light mp-border-secondary"
 
   return (
-    <div id="left-menu" className={leftMenu ? "active " + cn : cn} ref={ref}>
-
-      {navState === navStates.default && <DefNav hideSelf={hideSelf} setNavState={setNavState} />}
-      {navState === navStates.theme && <ThemeNav hideSelf={hideSelf} setNavState={setNavState} />}
-      {navState === navStates.language && <LangNav setNavState={setNavState} />}
-
+    <div id="left-menu" className={leftMenu ? "active " + cn : cn} ref={ref} onClick={onLeftClick}>
+      <div onClick={doNothing}>
+        {navState === navStates.default && <DefNav hideSelf={hideSelf} setNavState={setNavState} />}
+        {navState === navStates.theme && <ThemeNav hideSelf={hideSelf} setNavState={setNavState} />}
+        {navState === navStates.language && <LangNav setNavState={setNavState} />}
+      </div>
       <div id="closeLeftAtBottom" onClick={hideSelf} className="cursor-pointer" title={TEXT.close}>
         <CloseIcon fill="var(--dark)" className="nav-icon" />
         <CloseIcon fill="var(--dark)" className="nav-icon" />
