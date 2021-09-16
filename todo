@@ -19,7 +19,6 @@ multy-tap-rating instead of stars rating?
 Alpha features:
 set location to user location, or show a dialog window to chose a city
 animations: loader animations, transition animations
-close modal on outside click
 
 
 alpha 4

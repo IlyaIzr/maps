@@ -16,11 +16,18 @@ export const Modal = () => {
     await data.acceptAction?.()
     closeModal(dispatch)
   }
+  async function outsideClick(e) {
+    e.stopPropagation()
+    await cancel()
+  }
+  function someClicko(e) {
+    e.stopPropagation()    
+  }
 
   if (!data) return null;
   return (
-    <div className="modal-dialog-wrap">
-      <div className="modal-dialog mp-border-dark mp-bg-light">
+    <div className="modal-dialog-wrap" onClick={outsideClick}>
+      <div className="modal-dialog mp-border-dark mp-bg-light" onClick={someClicko}>
         <div className="modal-dialog-content mp-dark">
           <div className="modal-content">{data.message}</div>
           {Boolean(data.children) && data.children}
