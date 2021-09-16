@@ -60,6 +60,7 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
   function onLeftClick(e) {
     e.stopPropagation()
     if (navState !== navStates.default) setNavState(navStates.default)
+    if (navState === navStates.default) hideSelf()
   }
   function doNothing(e) {
     e.stopPropagation()    
@@ -75,8 +76,6 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
         {navState === navStates.language && <LangNav setNavState={setNavState} />}
       </div>
       <div id="closeLeftAtBottom" onClick={hideSelf} className="cursor-pointer" title={TEXT.close}>
-        <CloseIcon fill="var(--dark)" className="nav-icon" />
-        <CloseIcon fill="var(--dark)" className="nav-icon" />
         <CloseIcon fill="var(--dark)" className="nav-icon" />
       </div>
     </div>

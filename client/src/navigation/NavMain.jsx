@@ -37,6 +37,7 @@ export const NavMain = () => {
   const ref = useRef(null)
   const [touchStart, setTouchStart] = useState(undefined)
   const [touchEnd, setTouchEnd] = useState(undefined)
+  const [showArrows, setShowArrows] = useState(true);
 
   useEffect(() => {
     const bar = ref.current
@@ -71,12 +72,20 @@ export const NavMain = () => {
       setTouchStart(undefined)
       setTouchEnd(undefined)
       showLeftMenu()
+      setShowArrows(false)
     } else if (touchEnd !== undefined) {
       setTouchStart(undefined)
       setTouchEnd(undefined)
     }
     // eslint-disable-next-line
   }, [touchEnd, touchStart])
+
+  function onSideClick() {
+    setTouchStart(undefined)
+    setTouchEnd(undefined)
+    showLeftMenu()    
+    setShowArrows(false)
+  }
 
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
@@ -95,8 +104,8 @@ export const NavMain = () => {
             {modeLabel}
           </span>
         </Link>
-        <div className="naviFreeSpace mp-secondary relative" ref={ref}>&#8203;
-          <ArrowsIcon id="arrows-icon" className="mobile" fill="var(--secondary)" />
+        <div className="naviFreeSpace mp-secondary relative" ref={ref} onClick={onSideClick}>&#8203;
+          {showArrows && <ArrowsIcon id="arrows-icon" className="mobile" fill="var(--secondary)" />}
         </div>
       </div>
     </div>

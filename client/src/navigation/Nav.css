@@ -60,11 +60,11 @@
 }
 #arrows-icon{
   position: absolute;
-  right: 6px;
+  right: 2px;
   top: -16px;
   height: 56px;
   width: 56px;
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 @media (max-width: 640px) {
