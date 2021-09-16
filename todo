@@ -22,10 +22,7 @@ animations: loader animations, transition animations
 close modal on outside click
 
 
-alpha 3.2
-
 alpha 4
-bug: logout after friendMode
 restrict recommenting from same client
 time perioud reviews
 my marks

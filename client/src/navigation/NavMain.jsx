@@ -65,5 +65,6 @@ export function getMapModeLabel(app, friends, myId) {
 
 export function friendName(friends, app) {
   const friend = friends.find(friend => friend.id === app.friendModeId)
+  if (!friend) return TEXT.error + ' #frMode#0'
   return friend.name + ' (' + friend.login + ')'
 }
