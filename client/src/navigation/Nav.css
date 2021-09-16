@@ -165,7 +165,11 @@
     font-size: 18px;
   }
   .menu-text{
-    font-size: 18px;
+    font-size: 22px;
+  }
+  .navIcon{
+    width: 18px;
+    height: 18px;
   }
 }
 /* #endregion */
