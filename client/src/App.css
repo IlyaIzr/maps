@@ -74,7 +74,8 @@ input:hover, textarea:hover {
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--secondary);
+  color: var(--dark);
+  opacity: 0.8;
 }
 
 a {

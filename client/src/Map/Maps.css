@@ -384,6 +384,7 @@ span.star {
 .authorDateWrap{
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .authorDateWrap .author{
   display: inline-block;
