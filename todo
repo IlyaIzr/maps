@@ -21,12 +21,10 @@ set location to user location, or show a dialog window to chose a city
 animations: loader animations, transition animations
 close modal on outside click
 
-Bugs
-no place update after removn last comment
-remove last comment leaves building drawing on the map
-no place name after first review
 
-
+alpha 3.2
+mobile swipe out menu
+mobile restore rotation on maps
 
 alpha 4
 bug: logout after friendMode

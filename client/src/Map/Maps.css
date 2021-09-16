@@ -381,12 +381,26 @@ span.star {
 .reviewComment {
   padding: 2px 0px;
 }
-
+.authorDateWrap{
+  display: flex;
+  justify-content: space-between;
+}
+.authorDateWrap .author{
+  display: inline-block;
+}
 .reviewDate {
-  position: absolute;
-  right: 4px;
-  top: 6px;
-  font-size: 0.8em;
+  display: inline-block;
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.delete-comment-icon{
+  position: relative;
+  top: -4px;
+  right: -3px;
+  width: 15px;
+  height: 15px;
+  margin-left: -2px;
 }
 
 .reviewStars {

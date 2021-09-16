@@ -11,7 +11,7 @@ import { appThemes } from "./config"
 // const lightGreenRed = ['#712d2d', '#a74b2f', '#e2734a', '#e8c337', '#abff38', '#88ff45']
 const brightGreenRed = ['#cd0c0c', '#e14612', '#e1922c', '#e8c337', '#94c52f', '#0aa112']
 const darkGradient = [
-  '#521414', '#9c330d',
+  '#850000', '#9c330d',
   '#b8740f', '#b3a700',
   '#88c70a', '#00e00b'
 ]
@@ -65,8 +65,8 @@ export const themeColors = {
     counter: "#2f396f",
   },
   dark: {
-    primary: '#d93fa1',
-    secondary: '#843f92',
+    primary: '#dd55ab',
+    secondary: '#7b4780',
     accent: '#dab11b',
     light: '#262626',
     dark: '#d8d8d8',

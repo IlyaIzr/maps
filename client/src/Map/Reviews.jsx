@@ -7,6 +7,7 @@ import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 import { ReactComponent as TopIcon } from '../rest/svg/top.svg'
+import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
 
 export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
   const dispatch = useDispatch()
@@ -112,23 +113,26 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       {reviews.length ? reviews.map(review => {
         if (!review.name) review.name = TEXT.anonimus
         return (
-          <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp}>
+          <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp + Math.random()}>
             <Link to={"/friends/item/" + review.author}>
               <div className="authorLogo mp-bg-primary">
                 <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
               </div>
             </Link>
             <div className="reviewBody">
-              <p className="author mp-primary">{review.name}</p>
-              <div className="reviewDate mp-secondary">
-                {new Date(review.timestamp).toLocaleDateString()}
-                {Boolean(review.author !== 'anonimus' && review.author === userId) &&
-                  <label
-                    onClick={deleteClick} className="deleteComment cursor-pointer" timestamp={review.timestamp} grade={review.grade}
-                  > ✕
-                  </label>
-                }
+
+              <div className="authorDateWrap">
+                <span className="author mp-primary">{review.name}</span>
+                <span className="reviewDate mp-dark">
+                  {new Date(review.timestamp).toLocaleDateString()}
+                  {Boolean(review.author !== 'anonimus' && review.author === userId) &&
+                    <CloseIcon fill="var(--dark)" className="delete-comment-icon cursor-pointer"
+                      onClick={deleteClick} timestamp={review.timestamp} grade={review.grade}
+                    />
+                  }
+                </span>
               </div>
+
               <div className="reviewRating">{review.grade}/5
                 <span className="reviewStars stars">
                   {[...Array(5)].map((star, index) => {
@@ -154,7 +158,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
         <div className="skipper mp-bg-light mp-border-secondary" >
           {reviewsShown ?
 
-            <TopIcon fill="var(--secondary)" className="nav-icon" onClick={onClick}/>
+            <TopIcon fill="var(--secondary)" className="nav-icon" onClick={onClick} />
             :
             <span className="mp-secondary" onClick={onClick}>&#8615;</span>
           }

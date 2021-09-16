@@ -29,12 +29,12 @@ export const DefaultLayout = () => {
                 key={user.id} onClick={() => onClick(user.id)}
               >
 
-                <div className="authorLogo mp-bg-secondary">
+                <div className="authorLogo mp-bg-primary">
                   <span className="mp-dark" title={user.login}>{String(user.name)?.[0]?.toUpperCase()}</span>
                 </div>
 
                 <div className="resultUser-creds">
-                  <p className="mp-secondary">{user.name}</p>
+                  <p className="mp-primary">{user.name}</p>
                   <label className="cursor-pointer">({user.login})</label>
                 </div>
               </div>
@@ -57,12 +57,12 @@ export const DefaultLayout = () => {
                   key={user.id} onClick={() => onClick(user.id)}
                 >
 
-                  <div className="authorLogo mp-bg-secondary">
+                  <div className="authorLogo mp-bg-primary">
                     <span className="mp-dark" title={user.login}>{String(user.name)?.[0]?.toUpperCase()}</span>
                   </div>
 
                   <div className="resultUser-creds">
-                    <p className="mp-secondary">{user.name}</p>
+                    <p className="mp-primary">{user.name}</p>
                     <label className="cursor-pointer">({user.login})</label>
                   </div>
                 </div>

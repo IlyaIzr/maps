@@ -65,12 +65,12 @@ export const MapMode = () => {
                   onClick={() => runFriendMode(friend.id)}
                 >
 
-                  <div className="authorLogo mp-bg-secondary">
+                  <div className="authorLogo mp-bg-primary">
                     <span className="mp-dark" title={friend.login}>{String(friend.name)?.[0]?.toUpperCase()}</span>
                   </div>
 
                   <div className="resultUser-creds">
-                    <p className="mp-secondary">{friend.name}</p>
+                    <p className="mp-primary">{friend.name}</p>
                     <label className="cursor-pointer">({friend.login})</label>
                   </div>
                 </div>
