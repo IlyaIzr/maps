@@ -6,7 +6,8 @@ body {
   -webkit-text-size-adjust: 100%;
   font-size: 1em;
 }
-:root{
+
+:root {
   --mobile-width: 640px;
 }
 
@@ -163,6 +164,15 @@ a:hover {
   display: none;
 }
 
+.mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .mobile {
+    display: initial;
+  }
+}
 
 /* #endregion */
 

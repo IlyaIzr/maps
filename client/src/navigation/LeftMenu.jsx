@@ -46,7 +46,7 @@ export const LeftMenu = ({ leftMenu, setLeftMenu }) => {
   }, [])
 
   useEffect(() => {
-    if (touchEnd > touchStart && touchEnd - touchStart > 30) {
+    if (touchEnd > touchStart && touchEnd - touchStart > 15) {
       setTouchStart(undefined)
       setTouchEnd(undefined)
       hideSelf()

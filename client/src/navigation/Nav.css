@@ -55,6 +55,18 @@
   min-height: 32px;
 }
 
+.naviFreeSpace{
+  flex-grow: 1;
+}
+#arrows-icon{
+  position: absolute;
+  right: 6px;
+  top: -16px;
+  height: 56px;
+  width: 56px;
+  opacity: 0.15;
+}
+
 @media (max-width: 640px) {
   .mainNavigation{
     height: 40px;

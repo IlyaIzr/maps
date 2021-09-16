@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
@@ -6,6 +6,7 @@ import { LeftMenu } from './LeftMenu'
 import './Nav.css'
 import { ReactComponent as Hamburger } from '../rest/svg/hamburger.svg';
 import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
+import { ReactComponent as ArrowsIcon } from '../rest/svg/arrows.svg';
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
@@ -31,6 +32,52 @@ export const NavMain = () => {
     // eslint-disable-next-line
   }, [app.mode, app.friendModeId, app.tagModeTag])
 
+
+  // swipe
+  const ref = useRef(null)
+  const [touchStart, setTouchStart] = useState(undefined)
+  const [touchEnd, setTouchEnd] = useState(undefined)
+
+  useEffect(() => {
+    const bar = ref.current
+    function handleTouch(e) {
+      var x = e.changedTouches[0].clientX;
+      var total = this.clientWidth;
+      var position = x - total;
+      if (touchStart === undefined) {
+        setTouchStart(start => {
+          if (start === undefined) return Math.abs(position)
+          return start
+        })
+      }
+    }
+    function handleTouchEnd(e) {
+      var x = e.changedTouches[0].clientX;
+      var total = this.clientWidth;
+      var position = x - total;
+
+      if (touchEnd === undefined) {
+        setTouchEnd(Math.abs(position))
+      }
+    }
+
+    bar.addEventListener('touchstart', handleTouch, false)
+    bar.addEventListener('touchmove', handleTouch, false)
+    bar.addEventListener('touchend', handleTouchEnd, false)
+    // eslint-disable-next-line
+  }, [])
+  useEffect(() => {
+    if (touchStart < touchEnd && touchEnd - touchStart > 8) {
+      setTouchStart(undefined)
+      setTouchEnd(undefined)
+      showLeftMenu()
+    } else if (touchEnd !== undefined) {
+      setTouchStart(undefined)
+      setTouchEnd(undefined)
+    }
+    // eslint-disable-next-line
+  }, [touchEnd, touchStart])
+
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
       <LeftMenu leftMenu={leftMenu} setLeftMenu={setLeftMenu} />
@@ -48,6 +95,9 @@ export const NavMain = () => {
             {modeLabel}
           </span>
         </Link>
+        <div className="naviFreeSpace mp-secondary relative" ref={ref}>&#8203;
+          <ArrowsIcon id="arrows-icon" className="mobile" fill="var(--secondary)" />
+        </div>
       </div>
     </div>
   )
