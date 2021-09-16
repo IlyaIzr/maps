@@ -13,6 +13,7 @@ import { hideMain, setMapRef, setToast, showMain } from '../store/app';
 import { mapOnMove } from './onMove';
 import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
 import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
+import { ReactComponent as CompassIcon } from '../rest/svg/compass.svg'
 
 // Settings
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
@@ -38,6 +39,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   const createBtn = useRef(null);
   const deleteBtn = useRef(null);
   const [drawPrompt, setDrawPrompt] = useState(false);
+  const [compass, setCompass] = useState(false);
   // Map places data
   const [, setlayoutXY] = useState({ x: null, y: null });
   const [tiledata, setTileData] = useState(new Map())
@@ -94,7 +96,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       // console.log('%c⧭', 'color: #5200cc', p.sty);
       mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject || null)
-      mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData)
+      mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData, setCompass)
       if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
     })();
 
@@ -176,6 +178,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     return geoJson
   }
 
+  function compassClick() {
+    map.current.rotateTo(180, { duration: 2000, animate: true })
+    setCompass(false)
+  }
+
   return (
     <div>
       <div ref={mapContainer} className={app.mapHidden ? "map-container hidden" : "map-container"} />
@@ -191,6 +198,14 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         <button id="deleteBtn" ref={deleteBtn} className="mp-bg-light mp-border-accent controlButton">
           <TrashIcon fill="var(--accent)" className="nav-icon" />
         </button>}
+
+      {/* Delete button */}
+      {(compass && app.mode !== 'draw') &&
+        <CompassIcon
+          onClick={compassClick}
+          fill="var(--secondary)" className="compass-icon mp-bg-light mp-border-secondary cursor-pointer"
+        />
+      }
 
       {/* Helper prompt */}
       {(drawPrompt && app.mode === 'draw') && <div className="controlPrompt mp-border-secondary mp-bg-light">

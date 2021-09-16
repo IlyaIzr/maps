@@ -1,6 +1,10 @@
 import { getLayoutCoords } from "../rest/helperFuncs";
 
-export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData) {
+export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData, setCompass) {
+  map.on('move', function () {
+    if (map.dragRotate.isActive()) setCompass(true)
+  })
+
   map.on('moveend', function (e) {
     const { lng, lat } = map.getCenter()
     // const zoom = map.getZoom()
