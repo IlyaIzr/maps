@@ -51,20 +51,25 @@ router.post('/login', async (req, res) => {
 // @ api/auth/refresh
 
 router.get('/refresh', async (req, res) => {
-  const deviceInfo = deviceDetector.parse(req.headers['user-agent']) 
-  const info = `${deviceInfo.device.type} ${deviceInfo.device.brand} ${deviceInfo.os.name} ${deviceInfo.os.version}, - ${deviceInfo.client.name} ${deviceInfo.client.version}`
-  try {
-    await dbConn.query(`
+  (async function storeVisit() {
+    const UA = req.headers['user-agent']
+    if (!UA) return;
+    const deviceInfo = deviceDetector.parse(req.headers['user-agent'])
+    const info = `${deviceInfo.device.type} ${deviceInfo.device.brand} ${deviceInfo.os.name} ${deviceInfo.os.version}, - ${deviceInfo.client.name} ${deviceInfo.client.version}`
+    try {
+      await dbConn.query(`
       INSERT INTO visits ( ip, time, amount, info ) 
       VALUES ( '${req.ip}', ${Date.now()}, 1, '${info}')
       ON DUPLICATE KEY UPDATE 
       time =  ${Date.now()}, 
       amount = (amount + 1),
-      info = '${info}'
-    `)    
-  } catch (error) {
-    console.log(error)
-  }
+      info = '${info}',
+      timestamp = CURRENT_TIMESTAMP()
+    `)
+    } catch (error) {
+      console.log(error)
+    }
+  })()
 
   const userId = req.cookies['mp/auth']
   if (!userId) return res.json({ status: 'REAUTH' })
