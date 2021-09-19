@@ -20,6 +20,11 @@ Alpha features:
 set location to user location, or show a dialog window to chose a city
 animations: loader animations, transition animations
 
+alpha 3.2
+
+visits db with timestamp
+mobile and browser
+
 
 alpha 4
 restrict recommenting from same client

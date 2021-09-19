@@ -179,8 +179,13 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   }
 
   function compassClick() {
-    map.current.rotateTo(180, { duration: 2000, animate: true })
-    setCompass(false)
+    const bearing = Math.abs(map.current.getBearing())
+    if (!bearing) return setCompass(false)
+    const duration = bearing > 30 ? 1200 : (bearing * 30 + 300)
+    map.current.rotateTo(0, { duration, animate: true })
+    setTimeout(() => {
+      setCompass(false)
+    }, 1500 + duration / 4);
   }
 
   return (
@@ -226,6 +231,6 @@ export function setMapData(map, geoData, sourceId) {
 
 export function flyToFeature(map, feature, zoom = 16, speed = 0.5) {
   const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
-  map.flyTo({ center: [lng - 0.0015, lat + 0.0005], zoom, speed });
+  map.flyTo({ center: [lng - 0.0010, lat + 0.0005], zoom, speed });
   return [lng, lat]
 }
