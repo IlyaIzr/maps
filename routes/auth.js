@@ -6,7 +6,10 @@ const dbConn = new Connection()
 // rest
 const bcrypt = require('bcrypt');
 const { OAuth2Client } = require('google-auth-library');
+const DeviceDetector = require("device-detector-js");
+const deviceDetector = new DeviceDetector();
 const client = new OAuth2Client(process.env.GOAUTHCLIENTID);
+
 
 
 // @ api/auth/login
@@ -48,25 +51,34 @@ router.post('/login', async (req, res) => {
 // @ api/auth/refresh
 
 router.get('/refresh', async (req, res) => {
+  const deviceInfo = deviceDetector.parse(req.headers['user-agent']) 
+  const info = `${deviceInfo.device.type} ${deviceInfo.device.brand} ${deviceInfo.os.name} ${deviceInfo.os.version}, - ${deviceInfo.client.name} ${deviceInfo.client.version}`
+  try {
+    await dbConn.query(`
+      INSERT INTO visits ( ip, time, amount, info ) 
+      VALUES ( '${req.ip}', ${Date.now()}, 1, '${info}')
+      ON DUPLICATE KEY UPDATE 
+      time =  ${Date.now()}, 
+      amount = (amount + 1),
+      info = '${info}'
+    `)    
+  } catch (error) {
+    console.log(error)
+  }
+
   const userId = req.cookies['mp/auth']
   if (!userId) return res.json({ status: 'REAUTH' })
 
   // fetch user
   try {
     const res = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [userId])
-    await dbConn.query(`
-      INSERT INTO visits ( ip, time, amount ) 
-      VALUES ( '${req.ip}', ${Date.now()}, 1)
-      ON DUPLICATE KEY UPDATE 
-      time =  ${Date.now()}, 
-      amount = (amount + 1)
-    `)
     if (!res[0]) return res.status(403).json({ status: 'REAUTH' })
     var user = res[0]
     delete user.pword
     delete user.question
     delete user.answer
   } catch (err) {
+    console.log(err)
     return res.json({ status: 'ERR', msg: err, err })
   }
 
