@@ -4,6 +4,12 @@ const mysql = require('mysql2');
 class Database {
   connection
   constructor() {
+    // singleton
+    if (Database.created) return Database.instance
+
+    Database.instance = this
+    Database.created = true
+    
     console.log('DB connection established, production status: ' + process.env.PRODUCTIONDB);
     if (process.env.PRODUCTIONDB && process.env.PRODUCTIONDB !== 'false') {
       this.connection = mysql.createPool({
