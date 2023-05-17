@@ -3,19 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@svgr/webpack": "^5.5.0",
-    "mapbox-gl": "^2.3.0",
+    "mapbox-gl": "^2.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "redux": "^4.0.5",
-    "web-vitals": "^1.0.1"
+    "react-redux": "^7.2.9",
+    "react-router-dom": "^5.3.4",
+    "redux": "^4.2.1",
+    "web-vitals": "^3.3.1",
+    "vite": "^4.3.6",
+    "vite-plugin-svgr": "^3.2.0",
+    "vite-tsconfig-paths": "^4.2.0",
+    "@vitejs/plugin-react": "^4.0.0"
   },
   "scripts": {
-    "dev": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [

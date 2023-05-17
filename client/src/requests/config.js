@@ -1,8 +1,8 @@
-if (process.env.NODE_ENV === 'production') {
-  var prodAdress = process.env.REACT_APP_PROD
+if (import.meta.env.NODE_ENV === 'production') {
+  var prodAdress = import.meta.env.VITE_PROD
 }
 
-export const host = prodAdress || process.env.REACT_APP_LOCAL
+export const host = prodAdress || import.meta.env.VITE_LOCAL
 export const api = host + 'api/'
 
 

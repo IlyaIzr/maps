@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from 'mapbox-gl';
 import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPlaces } from '../requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
@@ -16,7 +16,7 @@ import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
 import { ReactComponent as CompassIcon } from '../rest/svg/compass.svg'
 
 // Settings
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_T;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
 const range = 5
 const zoom = 16
 const bryansk = {
@@ -67,7 +67,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   useEffect(() => {
 
     // turns-off draw mode in development
-    // if (map.current && process.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
+    // if (map.current && import.meta.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
     setFeature(null);
     (async function () {
       const geoJson = await initPlacesCall()
@@ -85,7 +85,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       // Add search
       if (app.mode !== 'draw') map.current.addControl(
         new window.MapboxGeocoder({
-          accessToken: process.env.REACT_APP_MAPBOX_T,
+          accessToken: import.meta.env.VITE_MAPBOX_T,
           mapboxgl: mapboxgl,
           placeholder: TEXT.searchPHolder
         })

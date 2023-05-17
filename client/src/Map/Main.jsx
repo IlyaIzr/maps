@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from 'mapbox-gl';
 import { MapArea } from './Map'
 import { Rater } from './Rater'
 import { Featurer } from './Featurer';
@@ -16,6 +16,7 @@ import { postReview } from '../requests/reviews';
 import { setCommentsNumber, setUserLevel } from '../store/user';
 import { ReactComponent as CloseIcon } from '../rest/svg/close5.svg';
 
+console.log('%c⧭', 'color: #ff0000', import.meta.env);
 
 export const Main = () => {
   // Store
