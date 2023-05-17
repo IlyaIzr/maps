@@ -1,8 +1,8 @@
 if (import.meta.env.NODE_ENV === 'production') {
-  var prodAdress = import.meta.env.VITE_PROD
+  var prodAdress = import.meta.env.VITE_PROD_BE
 }
 
-export const host = prodAdress || import.meta.env.VITE_LOCAL
+export const host = prodAdress || import.meta.env.VITE_DEV_BE
 export const api = host + 'api/'
 
 
