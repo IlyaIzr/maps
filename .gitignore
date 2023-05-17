@@ -7,3 +7,4 @@ archive/
 *.sql
 
 client/build/
+*.firebase

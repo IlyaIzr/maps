@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="var(--light)" />
+  <meta name="description" content="Choroplet map showing city places rating" />
+  <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="/favicon.svg" />
+
+  <title>OurMaps (please suggest a better name to me)</title>
+  <!-- oauth -->
+  <meta name="google-signin-client_id" content="AIzaSyAvFyG5wNlGK7tAaYkTd1rQPdDcCMTNZ-k">
+  <script type="module" crossorigin src="/assets/index-727122e4.js"></script>
+  <link rel="stylesheet" href="/assets/index-3a8c6774.css">
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+
+  <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+  <script src='https://unpkg.com/@turf/turf@6.2.0-alpha.1/dist/turf.min.js'></script>
+
+  <!-- Load the `mapbox-gl-geocoder` plugin -->
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+
+  <!-- Mapbox draw plugin -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css"
+    type="text/css">
+
+  <!-- Google places -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvFyG5wNlGK7tAaYkTd1rQPdDcCMTNZ-k&libraries=places&v=weekly"></script>
+
+  <!-- Google platform for oAuth -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
+
+  <script src="./fallbackLanguage.js"></script>
+
+  <div id="root" className="mp-bg-light" style="background-color: var(--light);color: var(--dark)"></div>
+  <!-- Add Vite entry point 👇 -->
+  
+
+</body>
+
+</html>
