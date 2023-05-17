@@ -19,11 +19,13 @@
     "baseUrl": "./src/",
     "paths": {
       "~requests/*": ["requests/*"],
-      "~rest/*": ["rest/*"],
+      "~rest/*": ["./rest/*"],
       "~auth/*": ["Auth/*"],
       "~map/*": ["Map/*"],
       "~store/*": ["store/*"],
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "types": ["@types/react"],
+  "typeRoots": ["./node_modules/@types"]
 }

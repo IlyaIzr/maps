@@ -16,8 +16,6 @@ import { postReview } from '../requests/reviews';
 import { setCommentsNumber, setUserLevel } from '../store/user';
 import { ReactComponent as CloseIcon } from '../rest/svg/close5.svg';
 
-console.log('%c⧭', 'color: #ff0000', import.meta.env);
-
 export const Main = () => {
   // Store
   const user = useSelector(state => state.user)
