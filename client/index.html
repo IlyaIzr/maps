@@ -36,8 +36,15 @@
     type="text/css">
 
   <!-- Google places -->
+  <script>
+    function gAPINoop() {
+      // console.log('geocoder was called')
+    }
+  </script>
   <!-- Key will be generated in the build however key is restricted to specific websites -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=%VITE_GMAPKEY%&libraries=places&v=weekly"></script>
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=%VITE_GMAPKEY%&libraries=places&v=weekly&callback=gAPINoop"/>
+  
 
   <!-- Google platform for oAuth -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
