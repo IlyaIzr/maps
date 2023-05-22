@@ -43,7 +43,7 @@ app.get('/', async function (req, res) {
 })
 
 // Host react statics
-app.use(express.static(__dirname + '/client/build'));
+app.use(express.static(__dirname + '/client/dist'));
 
 
 app.get('*', async (req, res) => {
@@ -65,7 +65,7 @@ async function languageSetter(request, response) {
     return 'en'
   })()
 
-  let indexFile = await fs.readFile(__dirname + '/client/build/index.html', 'utf-8')
+  let indexFile = await fs.readFile(__dirname + '/client/dist/index.html', 'utf-8')
 
   indexFile = indexFile.replace('html lang="en"', `html lang="${lang}"`)
   indexFile = indexFile.replace('<script src="./fallbackLanguage.js">', `<script src="./${lang}.js">`)
