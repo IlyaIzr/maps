@@ -17,7 +17,7 @@ const { appLanguages } = settings
 
 const app = express()
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:1414', 'https://m4ps.herokuapp.com/', 'http://m4ps.herokuapp.com/'],
+  origin: ['http://localhost:3000', 'http://localhost:1414', 'https://our-maps-be.onrender.com/'],
   // origin: '*',
   credentials: true,
   // optionsSuccessStatus: 200,
