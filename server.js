@@ -53,8 +53,8 @@ app.get('*', async (req, res) => {
 
 async function languageSetter(request, response) {
   const lang = (function () {
-    const preferedLang = request.cookies['mp/lang']
-    if (preferedLang && preferedLang in appLanguages) return preferedLang
+    const preferredLang = request.cookies['mp/lang']
+    if (preferredLang && preferredLang in appLanguages) return preferredLang
 
     const langs = request.acceptsLanguages()
     if (!langs) return 'en'

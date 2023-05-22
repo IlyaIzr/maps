@@ -6,5 +6,5 @@ archive/
 
 *.sql
 
-client/build/
+client/dist/
 *.firebase

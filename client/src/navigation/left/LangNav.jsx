@@ -16,7 +16,7 @@ export const LangNav = ({ setNavState }) => {
     const lang = e.target.attributes.name.value
     const res = await setLanguage(lang)
     if (res.status === 'OK') return window.location.reload();
-    setToast(d, {
+    else setToast(d, {
       message: JSON.stringify(res),
       title: TEXT.error,
       status: 'error',
