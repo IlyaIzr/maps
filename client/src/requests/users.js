@@ -1,26 +1,26 @@
-import { requsetMaker } from "./config"
+import { requestMaker } from "./config"
 
 export async function registerUser(data) {
-  const f = requsetMaker('POST', 'users', 'register', { ...data }, true)
+  const f = requestMaker('POST', 'users', 'register', { ...data }, true)
   return await f()
 }
 
 export async function registerGUser(data) {
-  const f = requsetMaker('POST', 'users', 'gregister', { ...data }, true)
+  const f = requestMaker('POST', 'users', 'gregister', { ...data }, true)
   return await f()
 }
 
 export async function updateUser(data) {
-  const f = requsetMaker('POST', 'users', 'update', { ...data }, true)
+  const f = requestMaker('POST', 'users', 'update', { ...data }, true)
   return await f()
 }
 
 export async function updateUserPword(data) {
-  const f = requsetMaker('POST', 'users', 'updatePword', { ...data }, true)
+  const f = requestMaker('POST', 'users', 'updatePword', { ...data }, true)
   return await f()
 }
 
 export async function setLanguage(lang) {
-  const f = requsetMaker('GET', 'settings', 'setLang', null, true, 'lang=' + lang)
+  const f = requestMaker('GET', 'settings', 'setLang', null, true, 'lang=' + lang)
   return await f()
 }

@@ -16,7 +16,7 @@
   <title>OurMaps (please suggest a better name to me)</title>
   <!-- oauth -->
   <meta name="google-signin-client_id" content="AIzaSyAvFyG5wNlGK7tAaYkTd1rQPdDcCMTNZ-k">
-  <script type="module" crossorigin src="/assets/index-727122e4.js"></script>
+  <script type="module" crossorigin src="/assets/index-40907e08.js"></script>
   <link rel="stylesheet" href="/assets/index-3a8c6774.css">
 </head>
 
@@ -38,7 +38,15 @@
     type="text/css">
 
   <!-- Google places -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvFyG5wNlGK7tAaYkTd1rQPdDcCMTNZ-k&libraries=places&v=weekly"></script>
+  <script>
+    function gAPINoop() {
+      // console.log('geocoder was called')
+    }
+  </script>
+  <!-- Key will be generated in the build however key is restricted to specific websites -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvFyG5wNlGK7tAaYkTd1rQPdDcCMTNZ-k&libraries=places&v=weekly&callback=gAPINoop"/>
+  
 
   <!-- Google platform for oAuth -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>

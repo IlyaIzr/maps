@@ -1,23 +1,23 @@
 import { restrictedLetters } from "../rest/config"
-import { requsetMaker } from "./config"
+import { requestMaker } from "./config"
 
 export async function searchTags(input) {
-  const f = requsetMaker('GET', 'tags', 'search', null, false, 'input=' + input)
+  const f = requestMaker('GET', 'tags', 'search', null, false, 'input=' + input)
   return await f()
 }
 
 export async function getTagInfo(tag) {
-  const f = requsetMaker('GET', 'tags', 'getTag', null, false, 'tag=' + tag)
+  const f = requestMaker('GET', 'tags', 'getTag', null, false, 'tag=' + tag)
   return await f()
 }
 
 export async function featuredTags() {
-  const f = requsetMaker('GET', 'tags', 'featuredTags', null, false)
+  const f = requestMaker('GET', 'tags', 'featuredTags', null, false)
   return await f()
 }
 
 export async function tagSuggestions(input) {
-  const f = requsetMaker('GET', 'tags', 'tagSuggestions', null, false, 'input=' + input)
+  const f = requestMaker('GET', 'tags', 'tagSuggestions', null, false, 'input=' + input)
   return await f()
 }
 
@@ -37,6 +37,6 @@ export async function postTags({ user, comment, placeId }) {
   if (!tags.length) return { status: 'OK' }
   tags = tags.filter((item, i, ar) => ar.indexOf(item) === i)
 
-  const f = requsetMaker('POST', 'tags', 'postTags', { user, placeId, tags }, false)
+  const f = requestMaker('POST', 'tags', 'postTags', { user, placeId, tags }, false)
   return await f()
 }

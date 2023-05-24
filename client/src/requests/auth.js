@@ -1,13 +1,13 @@
-import { api, requsetMaker } from './config'
+import { api, requestMaker } from './config'
 
 export async function loginWithCreds(creds) {
-  const f = requsetMaker('POST', 'auth', 'login', { ...creds }, true)
+  const f = requestMaker('POST', 'auth', 'login', { ...creds }, true)
   return await f()
 }
 
-export const refresh = requsetMaker('GET', 'auth', 'refresh', null, true)
+export const refresh = requestMaker('GET', 'auth', 'refresh', null, true)
 
-export const logout = requsetMaker('GET', 'auth', 'logout', null, true)
+export const logout = requestMaker('GET', 'auth', 'logout', null, true)
 
 export async function loginbyGoogle(creds, token) {
   const options = {
