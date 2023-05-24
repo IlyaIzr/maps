@@ -3,30 +3,30 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-// Components
-import { Main } from "./Map/Main";
-import './Map/Maps.css'
-import { AuthMain } from './Auth/AuthMain'
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { lazily } from 'react-lazily';
 
-import './App.css'
 import { useDispatch, useSelector } from "react-redux";
-import { NavMain } from "./navigation/NavMain";
 import { setModal } from "./store/app";
-import { Modal } from "./rest/Modal";
-import { EditProfile } from "./Auth/EditProfile";
-import { GoogleConfirm } from "./Auth/GoogleConfirm";
-import { Toast } from "./rest/Toast";
-import { AlphaReg } from "./Auth/AlphaReg";
 import { TEXT } from "./rest/lang";
-import { Login } from "./Auth/Login";
 import { getPreferences, setPreference } from "./store/localstorage";
-import { FriendsMain } from "./Friends/FriendsMain";
-import { MapMode } from "./navigation/MapMode";
 import { getFriendsInfo } from "./rest/helperFuncs";
-import { TagsMain } from "./Tags/TagsMain";
-import { About } from "./navigation/About";
+import './Map/Maps.css'
+import './App.css'
 
+const { NavMain } = lazily(() => import('./navigation/NavMain'));
+const { Login } = lazily(() => import('./Auth/Login'));
+const { Modal } = lazily(() => import('./rest/Modal'));
+const { About } = lazily(() => import('./navigation/About'));
+const { Main } = lazily(() => import('./Map/Main'));
+const { AuthMain } = lazily(() => import('./Auth/AuthMain'));
+const { EditProfile } = lazily(() => import('./Auth/EditProfile'));
+const { GoogleConfirm } = lazily(() => import('./Auth/GoogleConfirm'));
+const { FriendsMain } = lazily(() => import('./Friends/FriendsMain'));
+const { MapMode } = lazily(() => import('./navigation/MapMode'));
+const { Toast } = lazily(() => import('./rest/Toast'));
+const { AlphaReg } = lazily(() => import('./Auth/AlphaReg'));
+const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 
 function App() {
   const dispatch = useDispatch()
@@ -49,7 +49,7 @@ function App() {
       })
     }
     (async function () {
-      await getFriendsInfo(dispatch)      
+      await getFriendsInfo(dispatch)
     })()
     /* eslint-disable */
   }, [])
@@ -57,64 +57,66 @@ function App() {
 
   return (
     <Router >
-      <Modal />
-      <NavMain />
-      {app.toast && <Toast key={app.toast?.key} />}
+      <Suspense fallback={null}>
+        <Modal />
+        <NavMain />
+        {app.toast && <Toast key={app.toast?.key} />}
 
-      <Main />
+        <Main />
 
-      {/* Extra subpages */}
+        {/* Extra subpages */}
 
-      <Switch>
+        <Switch>
 
-        <Route path="/auth">
-          <div className="routeWrapper">
-            <AuthMain />
-          </div>
-        </Route>
-        {/* TODO alpha only */}
-        <Route path="/alphaReg">
-          <div className="routeWrapper">
-            <AlphaReg />
-          </div>
-        </Route>
+          <Route path="/auth">
+            <div className="routeWrapper">
+              <AuthMain />
+            </div>
+          </Route>
+          {/* TODO alpha only */}
+          <Route path="/alphaReg">
+            <div className="routeWrapper">
+              <AlphaReg />
+            </div>
+          </Route>
 
-        <Route path="/editProfile">
-          <div className="routeWrapper">
-            <EditProfile />
-          </div>
-        </Route>
-        <Route path="/googleConfirm">
-          <div className="routeWrapper">
-            <GoogleConfirm />
-          </div>
-        </Route>
+          <Route path="/editProfile">
+            <div className="routeWrapper">
+              <EditProfile />
+            </div>
+          </Route>
+          <Route path="/googleConfirm">
+            <div className="routeWrapper">
+              <GoogleConfirm />
+            </div>
+          </Route>
 
-        <Route path="/friends">
-          <div className="routeWrapper">
-            <FriendsMain />
-          </div>
-        </Route>
+          <Route path="/friends">
+            <div className="routeWrapper">
+              <FriendsMain />
+            </div>
+          </Route>
 
-        <Route path="/mapMode">
-          <div className="routeWrapper">
-            <MapMode />
-          </div>
-        </Route>
+          <Route path="/mapMode">
+            <div className="routeWrapper">
+              <MapMode />
+            </div>
+          </Route>
 
-        <Route path="/tags">
-          <div className="routeWrapper">
-            <TagsMain />
-          </div>
-        </Route>
-        
-        <Route path="/about">
-          <div className="routeWrapper">
-            <About />
-          </div>
-        </Route>
+          <Route path="/tags">
+            <div className="routeWrapper">
+              <TagsMain />
+            </div>
+          </Route>
 
-      </Switch>
+          <Route path="/about">
+            <div className="routeWrapper">
+              <About />
+            </div>
+          </Route>
+
+        </Switch>
+      </Suspense>
     </Router>
   );
 }
