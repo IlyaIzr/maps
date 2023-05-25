@@ -22,32 +22,6 @@ export const Login = () => {
   const [pword, setPword] = useState('')
   const [msg, setMsg] = useState('')
 
-  // useEffect(() => {
-  //   const { gapi } = window
-  //   console.log('%c⧭ gapi', 'color: #733d00', gapi);
-  //   if (!gapi) return setToast(dispatch, {
-  //     message: TEXT.networkError
-  //   })
-
-  //   gapi.load('auth2', () => {
-  //     gapi.auth2.init().then((auth) => {
-  //       auth.signOut().then(() => {
-  //         gapi.signin2.render('google-signin-button', {
-  //           width: 200,
-  //           height: 32,
-  //           longtitle: true,
-  //           onsuccess: onOAuth,
-  //           onfailure: onFail,
-  //           theme: (app.theme === 'dark' || app.theme === 'blueprint') ? 'dark' : 'white'
-  //         });
-  //       });
-  //     });
-
-  //   });
-  //   // eslint-disable-next-line
-  // }, [])
-
-
   function onInput(e) {
     setLogin(e.target.value)
   }
@@ -121,9 +95,9 @@ export const Login = () => {
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
-  function onFail(a) {
-    console.log('%c⧭ failed', 'color: #00a3cc', a);
-    setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + JSON.stringify(a))
+  function onFail(e) {
+    console.log('%c⧭ failed', 'color: #00a3cc', e);
+    setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + JSON.stringify(e))
   }
 
   function onInitReg() {
@@ -149,10 +123,14 @@ export const Login = () => {
             <Responser message={msg} setMessage={setMsg} />
 
             <button className="primary mp-border-accent loginBtn" onClick={onSubmit}>{TEXT.confirm}</button>
-            {/* <button className="mp-border-secondary oauthBtn" onClick={onOAuth}>{'Google'}</button> */}
-            {/* <div id="google-signin-button"
-              className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div> */}
-              <GoogleLogin onSuccess={onOAuth} onError={onFail} width='200'></GoogleLogin>
+
+            <GoogleLogin
+              shape='rectangular'
+              onSuccess={onOAuth}
+              onError={onFail}
+              width='200'
+              theme={(app.theme === 'dark') ? 'filled_black' : 'outline'}
+            ></GoogleLogin>
           </div>
           {loc !== '/auth' &&
             <div className="align-center">
