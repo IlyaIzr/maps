@@ -8,6 +8,8 @@ import { Responser } from '../rest/Responser';
 import { closeModal, setToast } from '../store/app';
 import { logIntoApp, logOutOfApp } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
+import { GoogleLogin } from '@react-oauth/google';
+
 
 export const Login = () => {
   const dispatch = useDispatch()
@@ -20,29 +22,30 @@ export const Login = () => {
   const [pword, setPword] = useState('')
   const [msg, setMsg] = useState('')
 
-  useEffect(() => {
-    const { gapi } = window
-    if (!gapi) return setToast(dispatch, {
-      message: TEXT.networkError
-    })
+  // useEffect(() => {
+  //   const { gapi } = window
+  //   console.log('%c⧭ gapi', 'color: #733d00', gapi);
+  //   if (!gapi) return setToast(dispatch, {
+  //     message: TEXT.networkError
+  //   })
 
-    gapi.load('auth2', () => {
-      gapi.auth2.init().then((auth) => {
-        auth.signOut().then(() => {
-          gapi.signin2.render('google-signin-button', {
-            width: 200,
-            height: 32,
-            longtitle: true,
-            onsuccess: onOAuth,
-            onfailure: onFail,
-            theme: (app.theme === 'dark' || app.theme === 'blueprint') ? 'dark' : 'white'
-          });
-        });
-      });
+  //   gapi.load('auth2', () => {
+  //     gapi.auth2.init().then((auth) => {
+  //       auth.signOut().then(() => {
+  //         gapi.signin2.render('google-signin-button', {
+  //           width: 200,
+  //           height: 32,
+  //           longtitle: true,
+  //           onsuccess: onOAuth,
+  //           onfailure: onFail,
+  //           theme: (app.theme === 'dark' || app.theme === 'blueprint') ? 'dark' : 'white'
+  //         });
+  //       });
+  //     });
 
-    });
-    // eslint-disable-next-line
-  }, [])
+  //   });
+  //   // eslint-disable-next-line
+  // }, [])
 
 
   function onInput(e) {
@@ -90,26 +93,17 @@ export const Login = () => {
   }
 
 
-  async function onOAuth(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    const data = {
-      name: profile.getName(),
-      avatar: profile.getImageUrl(),
-      gmail: profile.getEmail()
-    }
-    const res = await loginbyGoogle(data, googleUser.getAuthResponse().id_token)
+  async function onOAuth(auth) {
+    const res = await loginbyGoogle(auth.credential)
 
     if (res.status === 'FIRSTTIME') {
-      googleCreds.token = googleUser.getAuthResponse().id_token
+      // TODO get that from library as <App> wrapped in a google context
+      googleCreds.token = auth.credential
       googleCreds.name = res.data.name
       googleCreds.login = res.data.login
-      if (!res.data.login) googleCreds.occupiedLogin = profile.getEmail().split('@')[0]
+      if (!res.data.login) googleCreds.occupiedLogin = res.data.email
       googleCreds.avatar = res.data.avatar
-      googleCreds.id = profile.getId()
+      googleCreds.id = res.data.id
       closeModal(dispatch)
       return history.push('/googleConfirm')
     }
@@ -155,9 +149,10 @@ export const Login = () => {
             <Responser message={msg} setMessage={setMsg} />
 
             <button className="primary mp-border-accent loginBtn" onClick={onSubmit}>{TEXT.confirm}</button>
-            {/* <button className="mp-border-secondary oauthBtn" onClick={oauth}>{'Google'}</button> */}
-            <div id="google-signin-button"
-              className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div>
+            {/* <button className="mp-border-secondary oauthBtn" onClick={onOAuth}>{'Google'}</button> */}
+            {/* <div id="google-signin-button"
+              className="google-signin-button g-signin2 google-oauthBtn" data-onsuccess="onSignIn"></div> */}
+              <GoogleLogin onSuccess={onOAuth} onError={onFail} width='200'></GoogleLogin>
           </div>
           {loc !== '/auth' &&
             <div className="align-center">

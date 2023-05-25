@@ -6,6 +6,7 @@ import { store } from './store/root';
 import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
 import { initActions } from './rest/beforeApp';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 (async function () {
   // const refresh = 
@@ -13,11 +14,13 @@ import { initActions } from './rest/beforeApp';
   // if (refresh === 'connection_error')
 
   ReactDOM.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>,
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_G_AUTH_KEY}>
+      <React.StrictMode>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </React.StrictMode>
+    </GoogleOAuthProvider>,
     document.getElementById('root')
   );
 }())

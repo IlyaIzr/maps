@@ -9,14 +9,14 @@ export const refresh = requestMaker('GET', 'auth', 'refresh', null, true)
 
 export const logout = requestMaker('GET', 'auth', 'logout', null, true)
 
-export async function loginbyGoogle(creds, token) {
+// @Response: { name: userName, avatar: userAvatar, login, id: googleId, email: userEmail }
+export async function loginbyGoogle(token) {
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     },
-    body: JSON.stringify({ ...creds }),
     credentials: 'include'
   }
   try {
