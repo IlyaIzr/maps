@@ -117,34 +117,33 @@ router.post('/glogin', async (req, res) => {
 
   if (!token) return res.status(403)
 
-  const { name, avatar, gmail } = req.body
-
-
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.GOAUTHCLIENTID
   });
   const payload = ticket.getPayload();
   const googleId = payload['sub'];
+  const userEmail = payload.email
+  const userAvatar = payload.picture
+  const userName = `${payload.name} ${payload.given_name}`.trimEnd()
 
   if (!googleId) return res.json({ status: 'ERR', msg: 'no user id from google' })
 
   // fetch user
+  let user
   try {
     const res = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [googleId])
-    // if (!res[0]) return res.json({ status: 'FIRSTTIME', msg: 'make the registration call' })
-    var user = res[0]
+    user = res[0]
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, err })
   }
 
   // Case registration
-  // return availible login or else empty login field
-  let login = gmail.split('@')[0]
-  const loginOccupied = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [login])
-  if (loginOccupied.length) login = ''
+  // return available login or else empty login field
+  const existingLoginCall = await dbConn.query("SELECT * FROM users WHERE `login` = ?", [userEmail])
+  const login = existingLoginCall.length > 0 ? '' : userEmail.split('@')[0]
 
-  const returnedCreds = { name, avatar, login, id: googleId }
+  const returnedCreds = { name: userName, avatar: userAvatar, login, id: googleId, email: userEmail }
   if (!user) return res.json({ status: 'FIRSTTIME', msg: 'proceed with the registration', data: returnedCreds })
 
   // Case just login
