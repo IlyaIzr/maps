@@ -19,7 +19,7 @@
     "baseUrl": "./src/",
     "paths": {
       "~requests/*": ["requests/*"],
-      "~rest/*": ["./rest/*"],
+      "~rest/*": ["rest/*"],
       "~auth/*": ["Auth/*"],
       "~map/*": ["Map/*"],
       "~store/*": ["store/*"],

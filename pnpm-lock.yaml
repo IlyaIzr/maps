@@ -27,6 +27,9 @@ dependencies:
     version: 2.3.3
 
 devDependencies:
+  '@types/node':
+    specifier: ^20.2.4
+    version: 20.2.4
   nodemon:
     specifier: ^2.0.6
     version: 2.0.22
@@ -50,6 +53,10 @@ packages:
       - encoding
       - supports-color
     dev: false
+
+  /@types/node@20.2.4:
+    resolution: {integrity: sha512-ni5f8Xlf4PwnT/Z3f0HURc3ZSw8UyrqMqmM3L5ysa7VjHu8c3FOmIo1nKCcLrV/OAmtf3N4kFna/aJqxsfEtnA==}
+    dev: true
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}

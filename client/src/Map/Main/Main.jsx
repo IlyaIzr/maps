@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from 'mapbox-gl';
-import { MapArea } from './Map'
-import { Rater } from './Rater'
-import { Featurer } from './Featurer';
-import { formatGeodata } from './formatGeodata'
-import './Maps.css'
-import { Legend } from './Legend';
-import { Reviews } from './Reviews';
-import { getLayoutCoords, notNaN } from '../rest/helperFuncs';
-import { setMapMode, setToast, showMain } from '../store/app';
-import { TEXT } from '../rest/lang';
-import { postTags } from '../requests/tags';
-import { postReview } from '../requests/reviews';
-import { setCommentsNumber, setUserLevel } from '../store/user';
-import { ReactComponent as CloseIcon } from '../rest/svg/close5.svg';
+import { MapArea } from '../Map'
+import { Rater } from '../Rater'
+import { Featurer } from '../Featurer';
+import { formatGeodata } from '../formatGeodata'
+import '../Maps.css'
+import { Legend } from '../Legend';
+import { Reviews } from '../Reviews';
+import { getLayoutCoords, notNaN } from '~rest/helperFuncs';
+import { setMapMode, setToast, showMain } from '../../store/app';
+import { TEXT } from '~rest/lang';
+import { postTags } from '../../requests/tags';
+import { postReview } from '../../requests/reviews';
+import { setCommentsNumber, setUserLevel } from '../../store/user';
+import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './Main.module.css'
 
 export const Main = () => {

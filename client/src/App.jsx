@@ -18,7 +18,7 @@ const { NavMain } = lazily(() => import('./navigation/NavMain'));
 const { Login } = lazily(() => import('./Auth/Login'));
 const { Modal } = lazily(() => import('./rest/Modal'));
 const { About } = lazily(() => import('./navigation/About'));
-const { Main } = lazily(() => import('./Map/Main'));
+const { Main } = lazily(() => import('./Map/Main/Main'));
 const { AuthMain } = lazily(() => import('./Auth/AuthMain'));
 const { EditProfile } = lazily(() => import('./Auth/EditProfile'));
 const { GoogleConfirm } = lazily(() => import('./Auth/GoogleConfirm'));
