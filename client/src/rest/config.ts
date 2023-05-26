@@ -2,7 +2,7 @@ export const appThemes = ['standart', 'dark', 'b&w', 'blueprint']
 
 export const projectPrefix = 'mp'
 
-export let googleCreds = {
+export const googleCreds = {
   login: null,
   name: null,
   avatar: null,

@@ -1,6 +1,7 @@
 import { getFriends, getRequests } from "../requests/friends"
 import { setToast } from "../store/app"
 import { setUserFriends, setUserRequests } from "../store/user"
+import { googleCreds } from "./config"
 import { TEXT } from "./lang"
 
 export function saveLocation({ lng, lat }) {
@@ -34,4 +35,12 @@ export async function getFriendsInfo(dispatch) {
 export function notNaN(val) {
   if (!val && typeof val === 'number' && val !== 0) return 0
   return val
+}
+
+export function setGoogleCreds(creds) {
+  for (const key in creds) {
+    if (googleCreds.hasOwnProperty(key)) {
+      googleCreds[key] = creds[key]
+    }
+  }
 }

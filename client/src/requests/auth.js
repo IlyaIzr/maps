@@ -10,7 +10,7 @@ export const refresh = requestMaker('GET', 'auth', 'refresh', null, true)
 export const logout = requestMaker('GET', 'auth', 'logout', null, true)
 
 // @Response: { name: userName, avatar: userAvatar, login, id: googleId, email: userEmail }
-export async function loginbyGoogle(token) {
+export async function loginByGoogle(token) {
   const options = {
     method: 'POST',
     headers: {

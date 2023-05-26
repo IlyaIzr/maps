@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { loginbyGoogle, loginWithCreds, logout } from '../requests/auth';
+import { loginByGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
@@ -16,7 +16,7 @@ export const Login = () => {
   const history = useHistory()
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
-  const loc = useLocation().pathname
+  const path = useLocation().pathname
 
   const [login, setLogin] = useState('')
   const [pword, setPword] = useState('')
@@ -67,17 +67,11 @@ export const Login = () => {
   }
 
 
-  async function onOAuth(auth) {
-    const res = await loginbyGoogle(auth.credential)
+  async function onSuccessGoogleAuth(auth) {
+    const res = await loginByGoogle(auth.credential)
 
     if (res.status === 'FIRSTTIME') {
-      // TODO get that from library as <App> wrapped in a google context
-      googleCreds.token = auth.credential
-      googleCreds.name = res.data.name
-      googleCreds.login = res.data.login
-      if (!res.data.login) googleCreds.occupiedLogin = res.data.email
-      googleCreds.avatar = res.data.avatar
-      googleCreds.id = res.data.id
+      setGoogleCredsForRegistration(res)
       closeModal(dispatch)
       return history.push('/googleConfirm')
     }
@@ -96,7 +90,7 @@ export const Login = () => {
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
   function onFail(e) {
-    console.log('%c⧭ failed', 'color: #00a3cc', e);
+    console.log('%c⧭ google auth failed', 'color: #00a3cc', e);
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + JSON.stringify(e))
   }
 
@@ -113,7 +107,7 @@ export const Login = () => {
       </div>
         :
         <div>
-          <div className={loc !== '/auth' ? 'login-form login-form-bordered mp-border-secondary' : 'login-form'}>
+          <div className={path !== '/auth' ? 'login-form login-form-bordered mp-border-secondary' : 'login-form'}>
             <label htmlFor="name">{TEXT.yourLogin}:</label>
             <input type="text" name="login" value={login} onInput={onInput} autoFocus />
             <br />
@@ -126,21 +120,31 @@ export const Login = () => {
 
             <GoogleLogin
               shape='rectangular'
-              onSuccess={onOAuth}
+              onSuccess={onSuccessGoogleAuth}
               onError={onFail}
               width='200'
               theme={(app.theme === 'dark') ? 'filled_black' : 'outline'}
             ></GoogleLogin>
           </div>
-          {loc !== '/auth' &&
+          {
+            path !== '/auth' &&
             <div className="align-center">
               <Link to="/auth?reg=true" onClick={onInitReg}>
                 <button className="button">{TEXT.register}</button>
               </Link>
-            </div>}
+            </div>
+          }
 
         </div>
     }
     </div>
   )
+}
+
+function setGoogleCredsForRegistration(res) {
+  googleCreds.name = res.data.name
+  googleCreds.login = res.data.login
+  if (!res.data.login) googleCreds.occupiedLogin = res.data.email
+  googleCreds.avatar = res.data.avatar
+  googleCreds.id = res.data.id
 }
