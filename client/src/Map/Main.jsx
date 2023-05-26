@@ -15,6 +15,7 @@ import { postTags } from '../requests/tags';
 import { postReview } from '../requests/reviews';
 import { setCommentsNumber, setUserLevel } from '../store/user';
 import { ReactComponent as CloseIcon } from '../rest/svg/close5.svg';
+import s from './Main.module.css'
 
 export const Main = () => {
   // Store
@@ -136,7 +137,7 @@ export const Main = () => {
   }, [])
 
   return (
-    <div className={app.mapHidden ? "hidden" : "mainWrapper"}>
+    <div className={app.mapHidden ? s.hidden : s.mainWrapper}>
       <MapArea
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
@@ -158,8 +159,6 @@ export const Main = () => {
           </div>
         </div>
       }
-
-      <div className="bottom"></div>
     </div>
   )
 }

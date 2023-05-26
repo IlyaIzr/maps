@@ -189,7 +189,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
   }
 
   return (
-    <div>
+    <>
       <div ref={mapContainer} className={app.mapHidden ? "map-container hidden" : "map-container"} />
 
       {/* Add button */}
@@ -218,7 +218,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         <p>{TEXT.drawPrompt}</p>
       </div>
       }
-    </div>
+    </>
   )
 }
 

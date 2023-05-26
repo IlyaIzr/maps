@@ -59,10 +59,8 @@ function App() {
     <Router >
       <Suspense fallback={null}>
         <Modal />
-        <NavMain />
         {app.toast && <Toast key={app.toast?.key} />}
 
-        <Main />
 
         {/* Extra subpages */}
 
@@ -116,6 +114,11 @@ function App() {
           </Route>
 
         </Switch>
+
+        <Main />
+        
+
+        <NavMain />
       </Suspense>
     </Router>
   );

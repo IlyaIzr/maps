@@ -5,6 +5,7 @@ Closest TODOs:
 
 Bugs:
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
+route /friends refreshes for not logged in user (map.hidden property changes)
 
 
 ?superUser interface

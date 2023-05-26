@@ -41,6 +41,7 @@ export const NavMain = () => {
 
   useEffect(() => {
     const bar = ref.current
+    if (!bar) return console.log('%c⧭', 'color: #0088cc', 'no bar in ref', ref);
     function handleTouch(e) {
       var x = e.changedTouches[0].clientX;
       var total = this.clientWidth;
@@ -83,7 +84,7 @@ export const NavMain = () => {
   function onSideClick() {
     setTouchStart(undefined)
     setTouchEnd(undefined)
-    showLeftMenu()    
+    showLeftMenu()
     setShowArrows(false)
   }
 
@@ -92,7 +93,7 @@ export const NavMain = () => {
       <LeftMenu leftMenu={leftMenu} setLeftMenu={setLeftMenu} />
       <div className="flex-wrap nav-menu-back-wrap">
         {app.mapHidden &&
-          <div id="backToMain" className="nav-icon" onClick={backToMain} title={TEXT.toMain}>
+          <div className="nav-icon" onClick={backToMain} title={TEXT.toMain}>
             <WoldIcon fill="var(--accent)" />
           </div>
         }

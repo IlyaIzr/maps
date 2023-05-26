@@ -1,20 +1,10 @@
 .mainNavigation {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
   height: 28px;
   z-index: 1;
   padding: 2px 8px;
   border-top: 1px solid;
+  position: relative;
 }
-
-/* #mainNavigation * {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding: 2px 14px 6px 14px;
-  border: 1px solid ;
-} */
 
 /* #region  Default */
 .menu-items-container{
@@ -40,6 +30,8 @@
 
 .nav-menu-back-wrap .nav-icon {
   margin-right: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .menu-text{
@@ -51,9 +43,6 @@
   cursor: pointer;
 }
 
-.bottom{    
-  min-height: 32px;
-}
 
 .naviFreeSpace{
   flex-grow: 1;
@@ -70,9 +59,6 @@
 @media (max-width: 640px) {
   .mainNavigation{
     height: 40px;
-  }
-  .bottom{    
-    min-height: 40px;
   }
 }
 

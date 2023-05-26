@@ -1,11 +1,3 @@
-.mainWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-}
-
 .featureContainer {
   position: fixed;
   top: 0;
@@ -15,6 +7,11 @@
   padding-top: 14px;
   border: 1px solid;
   z-index: 2;
+}
+
+
+.map-container {
+  height: 100%;
 }
 
 .closeFeature {
