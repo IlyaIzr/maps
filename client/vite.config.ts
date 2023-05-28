@@ -18,6 +18,7 @@ export default defineConfig({
       "~map": path.resolve(__dirname, './src/Map'),
       "~store": path.resolve(__dirname, './src/store'),
       "~components": path.resolve(__dirname, './src/components'),
+      "~routes": path.resolve(__dirname, './src/routes'),
     }
   }
 });

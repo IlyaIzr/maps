@@ -9,17 +9,18 @@ const { MapMode } = lazily(() => import('../navigation/MapMode'));
 const { AlphaReg } = lazily(() => import('../Auth/AlphaReg'));
 const { TagsMain } = lazily(() => import('../Tags/TagsMain'));
 
-// type RouteConfig = {
-//   id: string,
-//   component: JSX.Element
-// }
+type RouteConfig = {
+  id: string,
+  component: JSX.Element
+}
 
-export const appRoutes = [
+export const appRoutes: RouteConfig[] = [
   {
     id: 'auth',
     component: <AuthMain />
   },
   {
+    // TODO alpha only
     id: 'alphaReg',
     component: <AlphaReg />
   },
