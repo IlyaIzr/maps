@@ -137,7 +137,7 @@ export const Main = () => {
   }, [])
 
   return (
-    <div className={app.mapHidden ? s.hidden : s.mainWrapper}>
+    <div className={s.mainWrapper}>
       <MapArea
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
