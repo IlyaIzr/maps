@@ -17,7 +17,7 @@ import './App.css'
 const { NavMain } = lazily(() => import('./navigation/NavMain'));
 const { Login } = lazily(() => import('./Auth/Login'));
 const { Modal } = lazily(() => import('./rest/Modal'));
-const { Main } = lazily(() => import('./Map/Main/Main'));
+const { MapWrap } = lazily(() => import('./Map/MapWrap/MapWrap'));
 const { Toast } = lazily(() => import('./rest/Toast'));
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
         <RoutesControl />
 
         <MainRouteWrap>
-          <Main />
+          <MapWrap />
         </MainRouteWrap>
 
         <NavMain />

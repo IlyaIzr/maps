@@ -15,9 +15,9 @@ import { postTags } from '../../requests/tags';
 import { postReview } from '../../requests/reviews';
 import { setCommentsNumber, setUserLevel } from '../../store/user';
 import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
-import s from './Main.module.css'
+import s from './MapWrap.module.css'
 
-export const Main = () => {
+export const MapWrap = () => {
   // Store
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)

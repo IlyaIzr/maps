@@ -13,6 +13,7 @@ import { mapOnMove } from './onMove';
 import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
 import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
 import { ReactComponent as CompassIcon } from '../rest/svg/compass.svg'
+import './Mapbox.css'
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
