@@ -28,7 +28,7 @@ export const FriendsMain = () => {
   if (!app.isLogged) {
     return (
       // Styles from /Auth/Auth.css
-      <div className="friendsNotLoggedWrap auth-container relative">
+      <div className="friendsWrap friendsNotLoggedWrap auth-container relative">
         <div className="absolute center auth-subcontainer">
           <div className="auth-action-wrap mp-border-secondary">
             <p>{TEXT.loginToUseThis}</p>
@@ -45,7 +45,7 @@ export const FriendsMain = () => {
 
   // <Link to={`${url}/rendering`}>Rendering with React</Link>
   return (
-    <div>
+    <div className="friendsWrap">
       <SearchBar setSearchResults={setSearchResults} />
 
       <Switch>
@@ -63,8 +63,6 @@ export const FriendsMain = () => {
         </Route>
 
       </Switch>
-      
-      <div className="bottom"></div>
     </div>
   )
 }

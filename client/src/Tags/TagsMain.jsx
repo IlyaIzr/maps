@@ -37,8 +37,6 @@ export const TagsMain = () => {
         </Route>
 
       </Switch>
-      
-      <div className="bottom"></div>
     </div>
   )
 }
