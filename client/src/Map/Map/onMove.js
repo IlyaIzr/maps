@@ -1,5 +1,7 @@
 import { getLayoutCoords } from "~rest/helperFuncs";
+import { setDataToUrl } from "~store/url"
 
+// todo return abort functions to put into useEffect callback
 export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData, setCompass) {
   map.on('move', function () {
     if (map.isRotating()) setCompass(true)
@@ -7,7 +9,10 @@ export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData, s
 
   map.on('moveend', function (e) {
     const { lng, lat } = map.getCenter()
-    // const zoom = map.getZoom()
+    const zoom = map.getZoom()
+
+    setDataToUrl({ lat: +lat.toFixed(5), lng: +lng.toFixed(5), zoom: +zoom.toFixed(1) })
+
     const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, 16)
     let prevXY
     setlayoutXY(prev => {

@@ -4,7 +4,7 @@ import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPl
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
-import { getLayoutCoords, getLocation, saveLocation } from '~rest/helperFuncs';
+import { getLayoutCoords } from '~rest/helperFuncs';
 import { TEXT } from '~rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,12 +13,13 @@ import { mapOnMove } from './onMove';
 import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
 import { ReactComponent as TrashIcon } from '~rest/svg/trash.svg'
 import { ReactComponent as CompassIcon } from '~rest/svg/compass.svg'
+import { getDataFromUrl } from "~store/url"
 import './Mapbox.css'
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
 const range = 5
-const zoom = 16
+const defaultZoom = 16
 const bryansk = {
   lng: 34.354, lat: 53.235
 }
@@ -68,16 +69,17 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // turns-off draw mode in development
     // if (map.current && import.meta.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
     setFeature(null);
-    (async function () {
+    
+    (async function WhatItDOes() {
       const geoJson = await initPlacesCall()
-      const { lng, lat } = getLocation()
+      const { lng, lat, zoom } = getDataFromUrl()
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: mbStyles[app.theme],   //  blueprint
         // center: [-122.447303, 37.753574],  // palo alto
-        center: [lng || 34.354, lat || 53.235], // bryansk
-        zoom
+        center: [lng || bryansk.lng, lat || bryansk.lat], // bryansk
+        zoom: zoom || defaultZoom
       });
       setMapRef(d, map.current)
 
@@ -98,15 +100,6 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData, setCompass)
       if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
     })();
-
-
-    const interval = setInterval(() => {
-      const loc = map.current?.getCenter?.()
-      if (loc) saveLocation(loc)
-    }, 10000);
-
-    return () => clearInterval(interval)
-
     // eslint-disable-next-line
   }, [app.theme, app.mapKey]);
 
@@ -150,9 +143,9 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   async function initPlacesCall() {
     let geoJson
-    const { lng, lat } = getLocation()
-    // const zoom = map.getZoom()
-    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom)
+    const { lng, lat, zoom } = getDataFromUrl()
+    
+    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom || defaultZoom)
     setlayoutXY({ x, y })
 
     if (app.mode === 'watch') {
