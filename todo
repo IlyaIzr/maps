@@ -1,7 +1,6 @@
 Closest TODOs:
 * Locate me button
 * get me back AND/OR top places navigation
-* url map sharing
 
 Bugs:
 possible bug on mobile chrome init loading - map initial height is half of actual screen height

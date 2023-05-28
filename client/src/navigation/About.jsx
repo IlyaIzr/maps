@@ -48,7 +48,7 @@ export const About = () => {
         <br />
 
         <p className="version mp-counter">{TEXT.author}: @ilyaizr</p>
-        <p className="version mp-counter">{TEXT.version}: alpha 3.2</p>
+        <p className="version mp-counter">{TEXT.version}: alpha 3.2.1</p>
       </div>
     </div>
   )
