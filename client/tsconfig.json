@@ -23,6 +23,7 @@
       "~auth/*": ["Auth/*"],
       "~map/*": ["Map/*"],
       "~store/*": ["store/*"],
+      "~components/*": ["components/*"]
     }
   },
   "include": ["src"],

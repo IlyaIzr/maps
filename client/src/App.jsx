@@ -11,6 +11,7 @@ import { setModal } from "./store/app";
 import { TEXT } from "./rest/lang";
 import { getPreferences, setPreference } from "./store/localstorage";
 import { getFriendsInfo } from "./rest/helperFuncs";
+import { MainRouteWrap } from "~components/MainRouteWrap/MainRouteWrap"
 import './Map/Maps.css'
 import './App.css'
 
@@ -114,9 +115,10 @@ function App() {
           </Route>
 
         </Switch>
+        <MainRouteWrap isHidden={app.mapHidden}>
+          <Main />
+        </MainRouteWrap>
 
-        <Main />
-        
 
         <NavMain />
       </Suspense>

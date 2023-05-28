@@ -17,6 +17,7 @@ export default defineConfig({
       "~auth": path.resolve(__dirname, './src/Auth'),
       "~map": path.resolve(__dirname, './src/Map'),
       "~store": path.resolve(__dirname, './src/store'),
+      "~components": path.resolve(__dirname, './src/components'),
     }
   }
 });
