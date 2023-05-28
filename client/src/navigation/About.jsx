@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { hideMain, setToast } from '../store/app'
+import { setToast } from '../store/app'
 import { TEXT } from '../rest/lang';
 import { postFeedback } from '../requests/reviews';
 
@@ -8,11 +8,6 @@ export const About = () => {
   const dispatch = useDispatch()
 
   const [comment, setComment] = useState('');
-
-  useEffect(() => {
-    hideMain(dispatch)
-    // eslint-disable-next-line
-  }, [])
 
   function onInput(e) {
     setComment(e.target.value);

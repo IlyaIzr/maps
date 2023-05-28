@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from 'mapbox-gl';
 import { MapArea } from '../Map'
@@ -9,7 +9,7 @@ import '../Maps.css'
 import { Legend } from '../Legend';
 import { Reviews } from '../Reviews';
 import { getLayoutCoords, notNaN } from '~rest/helperFuncs';
-import { setMapMode, setToast, showMain } from '../../store/app';
+import { setMapMode, setToast } from '../../store/app';
 import { TEXT } from '~rest/lang';
 import { postTags } from '../../requests/tags';
 import { postReview } from '../../requests/reviews';
@@ -130,11 +130,6 @@ export const Main = () => {
     // finally restore init features
     resetRater()
   }
-
-  useEffect(() => {
-    showMain(dispatch)
-    // eslint-disable-next-line
-  }, [])
 
   return (
     <div className={s.mainWrapper}>

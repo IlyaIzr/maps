@@ -1,25 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import '../Friends/Friends.css'
 import { SearchBar } from "../Friends/SearchBar";
-import { hideMain } from "../store/app";
 import { FeaturedTags } from "./FeaturedTags";
 import { Results } from "./Results";
 import { TagOverview } from "./TagOverview";
 import './Tags.css'
 
 export const TagsMain = () => {
-  const dispatch = useDispatch()
   // const { app, user } = useSelector(state => state)
 
   const [searchResults, setSearchResults] = useState(null)
 
-  
-  useEffect(() => {
-    hideMain(dispatch)
-    // eslint-disable-next-line
-  }, [])
 
   return (
     <div className="tags">

@@ -32,6 +32,7 @@ const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 function App() {
   const dispatch = useDispatch()
   const app = useSelector(state => state.app)
+
   const children =
     <div className="auth-modal-containter mp-border-secondary">
       <Login />
@@ -115,10 +116,10 @@ function App() {
           </Route>
 
         </Switch>
-        <MainRouteWrap isHidden={app.mapHidden}>
+
+        <MainRouteWrap>
           <Main />
         </MainRouteWrap>
-
 
         <NavMain />
       </Suspense>

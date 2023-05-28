@@ -8,8 +8,7 @@ import { getLayoutCoords, getLocation, saveLocation } from '../rest/helperFuncs'
 import { TEXT } from '../rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { hideMain, setMapRef, setToast, showMain } from '../store/app';
+import { setMapRef, setToast } from '../store/app';
 import { mapOnMove } from './onMove';
 import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
 import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
@@ -31,7 +30,6 @@ const mbStyles = {
 
 export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
   const app = useSelector(state => state.app)
-  const location = useLocation()
   const d = useDispatch()
   const mapContainer = useRef(null);
 
@@ -131,16 +129,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   // map hider, helps to awoid extra call to Mapbox
   useEffect(() => {
-    if (location.pathname !== '/') hideMain(d)
-    else {
-      showMain(d)
-      // Fix map shrinking. I'm sorry, it only works this wayzz
+    if (!app.mapHidden)       // Fix map shrinking. I'm sorry, it only works this wayzz
       setTimeout(() => {
         map.current?.resize()
       }, 0);
-    }
-    // eslint-disable-next-line
-  }, [location.pathname]);
+  }, [app.mapHidden, map.current]);
 
 
   // user maphMode
@@ -190,7 +183,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   return (
     <>
-      <div ref={mapContainer} className={app.mapHidden ? "map-container hidden" : "map-container"} />
+      <div ref={mapContainer} className={"map-container"} />
 
       {/* Add button */}
       {(app.mode === 'draw') &&

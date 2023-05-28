@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
-import { friendModeId, hideMain, setMapMode } from '../store/app'
+import { friendModeId, setMapMode } from '../store/app'
 import { getMapModeLabel } from './NavMain'
 import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
 
@@ -24,11 +24,7 @@ export const MapMode = () => {
     // eslint-disable-next-line
   }, [app.mode, app.friendModeId, app.tagModeTag])
 
-  useEffect(() => {
-    hideMain(dispatch)
-    // eslint-disable-next-line
-  }, [])
-
+  
   function runFriendMode(id) {
     history.push('/')
     friendModeId(dispatch, id)

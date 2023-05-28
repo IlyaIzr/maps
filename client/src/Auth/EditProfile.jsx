@@ -5,7 +5,7 @@ import { logout } from "../requests/auth"
 import { updateUser, updateUserPword } from "../requests/users"
 import { TEXT } from "../rest/lang"
 import { Responser } from "../rest/Responser"
-import { hideMain, setToast } from "../store/app"
+import { setToast } from "../store/app"
 import { logIntoApp, logOutOfApp } from "../store/user"
 const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
 
@@ -26,11 +26,6 @@ export const EditProfile = () => {
       setCreds(initCreds)
     };
   }, [user]);
-  
-  useEffect(() => {
-    hideMain(dispatch)    
-    // eslint-disable-next-line
-  }, [])
 
   function onInput(e) {
     setCreds({ ...creds, [e.target.name]: e.target.value })

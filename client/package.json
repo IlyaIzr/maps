@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.11.0",
+    "@types/react-redux": "^7.1.25",
     "@vitejs/plugin-react": "^4.0.0",
     "mapbox-gl": "^2.14.1",
     "react": "^17.0.2",
