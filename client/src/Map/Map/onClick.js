@@ -1,4 +1,4 @@
-import { getAdress } from "../requests/map"
+import { getAdress } from "~requests/map"
 import { flyToFeature } from "./Map"
 
 export function mapOnClick(map, setFeature, resetRater, drawObject) {

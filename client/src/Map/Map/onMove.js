@@ -1,4 +1,4 @@
-import { getLayoutCoords } from "../rest/helperFuncs";
+import { getLayoutCoords } from "~rest/helperFuncs";
 
 export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData, setCompass) {
   map.on('move', function () {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
-import { TEXT } from '../rest/lang'
-import { friendModeId, setMapMode } from '../store/app'
+import { TEXT } from '~rest/lang'
+import { friendModeId, setMapMode } from '~store/app'
 import { getMapModeLabel } from './NavMain'
-import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
+import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
 
 export const MapMode = () => {
   const dispatch = useDispatch()

@@ -1,4 +1,4 @@
-import { setToast } from "../store/app"
+import { setToast } from "~store/app"
 
 export function geoJsonFromResponse(places) {
   if (!places?.length) return []

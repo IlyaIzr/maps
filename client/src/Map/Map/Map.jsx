@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl';
-import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPlaces } from '../requests/map';
+import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPlaces } from '~requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
-import { getLayoutCoords, getLocation, saveLocation } from '../rest/helperFuncs';
-import { TEXT } from '../rest/lang';
+import { getLayoutCoords, getLocation, saveLocation } from '~rest/helperFuncs';
+import { TEXT } from '~rest/lang';
 import { mapAddControl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapRef, setToast } from '../store/app';
+import { setMapRef, setToast } from '~store/app';
 import { mapOnMove } from './onMove';
-import { ReactComponent as DrawIcon } from '../rest/svg/draw.svg'
-import { ReactComponent as TrashIcon } from '../rest/svg/trash.svg'
-import { ReactComponent as CompassIcon } from '../rest/svg/compass.svg'
+import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
+import { ReactComponent as TrashIcon } from '~rest/svg/trash.svg'
+import { ReactComponent as CompassIcon } from '~rest/svg/compass.svg'
 import './Mapbox.css'
 
 // Settings

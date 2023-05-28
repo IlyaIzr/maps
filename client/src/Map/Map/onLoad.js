@@ -1,4 +1,4 @@
-import { gradients, themeColors } from "../rest/colors";
+import { gradients, themeColors } from "~rest/colors";
 
 export function mapOnLoad(map, geoJson, theme) {
   map.on('load', function (e) {

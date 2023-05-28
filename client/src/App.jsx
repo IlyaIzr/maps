@@ -11,7 +11,8 @@ import { getPreferences, setPreference } from "./store/localstorage";
 import { getFriendsInfo } from "./rest/helperFuncs";
 import { MainRouteWrap } from "~components/MainRouteWrap/MainRouteWrap"
 import { RoutesControl } from "~routes/RoutesControl"
-import './Map/Maps.css'
+// todo Why do we need them?
+import './Map/Map/Maps.css'
 import './App.css'
 
 const { NavMain } = lazily(() => import('./navigation/NavMain'));
