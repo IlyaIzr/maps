@@ -15,8 +15,10 @@ export async function initActions() {
 
   initLocalStorage()
 
-  // Set prefered theme
-  let theme = appThemes[3]
+  // Set preferred theme
+  let theme = appThemes.at(import.meta.enc.VITE_INIT_APPTHEME_INDEX)
+  // Set default theme light if user prefers it
+  if (window.matchMedia('prefers-color-scheme: light').matches) theme = appThemes[0]
   
   let preferences = getPreferences()
   // console.log('%c⧭', 'color: #bfffc8', preferences)
