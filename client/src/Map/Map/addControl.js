@@ -1,7 +1,10 @@
+import mapboxgl from "mapbox-gl";
 import { getAdress } from "~requests/map";
+import { TEXT } from '~rest/lang';
 // eslint-disable-line no-unused-vars
 
-export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt, resetRater) {
+// todo return remove control callback
+export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt, resetRater) {
 
   const draw = new window.MapboxDraw({
     displayControlsDefault: false,
@@ -11,7 +14,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
     },
     // defaultMode: 'draw_polygon'
   });
-  
+
   // Create custom controls
   createBtn.onclick = function () {
     draw.changeMode('draw_polygon')
@@ -41,7 +44,7 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
   //   console.log('%c⧭', 'color: #cc7033', 'afterUnfocus');
   // }
 
-  async function updateArea(e) {    
+  async function updateArea(e) {
     setDrawPrompt(false)
     createBtn.style.display = 'none'
 
@@ -75,4 +78,31 @@ export function mapAddControl(map, setFeature, createBtn, deleteBtn, setDrawProm
   }
 
   return draw
+}
+
+export function mapAddGeolocateCtrl(map, position = 'top-left') {
+  const geolocateControl = new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true
+    },
+    // When active the map will receive updates to the device's location as it changes.
+    trackUserLocation: true,
+    // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    showUserHeading: true,
+    showAccuracyCircle: true,
+  })
+  map.addControl(geolocateControl, position);
+  
+  return () => map.removeControl(geolocateControl)
+}
+
+export function mapAddSearchCtrl(map, position = 'top-right') {
+  const searchCtrl = new window.MapboxGeocoder({
+    accessToken: import.meta.env.VITE_MAPBOX_T,
+    mapboxgl: mapboxgl,
+    placeholder: TEXT.searchPHolder
+  })
+  map.addControl(searchCtrl, position)
+  
+  return () => map.removeControl(searchCtrl)
 }

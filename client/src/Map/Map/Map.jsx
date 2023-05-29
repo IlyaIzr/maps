@@ -6,7 +6,7 @@ import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
 import { getLayoutCoords } from '~rest/helperFuncs';
 import { TEXT } from '~rest/lang';
-import { mapAddControl } from './addControl';
+import { mapAddDrawControl, mapAddGeolocateCtrl, mapAddSearchCtrl } from './addControl';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapRef, setToast } from '~store/app';
 import { mapOnMove } from './onMove';
@@ -14,7 +14,10 @@ import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
 import { ReactComponent as TrashIcon } from '~rest/svg/trash.svg'
 import { ReactComponent as CompassIcon } from '~rest/svg/compass.svg'
 import { getDataFromUrl } from "~store/url"
-import './Mapbox.css'
+import { CallbackManager } from "~rest/utils/callbackManager"
+import './fixMapbox.css'
+
+const mapCallbacks = new CallbackManager('maps')
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
@@ -60,8 +63,6 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // eslint-disable-next-line 
   }, [dataWeNeed]);
 
-  // const [zoom, setZoom] = useState(16);
-
 
   // Init map
   useEffect(() => {
@@ -69,10 +70,11 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // turns-off draw mode in development
     // if (map.current && import.meta.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
     setFeature(null);
-    
-    (async function WhatItDOes() {
-      const geoJson = await initPlacesCall()
+
+    // todo split that logic
+    (async function callForGeoFeaturesAndAddControls() {
       const { lng, lat, zoom } = getDataFromUrl()
+      const geoJson = await initPlacesCall(lng, lat, zoom)
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -83,23 +85,27 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       });
       setMapRef(d, map.current)
 
-      // Add search
-      if (app.mode !== 'draw') map.current.addControl(
-        new window.MapboxGeocoder({
-          accessToken: import.meta.env.VITE_MAPBOX_T,
-          mapboxgl: mapboxgl,
-          placeholder: TEXT.searchPHolder
-        })
-      );
+      const cb = mapAddGeolocateCtrl(map.current, 'top-left')
+      mapCallbacks.addCallback(cb)
 
-      if (app.mode === 'draw')
-        var drawObject = mapAddControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
-      // console.log('%c⧭', 'color: #5200cc', p.sty);
+      // Add search
+      if (app.mode !== 'draw') {
+        const cb = mapAddSearchCtrl(map.current, 'top-right')
+        mapCallbacks.addCallback(cb)
+      }
+
+      if (app.mode === 'draw') {
+        var drawObject = mapAddDrawControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
+      }
       mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject || null)
       mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData, setCompass)
       if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
     })();
+
+    return () => {
+      mapCallbacks.callAllCallbacks()
+    }
     // eslint-disable-next-line
   }, [app.theme, app.mapKey]);
 
@@ -135,16 +141,15 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     if (!map.current) return; // wait for map to initialize
 
     (async function () {
-      await initPlacesCall()
+      const { lng, lat, zoom } = getDataFromUrl()
+      await initPlacesCall(lng, lat, zoom)
     })()
-    // eslint-disable-next-line
-  }, [app.mode, app.friendModeId, app.tagModeTag]);
+  }, [app.mode, app.friendModeId, app.tagModeTag, map.current]);
 
 
-  async function initPlacesCall() {
+  async function initPlacesCall(lng, lat, zoom) {
     let geoJson
-    const { lng, lat, zoom } = getDataFromUrl()
-    
+
     const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom || defaultZoom)
     setlayoutXY({ x, y })
 
