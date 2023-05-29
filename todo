@@ -1,6 +1,5 @@
 Closest TODOs:
-* Locate me button
-* get me back AND/OR top places navigation
+* get me back AND/OR top places navigation (we can run this if no features were return from the query)
 
 Bugs:
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
