@@ -19,6 +19,8 @@ const SET_FRIEND_ID = 'app/friend_id'
 const SET_TAG = 'app/set_tag'
 const SET_MODE = 'app/set_mode'
 const SET_MAPREF = 'app/set_mapref'
+const SET_BANNER = 'app/set_banner'
+const CLOSE_BANNER = 'app/close_banner'
 
 /* #endregion */
 
@@ -46,6 +48,16 @@ export const initialState = {
   //   status: 'error', // also 'warning', 'info', 'complete',
   //   title: ''
   // }
+  banner: false,
+  // banner: {
+  //   content: JXS.Element,
+  //   bottomControls?: {
+  //     element: JSX.Element,
+  //     onClick: () => null
+  //   }[],
+  //   onOuterClick?: (e) => e,
+  //   onCrossClick?: (e) => e
+  // },
   mapKey: 1000,
   mode: null, // special modes: 'watch', 'draw', 'drawRoute', 'tags', '?withRoutes'
   friendModeId: null,
@@ -118,6 +130,16 @@ export function appReducer(state = initialState, act) {
     case CLOSE_TOAST: {
       return {
         ...state, toast: false
+      }
+    }    
+    case SET_BANNER: {
+      return {
+        ...state, banner: { ...act.bannerInfo }
+      }
+    }
+    case CLOSE_BANNER: {
+      return {
+        ...state, banner: false
       }
     }
     case RERENDERMAP: {
@@ -224,6 +246,19 @@ export const setToast = (d, toastInfo = {
 
 export const closeToast = (d) => {
   d({ type: CLOSE_TOAST })
+}
+
+export const setBanner = (d, bannerInfo = {
+    content: <></>,
+    bottomControls: [],
+    onOuterClick: (e) => e,
+    onCrossClick: (e) => e
+}) => {
+  d({ type: SET_BANNER, bannerInfo })
+}
+
+export const closeBanner = (d) => {
+  d({ type: CLOSE_BANNER })
 }
 
 export const rerenderMap = (d) => {

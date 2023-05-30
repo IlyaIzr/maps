@@ -20,6 +20,7 @@ const { Login } = lazily(() => import('./Auth/Login'));
 const { Modal } = lazily(() => import('./rest/Modal'));
 const { MapWrap } = lazily(() => import('./Map/MapWrap/MapWrap'));
 const { Toast } = lazily(() => import('./rest/Toast'));
+const { Banner } = lazily(() => import('~components/Banner/Banner'));
 
 function App() {
   const dispatch = useDispatch()
@@ -54,6 +55,7 @@ function App() {
       <Suspense fallback={null}>
         <Modal />
         {app.toast && <Toast key={app.toast?.key} />}
+        <Banner />
 
 
         {/* Extra subpages */}

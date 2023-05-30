@@ -40,6 +40,7 @@ export async function getAdress(lat, lng) {
   if (res.results) {
     for (let i = 0; i < res.results.length; i++) {
       const obj = res.results[i];
+      // find address line for Rater component. It will be name of the feature
       if (obj.types[0] === 'premise') {
         adress = obj.formatted_address.split(', ')[0] + ', ' + obj.formatted_address.split(', ')[1];
         break

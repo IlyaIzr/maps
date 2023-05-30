@@ -1,7 +1,15 @@
 Closest TODOs:
 * get me back AND/OR top places navigation (we can run this if no features were return from the query)
+** show prompt to go to the popular places page/route when no /placesByTiles returned
+** popular places: sort by country, city (iso_3166_2). Fetch location names per language by it's iso. 
+On place click - save place center location to DB and center to it.
+* wide zoom range for features
+* change map styles on dark theme
+* don't change feature color on selection - use outline
+* don't allow multiple rates from single account/ip? On a single day?
 
 Bugs:
+review rate
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
 
 ?superUser interface

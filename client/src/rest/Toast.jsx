@@ -9,7 +9,7 @@ export const Toast = () => {
   const [visibility, setVisibility] = useState(null)
   const ref = useRef(null)
 
-
+  // Make toast descending unless user hovers on in in given time
   useEffect(() => {
     const t = setTimeout(() => {
       setVisibility('opaque')

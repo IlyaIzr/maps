@@ -16,6 +16,7 @@ import { ReactComponent as CompassIcon } from '~rest/svg/compass.svg'
 import { getDataFromUrl } from "~store/url"
 import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
+import { setBanner } from '~store/app';
 
 const mapCallbacks = new CallbackManager('maps')
 
@@ -56,7 +57,24 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
       }
       if (dataWeNeed.size) {
-        const res = await getPlacesByTiles([...dataWeNeed])
+        const res = await getPlacesByTiles([...dataWeNeed]);
+        console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
+        if (!res?.data.length) {
+          setBanner(d, {
+            // TODO make text import from TEXT
+            content: <div>No reviews here <br /> Do you want to see most popular cities?</div>,
+            bottomControls: [
+              {
+                element: <div>Close</div>,
+                onClick: (e, close) => close()
+              },
+              {                
+                element: <div>To features</div>,
+                onClick: () => null
+              }
+            ]
+          })
+        }
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
       }
     })()
@@ -163,6 +181,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       geoJson = geoJsonFromResponse(res.data)
     } else {
       const res = await getPlaces(x - range, x + range, y - range, y + range)
+      console.log('%c⧭ getPlaces res', 'color: #33cc99', res);
       return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
     }
 

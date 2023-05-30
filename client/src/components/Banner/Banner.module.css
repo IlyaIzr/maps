@@ -1,0 +1,50 @@
+.banner {
+  position: fixed;
+  top: 0;
+  left: 4vw;
+  right: 4vw;
+  background-color: var(--light);
+  color: var(--dark);
+  padding: 12px;
+  z-index: 2;
+  transition: transform 0.3s ease-out;
+  transform: translateY(-100%);
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.closeCross{
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.opaque{
+  opacity: 0;
+}
+
+.banner.show {
+  transform: translateY(0);
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 16px 0;
+}
+
+.bannerControls{
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  color: var(--accent);
+}
+
+.bannerControl{
+  border: 1px solid var(--dark);
+  padding: 8px;
+  cursor: pointer;
+}
