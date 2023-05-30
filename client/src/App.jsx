@@ -19,7 +19,7 @@ const { NavMain } = lazily(() => import('./navigation/NavMain'));
 const { Login } = lazily(() => import('./Auth/Login'));
 const { Modal } = lazily(() => import('./rest/Modal'));
 const { MapWrap } = lazily(() => import('./Map/MapWrap/MapWrap'));
-const { Toast } = lazily(() => import('./rest/Toast'));
+const { Toast } = lazily(() => import('./components/Toast/Toast'));
 const { Banner } = lazily(() => import('~components/Banner/Banner'));
 
 function App() {

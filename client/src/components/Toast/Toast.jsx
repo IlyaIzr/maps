@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeToast } from '../store/app'
-import { TEXT } from './lang'
+import { closeToast } from '~store/app'
+import { TEXT } from '~rest/lang'
+import s from './Toast.module.css'
 
 export const Toast = () => {
   const data = useSelector(state => state.app.toast)
@@ -59,25 +60,24 @@ export const Toast = () => {
 
   return (
     <div
-      className={`mp-toast mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer ${visibility}`}
+      className={`${s.toast} mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer ${visibility}`}
       onClick={onClick} ref={ref}
       key={data.key}
     >
-      <div className="toast-header">
+      <div className={s.header}>
         {title ? <>
           <h6>{title}</h6>
           <div className={`close-cross mp-${info}`}>&#10006;</div>
         </> :
           <>
             <p className={`mp-${info}`}>{data.message}</p>
-            <div className={`close-cross mp-${main}`}>&#10006;</div>
+            <div className={`${s.closeCross} mp-${main}`}>&#10006;</div>
           </>
         }
       </div>
-      {Boolean(title) && <div className={`toast-contetnt mp-${info}`}>
+      {Boolean(title) && <div className={`${s.content} mp-${info}`}>
         {data.message}
       </div>}
-      <div className="toast-bottom"></div>
     </div>
   )
 }
