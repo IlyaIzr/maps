@@ -1,6 +1,7 @@
 import { lazily } from 'react-lazily';
 
 const { About } = lazily(() => import('./About/About'));
+const { Cities } = lazily(() => import('./Cities/Cities'));
 const { AuthMain } = lazily(() => import('../Auth/AuthMain'));
 const { EditProfile } = lazily(() => import('../Auth/EditProfile'));
 const { GoogleConfirm } = lazily(() => import('../Auth/GoogleConfirm'));
@@ -47,5 +48,9 @@ export const appRoutes: RouteConfig[] = [
   {
     id: 'about',
     component: <About />
+  },
+  {
+    id: 'cities',
+    component: <Cities />
   }
 ]

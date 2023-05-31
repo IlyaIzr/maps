@@ -1,0 +1,37 @@
+
+.ratingAmount {
+  width: 55px;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 1.35em;
+  text-align: center;
+}
+
+.ratingAmount span {
+  font-size: 0.8em;
+}
+
+.ratingAmount sub {
+  display: inline-block;
+  position: absolute;
+  bottom: -10px;
+  right: 2px;
+  padding: 0 2.5px;
+  font-size: 14px;
+}
+
+.raterBtnContainer {
+  text-align: right;
+  padding: 0 4px;
+  margin-bottom: -6px;
+}
+
+.raterBtnContainer button {
+  margin: 0;
+}
+
+.raterBtnContainer .subtitle {
+  font-size: 0.95em;
+  opacity: 0.9;
+}

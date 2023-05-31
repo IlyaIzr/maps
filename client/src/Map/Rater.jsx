@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { gradients } from '../rest/colors';
-import { notNaN } from '../rest/helperFuncs';
-import { TEXT } from '../rest/lang';
-import { setModal } from '../store/app';
+import { gradients } from '~rest/colors';
+import { notNaN } from '~rest/helperFuncs';
+import { TEXT } from '~rest/lang';
+import { setModal } from '~store/app';
 import { Comment } from './Comment';
+import { TotalRating } from '~components/TotalRating/TotalRating'
 
 export const Rater = ({ feature, onSubmit }) => {
   const { theme, isLogged } = useSelector(s => s.app)
   const gradient = gradients[theme]
   const dispatch = useDispatch()
-
-  function color() {
-    if (!feature?.properties?.rating) return gradients[theme][0]
-    for (let i = 0; i < gradients[theme].length; i++) {
-      if (feature.properties.rating - 1 < i) return gradients[theme][i]
-    }
-  }
 
   const [hover, setHover] = useState(0);
   const [rating, setRating] = useState(0);
@@ -44,20 +38,17 @@ export const Rater = ({ feature, onSubmit }) => {
   function onMouseLeave() {
     setHover(rating)
   }
-  function ratingData() {
-    return String(Number(feature.properties.rating).toPrecision(3)).split('.')
-  }
 
   useEffect(() => {
     setHover(0)
     setRating(0)
-    setComment('')    
+    setComment('')
   }, [feature])
 
   // TODO make stars with rating gradient
   return (
     <div className="rater">
-      <div className={`starsAndRating ${feature.properties.rating === undefined && 'noRating'}`}>
+      <div className={`starsAndRating ${feature.properties.rating === undefined ? 'noRating' : ''}`}>
 
         <div className="stars">
           <h5 className="starRating">{TEXT.yourRating} :</h5> <span className="hoverValue mp-dark">{notNaN(hover)}</span>
@@ -82,12 +73,10 @@ export const Rater = ({ feature, onSubmit }) => {
 
         </div>
 
-        {feature.properties.rating !== undefined && <div className="rating">
-          <div className="ratingAmount mp-border-primary relative" style={{ borderColor: color() }} title={TEXT.rating}>
-            {notNaN(ratingData()[0])}.<span >{notNaN(ratingData()[1])}</span>
-            <sub className="mp-dark mp-bg-light" style={{ color: color() }} title={TEXT.marks}> ( {feature.properties.amount} ) </sub>
-          </div>
-        </div>}
+        {
+          feature.properties.rating !== undefined &&
+          <TotalRating rating={feature.properties.rating} amount={feature.properties.amount} />
+        }
       </div>
 
       <Comment comment={comment} setComment={setComment} />

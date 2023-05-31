@@ -1,0 +1,29 @@
+.cityItem {
+  display: flex;
+  gap: 8px;
+  min-width: 100px;
+  height: 100%;
+  border: 1px solid var(--secondary);
+  padding: 8px 10px;
+}
+
+.geojsonPreview {
+  width: 100%;
+  max-width: 140px;
+  max-height: 140px;
+  cursor: pointer;
+}
+
+.cityDetails {
+  padding: 4px;
+}
+
+.cityName {
+  color: var(--accent);
+  font-weight: 500;
+  margin: 0;
+}
+
+.cityRating {
+  margin: 10px 0 10px 24px;
+}

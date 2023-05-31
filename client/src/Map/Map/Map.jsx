@@ -17,6 +17,7 @@ import { getDataFromUrl } from "~store/url"
 import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
 import { setBanner } from '~store/app';
+import { Link } from 'react-router-dom';
 
 const mapCallbacks = new CallbackManager('maps')
 
@@ -65,12 +66,13 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
             content: <div>No reviews here <br /> Do you want to see most popular cities?</div>,
             bottomControls: [
               {
+                // TODO remember user selection
                 element: <div>Close</div>,
                 onClick: (e, close) => close()
               },
               {                
-                element: <div>To features</div>,
-                onClick: () => null
+                element: <Link to="/cities"><div>To features</div></Link>,
+                onClick: (e, close) => close()
               }
             ]
           })
@@ -93,6 +95,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // todo split that logic
     (async function callForGeoFeaturesAndAddControls() {
       const { lng, lat, zoom } = getDataFromUrl()
+      console.log('%c⧭ getDataFromUrl 1', 'color: #607339', lng, lat, zoom);
       const geoJson = await initPlacesCall(lng, lat, zoom)
 
       map.current = new mapboxgl.Map({
@@ -161,6 +164,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
     (async function () {
       const { lng, lat, zoom } = getDataFromUrl()
+      console.log('%c⧭ getDataFromUrl 2', 'color: #40fff2', lng, lat, zoom);
       await initPlacesCall(lng, lat, zoom)
     })()
   }, [app.mode, app.friendModeId, app.tagModeTag, map.current]);

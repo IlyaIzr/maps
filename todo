@@ -8,6 +8,8 @@ On place click - save place center location to DB and center to it.
 * don't change feature color on selection - use outline
 * don't allow multiple rates from single account/ip? On a single day?
 
+replace turf from window
+
 Bugs:
 review rate
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
@@ -27,12 +29,15 @@ badrequests error handlers
 multy-tap-rating instead of stars rating?
 
 Alpha features:
-set location to user location, or show a dialog window to chose a city
-animations: loader animations, transition animations
 
-alpha 3.2
+alpha 3.2.5
+animations: loader animations, transition animations, toast animations
 
-mobile and browser
+
+
+alpha 3.3
+mobile version tested and fixed
+Cities search
 
 
 alpha 4

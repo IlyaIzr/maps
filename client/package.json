@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.11.0",
+    "@turf/turf": "^6.5.0",
     "@types/react-redux": "^7.1.25",
     "@vitejs/plugin-react": "^4.0.0",
     "clsx": "^1.2.1",
@@ -43,10 +44,13 @@
     ]
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.10",
+    "@types/mapbox-gl": "^2.7.11",
     "@types/node": "^20.1.7",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@types/react-router": "^5.1.20",
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "@types/turf": "^3.5.32"
   }
 }
