@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 // todo fix that
 import '../Friends/Friends.css'
-import { SearchBar } from "../Friends/SearchBar";
+import { SearchBar } from "~components/SearchBar/SearchBar";
 import { FeaturedTags } from "./FeaturedTags";
 import { Results } from "./Results";
 import { TagOverview } from "./TagOverview";

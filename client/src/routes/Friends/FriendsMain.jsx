@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { DefaultLayout } from "./DefaultLayout";
 import { Profile } from "./Profile";
 import { Results } from "./Results";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "~components/SearchBar/SearchBar";
 import "./Friends.css"
 import { TEXT } from "~rest/lang";
 import { AddByLink } from "./AddByLink";

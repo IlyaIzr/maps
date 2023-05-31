@@ -6,6 +6,8 @@ import { searchTags } from "~requests/tags"
 import { TEXT } from "~rest/lang"
 import { setToast } from "~store/app"
 import { ReactComponent as SearchIcon } from '~rest/svg/search.svg';
+import { clsx } from 'clsx';
+import s from './SearchBar.module.css'
 
 // Used both for friends and tags
 export const SearchBar = ({ setSearchResults }) => {
@@ -40,15 +42,15 @@ export const SearchBar = ({ setSearchResults }) => {
   }
 
   return (
-    <div className="searchContainer transition">
+    <div className={clsx(s.searchContainer, " transition")}>
 
-      <div onClick={onBack} className="backButton">
-        <button className="button mp-primary">{"<<"}</button>
+      <div onClick={onBack} className={s.backButton}>
+        <button className={`${s.button} mp-primary`}>{"<<"}</button>
       </div>
 
       <input type="text" name="search" value={input} onInput={onInput} onKeyDown={onKeyDown} />
-      <div className="searchButton relative">
-        <button onClick={submitEnter} className="button">&#8203;<SearchIcon fill="var(--accent)" /></button>
+      <div className={`${s.searchButton} relative`}>
+        <button onClick={submitEnter} className={s.button}>&#8203;<SearchIcon fill="var(--accent)" /></button>
       </div>
     </div>
   )
