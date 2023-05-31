@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom"
-import { TEXT } from "../rest/lang";
+import { TEXT } from "~rest/lang";
 import { TagItem } from "./TagItem";
 
 export const Results = ({ searchResults }) => {

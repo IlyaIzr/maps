@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setToast } from '../store/app'
-import { TEXT } from '../rest/lang';
-import { postFeedback } from '../requests/reviews';
+import { setToast } from '~store/app'
+import { TEXT } from '~rest/lang';
+import { postFeedback } from '~requests/reviews';
 
 export const About = () => {
   const dispatch = useDispatch()
 
   const [comment, setComment] = useState('');
 
-  function onInput(e) {
-    setComment(e.target.value);
+  function onInput(e: React.FormEvent<HTMLTextAreaElement>) {
+    setComment((e.target as HTMLTextAreaElement).value);
   }
 
   async function onClick() {
@@ -31,9 +31,9 @@ export const About = () => {
         <p>{TEXT.aboutFuture}</p>
 
         <br />
-        <p htmlFor="comment">{TEXT.comment}:</p>
+        <p>{TEXT.comment}:</p>
         <textarea
-          name="comment" rows="3"
+          name="comment" rows={3}
           value={comment} onInput={onInput}
           className="raterComment mp-border-dark mp-dark"
           placeholder={TEXT.aboutPlaceholder}

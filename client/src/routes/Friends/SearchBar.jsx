@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { searchUsers } from "../requests/friends"
-import { searchTags } from "../requests/tags"
-import { TEXT } from "../rest/lang"
-import { setToast } from "../store/app"
-import { ReactComponent as SearchIcon } from '../rest/svg/search.svg';
+import { searchUsers } from "~requests/friends"
+import { searchTags } from "~requests/tags"
+import { TEXT } from "~rest/lang"
+import { setToast } from "~store/app"
+import { ReactComponent as SearchIcon } from '~rest/svg/search.svg';
 
 // Used both for friends and tags
 export const SearchBar = ({ setSearchResults }) => {

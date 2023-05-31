@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory, useParams } from "react-router-dom"
-import { getTagInfo } from "../requests/tags"
-import { TEXT } from "../rest/lang"
-import { setMapMode, setToast, tagModeTag } from "../store/app"
+import { getTagInfo } from "~requests/tags"
+import { TEXT } from "~rest/lang"
+import { setMapMode, setToast, tagModeTag } from "~store/app"
 
 export const TagOverview = () => {
   const dispatch = useDispatch()

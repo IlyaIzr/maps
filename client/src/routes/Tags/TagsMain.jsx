@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
+// todo fix that
 import '../Friends/Friends.css'
 import { SearchBar } from "../Friends/SearchBar";
 import { FeaturedTags } from "./FeaturedTags";

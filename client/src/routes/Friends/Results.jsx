@@ -1,5 +1,5 @@
 import { useHistory, useLocation } from "react-router-dom"
-import { TEXT } from "../rest/lang";
+import { TEXT } from "~rest/lang";
 
 export const Results = ({ searchResults }) => {
   const query = new URLSearchParams(useLocation().search).get('query')

@@ -1,4 +1,4 @@
-import { TEXT } from "../rest/lang";
+import { TEXT } from "~rest/lang";
 
 export const TagItem = ({ tagInfo, onClick }) => {
   if (!tagInfo) return null;

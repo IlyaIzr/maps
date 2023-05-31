@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { TEXT } from "../rest/lang";
+import { TEXT } from "~rest/lang";
 const link = window.location.origin + '/friends/addByLink?id='
 
 export const DefaultLayout = () => {

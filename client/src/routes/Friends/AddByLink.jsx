@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import { addByLink } from '../requests/friends'
-import { TEXT } from '../rest/lang'
-import { Loading } from '../rest/Loading'
-import { setToast } from '../store/app'
+import { addByLink } from '~requests/friends'
+import { TEXT } from '~rest/lang'
+import { Loading } from '~rest/Loading'
+import { setToast } from '~store/app'
 
 export const AddByLink = () => {
   const paramId = new URLSearchParams(useLocation().search).get('id')

@@ -1,13 +1,13 @@
 import { lazily } from 'react-lazily';
 
-const { About } = lazily(() => import('../navigation/About'));
+const { About } = lazily(() => import('./About/About'));
 const { AuthMain } = lazily(() => import('../Auth/AuthMain'));
 const { EditProfile } = lazily(() => import('../Auth/EditProfile'));
 const { GoogleConfirm } = lazily(() => import('../Auth/GoogleConfirm'));
-const { FriendsMain } = lazily(() => import('../Friends/FriendsMain'));
+const { FriendsMain } = lazily(() => import('./Friends/FriendsMain'));
 const { MapMode } = lazily(() => import('../navigation/MapMode'));
 const { AlphaReg } = lazily(() => import('../Auth/AlphaReg'));
-const { TagsMain } = lazily(() => import('../Tags/TagsMain'));
+const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 
 type RouteConfig = {
   id: string,

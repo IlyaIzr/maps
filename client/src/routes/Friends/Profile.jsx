@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { getProfileDetails, addFriend as addFriendReq, acceptRequest, removeFriend as removeFriendReq } from '../requests/friends';
-import { getFriendsInfo } from '../rest/helperFuncs';
-import { TEXT } from '../rest/lang';
-import { Loading } from '../rest/Loading';
-import { setToast } from '../store/app';
+import { getProfileDetails, addFriend as addFriendReq, acceptRequest, removeFriend as removeFriendReq } from '~requests/friends';
+import { getFriendsInfo } from '~rest/helperFuncs';
+import { TEXT } from '~rest/lang';
+import { Loading } from '~rest/Loading';
+import { setToast } from '~store/app';
 
 export const Profile = () => {
   const { userId } = useParams();

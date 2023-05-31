@@ -6,7 +6,7 @@ import { Profile } from "./Profile";
 import { Results } from "./Results";
 import { SearchBar } from "./SearchBar";
 import "./Friends.css"
-import { TEXT } from "../rest/lang";
+import { TEXT } from "~rest/lang";
 import { AddByLink } from "./AddByLink";
 
 

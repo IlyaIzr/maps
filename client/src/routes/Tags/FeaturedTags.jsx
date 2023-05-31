@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { featuredTags } from "../requests/tags"
-import { TEXT } from "../rest/lang"
-import { setToast } from "../store/app"
+import { featuredTags } from "~requests/tags"
+import { TEXT } from "~rest/lang"
+import { setToast } from "~store/app"
 import { TagItem } from "./TagItem"
 
 export const FeaturedTags = () => {
