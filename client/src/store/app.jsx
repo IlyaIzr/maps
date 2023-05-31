@@ -255,6 +255,7 @@ export const setBanner = (d, bannerInfo = {
     onCrossClick: (e) => e
 }) => {
   d({ type: SET_BANNER, bannerInfo })
+  return () => closeBanner(d)
 }
 
 export const closeBanner = (d) => {

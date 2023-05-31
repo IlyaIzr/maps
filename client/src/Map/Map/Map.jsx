@@ -60,7 +60,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
         const res = await getPlacesByTiles([...dataWeNeed]);
         console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
         if (!res?.data.length) {
-          setBanner(d, {
+          const closeBanner = setBanner(d, {
             // TODO make text import from TEXT
             content: <div>No reviews here <br /> Do you want to see most popular cities?</div>,
             bottomControls: [
@@ -74,6 +74,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
               }
             ]
           })
+          mapCallbacks.addCallback(closeBanner)
         }
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
       }
