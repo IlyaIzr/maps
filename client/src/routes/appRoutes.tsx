@@ -5,7 +5,7 @@ const { AuthMain } = lazily(() => import('../Auth/AuthMain'));
 const { EditProfile } = lazily(() => import('../Auth/EditProfile'));
 const { GoogleConfirm } = lazily(() => import('../Auth/GoogleConfirm'));
 const { FriendsMain } = lazily(() => import('./Friends/FriendsMain'));
-const { MapMode } = lazily(() => import('../navigation/MapMode'));
+const { MapMode } = lazily(() => import('./MapMode/MapMode'));
 const { AlphaReg } = lazily(() => import('../Auth/AlphaReg'));
 const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 
