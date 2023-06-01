@@ -42,9 +42,13 @@ export const CityItem: React.FC<ComponentProps> = ({
     [geojson, ZOOM_ON_CITY, center],
   )
 
-
   useEffect(() => {
     setCenter(centerOfMass(geojson).geometry.coordinates)
+  }, [geojson])
+  
+
+  // Draw feature shape on canvas
+  useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -73,7 +77,7 @@ export const CityItem: React.FC<ComponentProps> = ({
         ctx.fill();
       }
     }
-  }, [geojson]);
+  }, [geojson, canvasRef]);
 
 
 
