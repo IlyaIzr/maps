@@ -9,15 +9,16 @@ class Database {
 
     Database.instance = this
     Database.created = true
-    
-    console.log('DB connection established, production status: ' + process.env.PRODUCTIONDB);
-    if (process.env.PRODUCTIONDB && process.env.PRODUCTIONDB !== 'false') {
+
+    console.log('DB connection established, production status: ' + process.env.DEPLOYMENT_STATUS);
+
+    if (process.env.DEPLOYMENT_STATUS === 'dev') {
+      this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'ilyaizr_maps' })
+    } else {
       this.connection = mysql.createPool({
         host: process.env.DBSERVER, user: process.env.DBUSER,
         database: process.env.DBNAME, password: process.env.DBSERVERP
       })
-    } else {
-      this.connection = mysql.createPool({ host: 'localhost', user: 'root', database: 'maps' })
     }
   }
   query(sql, args) {
