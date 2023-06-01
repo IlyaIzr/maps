@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const Connection = require('../connection')
 const dbConn = new Connection()
 
@@ -16,12 +15,13 @@ async function addCityCodeToPlaceMigration() {
     }
 
     // Check if the coordinates are already cached
-    const coordinates = `${place.lat.toFixed(0)},${place.lng.toFixed(0)}`;
+    const coordinates = `${Number(place.lat).toFixed(0)},${Number(place.lng).toFixed(0)}`;
     if (cache.has(coordinates)) {
       place.iso_3166_2 = cache.get(coordinates);
     } else {
-      const isoCode = await getIsoCodeFromCoordinates(place.latitude, place.longitude);
-      await delay(1500);
+      const isoCode = await getIsoCodeFromCoordinates(place.lat, place.lng);
+      console.log('%c⧭ isoCode fetched: ', 'color: #aa00ff', isoCode);
+      await delay(2000);
       
       cache.set(coordinates, isoCode);
       place.iso_3166_2 = isoCode;
@@ -41,12 +41,13 @@ async function getIsoCodeFromCoordinates(latitude, longitude) {
     const data = await response.json();
     if (data && data.address) {
 
-      const isoCode = data.address['ISO3166-2-lvl15'] || data.address['ISO3166-2-lvl14'];
+      const isoCode = data.address['ISO3166-2-lvl15'] ?? data.address['ISO3166-2-lvl4'];
       return isoCode;
     }
   } catch (error) {
-    console.error('Error retrieving ISO code:', error);
+    console.error('Error retrieving ISO code:', error, latitude, longitude, data, response);
   }
+  console.log('weird error', latitude, longitude)
   return null;
 }
 
@@ -66,3 +67,5 @@ addCityCodeToPlaceMigration()
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// P.s. this migration proved to be working. Don't forget to set .env vars to start connection properly
