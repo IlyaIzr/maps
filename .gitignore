@@ -7,3 +7,7 @@ archive/
 *.sql
 
 *.firebase
+
+db/test/*
+db/migrations/geojson.js
+db/migrations/output.json
