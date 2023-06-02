@@ -83,7 +83,7 @@ router.post('/postTags', async (req, res) => {
   if (!iso_3166_2) {
     iso_3166_2 = await getIsoCodeFromCoordinates(lat, lng)
   }
-  const placeId = featureId + iso_3166_2
+  const placeId = featureId + (iso_3166_2 || '')
   let tagsQuery
   let tIndexQuery
 
@@ -105,6 +105,7 @@ router.post('/postTags', async (req, res) => {
 
       await dbConn.query(tagsQuery)
       await dbConn.query(tIndexQuery)
+      await new Promise(resolve => setTimeout(resolve, 50));
     }
     return res.json({ status: 'OK' })
 

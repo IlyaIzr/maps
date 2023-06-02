@@ -8,6 +8,8 @@ On place click - save place center location to DB and center to it.
 * don't change feature color on selection - use outline
 * don't allow multiple rates from single account/ip? On a single day?
 
+* dont save center coords per city - let it be some features lat/lng
+* on new place added - add new city to the cities chart
 * check if `map.getSource(sourceId)?.setData({` keeps id that has iso in it for a feature on the map. After `map.queryRenderedFeatures(e.point);`
 
 replace turf from window

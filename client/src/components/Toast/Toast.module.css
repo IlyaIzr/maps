@@ -18,7 +18,7 @@
 }
 
 
-.toast-header h6 {
+.header h6 {
   font-size: 1.2em;
   text-transform: capitalize;
   display: inline-block;
@@ -26,14 +26,14 @@
   width: calc(100% - 30px - 16px);
 }
 
-.toast-header p {
+.header p {
   font-size: 1em;
   display: inline-block;
   margin: 0 4px 0 12px;
   width: calc(100% - 30px - 16px);
 }
 
-.toast-header .closeCross {
+.header .closeCross {
   font-size: 1.8em;
   display: inline-block;
   width: 24px;

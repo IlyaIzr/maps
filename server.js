@@ -12,6 +12,7 @@ const users = require('./routes/users')
 const settings = require('./routes/settings')
 const friends = require('./routes/friends')
 const tags = require('./routes/tags')
+const { router: cities } = require('./routes/cities')
 // rest
 const { appLanguages } = settings
 
@@ -36,6 +37,7 @@ app.use('/api/users', users)
 app.use('/api/settings', settings)
 app.use('/api/friends', friends)
 app.use('/api/tags', tags)
+app.use('/api/cities', cities)
 
 app.get('/', async function (req, res) {
   const indexFile = await languageSetter(req, res)

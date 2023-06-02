@@ -1,5 +1,5 @@
 import s from './CityItem.module.css'
-import { centerOfMass, bbox, getCoords } from '@turf/turf';
+import { centerOfMass, bbox, getCoords, Geometry, feature, multiPolygon, Position } from '@turf/turf';
 import type { GeoJSON } from 'geojson';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -7,25 +7,20 @@ import { TotalRating } from '~components/TotalRating/TotalRating';
 import { ZOOM_ON_CITY } from './Cities';
 import { setDataToUrl } from '~store/url';
 import { useSelector } from 'react-redux';
-
-type ComponentProps = {
-  amount: number
-  rating: number
-  name: string
-  geojsonForPreview?: GeoJSON
-}
+import { CityInfo } from '~requests/cities';
+import { getCoordsFromBEGeometry } from '~rest/utils/helperFuncs';
 
 
-export const CityItem: React.FC<ComponentProps> = ({
+export const CityItem: React.FC<CityInfo> = ({
   amount,
   rating,
-  name,
-  geojsonForPreview
+  en,
+  ru,
+  geometry
 }) => {
-  const geojson = geojsonForPreview
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [center, setCenter] = useState<number[] | []>([])
+  const [geojson, setGeojson] = useState<GeoJSON | null>(null)
   const history = useHistory();
   const mapRef = useSelector(s => s.app.mapRef)
 
@@ -43,12 +38,17 @@ export const CityItem: React.FC<ComponentProps> = ({
   )
 
   useEffect(() => {
-    setCenter(centerOfMass(geojson).geometry.coordinates)
-  }, [geojson])
-  
+    if (geometry) {
+      const geojson = multiPolygon(getCoordsFromBEGeometry(geometry))
+      setGeojson(geojson)
+      setCenter(centerOfMass(geojson).geometry.coordinates)}
+  }, [geometry])
+
 
   // Draw feature shape on canvas
+  // TODO make render geojson separate component
   useEffect(() => {
+    if (!geojson) return
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -67,7 +67,7 @@ export const CityItem: React.FC<ComponentProps> = ({
         ctx.beginPath();
         const coordinates = getCoords(geojson);
         if (Array.isArray(coordinates)) {
-          for (const coordinate of coordinates[0]) {
+          for (const coordinate of coordinates[0][0]) {
             const x = (coordinate[0] - bounds[0]) * xScale;
             const y = canvas.height - (coordinate[1] - bounds[1]) * yScale;
             ctx.lineTo(x, y);
@@ -80,15 +80,13 @@ export const CityItem: React.FC<ComponentProps> = ({
   }, [geojson, canvasRef]);
 
 
-
-
   return (
     <div className={s.cityItem}>
       <div className={s.preview} onClick={toCenter}>
         <canvas className={s.geojsonPreview} ref={canvasRef} />
       </div>
       <div className={s.cityDetails}>
-        <h2 className={s.cityName}>{name}</h2>
+        <h2 className={s.cityName}>{document.documentElement.lang === 'ru' ? ru : en}</h2>
         <div className={s.cityRating}>
           <TotalRating rating={rating} amount={amount} />
         </div>

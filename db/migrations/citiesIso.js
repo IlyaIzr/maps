@@ -1,3 +1,4 @@
+const { getIsoCodeFromCoordinates } = require('../../routes/cities');
 const Connection = require('../connection')
 const dbConn = new Connection()
 
@@ -33,23 +34,6 @@ async function addCityCodeToPlaceMigration() {
   }
 }
 
-async function getIsoCodeFromCoordinates(latitude, longitude) {
-  const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data && data.address) {
-
-      const isoCode = data.address['ISO3166-2-lvl15'] ?? data.address['ISO3166-2-lvl4'];
-      return isoCode;
-    }
-  } catch (error) {
-    console.error('Error retrieving ISO code:', error, latitude, longitude, data, response);
-  }
-  console.log('weird error', latitude, longitude)
-  return null;
-}
 
 // Call the migration function
 console.log('Migration started');

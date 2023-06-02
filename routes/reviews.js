@@ -3,7 +3,8 @@ const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
 // rest
-const { auth } = require('./middleware')
+const { auth } = require('./middleware');
+const { getIsoCodeFromCoordinates } = require('./cities');
 
 
 
@@ -32,23 +33,24 @@ router.get('/reviews', async (req, res) => {
 
 // @ api/reviews/postReview
 
-// change table to have id
-function notNaN(val) {
-  if (!val && typeof val === 'number' && val !== 0) return 0
-  return val
-}
 
 router.post('/postReview', async (req, res) => {
   const { userId, userLevel, commentsNumber, review, place } = req.body
-  const { grade, comment, targetId } = review
-  const { x, y, lng, lat, polyString, name } = place
+  const { grade, comment } = review
+  const { x, y, lng, lat, polyString, name, } = place
+  let { iso_3166_2 } = place
+  if (!iso_3166_2) {
+    iso_3166_2 = await getIsoCodeFromCoordinates(lat, lng)
+  }
+  
+  let targetId = review.targetId + (iso_3166_2 || '')
 
   // upsert into db
   const placesQuery = `
   INSERT INTO places
-  ( id, rating,name, amount, x, y, lng, lat, polygon ) 
+  ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
   VALUES 
-  ( '${targetId}', '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}') )
+  ( '${targetId}', '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
   ON DUPLICATE KEY UPDATE 
   rating = ((amount * rating + ${grade}) / (amount + 1)), 
   amount = (amount + 1), 
@@ -154,5 +156,11 @@ router.post('/postFeedback', async (req, res) => {
   }
 
 })
+
+// change table to have id
+function notNaN(val) {
+  if (!val && typeof val === 'number' && val !== 0) return 0
+  return val
+}
 
 module.exports = router
