@@ -16,6 +16,9 @@ export function geoJsonFromResponse(places) {
         name: placeData.name,
         lng: placeData.lng,
         lat: placeData.lat,
+        iso_3166_2: placeData.iso_3166_2,
+        id: placeData.id,
+
         // x: placeData.x,
         // y: placeData.y
       },
@@ -45,6 +48,7 @@ export function processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTil
   if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: typeof res.msg === 'object' ? JSON.stringify(res.msg) : res.msg || JSON.stringify(res.smg) })
   // Pass array of places upwards, to mapbox
   const geoJson = geoJsonFromResponse(res.data)
+  console.log('%c⧭ set geoJson', 'color: #807160', geoJson);
   setGeoData(geoJson)
   // Update current tile data
 
@@ -63,6 +67,8 @@ export function processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTil
         name: placeData.name,
         lng: placeData.lng,
         lat: placeData.lat,
+        iso_3166_2: placeData.iso_3166_2,
+        id: placeData.id,
         // x: placeData.x,
         // y: placeData.y
       },

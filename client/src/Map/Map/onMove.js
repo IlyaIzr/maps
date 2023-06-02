@@ -11,7 +11,6 @@ export function mapOnMove(map, setlayoutXY, range, setWeDataNeed, setTileData, s
     const { lng, lat } = map.getCenter()
     const zoom = map.getZoom()
 
-    console.log('%c⧭', 'color: #ff6600', 'on move end setting data', e);
     setDataToUrl({ lat: +lat.toFixed(5), lng: +lng.toFixed(5), zoom: +zoom.toFixed(1) })
 
     const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, 16)
