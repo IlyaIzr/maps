@@ -10,13 +10,13 @@ import '../Map/Maps.css'
 import { Legend } from '../Legend';
 import { Reviews } from '../Reviews';
 import { getLayoutCoords, notNaN } from '~rest/helperFuncs';
-import { setMapMode, setToast } from '~store/app';
+import { setMapMode } from '~store/app';
 import { TEXT } from '~rest/lang';
-import { postTags } from '~requests/tags';
+import { postTagsIfAny } from '~requests/tags';
 import { postReview } from '~requests/reviews';
-import { setCommentsNumber, setUserLevel } from '~store/user';
 import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './MapWrap.module.css'
+import { handleError, handleNewLevel } from '~rest/helperFuncs';
 
 export const MapWrap = () => {
   // Store
@@ -24,6 +24,7 @@ export const MapWrap = () => {
   const app = useSelector(state => state.app)
   const dispatch = useDispatch()
 
+  // Todo that needs context or smth
   const [feature, setFeature] = useState(null);
   // Featurer
   const [name, setName] = useState('')
@@ -55,9 +56,10 @@ export const MapWrap = () => {
     }
     const place = {
       lng, lat,
-      id: feature.id,
+      id: feature.id || feature.properties.id,
       name: feature.properties.name || "",
-      polyString
+      polyString,
+      iso_3166_2: feature.properties.iso_3166_2 || null
     }
     const { x, y } = getLayoutCoords(lng, lat, 16)
     place.x = x
@@ -68,25 +70,18 @@ export const MapWrap = () => {
 
     let newGeodata = [...geoData]
 
-    function resLevelHandler(res) {
-      console.log('%c⧭', 'color: #e5de73', res);
-      if (res.newLevel) {
-        setToast(dispatch, { status: 'complete', message: TEXT.nowYourLevel + ' ' + res.newLevel })
-        setUserLevel(dispatch, res.newLevel)
-      }
-      setCommentsNumber(dispatch, user.commentsn + 1)
-    }
 
     // Case next review
     if (feature.source === 'ratedFeaturesSource') {
       const res = await postReview({
-        userId: user.id, review, place: { ...feature.properties, id: feature.id, polyString },
+        userId: user.id, review, place: { id: feature.id, ...feature.properties, polyString },
         userLevel: user.level, commentsNumber: user.commentsn
       })
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr1' })
-      resLevelHandler(res)
+      handleError(dispatch, res, '#ppr1')
+      handleNewLevel(res, user.commentsn, dispatch)
 
-      // Mutate geoData
+      // Add Mutate geoData (without mutating properties{})
+      // Todo move this logic to the BE
       for (let i = 0; i < newGeodata.length; i++) {
         if (newGeodata[i].id === feature.id) {
           const { amount, rating } = feature.properties
@@ -103,9 +98,9 @@ export const MapWrap = () => {
       const res = await postReview({
         userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
       })
-      // return;
-      if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ppr2' })
-      resLevelHandler(res)
+      
+      handleError(dispatch, res, '#ppr2')
+      handleNewLevel(res, user.commentsn, dispatch)
 
       newGeodata.push({
         type: 'Feature',
@@ -119,8 +114,11 @@ export const MapWrap = () => {
 
     // Common block
 
-    const tagReq = await postTags({ user: user.id, comment, placeId: feature.id })
-    if (tagReq.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #ptg_Main_3' })
+    const tagReq = await postTagsIfAny({
+      user: user.id, comment, featureId: feature.id || feature.properties.id,
+      iso_3166_2: feature.properties.iso_3166_2, lng, lat
+    })    
+    handleError(dispatch, tagReq, '#ptg_Main_3')
 
     setGeoData(newGeodata)
     updateLayers()

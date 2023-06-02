@@ -1,12 +1,14 @@
 import { getAdress } from "~requests/map"
 import { flyToFeature } from "./Map"
+import { union as turfUnion } from '@turf/turf'
+
 
 export function mapOnClick(map, setFeature, resetRater, drawObject) {
   function geoFromTurf(geo) {
     if (!geo[1]) return geo[0]
-    let res2 = window.turf.union(geo[0], geo[1])
+    let res2 = turfUnion(geo[0], geo[1])
     if (geo[2]) for (let i = 2; i < geo.length; i++) {
-      res2 = window.turf.union(res2, geo[i])
+      res2 = turfUnion(res2, geo[i])
     }
 
     return res2.geometry

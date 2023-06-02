@@ -78,7 +78,12 @@ router.get('/tagSuggestions', async (req, res) => {
 // @ /tags/postTags
 
 router.post('/postTags', async (req, res) => {
-  const { user, placeId, tags } = req.body
+  const { user, featureId, tags } = req.body
+  let { iso_3166_2 } = req.body
+  if (!iso_3166_2) {
+    iso_3166_2 = await getIsoCodeFromCoordinates(lat, lng)
+  }
+  const placeId = featureId + iso_3166_2
   let tagsQuery
   let tIndexQuery
 

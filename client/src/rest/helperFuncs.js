@@ -44,3 +44,19 @@ export function uuidv4() {
 export function isNaN(value) {
   return Number.isNaN(value)
 }
+
+export function handleError(dispatch, res, errorCustomCode) {
+  if (res.status !== 'OK') return setToast(dispatch, {
+    message: `${TEXT.requestError} ${errorCustomCode}`
+  })
+}
+
+
+export function handleNewLevel(res, commentsAmount, dispatch) {
+  if (res.newLevel) {
+    console.log('%c⧭ new level on response', 'color: #e5de73', res);
+    setToast(dispatch, { status: 'complete', message: TEXT.nowYourLevel + ' ' + res.newLevel })
+    setUserLevel(dispatch, res.newLevel)
+  }
+  setCommentsNumber(dispatch, commentsAmount + 1)
+}

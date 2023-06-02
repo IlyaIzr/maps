@@ -21,7 +21,7 @@ export async function tagSuggestions(input) {
   return await f()
 }
 
-export async function postTags({ user, comment, placeId }) {
+export async function postTagsIfAny({ user, comment, featureId, iso_3166_2, lat, lng }) {
   const tagWords = comment.split(' ').filter(w => w?.startsWith('#'))
   let tags = []
   tagWords.forEach(tag => {
@@ -37,6 +37,6 @@ export async function postTags({ user, comment, placeId }) {
   if (!tags.length) return { status: 'OK' }
   tags = tags.filter((item, i, ar) => ar.indexOf(item) === i)
 
-  const f = requestMaker('POST', 'tags', 'postTags', { user, placeId, tags }, false)
+  const f = requestMaker('POST', 'tags', 'postTags', { user, featureId, iso_3166_2, tags }, false)
   return await f()
 }
