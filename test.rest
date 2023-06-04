@@ -1,5 +1,8 @@
 ### test
 GET http://localhost:1414/api/maps/places
 
+### city
+GET http://localhost:1414/api/cities/cityInfo?code=RU-SPE
+
 ### pops
 GET http://localhost:1414/test

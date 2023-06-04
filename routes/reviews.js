@@ -4,7 +4,7 @@ const Connection = require('../db/connection')
 const dbConn = new Connection()
 // rest
 const { auth } = require('./middleware');
-const { getIsoCodeFromCoordinates } = require('./cities');
+const { fetchIsoCodeFromCoordinates, getCityInfo, fetchCityData } = require('./cities');
 
 
 
@@ -37,15 +37,15 @@ router.get('/reviews', async (req, res) => {
 router.post('/postReview', async (req, res) => {
   const { userId, userLevel, commentsNumber, review, place } = req.body
   const { grade, comment } = review
-  const { x, y, lng, lat, polyString, name, } = place
+  const { x, y, lng, lat, polyString, name } = place
   let { iso_3166_2 } = place
   if (!iso_3166_2) {
-    iso_3166_2 = await getIsoCodeFromCoordinates(lat, lng)
+    iso_3166_2 = await fetchIsoCodeFromCoordinates(lat, lng)
   }
-  
+
   let targetId = review.targetId + (iso_3166_2 || '')
 
-  // upsert into db
+  // upsert place rating and polygon into db
   const placesQuery = `
   INSERT INTO places
   ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
@@ -91,12 +91,41 @@ router.post('/postReview', async (req, res) => {
     if (!newLevel && userId !== 'anonimus')
       await dbConn.query(`UPDATE users SET commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
 
-    return res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
+    res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
   } catch (err) {
     console.log(err)
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }
 
+
+  console.log('%c⧭', 'color: #99614d', 'adding city after responded OK for review');
+
+  // Update city rating or add info about new city
+  try {
+    const cityInfo = (await getCityInfo(iso_3166_2, ['geometry']))?.data
+    var citiesQuery = ''
+    if (cityInfo) {
+      citiesQuery = `
+        INSERT INTO cities
+        (code, rating, amount)  
+        VALUES 
+        ('${iso_3166_2}', ${grade}, ${1})
+        ON DUPLICATE KEY UPDATE 
+        rating = ((amount * rating + ${grade}) / (amount + 1)), 
+        amount = (amount + 1), 
+    `} else {
+      const { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
+      citiesQuery = `      
+        INSERT INTO cities
+        (code, rating, amount, lat, lng, en, ru, geometry)  
+        VALUES 
+        ('${iso_3166_2}', ${grade}, ${1}, ${lat}, ${lng}, '${en}', '${ru}', ST_MPointFromText('${polyString}'))
+      `
+    }
+    await dbConn.query(citiesQuery)
+  } catch (error) {
+    return console.log('%c⧭', 'color: #00736b', 'error while getting city data', iso_3166_2, citiesQuery);
+  }
 })
 
 
@@ -106,9 +135,7 @@ router.post('/postReview', async (req, res) => {
 router.delete('/reviews', auth, async (req, res) => {
 
   const userId = req.userId
-  const { timestamp, place: { id, grade } } = req.body
-  // console.log('%c⧭', 'color: #006dcc', rating, amount, id, grade);
-  // return res.json({ status: 'OK', msg: 'Review deleted successfully' })
+  const { timestamp, place: { id, grade, iso_3166_2 } } = req.body
   // Delete review
 
   const query = `DELETE FROM reviews WHERE author = '${userId}' AND timestamp = '${timestamp}'`
@@ -134,8 +161,25 @@ router.delete('/reviews', auth, async (req, res) => {
     `
   try {
     const result = await dbConn.query(placeQuery)
-    if (result.affectedRows) return res.json({ status: 'OK', msg: 'Review deleted successfully' })
-    throw 'nothing was deleted'
+    if (result.affectedRows) res.json({ status: 'OK', msg: 'Review deleted successfully' })
+    else throw 'nothing was deleted'
+  } catch (error) {
+    console.log(error)
+    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+  }
+
+  // Update city rating
+  citiesQuery = `
+    INSERT INTO cities
+    (code, rating, amount)  
+    VALUES 
+    ('${iso_3166_2}', ${grade}, ${1})
+    ON DUPLICATE KEY UPDATE 
+    rating = ((amount * rating - ${grade}) / (amount - 1)), 
+    amount = (amount - 1), 
+  `
+  try {
+    await dbConn.query(placeQuery)
   } catch (error) {
     console.log(error)
     return res.json({ status: 'ERR', msg: error, query: placeQuery })

@@ -27,9 +27,14 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function filterAfromB(a = [], b = []) {
+  return a.filter(val => !b.includes(val))
+}
+
 module.exports = {
   handleGeojson,
-  delay
+  delay,
+  filterAfromB
 }
 
 // TODO why do i need this?

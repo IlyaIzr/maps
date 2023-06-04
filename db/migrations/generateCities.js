@@ -1,5 +1,5 @@
-const { getCityNameByIso, getCityGeometryByIso } = require("../../routes/cities");
-const { handleGeojson, delay } = require("../../routes/helpres")
+const { fetchCityData } = require("../../routes/cities");
+const { delay } = require("../../routes/helpres")
 const Connection = require('../connection')
 const dbConn = new Connection()
 
@@ -32,12 +32,7 @@ async function generateCities() {
         cache[iso_3166_2].rating = updatedRating;
       } else {
         // If it's a new ISO code, get city names by ISO code
-        const { en, ru } = await getCityNameByIso(iso_3166_2, lat, lng);
-        await delay(1300)
-        const { geojson, lat: newLat, lng: newLng } = await getCityGeometryByIso(iso_3166_2)
-        console.log('%c⧭ geojson: ', 'color: #997326', geojson);
-        const polyString = handleGeojson(geojson)
-        await delay(1300)
+        const { en, ru, polyString } = fetchCityData(iso_3166_2, lat, lng)
 
         // Add the ISO code to the cache with initial values
         cache[iso_3166_2] = {
@@ -45,8 +40,10 @@ async function generateCities() {
           rating,
           en,
           ru,
-          lat: newLat,
-          lng: newLng,
+          // add coords of the review. Because cities are large and we want to zoom where some reviews are happening
+          // TBD - store coords of the most reviewed place
+          lat,
+          lng,
           polyString
         };
       }

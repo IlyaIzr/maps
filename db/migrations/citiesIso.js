@@ -1,4 +1,5 @@
-const { getIsoCodeFromCoordinates } = require('../../routes/cities');
+const { fetchIsoCodeFromCoordinates } = require('../../routes/cities');
+const { delay } = require('../../routes/helpres');
 const Connection = require('../connection')
 const dbConn = new Connection()
 
@@ -20,7 +21,7 @@ async function addCityCodeToPlaceMigration() {
     if (cache.has(coordinates)) {
       place.iso_3166_2 = cache.get(coordinates);
     } else {
-      const isoCode = await getIsoCodeFromCoordinates(place.lat, place.lng);
+      const isoCode = await fetchIsoCodeFromCoordinates(place.lat, place.lng);
       console.log('%c⧭ isoCode fetched: ', 'color: #aa00ff', isoCode);
       await delay(2000);
       
@@ -48,8 +49,5 @@ addCityCodeToPlaceMigration()
 
 
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 // P.s. this migration proved to be working. Don't forget to set .env vars to start connection properly

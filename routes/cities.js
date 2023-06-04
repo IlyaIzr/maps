@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
-const simplify = require('@turf/simplify')
+const simplify = require('@turf/simplify');
+const { filterAfromB, handleGeojson, delay } = require('./helpres');
+
+const citiesTableKeys = ['code', 'rating', 'amount', 'lat', 'lng', 'en', 'ru', 'geometry']
 
 // @ /cities/top?amount=10
 router.get('/top', async (req, res) => {
@@ -22,9 +25,34 @@ router.get('/top', async (req, res) => {
   }
 })
 
+// @ /cities/cityInfo?code=RU-SPE
+// @ response: {data: type CityInfo}
+router.get('/cityInfo', async (req, res) => {
+  const { code } = req.query
+  const data = await getCityInfo(code)
+  if (data.status === 'ERR') return res.json(data)
+  return (res.json({ status: 'OK', data: data[0] ?? null }))
+})
+
+// @ response: type CityInfo
+async function getCityInfo(isoCode, exclude = []) {
+  let selector = '*'
+  if (exclude.length) {
+    const includes = filterAfromB(citiesTableKeys, exclude)
+    selector = includes.join(', ')
+  }
+  const query = `SELECT ${selector} FROM cities WHERE code = ?`
+
+  try {
+    return await dbConn.query(query, isoCode)
+  } catch (error) {
+    console.log('%c⧭', error);
+    return { status: 'ERR', msg: error, query }
+  }
+}
 
 // @ response: 'NL-AM' | null
-async function getIsoCodeFromCoordinates(latitude, longitude) {
+async function fetchIsoCodeFromCoordinates(latitude, longitude) {
   const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
   try {
@@ -47,7 +75,7 @@ async function getIsoCodeFromCoordinates(latitude, longitude) {
 // lat,
 // lng
 // }
-async function getCityNameByIso(code, lat, lng) {
+async function fetchCityNameByIso(code, lat, lng) {
   const urlEn = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=6&accept-language=en&county=${code}`;
   const urlRu = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=6&accept-language=ru&county=${code}`;
 
@@ -80,7 +108,7 @@ async function getCityNameByIso(code, lat, lng) {
 // lat,
 // lng
 // }
-async function getCityGeometryByIso(code, withCompression = true) {
+async function fetchCityGeometryByIso(code, withCompression = true) {
   const url = `https://nominatim.openstreetmap.org/search.php?q=${code}&polygon_geojson=1&format=json`;
 
   try {
@@ -111,14 +139,34 @@ async function getCityGeometryByIso(code, withCompression = true) {
   return null;
 }
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+async function fetchCityData(iso_3166_2, lat, lng) {
+  try {
+
+    const { en, ru } = await fetchCityNameByIso(iso_3166_2, lat, lng);
+    await delay(1300)
+    const { geojson } = await fetchCityGeometryByIso(iso_3166_2)
+
+    const polyString = handleGeojson(geojson)
+    await delay(1300)
+
+    return {
+      // add coords of the review. Because cities are large and we want to zoom where some reviews are happening
+      // TBD - store coords of the most reviewed place
+      en,
+      ru,
+      polyString
+    }
+  } catch (error) {
+    console.log('%c⧭ error for fetching city data', 'color: #cc0036', error);
+  }
 }
 
+
 module.exports = {
-  getIsoCodeFromCoordinates: getIsoCodeFromCoordinates,
+  fetchIsoCodeFromCoordinates: fetchIsoCodeFromCoordinates,
   router: router,
-  getCityNameByIso: getCityNameByIso,
-  delay: delay,
-  getCityGeometryByIso: getCityGeometryByIso
+  fetchCityNameByIso: fetchCityNameByIso,
+  fetchCityGeometryByIso: fetchCityGeometryByIso,
+  getCityInfo,
+  fetchCityData
 }

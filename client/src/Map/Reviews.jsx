@@ -44,7 +44,8 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
       rating: feature.properties.rating,
       amount: feature.properties.amount,
       grade: e.target.attributes.grade.value,
-      id: feature.id + (feature.properties.iso_3166_2 || '')
+      id: feature.id + (feature.properties.iso_3166_2 || ''),
+      iso_3166_2: feature.properties.iso_3166_2 || ''
     }
 
     setModal(dispatch, {
