@@ -49,7 +49,7 @@ async function getIsoCodeFromCoordinates(latitude, longitude) {
 // }
 async function getCityNameByIso(code, lat, lng) {
   const urlEn = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=6&accept-language=en&county=${code}`;
-  const urlRu = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=6&accept-language=en&county=${code}`;
+  const urlRu = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=6&accept-language=ru&county=${code}`;
 
   // geography - TBD
   try {
