@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deleteReview, getReviews } from '../requests/reviews';
+import { deleteReview, deleteReviewAsRoot, getReviews } from '../requests/reviews';
 import { restrictedLetters } from '../rest/config';
 import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
@@ -12,7 +12,7 @@ import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
 export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
   const dispatch = useDispatch()
   const { reviewsShown } = useSelector(state => state.app)
-  const userId = useSelector(state => state.user.id)
+  const { id: userId, isRoot } = useSelector(state => state.user)
 
   const [reviews, setReviews] = useState([])
 
@@ -40,6 +40,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
 
   function deleteClick(e) {
     const timestamp = e.target.attributes.timestamp.value
+    const author = e.target.attributes.author.value
     const place = {
       rating: feature.properties.rating,
       amount: feature.properties.amount,
@@ -51,7 +52,11 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
     setModal(dispatch, {
       message: TEXT.removeComment + '?',
       async acceptAction() {
-        const res = await deleteReview(timestamp, place)
+        const res =
+          isRoot ?
+            await deleteReviewAsRoot(timestamp, place, author) :
+            await deleteReview(timestamp, place)
+
         if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1' })
 
         setGeoData(geoData => {
@@ -109,6 +114,13 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
     }
     return <div>{res}</div>
   }
+
+  function isDeletionPossible(author) {
+    if (isRoot) return true
+    if (author !== 'anonimus' && author === userId) return true
+    return false
+  }
+
   return (
     <div className={`reviewsContainer ${reviewsShown ? 'expanded' : 'shrinked'}`}>
       {reviews.length ? reviews.map(review => {
@@ -126,9 +138,13 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
                 <span className="author mp-primary">{review.name}</span>
                 <span className="reviewDate mp-dark">
                   {new Date(review.timestamp).toLocaleDateString()}
-                  {Boolean(review.author !== 'anonimus' && review.author === userId) &&
-                    <CloseIcon fill="var(--dark)" className="delete-comment-icon cursor-pointer"
-                      onClick={deleteClick} timestamp={review.timestamp} grade={review.grade}
+                  {isDeletionPossible(review.author) &&
+                    <CloseIcon
+                      fill="var(--dark)" className="delete-comment-icon cursor-pointer"
+                      onClick={deleteClick}
+                      timestamp={review.timestamp}
+                      grade={review.grade}
+                      author={review.author}
                     />
                   }
                 </span>

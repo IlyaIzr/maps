@@ -7,6 +7,7 @@ const dbConn = new Connection()
 const bcrypt = require('bcrypt');
 const { OAuth2Client } = require('google-auth-library');
 const DeviceDetector = require("device-detector-js");
+const { getRootUsername } = require('./helpres');
 const deviceDetector = new DeviceDetector();
 const client = new OAuth2Client(process.env.GOAUTHCLIENTID);
 
@@ -36,6 +37,7 @@ router.post('/login', async (req, res) => {
   delete user.pword
   delete user.question
   delete user.answer
+  user.isRoot = Boolean(getRootUsername(user.id))
 
   res.cookie('mp/auth', user.id, {
     // path: "/",
@@ -93,6 +95,7 @@ router.get('/refresh', async (req, res) => {
     secure: true
   })
 
+  user.isRoot = Boolean(getRootUsername(user.id))
   res.json({ status: 'OK', data: user })
 })
 
@@ -157,6 +160,7 @@ router.post('/glogin', async (req, res) => {
     secure: true
   })
 
+  user.isRoot = Boolean(getRootUsername(user.id))
   res.json({ status: 'OK', data: { ...user } })
 })
 

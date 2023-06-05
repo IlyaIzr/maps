@@ -186,6 +186,65 @@ router.delete('/reviews', auth, async (req, res) => {
   }
 })
 
+router.delete('/delteAsRoot', auth, async (req, res) => {
+  const userId = req.userId
+  const rootUsername = req.checkRoot?.()
+  if (!rootUsername) return res.json({ status: 'ERR', msg: 'User is not root: ' + userId })
+  const { timestamp, place: { id, grade, iso_3166_2 }, author } = req.body
+  // Delete review
+
+  const deleteReviewQuery = `
+    DELETE FROM reviews 
+    WHERE targetId = '${id}' AND timestamp = '${timestamp}' AND grade = ${grade} AND author = ?
+  `
+  const deleteFromUserCountQuery = `UPDATE users SET commentsn = (commentsn - 1) WHERE id = ?`
+  try {
+    const result = await dbConn.query(deleteReviewQuery, author)
+    if (!result.affectedRows) throw 'nothing was deleted'
+    if (author !== 'anonimus')
+      await dbConn.query(deleteFromUserCountQuery, author)
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      status: 'ERR', msg: error, deleteReviewQuery, deleteFromUserCountQuery
+    })
+  }
+
+
+  // Update place
+  const placeQuery = `
+    UPDATE places SET 
+    rating = ((amount * rating - ${grade}) / (amount - 1)), 
+    amount = (amount - 1)
+    WHERE id='${id}'
+    `
+  try {
+    const result = await dbConn.query(placeQuery)
+    if (result.affectedRows) res.json({ status: 'OK', msg: 'Review deleted successfully' })
+    else throw 'nothing was deleted'
+  } catch (error) {
+    console.log(error)
+    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+  }
+
+  // Update city rating
+  citiesQuery = `
+    INSERT INTO cities
+    (code, rating, amount)  
+    VALUES 
+    ('${iso_3166_2}', ${grade}, ${1})
+    ON DUPLICATE KEY UPDATE 
+    rating = ((amount * rating - ${grade}) / (amount - 1)), 
+    amount = (amount - 1), 
+  `
+  try {
+    await dbConn.query(placeQuery)
+  } catch (error) {
+    console.log(error)
+    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+  }
+})
+
 
 
 router.post('/postFeedback', async (req, res) => {

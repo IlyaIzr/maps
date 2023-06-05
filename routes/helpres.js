@@ -23,6 +23,13 @@ function handleGeojson(geoJson) {
   }
 }
 
+function getRootUsername(userId = '') {
+  const rootsArr = process.env.ROOTS_ARRAY?.split(',')
+  if (!rootsArr || !rootsArr.length) return null
+  const rootUser = rootsArr.find(username => username === userId)
+  return rootUser || null
+}
+
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -34,7 +41,8 @@ function filterAfromB(a = [], b = []) {
 module.exports = {
   handleGeojson,
   delay,
-  filterAfromB
+  filterAfromB,
+  getRootUsername
 }
 
 // TODO why do i need this?

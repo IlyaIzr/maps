@@ -1,3 +1,5 @@
+const { getRootUsername } = require("./helpres");
+
 const middlewares = {}
 
 middlewares.auth = function auth(req, res, next) {
@@ -5,6 +7,7 @@ middlewares.auth = function auth(req, res, next) {
   if (!userId) return res.json({ status: 'REAUTH' })
 
   req.userId = userId
+  req.checkRoot = getRootUsername.bind(this, userId)
   next();
 
 };
