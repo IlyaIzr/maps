@@ -5,7 +5,7 @@ import { registerGUser } from '../requests/users';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
-import { logIntoApp } from '../store/user';
+import { setLogInCreds } from '../store/user';
 
 
 export const GoogleConfirm = () => {
@@ -39,7 +39,7 @@ export const GoogleConfirm = () => {
     console.log('%c⧭', 'color: #0088cc', res);
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
-      logIntoApp(dispatch, res.data)
+      setLogInCreds(dispatch, res.data)
       console.log('%c⧭', 'color: #00b300', googleCreds);
       Object.keys(googleCreds).forEach(key => {
         googleCreds.key = null        

@@ -6,7 +6,7 @@ import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { closeModal, setToast } from '../store/app';
-import { logIntoApp, logOutOfApp } from '../store/user';
+import { setLogInCreds, setLogOutCreds } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -44,7 +44,7 @@ export const Login = () => {
       setMsg('')
       await getFriendsInfo(dispatch)
       history.push('/')
-      return logIntoApp(dispatch, res.data)
+      return setLogInCreds(dispatch, res.data)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
 
@@ -61,7 +61,7 @@ export const Login = () => {
       setLogin('')
       setPword('')
       setMsg('')
-      return logOutOfApp(dispatch)
+      return setLogOutCreds(dispatch)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }
@@ -85,7 +85,7 @@ export const Login = () => {
       setMsg('')
       await getFriendsInfo(dispatch)
       history.push('/')
-      return logIntoApp(dispatch, res.data)
+      return setLogInCreds(dispatch, res.data)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
   }

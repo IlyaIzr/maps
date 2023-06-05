@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { registerUser } from '../requests/users'
 import { TEXT } from '../rest/lang'
 import { Responser } from '../rest/Responser'
-import { logIntoApp } from '../store/user'
+import { setLogInCreds } from '../store/user'
 const initCreds = { login: '', pword: '', name: '', question: TEXT.secretExample, answer: '' }
 
 export const Register = () => {
@@ -45,7 +45,7 @@ export const Register = () => {
     console.log('%c⧭', 'color: #86bf60', creds, res);
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
-      logIntoApp(dispatch, res.data)
+      setLogInCreds(dispatch, res.data)
       setCreds(initCreds)
       history.push('/')
     }

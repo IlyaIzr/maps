@@ -15,7 +15,8 @@ const basicState = {
   commentsn: 0,
   avatar: null,
   friends: [],
-  requests: []
+  requests: [],
+  isRoot: false
 }
 export let initialState = { ...basicState }
 
@@ -55,11 +56,11 @@ export function userReducer(state = initialState, act) {
 export const setCredentials = (d, creds) => {
   d({ type: WRITECREDENTIALS, credentials: { ...creds } })
 }
-export const logIntoApp = (d, creds) => {
+export const setLogInCreds = (d, creds) => {
   setCredentials(d, creds)
   setLoginStatus(d, true)
 }
-export const logOutOfApp = (d) => {
+export const setLogOutCreds = (d) => {
   friendModeId(d, null)
   setMapMode(d, 'default')
   setCredentials(d, basicState)

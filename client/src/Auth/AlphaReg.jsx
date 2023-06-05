@@ -5,7 +5,7 @@ import { logout } from '../requests/auth'
 import { registerUser } from '../requests/users'
 import { TEXT } from '../rest/lang'
 import { Responser } from '../rest/Responser'
-import { logIntoApp, logOutOfApp } from '../store/user'
+import { setLogInCreds, setLogOutCreds } from '../store/user'
 const initCreds = { login: '', pword: '', name: '', question: TEXT.secretExample, answer: '' }
 
 export const AlphaReg = () => {
@@ -23,7 +23,7 @@ export const AlphaReg = () => {
     (async function () {
       if (user.id) {
         const res = await logout()
-        res.status === 'OK' ? logOutOfApp(dispatch) : setMsg('Ошибка сети')
+        res.status === 'OK' ? setLogOutCreds(dispatch) : setMsg('Ошибка сети')
       }
       const query = new URLSearchParams(search);
       // eslint-disable-next-line 
@@ -69,7 +69,7 @@ export const AlphaReg = () => {
     if (res.status === 'OK') {
       setMsg(TEXT.successfullReg)
       // await loginWithCreds({ login: creds.login, pword: creds.pword })
-      logIntoApp(dispatch, res.data)
+      setLogInCreds(dispatch, res.data)
       setCreds(initCreds)
       history.push('/')
     }

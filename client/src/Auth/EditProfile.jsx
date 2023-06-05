@@ -6,7 +6,7 @@ import { updateUser, updateUserPword } from "../requests/users"
 import { TEXT } from "../rest/lang"
 import { Responser } from "../rest/Responser"
 import { setToast } from "../store/app"
-import { logIntoApp, logOutOfApp } from "../store/user"
+import { setLogInCreds, setLogOutCreds } from "../store/user"
 const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
 
 export const EditProfile = () => {
@@ -47,7 +47,7 @@ export const EditProfile = () => {
       if (res.status === 'OK') {
         setMsg(TEXT.successfulUpdate)
         setSecretChallenge(false)
-        return logIntoApp(dispatch, res.data)
+        return setLogInCreds(dispatch, res.data)
       }
       else if (res.status === 'BANEDPWORD') {
         return setMsg(TEXT.bannedPwod + ' - ' + creds.pword)
@@ -60,7 +60,7 @@ export const EditProfile = () => {
 
     if (res.status === 'OK') {
       setMsg(TEXT.successfulUpdate)
-      return logIntoApp(dispatch, res.data)
+      return setLogInCreds(dispatch, res.data)
     }
     else if (res.status === 'EXISTING') {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)
@@ -83,7 +83,7 @@ export const EditProfile = () => {
         status: 'complete',
         title: ''
       })
-      logOutOfApp(dispatch)
+      setLogOutCreds(dispatch)
       return history.push('/')
     }
     setMsg(TEXT.errCode + ': ' + (res.msg || res))
