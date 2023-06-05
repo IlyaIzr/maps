@@ -39,13 +39,13 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
   }
 
   function deleteClick(e) {
-    const timestamp = e.target.attributes.timestamp.value
-    const author = e.target.attributes.author.value
+    const timestamp = e.currentTarget.attributes.timestamp.value
+    const author = e.currentTarget.attributes.author.value
     const place = {
       rating: feature.properties.rating,
       amount: feature.properties.amount,
-      grade: e.target.attributes.grade.value,
-      id: feature.id + (feature.properties.iso_3166_2 || ''),
+      grade: e.currentTarget.attributes.grade.value,
+      id: feature.id,
       iso_3166_2: feature.properties.iso_3166_2 || ''
     }
 
@@ -62,7 +62,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
         setGeoData(geoData => {
           // Mutate geoData
           for (let i = 0; i < geoData.length; i++) {
-            if (geoData[i].id === feature.id) {
+            if (geoData[i].id === feature.properties.id) {
               const { amount, rating } = feature.properties
               geoData[i].properties = {
                 ...geoData[i].properties,
@@ -75,6 +75,7 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
         })
         updateLayers()
         resetRater()
+        setToast(dispatch, { message: TEXT.successfulUpdate, status: 'complete' })
       }
     })
   }

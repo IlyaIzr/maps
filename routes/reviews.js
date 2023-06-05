@@ -176,16 +176,17 @@ router.delete('/reviews', auth, async (req, res) => {
     ('${iso_3166_2}', ${grade}, ${1})
     ON DUPLICATE KEY UPDATE 
     rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1), 
+    amount = (amount - 1)
   `
   try {
-    await dbConn.query(placeQuery)
+    await dbConn.query(citiesQuery)
   } catch (error) {
     console.log(error)
-    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+    return res.json({ status: 'ERR', msg: error, query: citiesQuery })
   }
 })
 
+// @ /reviews/delteAsRoot
 router.delete('/delteAsRoot', auth, async (req, res) => {
   const userId = req.userId
   const rootUsername = req.checkRoot?.()
@@ -235,13 +236,13 @@ router.delete('/delteAsRoot', auth, async (req, res) => {
     ('${iso_3166_2}', ${grade}, ${1})
     ON DUPLICATE KEY UPDATE 
     rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1), 
+    amount = (amount - 1)
   `
   try {
-    await dbConn.query(placeQuery)
+    await dbConn.query(citiesQuery)
   } catch (error) {
     console.log(error)
-    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+    return res.json({ status: 'ERR', msg: error, query: citiesQuery })
   }
 })
 

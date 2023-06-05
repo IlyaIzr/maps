@@ -34,6 +34,6 @@ export async function deleteReview(timestamp, place) {
 }
 
 export async function deleteReviewAsRoot(timestamp, place, author) {
-  const f = requestMaker('DELETE', 'reviews', 'reviews', { timestamp, place, author }, true)
+  const f = requestMaker('DELETE', 'reviews', 'delteAsRoot', { timestamp, place, author }, true)
   return await f()
 }
