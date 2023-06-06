@@ -23,7 +23,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "compareWin": "cd src\\rest\\localization && node compare"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +53,6 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/turf": "^3.5.32"
-  }
+  },
+  "type": "module"
 }

@@ -1,5 +1,5 @@
 import s from './CityItem.module.css'
-import { centerOfMass, bbox, getCoords, Geometry, feature, multiPolygon, Position } from '@turf/turf';
+import { centerOfMass, bbox, getCoords, multiPolygon } from '@turf/turf';
 import type { GeoJSON } from 'geojson';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { ZOOM_ON_CITY } from './Cities';
 import { setDataToUrl } from '~store/url';
 import { useSelector } from 'react-redux';
 import { CityInfo } from '~requests/cities';
+import { DOCUMENT_LANG } from '~rest/lang'
 import { getCoordsFromBEGeometry } from '~rest/utils/helperFuncs';
 
 
@@ -41,7 +42,8 @@ export const CityItem: React.FC<CityInfo> = ({
     if (geometry) {
       const geojson = multiPolygon(getCoordsFromBEGeometry(geometry))
       setGeojson(geojson)
-      setCenter(centerOfMass(geojson).geometry.coordinates)}
+      setCenter(centerOfMass(geojson).geometry.coordinates)
+    }
   }, [geometry])
 
 
@@ -86,7 +88,7 @@ export const CityItem: React.FC<CityInfo> = ({
         <canvas className={s.geojsonPreview} ref={canvasRef} />
       </div>
       <div className={s.cityDetails}>
-        <h2 className={s.cityName}>{document.documentElement.lang === 'ru' ? ru : en}</h2>
+        <h2 className={s.cityName}>{DOCUMENT_LANG === 'ru' ? ru : en}</h2>
         <div className={s.cityRating}>
           <TotalRating rating={rating} amount={amount} />
         </div>

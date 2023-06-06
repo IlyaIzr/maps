@@ -70,7 +70,6 @@ async function languageSetter(request, response) {
   let indexFile = await fs.readFile(__dirname + '/client/dist/index.html', 'utf-8')
 
   indexFile = indexFile.replace('html lang="en"', `html lang="${lang}"`)
-  indexFile = indexFile.replace('<script src="./fallbackLanguage.js">', `<script src="./${lang}.js">`)
   if (lang === 'ru') indexFile = indexFile.replace('OurMaps', `Наши карты`)
 
   return indexFile

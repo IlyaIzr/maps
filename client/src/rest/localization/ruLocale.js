@@ -1,7 +1,6 @@
-
-const ru = {
+export const ruLocale = {
   ru: 'русский',
-  en: 'английский',
+  en: 'english',
   homeLinkBtn: "Главная",
   authLinkBtn: "Логин",
   profile: "Профиль",
@@ -158,4 +157,6 @@ const ru = {
   noName: 'нет названия'
 }
 
-window.APPTEXT = ru
+// module.exports = {
+//   ruLocale
+// }

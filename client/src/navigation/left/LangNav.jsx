@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../../requests/users';
 import { appLanguages } from '../../rest/config';
-import { TEXT } from '../../rest/lang';
+import { DOCUMENT_LANG, TEXT } from '../../rest/lang';
 import { setToast } from '../../store/app';
 import { navStates } from '../LeftMenu';
 import { ReactComponent as BackIcon } from '../../rest/svg/back2.svg';
@@ -24,8 +24,9 @@ export const LangNav = ({ setNavState }) => {
   }
 
   useEffect(() => {
-    setLang(document.documentElement.lang)
-    console.log('%c⧭', 'color: #7f7700', document.documentElement.lang);
+    // this is server side logic that works for completed build only
+    // if you need to test app with different lang - change the variable - DOCUMENT_LANG
+    setLang(DOCUMENT_LANG)
   }, [])
 
   function onBack() {

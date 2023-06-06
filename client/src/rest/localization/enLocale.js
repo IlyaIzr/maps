@@ -1,6 +1,5 @@
-
-const en = {
-  ru: 'russian',
+export const enLocale = {
+  ru: 'русский',
   en: 'english',
   homeLinkBtn: "Main",
   authLinkBtn: "Login",
@@ -21,7 +20,7 @@ const en = {
   secretHint: 'For password recovery',
   secterAnswer: 'Secret answer',
   secretValidation: 'You gave a question, give an answer then',
-  secretReplica: 'But it wasnt me!',
+  secretReplica: "But it wasn't me!",
   secretReplica2: 'And yet we need the answer',
   fillRequiredFields: 'Fill required fields',
   secretExample: 'Name that you secretly hate',
@@ -157,4 +156,6 @@ const en = {
   noName: 'no name'
 }
 
-window.APPTEXT = en
+// module.exports = {
+//   enLocale
+// }
