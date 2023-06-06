@@ -18,7 +18,9 @@ import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
 import { setBanner } from '~store/app';
 import { Link } from 'react-router-dom';
+import { getPreference, setPreference } from '~store/localstorage';
 
+const SKIP_BANNER = 'skip_banner'
 const mapCallbacks = new CallbackManager('maps')
 
 // Settings
@@ -60,7 +62,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed]);
         console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
-        if (!res?.data.length) {
+        if (!res?.data.length && !getPreference(SKIP_BANNER)) {
           const closeBanner = setBanner(d, {
             // TODO make text import from TEXT
             content: <div>No reviews here <br /> Do you want to see most popular cities?</div>,
@@ -68,9 +70,12 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
               {
                 // TODO remember user selection
                 element: <div>Close</div>,
-                onClick: (e, close) => close()
+                onClick: (e, close) => {
+                  close();
+                  setPreference(SKIP_BANNER, true)
+                }
               },
-              {                
+              {
                 element: <Link to="/cities"><div>To features</div></Link>,
                 onClick: (e, close) => close()
               }

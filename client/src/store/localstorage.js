@@ -6,6 +6,11 @@ export function getPreferences() {
   return null
 }
 
+export function getPreference(preference = '') {
+  const prefs = getPreferences()
+  return prefs?.[preference] || null
+}
+
 export function initLocalStorage() {
   if (!getPreferences()) window.localStorage.setItem(projectPrefix + '/preferences', '{}')
 }
