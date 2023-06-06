@@ -1,5 +1,7 @@
 import { gradients, themeColors } from "~rest/colors";
 
+const MIN_ZOOM = 8
+
 export function mapOnLoad(map, geoJson, theme) {
   map.on('load', function (e) {
     const gradient = gradients[theme]
@@ -27,11 +29,24 @@ export function mapOnLoad(map, geoJson, theme) {
     const layers = map.getStyle().layers;
     const firstSymbolId = layers.find(layer => layer.type === 'symbol').id;
 
+    const fillColor = [
+      "interpolate", ["linear"], ['get', 'rating'],
+
+      0, gradient[0],
+      1, gradient[1],
+      2, gradient[2],
+      3, gradient[3],
+      4, gradient[4],
+      5, gradient[5]
+      // 1, '#eee2cc',
+      // 5, gradient[5]
+    ];
+
     map.addLayer({
       'id': 'ratedFeatures',
       'source': 'ratedFeaturesSource',
       // 'source-layer': 'building',
-      'minzoom': 11,
+      'minzoom': MIN_ZOOM,
       'type': 'fill',
       paint: {
         // TODO opacity formula
@@ -57,32 +72,32 @@ export function mapOnLoad(map, geoJson, theme) {
         ],
         // 'fill-opacity': 0.9,
 
-        'fill-color': [
-          "interpolate", ["linear"], ['get', 'rating'],
-
-          0, gradient[0],
-          1, gradient[1],
-          2, gradient[2],
-          3, gradient[3],
-          4, gradient[4],
-          5, gradient[5]
-          // 1, '#eee2cc',
-          // 5, gradient[5]
-        ]
+        'fill-color': fillColor
       }
     }, firstSymbolId)
 
     map.addLayer({
       'id': 'selectedFeature',
       'source': 'selectedFeatureSrc',
-      'minzoom': 13,
+      'minzoom': MIN_ZOOM,
       'type': 'fill',
       paint: {
         'fill-opacity': 0.9,
-        'fill-color': themeColors[theme].accent,
+        'fill-color': fillColor,
         'fill-outline-color': themeColors[theme].counter
       }
     }, firstSymbolId)
 
+
+    map.addLayer({
+      'id': 'selectedFeatureOutline',
+      'source': 'selectedFeatureSrc',
+      'minzoom': MIN_ZOOM,
+      'type': 'line',
+      paint: {
+        'line-color': themeColors[theme].accent,
+        'line-width': 4
+      }
+    }, firstSymbolId)
   })
 }
