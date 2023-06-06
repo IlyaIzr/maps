@@ -153,7 +153,11 @@ export const enLocale = {
   drawModeLevelOnly: 'Users with level 2 or higher can draw missing buildings on map. You get level 2 after posting 10 reviews',
   yes: 'yes',
   no: 'no',
-  noName: 'no name'
+  noName: 'no name',
+  noReviews: 'no reviews here',
+  popularCitiesSuggestion: 'do you want to see most popalar cities?',
+  close: 'close',
+  watchCities: 'watch cities'
 }
 
 // module.exports = {

@@ -3,6 +3,7 @@ type CBType = { cb: () => any, id?: string }
 export class CallbackManager {
   readonly id: string
   readonly callbackStore: CBType[] = []
+  readonly callbackUniqueStore: Record<string, CBType> = {}
 
   constructor(instanceId: string) {
     this.id = instanceId
@@ -19,13 +20,23 @@ export class CallbackManager {
     this.callbackStore.push(cbObj)
   }
 
+  public addRepetitiveCb(cb: () => any, id: string) {
+    const cbObj: CBType = { cb }
+    this.callbackUniqueStore[id] = cbObj
+  }
+
   public callAllCallbacks() {
     this.callbackStore.forEach(({ cb }) => cb())
+    Object.entries(this.callbackUniqueStore).forEach(([id, { cb }]) => {
+      cb()
+      delete this.callbackUniqueStore[id]
+    })
   }
 
   public callById(id: string) {
     this.callbackStore.forEach(({ cb, id: existingId }) => {
       if (id === existingId) cb()
     })
+    this.callbackUniqueStore[id] && this.callbackUniqueStore[id].cb?.()
   }
 }

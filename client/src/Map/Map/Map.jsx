@@ -16,12 +16,10 @@ import { ReactComponent as CompassIcon } from '~rest/svg/compass.svg'
 import { getDataFromUrl } from "~store/url"
 import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
-import { setBanner } from '~store/app';
-import { Link } from 'react-router-dom';
-import { getPreference, setPreference } from '~store/localstorage';
+import { registerCitiesBanner } from './citiesBanner';
+import { useHistory } from 'react-router-dom';
 
-const SKIP_BANNER = 'skip_banner'
-const mapCallbacks = new CallbackManager('maps')
+const mapCBstore = new CallbackManager('maps')
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
@@ -40,6 +38,7 @@ const mbStyles = {
 export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
   const app = useSelector(state => state.app)
   const d = useDispatch()
+  const history = useHistory()
   const mapContainer = useRef(null);
 
   const map = useRef(null);
@@ -62,27 +61,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed]);
         console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
-        if (!res?.data.length && !getPreference(SKIP_BANNER)) {
-          const closeBanner = setBanner(d, {
-            // TODO make text import from TEXT
-            content: <div>No reviews here <br /> Do you want to see most popular cities?</div>,
-            bottomControls: [
-              {
-                // TODO remember user selection
-                element: <div>Close</div>,
-                onClick: (e, close) => {
-                  close();
-                  setPreference(SKIP_BANNER, true)
-                }
-              },
-              {
-                element: <Link to="/cities"><div>To features</div></Link>,
-                onClick: (e, close) => close()
-              }
-            ]
-          })
-          mapCallbacks.addCallback(closeBanner)
-        }
+        registerCitiesBanner(d, history, res?.data.length, mapCBstore)
         processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
       }
     })()
@@ -113,12 +92,12 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       setMapRef(d, map.current)
 
       const cb = mapAddGeolocateCtrl(map.current, 'top-left')
-      mapCallbacks.addCallback(cb)
+      mapCBstore.addCallback(cb)
 
       // Add search
       if (app.mode !== 'draw') {
         const cb = mapAddSearchCtrl(map.current, 'top-right')
-        mapCallbacks.addCallback(cb)
+        mapCBstore.addCallback(cb)
       }
 
       if (app.mode === 'draw') {
@@ -131,7 +110,7 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     })();
 
     return () => {
-      mapCallbacks.callAllCallbacks()
+      mapCBstore.callAllCallbacks()
     }
     // eslint-disable-next-line
   }, [app.theme, app.mapKey]);

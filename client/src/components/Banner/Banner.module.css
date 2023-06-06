@@ -39,7 +39,7 @@
 .bannerControls{
   display: flex;
   justify-content: center;
-  gap: 2px;
+  gap: 8px;
   color: var(--accent);
 }
 

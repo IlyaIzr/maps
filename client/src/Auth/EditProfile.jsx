@@ -8,6 +8,7 @@ import { Responser } from "../rest/Responser"
 import { setToast } from "../store/app"
 import { setLogInCreds, setLogOutCreds } from "../store/user"
 const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
+import './Auth.css'
 
 export const EditProfile = () => {
   const dispatch = useDispatch()

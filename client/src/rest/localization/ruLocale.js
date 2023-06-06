@@ -154,7 +154,11 @@ export const ruLocale = {
   drawModeLevelOnly: 'Пользователи с уровнем 2 или выше могут рисовать недостающие здания на карте. Для получения 2 уровня напишите 10 отзывов',
   yes: 'да',
   no: 'нет',
-  noName: 'нет названия'
+  noName: 'нет названия',
+  noReviews: 'нет оценок',
+  popularCitiesSuggestion: 'хотите перейти к популярным городам?',
+  close: 'закрыть',
+  watchCities: 'к городам'
 }
 
 // module.exports = {

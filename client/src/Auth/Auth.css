@@ -72,8 +72,7 @@ margin-bottom: 4px;
 /* #region  Edit */
 
 .edit-profile-area {
-  width: 100vw;
-  height: calc(100vh - 33px);
+  height: 100%;
 }
 
 .edit-profile-wrapper {
