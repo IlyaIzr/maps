@@ -8,9 +8,11 @@ import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 import { ReactComponent as TopIcon } from '../rest/svg/top.svg'
 import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
+import { setAppGeodata } from '../store/map';
 
-export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
+export const Reviews = ({ feature, resetRater, updateLayers }) => {
   const dispatch = useDispatch()
+  const { geodata: geoData, currentFeature } = useSelector(state => state.map)
   const { reviewsShown } = useSelector(state => state.app)
   const { id: userId, isRoot } = useSelector(state => state.user)
 
@@ -59,8 +61,9 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
 
         if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1' })
 
-        setGeoData(geoData => {
-          // Mutate geoData
+        // TODO review this mutation
+        // should be rather fixed by removing updateLayers and other unobvious reactivity triggers
+        const newGeodata = (function () {
           for (let i = 0; i < geoData.length; i++) {
             if (geoData[i].id === feature.properties.id) {
               const { amount, rating } = feature.properties
@@ -71,8 +74,10 @@ export const Reviews = ({ feature, resetRater, updateLayers, setGeoData }) => {
               }
               break;
             }
-          } return geoData
-        })
+          }
+          return geoData
+        })()
+        setAppGeodata(d, newGeodata)
         updateLayers()
         resetRater()
         setToast(dispatch, { message: TEXT.successfulUpdate, status: 'complete' })

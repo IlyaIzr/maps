@@ -11,7 +11,7 @@ export function mapOnLoad(map, geoJson, theme) {
       type: 'geojson',
       data: {
         "type": "FeatureCollection",
-        "features": geoJson
+        "features": geoJson || []
       },
     });
     map.addSource('selectedFeatureSrc', {

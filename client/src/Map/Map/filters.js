@@ -1,4 +1,5 @@
 import { setToast } from "~store/app"
+import { setAppGeodata } from "../../store/map"
 
 export function geoJsonFromResponse(places) {
   if (!places?.length) return []
@@ -19,8 +20,8 @@ export function geoJsonFromResponse(places) {
         iso_3166_2: placeData.iso_3166_2,
         id: placeData.id,
 
-        // x: placeData.x,
-        // y: placeData.y
+        x: placeData.x,
+        y: placeData.y
       },
       source: "composite",
       sourceLayer: "building",
@@ -44,12 +45,12 @@ export function geoJsonFromResponse(places) {
 }
 
 
-export function processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData) {
+export function processPlacesResponse(res, d, TEXT, tiledata, setTileData) {
   if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: typeof res.msg === 'object' ? JSON.stringify(res.msg) : res.msg || JSON.stringify(res.smg) })
   // Pass array of places upwards, to mapbox
   const geoJson = geoJsonFromResponse(res.data)
   console.log('%c⧭ set geoJson', 'color: #807160', geoJson);
-  setGeoData(geoJson)
+  setAppGeodata(d, geoJson)
   // Update current tile data
 
   const localTileData = new Map([...tiledata])

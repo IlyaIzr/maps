@@ -1,8 +1,9 @@
 Closest TODOs:
 
+* check if X Y layout data is valid and zoom cant corrupt it
+* fallback color for no review rating (initial review)
 * wide zoom range for features
 * change map styles on dark theme and review others
-* don't change feature color on selection - use outline
 * don't allow multiple rates from single account/ip or device info? 
 
 

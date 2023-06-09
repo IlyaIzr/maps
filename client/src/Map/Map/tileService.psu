@@ -1,0 +1,25 @@
+we have stack of tiles with 
+type TileCode = `x${number}y${number}`
+type TilesStack = {[TileCode]: features[] | null}
+
+var tilesStack: TilesStack = {}
+var stackMaxLength: number
+var stackReduceAmount: number
+function collectTileCodesAroundCenter(center) : TileCode[]
+var requestLength: number
+function addDataToTheMap(data)
+function removeDataFromTheMap(data)
+
+on map move:
+0. find tiles we need. var tilesWeNeed: TileCode[] = collectTileCodesAroundCenter(center)
+1. clear stack. If var tilesStack keys length is > var stackMaxLength -> clear stack by var stackReduceAmount.
+When looping over stack (var tilesStack) delete first N keys that are equal to var stackReduceAmount keys. 
+But if the key exists in var tilesWeNeed - skip deletion of that key
+collect deleted keys to var tilesToDelete: TileCode[].
+2. removeDataFromTheMap(var tilesToDelete)
+3. filter stack. delete from var tilesWeNeed all keys already existing in var tilesStack
+4. create var requestBatches: [] = []
+5. for each var requestLength of var tilesWeNeed push array of TileCode's (the length of that array can't be greater
+than var requestLength)
+6. create request for each entry of var requestBatches. On each response addDataToTheMap(response.data). 
+The request is done by external function getPlacesByTiles() 

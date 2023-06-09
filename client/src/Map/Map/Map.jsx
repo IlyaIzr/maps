@@ -18,12 +18,16 @@ import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
 import { registerCitiesBanner } from './citiesBanner';
 import { useHistory } from 'react-router-dom';
+import { LAYOUT_ZOOM } from '../const';
+import { getRange } from './range';
+import { tileServiceInstance } from './tileService'
+import { setAppGeodata } from '../../store/map';
 
 const mapCBstore = new CallbackManager('maps')
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
-const range = 5
+
 const defaultZoom = 16
 const bryansk = {
   lng: 34.354, lat: 53.235
@@ -35,8 +39,9 @@ const mbStyles = {
   blueprint: 'mapbox://styles/ilyaizr/cksp4jldx0b1z17mog8wzg0jm'  //blueprint with less colors
 }
 
-export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, featureTrigger }) => {
+export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => {
   const app = useSelector(state => state.app)
+  const appGeodata = useSelector(state => state.map.geodata)
   const d = useDispatch()
   const history = useHistory()
   const mapContainer = useRef(null);
@@ -56,13 +61,14 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       if (app.mode === 'watch') return;
       if (app.mode === 'tags' && dataWeNeed.size) {
         const res = await getTagPlacesTiles(app.tagModeTag, [...dataWeNeed])
-        return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+        return processPlacesResponse(res, d, TEXT, tiledata, setTileData)
       }
+      // Requests features in default mode every time except the initial load
       if (dataWeNeed.size) {
         const res = await getPlacesByTiles([...dataWeNeed]);
         console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
         registerCitiesBanner(d, history, res?.data.length, mapCBstore)
-        processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+        processPlacesResponse(res, d, TEXT, tiledata, setTileData)
       }
     })()
     // eslint-disable-next-line 
@@ -85,7 +91,6 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: mbStyles[app.theme],   //  blueprint
-        // center: [-122.447303, 37.753574],  // palo alto
         center: [lng || bryansk.lng, lat || bryansk.lat], // bryansk
         zoom: zoom || defaultZoom
       });
@@ -105,7 +110,8 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       }
       mapOnLoad(map.current, geoJson, app.theme)
       mapOnClick(map.current, setFeature, resetRater, drawObject || null)
-      mapOnMove(map.current, setlayoutXY, range, setWeDataNeed, setTileData, setCompass)
+      mapOnMove(map.current, d, setCompass)
+
       if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
     })();
 
@@ -115,13 +121,13 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
     // eslint-disable-next-line
   }, [app.theme, app.mapKey]);
 
-
-  // Dynamic geodata
+  // Add appGeodata on map interactively 
   useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    setMapData(map.current, geoData, 'ratedFeaturesSource')
-    // eslint-disable-next-line
-  }, [featureTrigger, geoData]);
+    // console.log('%c⧭ appGeodata changed: ', 'color: #e57373', appGeodata);
+    setMapData(map.current, appGeodata, 'ratedFeaturesSource')
+    // TODO replace featureTrigger with subscription to store current feature if needed
+  }, [appGeodata, featureTrigger])
+
 
 
   // Mark selected feature
@@ -156,8 +162,9 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 
   async function initPlacesCall(lng, lat, zoom) {
     let geoJson
+    const initRange = getRange(zoom)
 
-    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, zoom || defaultZoom)
+    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, LAYOUT_ZOOM)
     setlayoutXY({ x, y })
 
     if (app.mode === 'watch') {
@@ -165,16 +172,16 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
       if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg + '#mp1' || JSON.stringify(res) })
       geoJson = geoJsonFromResponse(res.data)
     } else if (app.mode === 'tags') {
-      const res = await getTagPlaces(app.tagModeTag, x - range, x + range, y - range, y + range)
+      const res = await getTagPlaces(app.tagModeTag, x - initRange, x + initRange, y - initRange, y + initRange)
       if (res.status !== 'OK') return setToast(d, { title: TEXT.networkError, message: res.msg + '#mp2' || JSON.stringify(res) })
       geoJson = geoJsonFromResponse(res.data)
     } else {
-      const res = await getPlaces(x - range, x + range, y - range, y + range)
+      const res = await getPlaces(x - initRange, x + initRange, y - initRange, y + initRange)
       console.log('%c⧭ getPlaces res', 'color: #33cc99', res);
-      return processPlacesResponse(res, d, TEXT, setGeoData, tiledata, setTileData)
+      return processPlacesResponse(res, d, TEXT, tiledata, setTileData)
     }
 
-    setGeoData(geoJson)
+    setAppGeodata(d, geoJson)
     return geoJson
   }
 
@@ -223,9 +230,9 @@ export const MapArea = ({ feature, setFeature, resetRater, geoData, setGeoData, 
 }
 
 export function setMapData(map, geoData, sourceId) {
-  map.getSource(sourceId)?.setData({
+  map?.getSource(sourceId)?.setData({
     "type": "FeatureCollection",
-    "features": geoData
+    "features": geoData || []
   })
 }
 

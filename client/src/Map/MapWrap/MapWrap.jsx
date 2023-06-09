@@ -17,19 +17,23 @@ import { postReview } from '~requests/reviews';
 import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './MapWrap.module.css'
 import { handleError, handleNewLevel } from '~rest/helperFuncs';
+import { LAYOUT_ZOOM } from '../const';
+import { setAppGeodata } from '../../store/map';
 
 export const MapWrap = () => {
   // Store
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
+  const geoData = useSelector(state => state.map.geodata)
   const dispatch = useDispatch()
-
+  
   // Todo that needs context or smth
+  // const { geodata, currentFeature } = useSelector(state => state.map)
   const [feature, setFeature] = useState(null);
+  // const [geoData, setGeoData] = useState(null)
   // Featurer
   const [name, setName] = useState('')
   // Map
-  const [geoData, setGeoData] = useState(null)
   const [featureTrigger, setFeatureTrigger] = useState(0);
   const [mapTrigger, setMapTrigger] = useState(0);
   function updateLayers() {
@@ -61,7 +65,7 @@ export const MapWrap = () => {
       polyString,
       iso_3166_2: feature.properties.iso_3166_2 || null
     }
-    const { x, y } = getLayoutCoords(lng, lat, 16)
+    const { x, y } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
     place.x = x
     place.y = y
 
@@ -98,7 +102,7 @@ export const MapWrap = () => {
       const res = await postReview({
         userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
       })
-      
+
       handleError(dispatch, res, '#ppr2')
       handleNewLevel(res, user.commentsn, dispatch)
 
@@ -117,10 +121,10 @@ export const MapWrap = () => {
     const tagReq = await postTagsIfAny({
       user: user.id, comment, featureId: feature.id || feature.properties.id,
       iso_3166_2: feature.properties.iso_3166_2, lng, lat
-    })    
+    })
     handleError(dispatch, tagReq, '#ptg_Main_3')
 
-    setGeoData(newGeodata)
+    setAppGeodata(dispatch, newGeodata)
     updateLayers()
 
     // end
@@ -135,7 +139,6 @@ export const MapWrap = () => {
       <MapArea
         feature={feature} setFeature={setFeature}
         resetRater={resetRater}
-        geoData={geoData} setGeoData={setGeoData}
         featureTrigger={featureTrigger}
         key={mapTrigger}
       />
@@ -146,7 +149,7 @@ export const MapWrap = () => {
         <div className="featureContainer mp-bg-light mp-border-secondary">
           <Featurer feature={feature} name={name} setName={setName} />
           <Rater feature={feature} onSubmit={onSubmit} />
-          <Reviews feature={feature} updateLayers={updateLayers} setGeoData={setGeoData} resetRater={resetRater} />
+          <Reviews feature={feature} updateLayers={updateLayers} resetRater={resetRater} />
           <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>
 
             <CloseIcon fill="var(--dark)" className="close-legend" />
