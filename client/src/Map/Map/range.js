@@ -1,17 +1,17 @@
+const rangeMax = 20;
+const rangeMin = 4;
+const zoomMin = 10;
+const zoomMax = 16;
+
 export function getRange(zoom) {
   let range;
-  if (zoom <= 10) {
-    range = 22;
-  } else if (zoom >= 16) {
-    range = 5;
+  if (zoom <= zoomMin) {
+    range = rangeMax;
+  } else if (zoom >= zoomMax) {
+    range = rangeMin;
   } else {
-    const rangeMin = 22;
-    const rangeMax = 5;
-    const zoomMin = 10;
-    const zoomMax = 16;
-
     const interpolationFactor = (zoom - zoomMin) / (zoomMax - zoomMin);
-    range = Math.round((rangeMax - rangeMin) * interpolationFactor + rangeMin);
+    range = Math.round((rangeMin - rangeMax) * interpolationFactor + rangeMax);
   }
 
   return range;
