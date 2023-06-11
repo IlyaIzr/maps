@@ -78,9 +78,9 @@ router.get('/refresh', async (req, res) => {
 
   // fetch user
   try {
-    const res = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [userId])
-    if (!res[0]) return res.status(403).json({ status: 'REAUTH' })
-    var user = res[0]
+    const usersResult = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [userId])
+    var user = usersResult[0]
+    if (!user) return res.status(403).json({ status: 'REAUTH' })
     delete user.pword
     delete user.question
     delete user.answer
