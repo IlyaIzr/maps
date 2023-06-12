@@ -84,11 +84,13 @@ async function fetchCityNameByIso(code, lat, lng) {
     const responseEn = await fetch(urlEn);
     const { lat, lon, address } = await responseEn.json();
     const englishName = address.city || address.state
+    if (!lat || !lon || !englishName) console.log(`no data fetched by url ${urlEn}`)
     await delay(1200)
 
     const responseRu = await fetch(urlRu);
     const russianNameData = (await responseRu.json()).address
     const russianName = russianNameData.city || russianNameData.state
+    if (!russianName) console.log(`no name fetched by url ${urlRu}`)
 
     return {
       en: englishName,
@@ -118,7 +120,7 @@ async function fetchCityGeometryByIso(code, withCompression = true) {
     let geojson = place.geojson || boundary.geojson
     if (!geojson) {
       console.log('%c⧭ processedResponse', 'color: #408059', processedResponse);
-      console.log('%c⧭ url', 'color: #99adcc', url);
+      console.log('%c⧭ url on error was', 'color: #99adcc', url);
       console.log('%c⧭', 'color: #cc0088', place.geojson, boundary.geojson);
       if (!boundary.geojson && !place.geojson) {
         console.log('%c⧭', 'color: #735656', place, boundary);
@@ -143,8 +145,10 @@ async function fetchCityData(iso_3166_2, lat, lng) {
   try {
 
     const { en, ru } = await fetchCityNameByIso(iso_3166_2, lat, lng);
+    console.log('%c⧭', 'color: #408059', en, ru, iso_3166_2, lat, lng);
     await delay(1300)
     const { geojson } = await fetchCityGeometryByIso(iso_3166_2)
+    console.log('%c⧭', 'color: #408059', geojson, iso_3166_2, lat, lng);
 
     const polyString = handleGeojson(geojson)
     await delay(1300)

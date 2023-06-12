@@ -4,6 +4,7 @@ const Connection = require('../connection')
 const dbConn = new Connection()
 
 // Main function to generate cities and calculate their ratings
+// Places DB must already be filled with ISO codes for this migration to happend
 async function generateCities() {
   console.log('Cities generation started.');
 
@@ -32,7 +33,9 @@ async function generateCities() {
         cache[iso_3166_2].rating = updatedRating;
       } else {
         // If it's a new ISO code, get city names by ISO code
-        const { en, ru, polyString } = fetchCityData(iso_3166_2, lat, lng)
+        const { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
+        console.log('%c⧭ fetched', 'color: #99adcc',  en, ru, polyString?.length);
+        console.log('%c⧭ for data of', 'color: #f279ca', iso_3166_2, lat, lng);
 
         // Add the ISO code to the cache with initial values
         cache[iso_3166_2] = {
