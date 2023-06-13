@@ -85,11 +85,11 @@ export const MapMode = () => {
 
       {/* my marks */}
 
-      <div className="myMarks">
+      {!!user.id & <div className="myMarks">
         <button className="button" onClick={() => runFriendMode(user.id)}>
           <h5 className="title cursor-pointer capitalize" >{TEXT.myMarks}</h5>
         </button>
-      </div>
+      </div>}
 
       {/* drawMode */}
       {app.mode !== 'draw' &&
