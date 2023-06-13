@@ -5,14 +5,16 @@ import { useEffect } from "react";
 import { hideMain, showMain } from "~store/app"
 
 function checkAdditionalRoute(route: string) {
-  return Boolean(appRoutes.find(({ id }) => {
-    return id === route
+  return Boolean(appRoutes.find(({ id, withParams }) => {
+    if (withParams) return route.startsWith(id)
+    return route === id
   }))
 }
 export function RoutesControl() {
   const d = useDispatch()
   const location = useLocation()
   const isAdditionalRoute = checkAdditionalRoute(location.pathname.slice(1))
+  console.log('%c⧭ isAdditionalRoute', 'color: #514080', isAdditionalRoute);
 
   useEffect(() => {
     isAdditionalRoute ? hideMain(d) : showMain(d)

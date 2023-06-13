@@ -12,7 +12,8 @@ const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 
 type RouteConfig = {
   id: string,
-  component: JSX.Element
+  component: JSX.Element,
+  withParams?: boolean
 }
 
 export const appRoutes: RouteConfig[] = [
@@ -44,6 +45,16 @@ export const appRoutes: RouteConfig[] = [
   {
     id: 'tags',
     component: <TagsMain />
+  },
+  {
+    id: 'tags/item/',
+    component: <TagsMain />,
+    withParams: true
+  },
+  {
+    id: 'tags/search',
+    component: <TagsMain />,
+    withParams: true
   },
   {
     id: 'about',
