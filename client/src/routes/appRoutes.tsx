@@ -13,7 +13,7 @@ const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 type RouteConfig = {
   id: string,
   component: JSX.Element,
-  withParams?: boolean
+  isNested?: boolean
 }
 
 export const appRoutes: RouteConfig[] = [
@@ -40,15 +40,18 @@ export const appRoutes: RouteConfig[] = [
   },
   {
     id: 'friends/item/',
-    component: <FriendsMain />
+    component: <FriendsMain />,
+    isNested: true
   },
   {
     id: 'friends/search',
-    component: <FriendsMain />
+    component: <FriendsMain />,
+    isNested: true
   },
   {
     id: 'friends/addByLink',
-    component: <FriendsMain />
+    component: <FriendsMain />,
+    isNested: true
   },
   {
     id: 'mapMode',
@@ -61,12 +64,12 @@ export const appRoutes: RouteConfig[] = [
   {
     id: 'tags/item/',
     component: <TagsMain />,
-    withParams: true
+    isNested: true
   },
   {
     id: 'tags/search',
     component: <TagsMain />,
-    withParams: true
+    isNested: true
   },
   {
     id: 'about',

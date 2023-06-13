@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { hideMain, showMain } from "~store/app"
 
 function checkAdditionalRoute(route: string) {
-  return Boolean(appRoutes.find(({ id, withParams }) => {
-    if (withParams) return route.startsWith(id)
+  return Boolean(appRoutes.find(({ id, isNested }) => {
+    if (isNested) return route.startsWith(id)
     return route === id
   }))
 }
