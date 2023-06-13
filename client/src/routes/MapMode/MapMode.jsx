@@ -76,7 +76,7 @@ export const MapMode = () => {
             <div className="noFriendsCase">
               <h5>{TEXT.watchModeSub2}</h5>
               <Link to="/friends">
-                <button>{TEXT.addFriends}</button>
+                <button>{TEXT.addFriends.capitalize()}</button>
               </Link>
             </div>}
 
@@ -85,7 +85,7 @@ export const MapMode = () => {
 
       {/* my marks */}
 
-      {!!user.id & <div className="myMarks">
+      {(user.id !== 'anonimus') && <div className="myMarks">
         <button className="button" onClick={() => runFriendMode(user.id)}>
           <h5 className="title cursor-pointer capitalize" >{TEXT.myMarks}</h5>
         </button>
