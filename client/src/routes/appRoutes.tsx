@@ -39,6 +39,18 @@ export const appRoutes: RouteConfig[] = [
     component: <FriendsMain />
   },
   {
+    id: 'friends/item/',
+    component: <FriendsMain />
+  },
+  {
+    id: 'friends/search',
+    component: <FriendsMain />
+  },
+  {
+    id: 'friends/addByLink',
+    component: <FriendsMain />
+  },
+  {
     id: 'mapMode',
     component: <MapMode />
   },
