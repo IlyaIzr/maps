@@ -32,6 +32,11 @@ export class KeyCollection<T> {
   hasKey(key: T) {
     return this.keySet.has(key)
   }
+
+  clear(){
+    this.keyArray = []
+    this.keySet = new Set()
+  }
 }
 
 type KeyCollectionType<T> = typeof KeyCollection<T>;
