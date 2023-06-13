@@ -1,4 +1,5 @@
-const rangeMax = 20;
+// const rangeMax = 20;
+const rangeMax = 12;
 const rangeMin = 4;
 const zoomMin = 10;
 const zoomMax = 16;

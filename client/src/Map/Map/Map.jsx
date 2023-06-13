@@ -18,12 +18,13 @@ import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
 import { registerCitiesBanner } from './citiesBanner';
 import { useHistory } from 'react-router-dom';
-import { LAYOUT_ZOOM } from '../const';
+import { LAYOUT_ZOOM, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from '../const';
 import { getRange } from './range';
 import { tileServiceInstance } from './tileService'
 import { setAppGeodata } from '../../store/map';
 
 const mapCBstore = new CallbackManager('maps')
+const themesCbStore = new CallbackManager('cities')
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
@@ -41,7 +42,7 @@ const mbStyles = {
 
 export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => {
   const app = useSelector(state => state.app)
-  const appGeodata = useSelector(state => state.map.geodata)
+  const { geodata: appGeodata, isMapLoaded } = useSelector(state => state.map)
   const d = useDispatch()
   const history = useHistory()
   const mapContainer = useRef(null);
@@ -51,29 +52,6 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   const deleteBtn = useRef(null);
   const [drawPrompt, setDrawPrompt] = useState(false);
   const [compass, setCompass] = useState(false);
-  // Map places data
-  const [, setlayoutXY] = useState({ x: null, y: null });
-  const [tiledata, setTileData] = useState(new Map())
-  const [dataWeNeed, setWeDataNeed] = useState(new Set());
-
-  useEffect(() => {
-    (async function () {
-      if (app.mode === 'watch') return;
-      if (app.mode === 'tags' && dataWeNeed.size) {
-        const res = await getTagPlacesTiles(app.tagModeTag, [...dataWeNeed])
-        return processPlacesResponse(res, d, TEXT, tiledata, setTileData)
-      }
-      // Requests features in default mode every time except the initial load
-      if (dataWeNeed.size) {
-        const res = await getPlacesByTiles([...dataWeNeed]);
-        console.log('%c⧭ getPlacesByTiles res', 'color: #364cd9', res.data);
-        registerCitiesBanner(d, history, res?.data.length, mapCBstore)
-        processPlacesResponse(res, d, TEXT, tiledata, setTileData)
-      }
-    })()
-    // eslint-disable-next-line 
-  }, [dataWeNeed]);
-
 
   // Init map
   useEffect(() => {
@@ -85,13 +63,11 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     // todo split that logic
     (async function callForGeoFeaturesAndAddControls() {
       const { lng, lat, zoom } = getDataFromUrl()
-      console.log('%c⧭ getDataFromUrl 1', 'color: #607339', lng, lat, zoom);
-      const geoJson = await initPlacesCall(lng, lat, zoom)
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: mbStyles[app.theme],   //  blueprint
-        center: [lng || bryansk.lng, lat || bryansk.lat], // bryansk
+        center: [lng || bryansk.lng + 2, lat || bryansk.lat], // bryansk
         zoom: zoom || defaultZoom
       });
       setMapRef(d, map.current)
@@ -99,73 +75,89 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
       const cb = mapAddGeolocateCtrl(map.current, 'top-left')
       mapCBstore.addCallback(cb)
 
-      // Add search
-      if (app.mode !== 'draw') {
-        const cb = mapAddSearchCtrl(map.current, 'top-right')
-        mapCBstore.addCallback(cb)
-      }
-
-      if (app.mode === 'draw') {
-        var drawObject = mapAddDrawControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
-      }
-      mapOnLoad(map.current, geoJson, app.theme)
-      mapOnClick(map.current, setFeature, resetRater, drawObject || null)
-      mapOnMove(map.current, d, setCompass)
+      mapOnLoad(map.current, app.theme, d, registerCitiesBanner.bind(this, d, history, mapCBstore))
 
       if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
+      window.mapref = map.current
     })();
 
     return () => {
       mapCBstore.callAllCallbacks()
     }
-    // eslint-disable-next-line
   }, [app.theme, app.mapKey]);
+
+  // Handle mode change
+  useEffect(() => {
+    if (!isMapLoaded) return null;
+    const { lng, lat, zoom } = getDataFromUrl()
+    // On mode change
+    const mode = app.mode
+    console.log('%c⧭', 'color: #00ff88', mode);
+
+    // Add search
+    if (mode !== 'draw') {
+      const cb = mapAddSearchCtrl(map.current, 'top-right')
+      themesCbStore.addCallback(cb)
+    }
+
+    if (mode === 'draw') {
+      var { drawControl, removeCb } = mapAddDrawControl(map.current, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater)
+      themesCbStore.addCallback(removeCb)
+    }
+
+    // Univarsal actions applicable per each mode
+    const clickCb = mapOnClick(map.current, setFeature, resetRater, drawControl || null)
+    themesCbStore.addCallback(clickCb)
+    // TODO check if modes change works
+    const moveCb = mapOnMove(map.current, d, setCompass, { mode: mode, tag: app.tagModeTag })
+    themesCbStore.addCallback(moveCb);
+
+    (async () => await storeInitPlacesEffect(lng, lat, zoom))();
+    return () => {
+      themesCbStore.callAllCallbacks()
+      // tileServiceInstance.cleanUp()
+    }
+  }, [app.mode, map.current, isMapLoaded])
+
 
   // Add appGeodata on map interactively 
   useEffect(() => {
-    // console.log('%c⧭ appGeodata changed: ', 'color: #e57373', appGeodata);
-    setMapData(map.current, appGeodata, 'ratedFeaturesSource')
+    map.current && isMapLoaded && setMapData(map.current, appGeodata, RATED_LAYER_SRC)
     // TODO replace featureTrigger with subscription to store current feature if needed
-  }, [appGeodata, featureTrigger])
-
+  }, [appGeodata, featureTrigger, map.current, isMapLoaded])
 
 
   // Mark selected feature
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-
-    setMapData(map.current, [feature || {}], 'selectedFeatureSrc')
-    // eslint-disable-next-line
+    setMapData(map.current, [feature || {}], SELECTED_FEATURE_LAYER_SRC)
   }, [feature]);
 
 
-  // map hider, helps to awoid extra call to Mapbox
   useEffect(() => {
-    if (!app.mapHidden)       // Fix map shrinking. I'm sorry, it only works this wayzz
-      setTimeout(() => {
-        map.current?.resize()
-      }, 0);
-  }, [app.mapHidden, map.current]);
+    if (!app.mapHidden && isMapLoaded) setTimeout(() => {
+      map.current?.resize()      // Fix map shrinking. I'm sorry, it only works this ways
+    }, 0);
+  }, [app.mapHidden, map.current, isMapLoaded]);
 
 
-  // user maphMode
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
+  // TODO handle init calls and mapOnMove on mode change
+  // user mapMode
+  // useEffect(() => {
+  //   if (!map.current) return; // wait for map to initialize
 
-    (async function () {
-      const { lng, lat, zoom } = getDataFromUrl()
-      console.log('%c⧭ getDataFromUrl 2', 'color: #40fff2', lng, lat, zoom);
-      await initPlacesCall(lng, lat, zoom)
-    })()
-  }, [app.mode, app.friendModeId, app.tagModeTag, map.current]);
+  //   (async function () {
+  //     const { lng, lat, zoom } = getDataFromUrl()
+  //     // await storeInitPlacesEffect(lng, lat, zoom)
+  //   })()
+  // }, [app.mode, app.friendModeId, app.tagModeTag, map.current]);
 
 
-  async function initPlacesCall(lng, lat, zoom) {
+  async function storeInitPlacesEffect(lng, lat, zoom) {
     let geoJson
     const initRange = getRange(zoom)
 
     const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, LAYOUT_ZOOM)
-    setlayoutXY({ x, y })
 
     if (app.mode === 'watch') {
       const res = await getUserPlaces(app.friendModeId)
@@ -177,10 +169,10 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
       geoJson = geoJsonFromResponse(res.data)
     } else {
       const res = await getPlaces(x - initRange, x + initRange, y - initRange, y + initRange)
-      console.log('%c⧭ getPlaces res', 'color: #33cc99', res);
-      return processPlacesResponse(res, d, TEXT, tiledata, setTileData)
+      geoJson = processPlacesResponse(res, TEXT, d)
     }
 
+    console.log('%c⧭', 'color: #99614d', 'setting app geodata', geoJson);
     setAppGeodata(d, geoJson)
     return geoJson
   }
@@ -229,8 +221,10 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   )
 }
 
-export function setMapData(map, geoData, sourceId) {
-  map?.getSource(sourceId)?.setData({
+function setMapData(map, geoData, sourceId) {
+  console.log('%c⧭ setting geoData', 'color: #7f2200', geoData, sourceId);
+  const mapSource = map?.getSource(sourceId)
+  mapSource?.setData({
     "type": "FeatureCollection",
     "features": geoData || []
   })

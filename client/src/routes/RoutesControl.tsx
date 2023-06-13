@@ -14,7 +14,6 @@ export function RoutesControl() {
   const d = useDispatch()
   const location = useLocation()
   const isAdditionalRoute = checkAdditionalRoute(location.pathname.slice(1))
-  console.log('%c⧭ isAdditionalRoute', 'color: #514080', isAdditionalRoute);
 
   useEffect(() => {
     isAdditionalRoute ? hideMain(d) : showMain(d)

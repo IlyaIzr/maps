@@ -17,7 +17,7 @@ import { postReview } from '~requests/reviews';
 import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './MapWrap.module.css'
 import { handleError, handleNewLevel } from '~rest/helperFuncs';
-import { LAYOUT_ZOOM } from '../const';
+import { LAYOUT_ZOOM, RATED_LAYER_SRC } from '../const';
 import { setAppGeodata } from '../../store/map';
 
 export const MapWrap = () => {
@@ -76,7 +76,7 @@ export const MapWrap = () => {
 
 
     // Case next review
-    if (feature.source === 'ratedFeaturesSource') {
+    if (feature.source === RATED_LAYER_SRC) {
       const res = await postReview({
         userId: user.id, review, place: { id: feature.id, ...feature.properties, polyString },
         userLevel: user.level, commentsNumber: user.commentsn

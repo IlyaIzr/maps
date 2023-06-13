@@ -1,8 +1,6 @@
 Closest TODOs:
 
-* check if X Y layout data is valid and zoom cant corrupt it
 * fallback color for no review rating (initial review)
-* wide zoom range for features
 * change map styles on dark theme and review others
 * don't allow multiple rates from single account/ip or device info? 
 
@@ -38,6 +36,9 @@ animations: loader animations, transition animations, toast animations
 alpha 3.3
 mobile version tested and fixed
 Cities search
+
+alpha 3.4
+different maps addons
 
 
 alpha 4

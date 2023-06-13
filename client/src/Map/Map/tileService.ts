@@ -3,7 +3,7 @@
 import { getRange } from './range' // @ts-expect-error
 import { getLayoutCoords } from "~rest/helperFuncs"; // @ts-expect-error
 import { LAYOUT_ZOOM } from "../const"; // @ts-expect-error
-import { getPlacesByTiles } from '~requests/map'; // @ts-expect-error
+import { getPlacesByTiles, getTagPlacesTiles } from '~requests/map'; // @ts-expect-error
 import { setToast } from "~store/app"// @ts-expect-error
 import { TEXT } from '~rest/lang'; // @ts-expect-error
 import { geoJsonFromResponse } from './filters' // @ts-expect-error
@@ -16,11 +16,15 @@ import { KeyCollectionInstanceType, KeyCollection } from '~rest/utils/KeyCollect
 type TileCode = `x${number}y${number}`;
 type Coordinates = { lat: number; lng: number }
 type MapInteractiveData = { x: number; y: number, zoom: number }
+type ModePayload = { mode: 'tags', tag: string } | undefined
+type AnyFunction = (args?: any) => any
 
 export class TileService {
   // encapsulated storages
   private tilesStack: Map<TileCode, Feature[] | null> = new Map();
   private tilesRequested: Set<TileCode> = new Set()
+  private noDataCallbacks: Array<AnyFunction> = []
+  private dataWasReceived = false
   // store empty tiles separately to reduce looping over tileStack 
   private emptyTiles: KeyCollectionInstanceType<TileCode>;
   private storedResponses: ApiResponse<Feature[]>[] = [];
@@ -44,7 +48,6 @@ export class TileService {
     const { lat, lng } = coords
     const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
 
-    console.log('%c⧭ this.tilesStack', 'color: #cc0036', this.tilesStack);
     // Go from top row to bottom
     const tilesWeNeed: Set<TileCode> = new Set()
     for (let yOffset = range; yOffset > -range - 1; yOffset--) {
@@ -59,12 +62,17 @@ export class TileService {
         tilesWeNeed.add(key)
       }
     }
-    console.log('%c⧭ tilesWeNeed', 'color: #00736b', tilesWeNeed.size, tilesWeNeed);
     return tilesWeNeed;
   }
 
-  private async getPlacesByTiles(tiles: TileCode[]): ApiAsyncResponse<Feature[]> {
-    return getPlacesByTiles(tiles);
+  private async getFeaturesByTiles(tiles: TileCode[], modePayload: ModePayload): ApiAsyncResponse<Feature[]> {
+    let response: ApiAsyncResponse<Feature[]>
+    if (modePayload?.mode === 'tags') {
+      response = getTagPlacesTiles(modePayload.tag, tiles)
+    } else {
+      response = getPlacesByTiles(tiles);
+    }
+    return response
   }
 
   // This method only updates store
@@ -119,7 +127,10 @@ export class TileService {
     return { keysToDelete, featureIdsToDelete }
   }
 
-  public async handleMapMove(center: MapInteractiveData, coords: Coordinates, d: Dispatch<any>): Promise<void> {
+  public async handleMapMove(
+    center: MapInteractiveData, coords: Coordinates, d: Dispatch<any>, modePayload?: ModePayload
+  ): Promise<void> {
+    // console.log('%c⧭ handling MapMove modePayload', 'color: #40fff2', modePayload);
     const tilesWeNeed = this.collectTileCodesAroundCenter(center, coords);
     const { keysToDelete, featureIdsToDelete } = this.clearStack(tilesWeNeed);
 
@@ -141,7 +152,7 @@ export class TileService {
     // tiles load and await for each other to reduce map updates and blinking
     this.tilesRequested = tilesWeNeed
     for (const batch of requestBatches) {
-      const responsePromise = this.getPlacesByTiles(batch);
+      const responsePromise = this.getFeaturesByTiles(batch, modePayload);
       await this.collectResponses(responsePromise, d);
     }
 
@@ -154,6 +165,11 @@ export class TileService {
     this.tilesRequested.forEach(tileKey => this.emptyTiles.addKey(tileKey))
 
     this.tilesRequested.clear()
+
+    {
+      if (!this.dataWasReceived) this.noDataCallbacks.forEach(cb => cb())
+      this.dataWasReceived = false
+    }
   }
 
 
@@ -209,10 +225,23 @@ export class TileService {
     }
     // Add geodata afterwards to avoid blinking
     addAppGeodata(d, geoJson);
+    if (geoJson.length) this.dataWasReceived = true
 
     this.storedResponses.length = 0; // Clear the stored responses
   }
 
+  public registerNoDataCallback(cb: AnyFunction) {
+    this.noDataCallbacks.push(cb)
+  }
+
+  public cleanUp() {
+    this.noDataCallbacks = []
+    this.tilesStack.clear()
+    this.tilesRequested.clear()
+    this.dataWasReceived = false
+    this.emptyTiles.clear()
+    this.storedResponses = []
+  }
 }
 
 export const tileServiceInstance = new TileService(200, 20, 100, 1000)

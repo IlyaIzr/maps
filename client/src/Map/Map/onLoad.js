@@ -1,26 +1,34 @@
 import { gradients, themeColors } from "~rest/colors";
+import { RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from "../const";
+import { setMapLoadingState } from "../../store/map";
+import { tileServiceInstance } from "./tileService";
 
 const MIN_ZOOM = 8
 
-export function mapOnLoad(map, geoJson, theme) {
+export function mapOnLoad(map, theme, dispatch, noDataCb) {
+  // Register cities banner
+  tileServiceInstance.registerNoDataCallback(noDataCb)
+  
   map.on('load', function (e) {
     const gradient = gradients[theme]
 
     // Define a source before using it to create a new layer
-    map.addSource('ratedFeaturesSource', {
-      type: 'geojson',
-      data: {
-        "type": "FeatureCollection",
-        "features": geoJson || []
-      },
-    });
-    map.addSource('selectedFeatureSrc', {
+    map.addSource(RATED_LAYER_SRC, {
       type: 'geojson',
       data: {
         "type": "FeatureCollection",
         "features": []
       },
     });
+    map.addSource(SELECTED_FEATURE_LAYER_SRC, {
+      type: 'geojson',
+      data: {
+        "type": "FeatureCollection",
+        "features": []
+      },
+    });
+
+
 
 
     // Draw data on map
@@ -44,7 +52,7 @@ export function mapOnLoad(map, geoJson, theme) {
 
     map.addLayer({
       'id': 'ratedFeatures',
-      'source': 'ratedFeaturesSource',
+      'source': RATED_LAYER_SRC,
       // 'source-layer': 'building',
       'minzoom': MIN_ZOOM,
       'type': 'fill',
@@ -68,7 +76,7 @@ export function mapOnLoad(map, geoJson, theme) {
           0, 0,
           1, 0.4,
           2, 0.5,
-          5, 0.9,
+          5, 0.8,
         ],
         // 'fill-opacity': 0.9,
 
@@ -78,7 +86,7 @@ export function mapOnLoad(map, geoJson, theme) {
 
     map.addLayer({
       'id': 'selectedFeature',
-      'source': 'selectedFeatureSrc',
+      'source': SELECTED_FEATURE_LAYER_SRC,
       'minzoom': MIN_ZOOM,
       'type': 'fill',
       paint: {
@@ -87,11 +95,10 @@ export function mapOnLoad(map, geoJson, theme) {
         'fill-outline-color': themeColors[theme].counter
       }
     }, firstSymbolId)
-
-
+    // combine ^ with outline layer
     map.addLayer({
       'id': 'selectedFeatureOutline',
-      'source': 'selectedFeatureSrc',
+      'source': SELECTED_FEATURE_LAYER_SRC,
       'minzoom': MIN_ZOOM,
       'type': 'line',
       paint: {
@@ -99,5 +106,7 @@ export function mapOnLoad(map, geoJson, theme) {
         'line-width': 4
       }
     }, firstSymbolId)
+
+    setMapLoadingState(dispatch, true)
   })
 }

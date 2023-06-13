@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 // import { useSelector } from 'react-redux';
 // import { gradients } from '../rest/colors';
 import { TEXT } from "../rest/lang";
+import { RATED_LAYER_SRC } from './const';
 
 export const Featurer = ({ feature, name, setName }) => {
 
@@ -26,7 +27,7 @@ export const Featurer = ({ feature, name, setName }) => {
     return null
   }
   // Case rated before
-  if (feature.source === 'ratedFeaturesSource') return (
+  if (feature.source === RATED_LAYER_SRC) return (
     <div className="featurer">
       {feature.properties.name ?
         <div className="featureNameWrap">

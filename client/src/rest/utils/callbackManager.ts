@@ -26,11 +26,15 @@ export class CallbackManager {
   }
 
   public callAllCallbacks() {
-    this.callbackStore.forEach(({ cb }) => cb())
-    Object.entries(this.callbackUniqueStore).forEach(([id, { cb }]) => {
-      cb()
-      delete this.callbackUniqueStore[id]
-    })
+    try {
+      this.callbackStore.forEach(({ cb }) => cb())
+      Object.entries(this.callbackUniqueStore).forEach(([id, { cb }]) => {
+        cb()
+        delete this.callbackUniqueStore[id]
+      })
+    } catch (error) {
+      console.log('%c⧭ cb calling error: ', 'color: #e5de73', error);
+    }
   }
 
   public callById(id: string) {

@@ -1,9 +1,10 @@
 import { getAdress } from "~requests/map"
 import { flyToFeature } from "./Map"
 import { union as turfUnion } from '@turf/turf'
+import { RATED_LAYER_SRC } from "../const"
 
 
-export function mapOnClick(map, setFeature, resetRater, drawObject) {
+export function mapOnClick(map, setFeature, resetRater, drawControl) {
   function geoFromTurf(geo) {
     if (!geo[1]) return geo[0]
     let res2 = turfUnion(geo[0], geo[1])
@@ -28,7 +29,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
     return geoFromTurf(features)
   }
 
-  map.on('click', async function (e) {
+  async function mapClickEventHandler(e) {
     function zoomOnEvent(zoom) {
       const { lng, lat } = e.lngLat
       map.flyTo({ center: [lng, lat], zoom: zoom });
@@ -39,10 +40,10 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
     const featuresNeeded = new Set(['building', 'landuse'])
 
     // Case next timer
-    const ratedBefore = features.find(feature => feature.source === 'ratedFeaturesSource')
+    const ratedBefore = features.find(feature => feature.source === RATED_LAYER_SRC)
     if (ratedBefore) {
       console.log('found rated feature', ratedBefore);
-      drawObject?.trash()
+      drawControl?.trash()
 
 
       flyToFeature(map, ratedBefore)
@@ -54,7 +55,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
     const featureToRate = features.find(feature => featuresNeeded.has(feature.sourceLayer))
     if (featureToRate?.id) {
       console.log('found feature', featureToRate);
-      drawObject?.trash()
+      drawControl?.trash()
 
 
       const zoom = map.getZoom()
@@ -68,7 +69,7 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
 
     } else if (featureToRate) {
       console.log('interesting, but no id', featureToRate);
-      drawObject?.trash()
+      drawControl?.trash()
 
       zoomOnEvent(map.getZoom() + 1)
       setFeature(null)
@@ -88,5 +89,8 @@ export function mapOnClick(map, setFeature, resetRater, drawObject) {
       resetRater()
       return;
     }
-  });
+  }
+
+  map.on('click', mapClickEventHandler);
+  return () => map.off('click', mapClickEventHandler);
 }

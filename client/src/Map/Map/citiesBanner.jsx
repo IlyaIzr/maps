@@ -1,11 +1,11 @@
 import { getPreference, setPreference } from '~store/localstorage';
 import { TEXT } from '~rest/lang';
 import { setBanner } from '~store/app';
+import { SKIP_BANNER_LOCAL_STORAGE_KEY } from '../const';
 
-const SKIP_BANNER = 'skip_banner'
 
-export function registerCitiesBanner(dispatch, history, featuresLength, mapCallbacks) {
-  if (featuresLength || getPreference(SKIP_BANNER)) return;
+export function registerCitiesBanner(dispatch, history, mapCallbacks) {
+  if (getPreference(SKIP_BANNER_LOCAL_STORAGE_KEY)) return;
 
   const closeBanner = setBanner(dispatch, {
     content: <div>{TEXT.noReviews.capitalize()}<br />{TEXT.popularCitiesSuggestion}</div>,
@@ -14,7 +14,7 @@ export function registerCitiesBanner(dispatch, history, featuresLength, mapCallb
         element: <div className='mp-dark'>{TEXT.close.capitalize()}</div>,
         onClick: (e, close) => {
           close();
-          setPreference(SKIP_BANNER, true)
+          setPreference(SKIP_BANNER_LOCAL_STORAGE_KEY, true)
         }
       },
       {

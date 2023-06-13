@@ -77,7 +77,10 @@ export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDraw
     // if (e.type !== 'draw.delete')
   }
 
-  return draw
+  return {
+    drawControl: draw,
+    removeCb: () => map.removeControl(draw)
+  }
 }
 
 export function mapAddGeolocateCtrl(map, position = 'top-left') {
@@ -92,7 +95,7 @@ export function mapAddGeolocateCtrl(map, position = 'top-left') {
     showAccuracyCircle: true,
   })
   map.addControl(geolocateControl, position);
-  
+
   return () => map.removeControl(geolocateControl)
 }
 
@@ -103,6 +106,13 @@ export function mapAddSearchCtrl(map, position = 'top-right') {
     placeholder: TEXT.searchPHolder
   })
   map.addControl(searchCtrl, position)
-  
-  return () => map.removeControl(searchCtrl)
+
+  return function removeControl() {
+    // this is blatant hack but i couldn't find a way around so far
+    // probably happens because geocoder is an external plugin and reacts to map updates poorly (all other controls are fine)
+    if (!searchCtrl.container.parenNode) {
+      searchCtrl.container = document.querySelector(`div.mapboxgl-ctrl-${position} .mapboxgl-ctrl`)
+    }
+    map.removeControl(searchCtrl)
+  }
 }

@@ -1,27 +1,32 @@
 import { getLayoutCoords } from "~rest/helperFuncs";
 import { setDataToUrl } from "~store/url"
 import { LAYOUT_ZOOM } from "../const";
-import { getRange } from "./range";
 import { tileServiceInstance } from "./tileService";
 
 
 // todo return abort functions to put into useEffect callback
-export function mapOnMove(map, d, setCompass) {
-  map.on('move', function () {
+export function mapOnMove(map, d, setCompass, modePayload) {
+  // console.log('%c⧭ modePayload local', 'color: #5200cc', modePayload);
+  function mapMoveHandler() {
     if (map.isRotating()) setCompass(true)
-  })
-
-  map.on('moveend', function (e) {
-    
+  }
+  function mapMoveEndHandler(e) {
     const { lng, lat } = map.getCenter()
     const zoom = map.getZoom()
     const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
 
     setDataToUrl({ lat: +lat.toFixed(5), lng: +lng.toFixed(5), zoom: +zoom.toFixed(1) })
-    console.log('%c⧭', 'color: #f200e2', 'HANDLE');
-    tileServiceInstance.handleMapMove({ x: currentX, y: currentY, zoom }, { lat, lng }, d)
-  })
+    tileServiceInstance.handleMapMove({ x: currentX, y: currentY, zoom }, { lat, lng }, d, modePayload)
+  }
 
+
+  map.on('move', mapMoveHandler)
+  map.on('moveend', mapMoveEndHandler)
+  return () => {
+    map.off('move', mapMoveHandler)
+    map.off('moveend', mapMoveEndHandler)
+    tileServiceInstance.cleanUp()
+  }
   // OLD WAY
   // map.on('moveend', function (e) {
   //   const { lng, lat } = map.getCenter()

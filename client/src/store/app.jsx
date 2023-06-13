@@ -62,7 +62,8 @@ export const initialState = {
   mode: null, // special modes: 'watch', 'draw', 'drawRoute', 'tags', '?withRoutes'
   friendModeId: null,
   tagModeTag: null,
-  mapRef: null
+  mapRef: null,
+  mapIsLoaded: false
 }
 
 /* #endregion */

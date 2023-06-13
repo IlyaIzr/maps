@@ -9,6 +9,7 @@ import { expandComments, setModal, setToast, shrinkComments } from '../store/app
 import { ReactComponent as TopIcon } from '../rest/svg/top.svg'
 import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
 import { setAppGeodata } from '../store/map';
+import { RATED_LAYER_SRC } from './const';
 
 export const Reviews = ({ feature, resetRater, updateLayers }) => {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
 
   useEffect(() => {
     (async function () {
-      if (feature?.source !== 'ratedFeaturesSource') return setReviews([])
+      if (feature?.source !== RATED_LAYER_SRC) return setReviews([])
 
       const res = await getReviews(feature.id)
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #revEr2' });
@@ -34,7 +35,7 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
   }, [feature?.source, feature?.id])
   /* eslint-enable */
 
-  if (feature?.source !== 'ratedFeaturesSource') return null
+  if (feature?.source !== RATED_LAYER_SRC) return null
 
   function onClick() {
     reviewsShown ? shrinkComments(dispatch) : expandComments(dispatch)
