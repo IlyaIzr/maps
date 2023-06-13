@@ -1,10 +1,11 @@
-const { getRootUsername } = require("./helpres");
+const { authCookieName } = require("../settings");
+const { getRootUsername, clearUserCookie } = require("./helpres");
 
 const middlewares = {}
 
 middlewares.auth = function auth(req, res, next) {
-  const userId = req.cookies['mp/auth']
-  if (!userId) return res.json({ status: 'REAUTH' })
+  const userId = req.cookies[authCookieName]
+  if (!userId) return clearUserCookie(res)
 
   req.userId = userId
   req.checkRoot = getRootUsername.bind(this, userId)

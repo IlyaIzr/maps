@@ -6,6 +6,8 @@ const dbConn = new Connection()
 const { auth } = require('./middleware')
 // rest
 const bcrypt = require('bcrypt');
+const { clearUserCookie } = require('./helpres');
+const { authCookieName } = require('../settings');
 
 
 
@@ -42,7 +44,7 @@ router.post('/register', async (req, res) => {
   // Post review
   try {
     await dbConn.query(query, params)
-    res.cookie('mp/auth', id, {
+    res.cookie(authCookieName, id, {
       httpOnly: true,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
       secure: true
@@ -70,7 +72,7 @@ router.post('/gregister', async (req, res) => {
   try {
     await dbConn.query(query, params)
 
-    res.cookie('mp/auth', id, {
+    res.cookie(authCookieName, id, {
       httpOnly: true,
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
       secure: true
@@ -91,7 +93,7 @@ router.post('/update', auth, async (req, res) => {
   // get user info
   const users = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [id])
   const user = users[0]
-  if (!user) return res.json({ status: 'REAUTH' })
+  if (!user) return clearUserCookie(res)
 
   // Case password change
   const userData = { ...user }
@@ -137,7 +139,7 @@ router.post('/updatePword', auth, async (req, res) => {
   // get user info
   const users = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [id])
   const user = users[0]
-  if (!user || user.answer !== answer) return res.json({ status: 'REAUTH' })
+  if (!user || user.answer !== answer) return clearUserCookie(res)
 
   // Case login change
   if (login !== user.login) {

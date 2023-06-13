@@ -1,4 +1,6 @@
-function handleGeojson(geoJson) {  
+const { authCookieName } = require("../settings")
+
+function handleGeojson(geoJson) {
   try {
     // Treat everyone as multiPoly
     let multiPoly
@@ -6,19 +8,19 @@ function handleGeojson(geoJson) {
       multiPoly = [geoJson.coordinates]
     }
     else multiPoly = geoJson.coordinates
-    
+
     // 'MULTIPOLYGON('
     const polyPoints = []
-  
+
     multiPoly.forEach((polyCoords) => {
-      polyPoints.push( polygonMapper(polyCoords))
+      polyPoints.push(polygonMapper(polyCoords))
     })
     const multiFormatted = 'MULTIPOLYGON(' + polyPoints.join(', ') + ')'
-  
+
     return multiFormatted
-    
+
   } catch (error) {
-    console.log('%c⧭ err on handleGeojson', 'color: #bfffc8', error);    
+    console.log('%c⧭ err on handleGeojson', 'color: #bfffc8', error);
     throw error
   }
 }
@@ -28,6 +30,12 @@ function getRootUsername(userId = '') {
   if (!rootsArr || !rootsArr.length) return null
   const rootUser = rootsArr.find(username => username === userId)
   return rootUser || null
+}
+
+function clearUserCookie(res) {
+  res.clearCookie(authCookieName)
+  res.status(403)
+  return res.json({ status: 'REAUTH' })
 }
 
 function delay(ms) {
@@ -42,17 +50,18 @@ module.exports = {
   handleGeojson,
   delay,
   filterAfromB,
-  getRootUsername
+  getRootUsername,
+  clearUserCookie
 }
 
 // TODO why do i need this?
 function polygonMapper(polyCoords) {
-  
+
   let north = -90
   let east = -180
   let south = 90
   let west = 180
-  
+
   const polyArray = []
   polyCoords.forEach((coordinates, shapeIndex) => {
     polyArray.push('(')

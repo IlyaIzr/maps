@@ -7,7 +7,8 @@ const dbConn = new Connection()
 const bcrypt = require('bcrypt');
 const { OAuth2Client } = require('google-auth-library');
 const DeviceDetector = require("device-detector-js");
-const { getRootUsername } = require('./helpres');
+const { getRootUsername, clearUserCookie } = require('./helpres');
+const { authCookieName } = require('../settings');
 const deviceDetector = new DeviceDetector();
 const client = new OAuth2Client(process.env.GOAUTHCLIENTID);
 
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
   delete user.answer
   user.isRoot = Boolean(getRootUsername(user.id))
 
-  res.cookie('mp/auth', user.id, {
+  res.cookie(authCookieName, user.id, {
     // path: "/",
     // domain: "localhost",
     httpOnly: true,
@@ -73,14 +74,14 @@ router.get('/refresh', async (req, res) => {
     }
   })()
 
-  const userId = req.cookies['mp/auth']
-  if (!userId) return res.json({ status: 'REAUTH' })
+  const userId = req.cookies[authCookieName]
+  if (!userId) return clearUserCookie(res)
 
   // fetch user
   try {
     const usersResult = await dbConn.query("SELECT * FROM users WHERE `id` = ?", [userId])
     var user = usersResult[0]
-    if (!user) return res.status(403).json({ status: 'REAUTH' })
+    if (!user) return clearUserCookie(res)
     delete user.pword
     delete user.question
     delete user.answer
@@ -89,7 +90,7 @@ router.get('/refresh', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, err })
   }
 
-  res.cookie('mp/auth', user.id, {
+  res.cookie(authCookieName, user.id, {
     httpOnly: true,
     expires: new Date(new Date().setDate(new Date().getDate() + 23)),
     secure: true
@@ -103,7 +104,7 @@ router.get('/refresh', async (req, res) => {
 // @ api/auth/logout
 
 router.get('/logout', async (req, res) => {
-  res.cookie('mp/auth', '', {
+  res.cookie(authCookieName, '', {
     httpOnly: true,
     expires: new Date(1970),
     secure: true
@@ -154,7 +155,7 @@ router.post('/glogin', async (req, res) => {
   delete user.question
   delete user.answer
 
-  res.cookie('mp/auth', user.id, {
+  res.cookie(authCookieName, user.id, {
     httpOnly: true,
     expires: new Date(new Date().setDate(new Date().getDate() + 23)),
     secure: true
