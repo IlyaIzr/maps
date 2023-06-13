@@ -52,7 +52,7 @@
   border-radius: 1px;
 }
 
-.userProfile .commentsn, .userProfile .credentials, .userProfile .avatar, .userProfile .level {
+.userProfile .commentsAmount, .userProfile .credentials, .userProfile .avatar, .userProfile .level {
   margin: 8px;
 }
 

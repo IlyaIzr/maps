@@ -94,7 +94,6 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     const mode = app.mode
     console.log('%c⧭', 'color: #00ff88', mode);
 
-    // Add search
     if (mode !== 'draw') {
       const cb = mapAddSearchCtrl(map.current, 'top-right')
       themesCbStore.addCallback(cb)

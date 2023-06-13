@@ -59,7 +59,7 @@ export const Comment = ({ comment, setComment }) => {
         name="comment" cols="25" rows="2"
         value={comment} onInput={onInput}
         className="raterComment mp-border-dark"
-        placeholder={TEXT.commentPlacehol}
+        placeholder={TEXT.commentPlaceholder}
         ref={ref}
       />
     </div>

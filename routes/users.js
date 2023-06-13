@@ -49,7 +49,7 @@ router.post('/register', async (req, res) => {
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
       secure: true
     })
-    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level } })
+    return res.json({ status: 'OK', msg: 'User registered successfully', data: { id, login, name, level } })
   } catch (err) {
     console.log('%c⧭', 'color: #9c66cc', err);
     return res.json({ status: 'ERR', msg: err, query })
@@ -77,7 +77,7 @@ router.post('/gregister', async (req, res) => {
       expires: new Date(new Date().setDate(new Date().getDate() + 7)),
       secure: true
     })
-    return res.json({ status: 'OK', msg: 'User registred successfully', data: { id, login, name, level: 1, avatar } })
+    return res.json({ status: 'OK', msg: 'User registered successfully', data: { id, login, name, level: 1, avatar } })
   } catch (err) {
     return res.json({ status: 'ERR', msg: err, query })
   }

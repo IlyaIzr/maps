@@ -1,4 +1,4 @@
-import { getAdress } from "~requests/map"
+import { getAddress } from "~requests/map"
 import { flyToFeature } from "./Map"
 import { union as turfUnion } from '@turf/turf'
 import { RATED_LAYER_SRC } from "../const"
@@ -62,7 +62,7 @@ export function mapOnClick(map, setFeature, resetRater, drawControl) {
       const [lng, lat] = flyToFeature(map, featureToRate, zoom < 16 ? 16 : zoom) //TODO make some sort of buffer 
       const geometry = lesserGeometry(featureToRate)
 
-      featureToRate.properties.name = await getAdress(lat, lng)
+      featureToRate.properties.name = await getAddress(lat, lng)
 
       setFeature({ ...featureToRate, geometry })
       return;

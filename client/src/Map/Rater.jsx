@@ -84,7 +84,7 @@ export const Rater = ({ feature, onSubmit }) => {
       <div className="raterBtnContainer">
         <button type="button" onClick={onSub}>{TEXT.send}</button>
         {!isLogged &&
-          <div className="subtitle">{TEXT.asAnonius}</div>
+          <div className="subtitle">{TEXT.asAnonimus}</div>
         }
       </div>
     </div>

@@ -51,7 +51,7 @@ export const GoogleConfirm = () => {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)
     }
     else if (res.status === 'BANEDPWORD') {
-      return setMsg(TEXT.bannedPwod + ' - ' + creds.pword)
+      return setMsg(TEXT.bannedPassword + ' - ' + creds.pword)
     }
     else {
       setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))

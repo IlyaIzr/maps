@@ -26,31 +26,31 @@ export async function getPlacesByTiles(data) {
   return await f()
 }
 
-export async function getAdress(lat, lng) {
+export async function getAddress(lat, lng) {
   const typesNeeded = new Set(
     ['street_address', 'natural_feature', 'airport', 'park', 'point_of_interest', "establishment", "food", "store"]
   )
   lat = Number(lat)
   lng = Number(lng)
 
-  // Get decent adress from geocoder
+  // Get decent address from geocoder
   const res = await window.geocoderRef.geocode({ 'location': { lat, lng } });
 
-  let adress = ""
+  let address = ""
   if (res.results) {
     for (let i = 0; i < res.results.length; i++) {
       const obj = res.results[i];
       // find address line for Rater component. It will be name of the feature
       if (obj.types[0] === 'premise') {
-        adress = obj.formatted_address.split(', ')[0] + ', ' + obj.formatted_address.split(', ')[1];
+        address = obj.formatted_address.split(', ')[0] + ', ' + obj.formatted_address.split(', ')[1];
         break
       }
       if (obj.types.find(type => typesNeeded.has(type))) {
-        adress = obj.address_components[1].long_name + ', ' + obj.address_components[0].long_name
+        address = obj.address_components[1].long_name + ', ' + obj.address_components[0].long_name
         break
       }
     }
     // TODO error handling
   }
-  return adress
+  return address
 }

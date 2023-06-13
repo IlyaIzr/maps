@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import { getAdress } from "~requests/map";
+import { getAddress } from "~requests/map";
 import { TEXT } from '~rest/lang';
 // eslint-disable-line no-unused-vars
 
@@ -70,7 +70,7 @@ export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDraw
         _y: Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))
       }
 
-      feature.properties.name = await getAdress(lat, lng)
+      feature.properties.name = await getAddress(lat, lng)
       console.log('%c⧭', 'color: #917399', feature.properties.name);
       setFeature(feature)
     }

@@ -51,7 +51,7 @@ export const EditProfile = () => {
         return setLogInCreds(dispatch, res.data)
       }
       else if (res.status === 'BANEDPWORD') {
-        return setMsg(TEXT.bannedPwod + ' - ' + creds.pword)
+        return setMsg(TEXT.bannedPassword + ' - ' + creds.pword)
       }
       return setMsg(TEXT.errCode + ': ' + (res.msg || res))
     }
