@@ -18,7 +18,7 @@ import { CallbackManager } from "~rest/utils/callbackManager"
 import './fixMapbox.css'
 import { registerCitiesBanner } from './citiesBanner';
 import { useHistory } from 'react-router-dom';
-import { LAYOUT_ZOOM, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from '../const';
+import { DEFAULT_LOCATION, DEFAULT_ZOOM, LAYOUT_ZOOM, MAPBOX_STYLES, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from '../const';
 import { getRange } from './range';
 import { tileServiceInstance } from './tileService'
 import { setAppGeodata } from '../../store/map';
@@ -29,16 +29,6 @@ const themesCbStore = new CallbackManager('cities')
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
 
-const defaultZoom = 16
-const bryansk = {
-  lng: 34.354, lat: 53.235
-}
-const mbStyles = {
-  standart: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',
-  dark: 'mapbox://styles/ilyaizr/cktd77j8u12ch18swzrqikqor',
-  'b&w': 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51', //todo, basic map
-  blueprint: 'mapbox://styles/ilyaizr/cksp4jldx0b1z17mog8wzg0jm'  //blueprint with less colors
-}
 
 export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => {
   const app = useSelector(state => state.app)
@@ -66,9 +56,9 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
       console.log('%c⧭ init lng, lat, zoom', 'color: #9c66cc', lng, lat, zoom);
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: mbStyles[app.theme],   //  blueprint
-        center: [lng || bryansk.lng + 2, lat || bryansk.lat], // bryansk
-        zoom: zoom || defaultZoom
+        style: MAPBOX_STYLES[app.theme],   //  blueprint
+        center: [lng || DEFAULT_LOCATION.lng + 2, lat || DEFAULT_LOCATION.lat],
+        zoom: zoom || DEFAULT_ZOOM
       });
       setMapRef(d, map.current)
 
@@ -156,7 +146,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     let geoJson
     const initRange = getRange(zoom)
 
-    const { x, y } = getLayoutCoords(lng || bryansk.lng, lat || bryansk.lat, LAYOUT_ZOOM)
+    const { x, y } = getLayoutCoords(lng || DEFAULT_LOCATION.lng, lat || DEFAULT_LOCATION.lat, LAYOUT_ZOOM)
 
     if (app.mode === 'watch') {
       const res = await getUserPlaces(app.friendModeId)
@@ -221,6 +211,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
 }
 
 function setMapData(map, geoData, sourceId) {
+  if (!geoData.length) return;
   console.log('%c⧭ setting geoData', 'color: #7f2200', geoData, sourceId);
   const mapSource = map?.getSource(sourceId)
   mapSource?.setData({

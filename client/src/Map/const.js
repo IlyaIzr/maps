@@ -6,3 +6,18 @@ export const SELECTED_FEATURE_LAYER_SRC = 'selectedFeatureSrc'
 
 
 export const SKIP_BANNER_LOCAL_STORAGE_KEY = 'skip_banner'
+
+
+export const MAPBOX_STYLES = {
+  standart: 'mapbox://styles/ilyaizr/ckq2l808k0ifn17o0x0yl9qi4',
+  dark: 'mapbox://styles/ilyaizr/cktd77j8u12ch18swzrqikqor',
+  'b&w': 'mapbox://styles/ilyaizr/ckpk75aca0hbg17ouqvzsda51', //todo, basic map
+  blueprint: 'mapbox://styles/ilyaizr/cksp4jldx0b1z17mog8wzg0jm'  //blueprint with less colors
+}
+
+
+export const DEFAULT_LOCATION = {
+  // Bryansk atm has the most real data
+  lng: 34.354, lat: 53.235
+}
+export const DEFAULT_ZOOM = 16
