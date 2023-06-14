@@ -4,10 +4,9 @@ import { withUrlSearch } from "~store/url";
 
 type LinkProps = {
   to: string
-  divProps?: HTMLAttributes<HTMLDivElement>
 }
 
-export function AppLink({ to, children, divProps }: React.PropsWithChildren<LinkProps>) {  
+export function AppLink({ to, children, ...divProps }: React.PropsWithChildren<LinkProps & HTMLAttributes<HTMLDivElement>>) {  
   const history = useHistory()
   
   function onClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {

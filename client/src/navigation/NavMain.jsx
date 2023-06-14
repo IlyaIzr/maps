@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { TEXT } from '../rest/lang'
 import { LeftMenu } from './LeftMenu'
 import './Nav.css'
 import { ReactComponent as Hamburger } from '../rest/svg/hamburger.svg';
 import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 import { ReactComponent as ArrowsIcon } from '../rest/svg/arrows.svg';
-import { withUrlSearch } from '~store/url'
+import { AppLink } from '~components/Link/AppLink'
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
   const { friends, id } = useSelector(state => state.user)
-  const history = useHistory()
 
   const [leftMenu, setLeftMenu] = useState(false)
   const [modeLabel, setModeLabel] = useState(TEXT.defaultMode)
@@ -22,7 +21,6 @@ export const NavMain = () => {
   }
   function backToMain() {
     setLeftMenu(false)
-    history.push('/')
   }
 
   useEffect(() => {
@@ -89,28 +87,28 @@ export const NavMain = () => {
     setShowArrows(false)
   }
 
-  function onModesClick(e) {
-    e.preventDefault()
-    history.push(withUrlSearch('/mapMode'))
-  }
 
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
       <LeftMenu leftMenu={leftMenu} setLeftMenu={setLeftMenu} />
       <div className="flex-wrap nav-menu-back-wrap">
         {app.mapHidden &&
-          <div className="nav-icon" onClick={backToMain} title={TEXT.toMain}>
-            <WoldIcon fill="var(--accent)" />
-          </div>
+          <AppLink to="/" onClick={backToMain} >
+            <div className="nav-icon" title={TEXT.toMain}>
+              <WoldIcon fill="var(--accent)" />
+            </div>
+          </AppLink>
         }
         <div id="openLeftMenu" className="nav-icon" onClick={showLeftMenu} title={TEXT.menu}>
           <Hamburger fill="var(--primary)" />
         </div>
-        <a onClick={onModesClick} className="currModeLabels" >
+        <AppLink to="/mapMode" className="currModeLabels">
+        {/* <a href="" className="currModeLabels"> */}
           <span className="mp-dark">{TEXT.mode + ': '} </span><span className="mp-counter">
             {modeLabel}
           </span>
-        </a>
+          {/* </a> */}
+        </AppLink>
         <div className="naviFreeSpace mp-secondary relative" ref={ref} onClick={onSideClick}>&#8203;
           {showArrows && <ArrowsIcon id="arrows-icon" className="mobile" fill="var(--secondary)" />}
         </div>

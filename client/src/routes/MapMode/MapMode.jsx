@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { TEXT } from '~rest/lang'
 import { friendModeId, setMapMode } from '~store/app'
-import { withUrlSearch } from '~store/url'
 import { getMapModeLabel } from '../../navigation/NavMain'
 import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
 import { AppLink } from '~components/Link/AppLink'
 
 export const MapMode = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const { friends, id } = useSelector(s => s.user)
   const app = useSelector(s => s.app)
   const user = useSelector(s => s.user)
@@ -28,13 +25,11 @@ export const MapMode = () => {
 
 
   function runFriendMode(id) {
-    history.push(withUrlSearch('/'))
     friendModeId(dispatch, id)
     setMapMode(dispatch, 'watch')
   }
 
   function reset() {
-    history.push(withUrlSearch('/'))
     setMapMode(dispatch, 'default')
   }
 
@@ -58,19 +53,19 @@ export const MapMode = () => {
           {Boolean(friends?.length) ? friends.map(friend => {
             return (
               <div className="friendContainer" key={friend.id1 + friend.id2}>
-                <div className="resultUser cursor-pointer mp-accent-hover transition-small"
-                  onClick={() => runFriendMode(friend.id)}
-                >
+                <AppLink to="/" onClick={() => runFriendMode(friend.id)}>
+                  <div className="resultUser cursor-pointer mp-accent-hover transition-small">
 
-                  <div className="authorLogo mp-bg-primary">
-                    <span className="mp-dark" title={friend.login}>{String(friend.name)?.[0]?.toUpperCase()}</span>
-                  </div>
+                    <div className="authorLogo mp-bg-primary">
+                      <span className="mp-dark" title={friend.login}>{String(friend.name)?.[0]?.toUpperCase()}</span>
+                    </div>
 
-                  <div className="resultUser-creds">
-                    <p className="mp-primary">{friend.name}</p>
-                    <label className="cursor-pointer">({friend.login})</label>
+                    <div className="resultUser-creds">
+                      <p className="mp-primary">{friend.name}</p>
+                      <label className="cursor-pointer">({friend.login})</label>
+                    </div>
                   </div>
-                </div>
+                </AppLink>
               </div>
             )
           }) :
@@ -99,8 +94,8 @@ export const MapMode = () => {
           {Boolean(user?.level < 2) ?
             <p className="subtitle">{TEXT.drawModeLevelOnly}</p>
             : <>
-              <AppLink to="/">
-                <button className="button modeButton drawModeButton" onClick={runDrawMode}>
+              <AppLink to="/" onClick={runDrawMode}>
+                <button className="button modeButton drawModeButton">
                   <DrawIcon fill="var(--secondary)" className="nav-icon" />
                   {TEXT.toDrawMode}
                 </button>
@@ -132,7 +127,9 @@ export const MapMode = () => {
 
       {app.mode &&
         <div className="modeType mp-border-secondary">
-          <button className="button modeButton capitalize mp-counter mp-border-counter" onClick={reset}>{TEXT.reset}</button>
+          <AppLink to="/" onClick={reset}>
+            <button className="button modeButton capitalize mp-counter mp-border-counter">{TEXT.reset}</button>
+          </AppLink>
         </div>
       }
 

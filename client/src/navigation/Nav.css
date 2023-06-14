@@ -161,6 +161,7 @@
   }
   .nav-menu-back-wrap .currModeLabels{
     font-size: 18px;
+    cursor: pointer;
   }
   .menu-text{
     font-size: 22px;
