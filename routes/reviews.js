@@ -40,6 +40,8 @@ router.post('/postReview', async (req, res) => {
   const { x, y, lng, lat, polyString, name } = place
   let { iso_3166_2 } = place
   if (!iso_3166_2) {
+    // TODO the case when resubmitting same place
+    if (!lat || !lng) return res.json({ status: 'ERR', msg: 'no lat or lng provided', query: placesQuery })
     iso_3166_2 = await fetchIsoCodeFromCoordinates(lat, lng)
   }
 
@@ -50,7 +52,7 @@ router.post('/postReview', async (req, res) => {
   INSERT INTO places
   ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
   VALUES 
-  ( '${targetId}', '${grade || 0}', '${name}', '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
+  ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
   ON DUPLICATE KEY UPDATE 
   rating = ((amount * rating + ${grade}) / (amount + 1)), 
   amount = (amount + 1), 
@@ -58,7 +60,7 @@ router.post('/postReview', async (req, res) => {
   `
 
   try {
-    await dbConn.query(placesQuery)
+    await dbConn.query(placesQuery, name)
   } catch (err) {
     console.log(err)
     return res.json({ status: 'ERR', msg: err, query: placesQuery })
@@ -98,11 +100,10 @@ router.post('/postReview', async (req, res) => {
   }
 
 
-  console.log('%c⧭', 'color: #99614d', 'adding city after responded OK for review');
 
   // Update city rating or add info about new city
   try {
-    const cityInfo = (await getCityInfo(iso_3166_2, ['geometry']))?.data
+    const cityInfo = await getCityInfo(iso_3166_2, ['geometry'])
     var citiesQuery = ''
     if (cityInfo) {
       citiesQuery = `
@@ -112,7 +113,7 @@ router.post('/postReview', async (req, res) => {
         ('${iso_3166_2}', ${grade}, ${1})
         ON DUPLICATE KEY UPDATE 
         rating = ((amount * rating + ${grade}) / (amount + 1)), 
-        amount = (amount + 1), 
+        amount = (amount + 1)
     `} else {
       const { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
       citiesQuery = `      

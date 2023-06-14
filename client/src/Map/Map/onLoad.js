@@ -37,17 +37,17 @@ export function mapOnLoad(map, theme, dispatch, noDataCb) {
     const layers = map.getStyle().layers;
     const firstSymbolId = layers.find(layer => layer.type === 'symbol').id;
 
-    const fillColor = [
-      "interpolate", ["linear"], ['get', 'rating'],
+    const fallbackColor = themeColors[theme].accent;
 
+    const fillColor = [
+      "interpolate", ["linear"], ["coalesce", ["get", "rating"], -1],
+      -1, fallbackColor,
       0, gradient[0],
       1, gradient[1],
       2, gradient[2],
       3, gradient[3],
       4, gradient[4],
       5, gradient[5]
-      // 1, '#eee2cc',
-      // 5, gradient[5]
     ];
 
     map.addLayer({

@@ -63,7 +63,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     // todo split that logic
     (async function callForGeoFeaturesAndAddControls() {
       const { lng, lat, zoom } = getDataFromUrl()
-
+      console.log('%c⧭ init lng, lat, zoom', 'color: #9c66cc', lng, lat, zoom);
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: mbStyles[app.theme],   //  blueprint

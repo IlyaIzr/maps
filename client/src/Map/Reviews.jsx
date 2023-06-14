@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { AppLink } from '~components/Link/AppLink'
 import { deleteReview, deleteReviewAsRoot, getReviews } from '../requests/reviews';
 import { restrictedLetters } from '../rest/config';
 import { notNaN } from '../rest/helperFuncs';
@@ -23,7 +23,7 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
     (async function () {
       if (feature?.source !== RATED_LAYER_SRC) return setReviews([])
 
-      const res = await getReviews(feature.id)
+      const res = await getReviews(feature.properties.id || feature.id)
       if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' #revEr2' });
       setReviews(res.data)
     })()
@@ -107,16 +107,16 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
 
       else if (!composingTag) plain += letter
       else if (restrictedLetters.includes(letter)) {
-        res.push(<Link to={"/tags/item/" + composingTag.substr(1) + letter}>
+        res.push(<AppLink to={"/tags/item/" + composingTag.substr(1) + letter}>
           <span className="commentTag cursor-pointer mp-counter">{composingTag + letter}</span>
-        </Link>)
+        </AppLink>)
         composingTag = ""
         plain += letter
       } else if (i === text.length - 1) {
         // last letter is in tag
-        res.push(<Link to={"/tags/item/" + composingTag.substr(1) + letter}>
+        res.push(<AppLink to={"/tags/item/" + composingTag.substr(1) + letter}>
           <span className="commentTag cursor-pointer mp-counter">{composingTag + letter}</span>
-        </Link>)
+        </AppLink>)
       } else composingTag += letter
     }
     return <div>{res}</div>
@@ -134,11 +134,11 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
         if (!review.name) review.name = TEXT.anonimus
         return (
           <div className="reviewWrap mp-border-secondary mp-shadow-light" key={review.author + review.timestamp + Math.random()}>
-            <Link to={"/friends/item/" + review.author}>
+            <AppLink to={"/friends/item/" + review.author}>
               <div className="authorLogo mp-bg-primary">
                 <span className="mp-dark" title={review.login}>{String(review.name)?.[0]?.toUpperCase()}</span>
               </div>
-            </Link>
+            </AppLink>
             <div className="reviewBody">
 
               <div className="authorDateWrap">

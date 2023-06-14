@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { hideMain, showMain } from "~store/app"
 
 function checkAdditionalRoute(route: string) {
-  return Boolean(appRoutes.find(({ id, isNested }) => {
-    if (isNested) return route.startsWith(id)
-    return route === id
-  }))
+  if (appRoutes[route]) return true
+  return Object.values(appRoutes).find(({ path, isNested }) => {
+    if (isNested) return route.startsWith(path)
+  })
 }
 export function RoutesControl() {
   const d = useDispatch()
@@ -17,12 +17,19 @@ export function RoutesControl() {
 
   useEffect(() => {
     isAdditionalRoute ? hideMain(d) : showMain(d)
+    // preserve coords in the url search because their limited anyway
+    // console.log('%c⧭ location', 'color: #00a3cc', location);
+    return () => {
+
+      // console.log('%c⧭  prev location', 'color: #e50000', window.location.search);
+      // console.log('%c⧭ prev location', 'color: #00cc3a', location);
+    }
   }, [location])
 
   return (
     <Switch>
-      {appRoutes.map(({ id, component }) => {
-        return <Route path={`/${id}`} key={id}>
+      {Object.entries(appRoutes).map(([id, { component, path }]) => {
+        return <Route path={`/${path}`} key={id}>
           <div className="routeWrapper">
             {component}
           </div>

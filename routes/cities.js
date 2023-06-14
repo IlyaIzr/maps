@@ -31,7 +31,7 @@ router.get('/cityInfo', async (req, res) => {
   const { code } = req.query
   const data = await getCityInfo(code)
   if (data.status === 'ERR') return res.json(data)
-  return (res.json({ status: 'OK', data: data[0] ?? null }))
+  return (res.json({ status: 'OK', data: data ?? null }))
 })
 
 // @ response: type CityInfo
@@ -44,7 +44,8 @@ async function getCityInfo(isoCode, exclude = []) {
   const query = `SELECT ${selector} FROM cities WHERE code = ?`
 
   try {
-    return await dbConn.query(query, isoCode)
+    const res = await dbConn.query(query, isoCode)
+    return res[0]
   } catch (error) {
     console.log('%c⧭', error);
     return { status: 'ERR', msg: error, query }
@@ -148,7 +149,6 @@ async function fetchCityData(iso_3166_2, lat, lng) {
     console.log('%c⧭', 'color: #408059', en, ru, iso_3166_2, lat, lng);
     await delay(1300)
     const { geojson } = await fetchCityGeometryByIso(iso_3166_2)
-    console.log('%c⧭', 'color: #408059', geojson, iso_3166_2, lat, lng);
 
     const polyString = handleGeojson(geojson)
     await delay(1300)
@@ -167,7 +167,7 @@ async function fetchCityData(iso_3166_2, lat, lng) {
 
 
 module.exports = {
-  fetchIsoCodeFromCoordinates: fetchIsoCodeFromCoordinates,
+  fetchIsoCodeFromCoordinates,
   router: router,
   fetchCityNameByIso: fetchCityNameByIso,
   fetchCityGeometryByIso: fetchCityGeometryByIso,

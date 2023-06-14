@@ -1,6 +1,6 @@
 import { getFriends, getRequests } from "../requests/friends"
 import { setToast } from "../store/app"
-import { setCommentsNumber, setUserFriends, setUserRequests } from "../store/user"
+import { setCommentsNumber, setUserFriends, setUserLevel, setUserRequests } from "../store/user"
 import { googleCreds } from "./config"
 import { TEXT } from "./lang"
 

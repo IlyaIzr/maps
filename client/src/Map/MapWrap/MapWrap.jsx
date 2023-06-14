@@ -108,7 +108,8 @@ export const MapWrap = () => {
 
       newGeodata.push({
         type: 'Feature',
-        properties: { rating, name, amount: 1 },
+        // TODO no id nor iso here
+        properties: { rating, name, amount: 1, ...place },
         id: feature.id,
         // geometry: {...feature.geometry}
         geometry: feature.geometry
@@ -128,7 +129,8 @@ export const MapWrap = () => {
     updateLayers()
 
     // end
-    if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
+    // Todo why? Better just reload the app
+    // if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
 
     // finally restore init features
     resetRater()

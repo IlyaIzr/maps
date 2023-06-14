@@ -11,6 +11,7 @@ replace turf from window
 Bugs:
 review rate
 possible bug on mobile chrome init loading - map initial height is half of actual screen height
+drawn generated id isn't fully stored - might be duplicates
 
 ?superUser interface
 

@@ -6,9 +6,13 @@ type DataType = Partial<Record<DataKeyType, number>>
 
 const dataKeys: DataKeyType[] = ['lat', 'lng', 'zoom', 'clat', 'clng']
 
+export function withUrlSearch(url: string) {
+  return url + window.location.search
+}
 
 export function getDataFromUrl() {
   const params = new URL(document.location as any).searchParams;
+  // debugger;
   const res: DataType = {}
 
   dataKeys.forEach(key => {

@@ -11,72 +11,73 @@ const { AlphaReg } = lazily(() => import('../Auth/AlphaReg'));
 const { TagsMain } = lazily(() => import('./Tags/TagsMain'));
 
 type RouteConfig = {
-  id: string,
+  path: string,
   component: JSX.Element,
   isNested?: boolean
 }
 
-export const appRoutes: RouteConfig[] = [
-  {
-    id: 'auth',
+
+export const appRoutes: Record<string, RouteConfig> = {
+  auth: {
+    path: 'auth',
     component: <AuthMain />
   },
-  {
+  alphaReg: {
     // TODO alpha only
-    id: 'alphaReg',
+    path: 'alphaReg',
     component: <AlphaReg />
   },
-  {
-    id: 'editProfile',
+  editProfile: {
+    path: 'editProfile',
     component: <EditProfile />,
   },
-  {
-    id: 'googleConfirm',
+  googleConfirm: {
+    path: 'googleConfirm',
     component: <GoogleConfirm />,
   },
-  {
-    id: 'friends',
+  friends: {
+    path: 'friends',
     component: <FriendsMain />
   },
-  {
-    id: 'friends/item/',
+  'friends/item/': {
+    path: 'friends/item/',
     component: <FriendsMain />,
     isNested: true
   },
-  {
-    id: 'friends/search',
+  'friends/search': {
+    path: 'friends/search',
     component: <FriendsMain />,
     isNested: true
   },
-  {
-    id: 'friends/addByLink',
+  'friends/addByLink': {
+    path: 'friends/addByLink',
     component: <FriendsMain />,
     isNested: true
   },
-  {
-    id: 'mapMode',
+  mapMode: {
+    path: 'mapMode',
     component: <MapMode />
   },
-  {
-    id: 'tags',
+  tags: {
+    path: 'tags',
     component: <TagsMain />
   },
-  {
-    id: 'tags/item/',
+  'tags/item/': {
+    path: 'tags/item/',
     component: <TagsMain />,
     isNested: true
   },
-  {
-    id: 'tags/search',
+  'tags/search': {
+    path: 'tags/search',
     component: <TagsMain />,
     isNested: true
   },
-  {
-    id: 'about',
+  about: {
+    path: 'about',
     component: <About />
   },
-  {
-    id: 'cities',
+  cities: {
+    path: 'cities',
     component: <Cities />
   }
-]
+};

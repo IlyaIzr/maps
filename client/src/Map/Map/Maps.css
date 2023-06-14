@@ -438,9 +438,9 @@ span.star {
 } */
 
 .controlButton {
-  position: fixed;
+  position: absolute;
   right: 2px;
-  top: 48px;
+  top: 0px;
   z-index: 1;
   padding: 7px 10px;
   border: 1px solid;

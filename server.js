@@ -79,4 +79,7 @@ async function languageSetter(request, response) {
 
 const port = (+process.env.PORT) || 1414
 
-app.listen(port, () => console.log(`Server started at port ${port}, ${new Date()}`))
+
+app.listen(port, () => {
+  console.log(`Server started at port ${port}, ${new Date()}`)
+})
