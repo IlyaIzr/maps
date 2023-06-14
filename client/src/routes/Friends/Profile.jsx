@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getProfileDetails, addFriend as addFriendReq, acceptRequest, removeFriend as removeFriendReq } from '~requests/friends';
 import { getFriendsInfo } from '~rest/helperFuncs';
 import { TEXT } from '~rest/lang';
 import { Loading } from '~rest/Loading';
 import { setToast } from '~store/app';
+import { AppLink } from '~components/Link/AppLink'
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -28,7 +29,7 @@ export const Profile = () => {
       if (curUser.id === userId) {
         setUser({ ...curUser })
         setFriendButton(
-          <Link to="/editProfile"><button className="button">{TEXT.profile}</button></Link>
+          <AppLink to="/editProfile"><button className="button">{TEXT.profile}</button></AppLink>
         )
         return setLoading(false)
       }
@@ -47,9 +48,9 @@ export const Profile = () => {
     // Friend statuses
     else if (user.friendStatus === 'friends') setFriendButton(
       <div>
-        <Link to="/friends">
+        <AppLink to="/friends">
           <button className="button" >{TEXT.inFriendlist}</button>
-        </Link>
+        </AppLink>
         <button className="button mp-border-counter" onClick={removeFriend}>{TEXT.removeFriend}</button>
       </div>
     )

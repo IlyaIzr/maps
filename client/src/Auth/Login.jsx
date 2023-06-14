@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { loginByGoogle, loginWithCreds, logout } from '../requests/auth';
 import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
@@ -9,6 +9,7 @@ import { closeModal, setToast } from '../store/app';
 import { setLogInCreds, setLogOutCreds } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
 import { GoogleLogin } from '@react-oauth/google';
+import { AppLink } from '~components/Link/AppLink'
 
 
 export const Login = () => {
@@ -129,9 +130,9 @@ export const Login = () => {
           {
             path !== '/auth' &&
             <div className="align-center">
-              <Link to="/auth?reg=true" onClick={onInitReg}>
+              <AppLink to="/auth?reg=true" onClick={onInitReg}>
                 <button className="button">{TEXT.register}</button>
-              </Link>
+              </AppLink>
             </div>
           }
 

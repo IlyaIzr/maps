@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { TEXT } from '~rest/lang'
 import { friendModeId, setMapMode } from '~store/app'
+import { withUrlSearch } from '~store/url'
 import { getMapModeLabel } from '../../navigation/NavMain'
 import { ReactComponent as DrawIcon } from '~rest/svg/draw.svg'
+import { AppLink } from '~components/Link/AppLink'
 
 export const MapMode = () => {
   const dispatch = useDispatch()
@@ -24,20 +26,19 @@ export const MapMode = () => {
     // eslint-disable-next-line
   }, [app.mode, app.friendModeId, app.tagModeTag])
 
-  
+
   function runFriendMode(id) {
-    history.push('/')
+    history.push(withUrlSearch('/'))
     friendModeId(dispatch, id)
     setMapMode(dispatch, 'watch')
   }
 
   function reset() {
-    history.push('/')
+    history.push(withUrlSearch('/'))
     setMapMode(dispatch, 'default')
   }
 
   function runDrawMode() {
-    history.push('/')
     setMapMode(dispatch, 'draw')
   }
 
@@ -75,9 +76,9 @@ export const MapMode = () => {
           }) :
             <div className="noFriendsCase">
               <h5>{TEXT.watchModeSub2}</h5>
-              <Link to="/friends">
+              <AppLink to="/friends">
                 <button>{TEXT.addFriends.capitalize()}</button>
-              </Link>
+              </AppLink>
             </div>}
 
         </div>
@@ -98,12 +99,12 @@ export const MapMode = () => {
           {Boolean(user?.level < 2) ?
             <p className="subtitle">{TEXT.drawModeLevelOnly}</p>
             : <>
-              <Link to="/" disabled>
+              <AppLink to="/">
                 <button className="button modeButton drawModeButton" onClick={runDrawMode}>
                   <DrawIcon fill="var(--secondary)" className="nav-icon" />
                   {TEXT.toDrawMode}
                 </button>
-              </Link>
+              </AppLink>
               <p className="subtitle">{TEXT.watchModeSub3}</p>
             </>}
         </div>
@@ -114,17 +115,17 @@ export const MapMode = () => {
         <div>
           <h5 className="title">
             <span className="capitalize">{TEXT.tag + ': '}</span>
-            <Link to={"/tags/item/" + app.tagModeTag} className="cursor-pointer">
+            <AppLink to={"/tags/item/" + app.tagModeTag} className="cursor-pointer">
               <span className="mp-secondary">#</span><span className="mp-counter mp-accent-hover">{app.tagModeTag}</span>
-            </Link>
+            </AppLink>
           </h5>
         </div> : <div>
           <h5 className="title">{TEXT.tags}</h5>
-          <Link to="/tags">
+          <AppLink to="/tags">
             <button className="button modeButton tagModeButton tagWrap">
               <span className="bigHashtag mp-secondary">#</span><span className="tagContent">{TEXT.toTags}</span>
             </button>
-          </Link>
+          </AppLink>
           <p className="subtitle">{TEXT.mapTagModeSub}</p>
         </div>}
       </div>

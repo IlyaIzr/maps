@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Route, Switch } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import { DefaultLayout } from "./DefaultLayout";
 import { Profile } from "./Profile";
@@ -8,6 +8,7 @@ import { SearchBar } from "~components/SearchBar/SearchBar";
 import "./Friends.css"
 import { TEXT } from "~rest/lang";
 import { AddByLink } from "./AddByLink";
+import { AppLink } from '~components/Link/AppLink'
 
 
 export const FriendsMain = () => {
@@ -23,18 +24,18 @@ export const FriendsMain = () => {
         <div className="absolute center auth-subcontainer">
           <div className="auth-action-wrap mp-border-secondary">
             <p>{TEXT.loginToUseThis}</p>
-            <Link to="/auth">
+            <AppLink to="/auth">
               <button className="primary mp-border-accent loginBtn capitalize">
                 {TEXT.authorization}
               </button>
-            </Link>
+            </AppLink>
           </div>
         </div>
       </div>
     )
   }
 
-  // <Link to={`${url}/rendering`}>Rendering with React</Link>
+  // <AppLink to={`${url}/rendering`}>Rendering with React</AppLink>
   return (
     <div className="friendsWrap">
       <SearchBar setSearchResults={setSearchResults} />

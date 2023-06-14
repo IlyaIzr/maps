@@ -213,6 +213,7 @@
 
 .currModeLabels {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  cursor: pointer;
 }
 
 .modeSwitch {

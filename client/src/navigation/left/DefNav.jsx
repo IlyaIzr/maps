@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { TEXT } from '../../rest/lang'
 import { navStates } from '../LeftMenu'
+import { AppLink } from '~components/Link/AppLink'
 // icons
 import { ReactComponent as ProfileIcon } from '../../rest/svg/profile.svg'
 import { ReactComponent as LoginIcon } from '../../rest/svg/login.svg'
@@ -45,14 +45,14 @@ export const DefNav = ({ setNavState, hideSelf }) => {
       <div className="menu-items-container">
         <div>
           {app.isLogged ?
-            <Link to="/editProfile" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+            <AppLink to="/editProfile" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
               <ProfileIcon fill="var(--dark)" className="navIcon" />
               <span className="menu-text">{TEXT.profile}</span>
-            </Link> :
-            <Link to="/auth" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+            </AppLink> :
+            <AppLink to="/auth" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
               <LoginIcon fill="var(--dark)" className="navIcon" />
               <span className="menu-text">{TEXT.login}</span>
-            </Link>
+            </AppLink>
           }
         </div>
 
@@ -67,28 +67,28 @@ export const DefNav = ({ setNavState, hideSelf }) => {
           <span className="menu-text">{TEXT.language}</span>
         </div>
 
-        <Link to="/friends" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
+        <AppLink to="/friends" onClick={hideMainMenu} className="left-menu-item mp-accent-hover pick-theme-item">
           <FriendsIcon fill="var(--dark)" className="navIcon" />
           <span className="menu-text">{TEXT.friends}</span>
           {Boolean(user.requests.length) &&
             <span className="mp-accent">{' (' + user.requests.length + ')'}</span>
           }
-        </Link>
+        </AppLink>
 
-        <Link to="/tags" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
+        <AppLink to="/tags" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
           <TagIcon fill="var(--dark)" className="navIcon" />
           <span className="menu-text">{TEXT.tags}</span>
-        </Link>
+        </AppLink>
 
         <div className="readonly">
           <RouteIcon fill="var(--dark)" className="navIcon" />
           <span className="menu-text">{TEXT.routes}</span>
         </div>
 
-        <Link to="/about" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
+        <AppLink to="/about" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
           <AboutIcon fill="var(--dark)" className="navIcon" />
           <span className="menu-text">{TEXT.aboutUs}</span>
-        </Link>
+        </AppLink>
       </div>
     </div>
   )

@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { addByLink } from '~requests/friends'
 import { TEXT } from '~rest/lang'
 import { Loading } from '~rest/Loading'
 import { setToast } from '~store/app'
+import { AppLink } from '~components/Link/AppLink'
 
 export const AddByLink = () => {
   const paramId = new URLSearchParams(useLocation().search).get('id')
@@ -62,9 +63,9 @@ export const AddByLink = () => {
           <input type="text" value={link} onInput={onInput} readOnly={readOnly} />
         </div> :
         <div>
-          <Link to="/friends">
+          <AppLink to="/friends">
             <button className="button">{TEXT.goBack}</button>
-          </Link>
+          </AppLink>
         </div>}
     </div>
   )

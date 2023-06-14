@@ -7,6 +7,7 @@ import './Nav.css'
 import { ReactComponent as Hamburger } from '../rest/svg/hamburger.svg';
 import { ReactComponent as WoldIcon } from '../rest/svg/world2.svg';
 import { ReactComponent as ArrowsIcon } from '../rest/svg/arrows.svg';
+import { withUrlSearch } from '~store/url'
 
 export const NavMain = () => {
   const app = useSelector(state => state.app)
@@ -88,6 +89,11 @@ export const NavMain = () => {
     setShowArrows(false)
   }
 
+  function onModesClick(e) {
+    e.preventDefault()
+    history.push(withUrlSearch('/mapMode'))
+  }
+
   return (
     <div className="mainNavigation mp-bg-light mp-border-secondary mp-shadow-primary">
       <LeftMenu leftMenu={leftMenu} setLeftMenu={setLeftMenu} />
@@ -100,11 +106,11 @@ export const NavMain = () => {
         <div id="openLeftMenu" className="nav-icon" onClick={showLeftMenu} title={TEXT.menu}>
           <Hamburger fill="var(--primary)" />
         </div>
-        <Link to="/mapMode" className="currModeLabels">
+        <a onClick={onModesClick} className="currModeLabels" >
           <span className="mp-dark">{TEXT.mode + ': '} </span><span className="mp-counter">
             {modeLabel}
           </span>
-        </Link>
+        </a>
         <div className="naviFreeSpace mp-secondary relative" ref={ref} onClick={onSideClick}>&#8203;
           {showArrows && <ArrowsIcon id="arrows-icon" className="mobile" fill="var(--secondary)" />}
         </div>

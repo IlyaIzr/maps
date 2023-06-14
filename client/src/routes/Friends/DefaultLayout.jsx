@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { TEXT } from "~rest/lang";
+import { AppLink } from '~components/Link/AppLink'
 const link = window.location.origin + '/friends/addByLink?id='
 
 export const DefaultLayout = () => {
@@ -77,9 +78,9 @@ export const DefaultLayout = () => {
         <input type="text" value={link + userID} onFocus={onLink} readOnly />
       </div>
       {/* Add by link */}
-      <Link to="/friends/addByLink">
+      <AppLink to="/friends/addByLink">
         <button className="button">{TEXT.addByLink}</button>
-      </Link>
+      </AppLink>
 
     </div>
   )

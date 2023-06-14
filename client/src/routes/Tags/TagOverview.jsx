@@ -4,6 +4,7 @@ import { Link, useHistory, useParams } from "react-router-dom"
 import { getTagInfo } from "~requests/tags"
 import { TEXT } from "~rest/lang"
 import { setMapMode, setToast, tagModeTag } from "~store/app"
+import { AppLink } from '~components/Link/AppLink'
 
 export const TagOverview = () => {
   const dispatch = useDispatch()
@@ -47,9 +48,9 @@ export const TagOverview = () => {
         <span className="tagContent mp-accent">{tag}</span>
       </h3>
       <p className="subtitle">{TEXT.tagsAmount}: {info.amount}</p>
-      <Link to="/">
+      <AppLink to="/">
         <button className="button" onClick={onClick}>{TEXT.watchAtMap}</button>
-      </Link>
+      </AppLink>
 
       {/* Popular buildings */}
       <h4 className="title titlePopular">{TEXT.mostPopularPlaces}</h4>
