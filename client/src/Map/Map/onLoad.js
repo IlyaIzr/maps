@@ -6,6 +6,7 @@ import { tileServiceInstance } from "./tileService";
 const MIN_ZOOM = 8
 
 export function mapOnLoad(map, theme, dispatch, noDataCb) {
+  console.log('%c⧭ mapOnLoads', 'color: #00b300', theme);
   // Register cities banner
   tileServiceInstance.registerNoDataCallback(noDataCb)
   

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl';
-import { getPlaces, getPlacesByTiles, getTagPlaces, getTagPlacesTiles, getUserPlaces } from '~requests/map';
+import { getPlaces, getTagPlaces, getUserPlaces } from '~requests/map';
 import { mapOnLoad } from './onLoad';
 import { geoJsonFromResponse, processPlacesResponse } from './filters';
 import { mapOnClick } from './onClick';
@@ -23,12 +23,10 @@ import { getRange } from './range';
 import { tileServiceInstance } from './tileService'
 import { setAppGeodata } from '../../store/map';
 
-const mapCBstore = new CallbackManager('maps')
-const themesCbStore = new CallbackManager('cities')
+const themesCbStore = new CallbackManager('themes')
 
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
-
 
 export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => {
   const app = useSelector(state => state.app)
@@ -45,36 +43,31 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
 
   // Init map
   useEffect(() => {
+    if (map.current && import.meta.env.DEV === true) return;  // initialize map only once, dev environment optimization
+    // setFeature(null);
 
-    // turns-off draw mode in development
-    // if (map.current && import.meta.env.NODE_ENV === 'development') return;  // initialize map only once, dev environment optimization
-    setFeature(null);
+    const { lng, lat, zoom } = getDataFromUrl()
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: MAPBOX_STYLES[app.theme],
+      center: [lng || DEFAULT_LOCATION.lng + 2, lat || DEFAULT_LOCATION.lat],
+      zoom: zoom || DEFAULT_ZOOM
+    });
+    setMapRef(d, map.current)
 
-    // todo split that logic
-    (async function callForGeoFeaturesAndAddControls() {
-      const { lng, lat, zoom } = getDataFromUrl()
-      console.log('%c⧭ init lng, lat, zoom', 'color: #9c66cc', lng, lat, zoom);
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: MAPBOX_STYLES[app.theme],   //  blueprint
-        center: [lng || DEFAULT_LOCATION.lng + 2, lat || DEFAULT_LOCATION.lat],
-        zoom: zoom || DEFAULT_ZOOM
-      });
-      setMapRef(d, map.current)
+    mapOnLoad(map.current, app.theme, d, registerCitiesBanner.bind(this, d, history, themesCbStore))
 
-      const cb = mapAddGeolocateCtrl(map.current, 'top-left')
-      mapCBstore.addCallback(cb)
+    if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
+    window.mapref = map.current
+  }, []);
 
-      mapOnLoad(map.current, app.theme, d, registerCitiesBanner.bind(this, d, history, mapCBstore))
+  // Handle theme change
+  useEffect(() => {
+    if (!map.current) return;
+    map.current.setStyle(MAPBOX_STYLES[app.theme])
+    isMapLoaded && setMapData(map.current, appGeodata, RATED_LAYER_SRC)
+  }, [app.theme, map.current])
 
-      if (window.google?.maps?.Geocoder) window.geocoderRef = new window.google.maps.Geocoder()
-      window.mapref = map.current
-    })();
-
-    return () => {
-      mapCBstore.callAllCallbacks()
-    }
-  }, [app.theme, app.mapKey]);
 
   // Handle mode change
   useEffect(() => {
@@ -99,7 +92,10 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     themesCbStore.addCallback(clickCb)
     // TODO check if modes change works
     const moveCb = mapOnMove(map.current, d, setCompass, { mode: mode, tag: app.tagModeTag })
-    themesCbStore.addCallback(moveCb);
+    themesCbStore.addCallback(moveCb)
+
+    const locateMeCb = mapAddGeolocateCtrl(map.current, 'top-left')
+    themesCbStore.addCallback(locateMeCb);
 
     (async () => await storeInitPlacesEffect(lng, lat, zoom))();
     return () => {

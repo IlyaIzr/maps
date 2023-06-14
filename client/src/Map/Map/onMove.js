@@ -22,6 +22,7 @@ export function mapOnMove(map, d, setCompass, modePayload) {
 
   map.on('move', mapMoveHandler)
   map.on('moveend', mapMoveEndHandler)
+  
   return () => {
     map.off('move', mapMoveHandler)
     map.off('moveend', mapMoveEndHandler)
