@@ -49,8 +49,9 @@ export async function getAddress(lat, lng) {
         address = obj.address_components[1].long_name + ', ' + obj.address_components[0].long_name
         break
       }
+      // TODO error handling
     }
-    // TODO error handling
+    var randomId = res.results[0].place_id
   }
-  return address
+  return { address, randomId }
 }

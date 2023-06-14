@@ -129,8 +129,8 @@ export const MapWrap = () => {
     updateLayers()
 
     // end
-    // Todo why? Better just reload the app
-    // if (feature.source === 'createdPoly') setMapTrigger(mapTrigger + 1)
+    // Todo: as far as creating polygon a beta feature it's better just reload the app
+    if (feature.source === 'createdPoly') location.reload()
 
     // finally restore init features
     resetRater()
