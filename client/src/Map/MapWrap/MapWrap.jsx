@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import mapboxgl from 'mapbox-gl';
 import { MapArea } from '../Map/Map'
@@ -20,6 +19,9 @@ import { handleError, handleNewLevel } from '~rest/helperFuncs';
 import { LAYOUT_ZOOM, RATED_LAYER_SRC } from '../const';
 import { setAppGeodata, setCurrentFeature } from '../../store/map';
 
+// This component has map, actions with it, map features and features with it
+// Logic of this component is mostly about posting a review
+// This can be moved to a separate file later
 export const MapWrap = () => {
   // Store
   const user = useSelector(state => state.user)

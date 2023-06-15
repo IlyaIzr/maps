@@ -146,7 +146,6 @@ async function fetchCityData(iso_3166_2, lat, lng) {
   try {
 
     const { en, ru } = await fetchCityNameByIso(iso_3166_2, lat, lng);
-    console.log('%c⧭', 'color: #408059', en, ru, iso_3166_2, lat, lng);
     await delay(1300)
     const { geojson } = await fetchCityGeometryByIso(iso_3166_2)
 

@@ -33,8 +33,12 @@ async function generateCities() {
         cache[iso_3166_2].rating = updatedRating;
       } else {
         // If it's a new ISO code, get city names by ISO code
-        const { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
-        console.log('%c⧭ fetched', 'color: #99adcc',  en, ru, polyString?.length);
+        try {
+          var { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
+        } catch (error) {
+          console.log(`error while fetching city data by iso ${iso_3166_2} from place`, place)
+        }
+        console.log('%c⧭ fetched', 'color: #99adcc', en, ru, polyString?.length);
         console.log('%c⧭ for data of', 'color: #f279ca', iso_3166_2, lat, lng);
 
         // Add the ISO code to the cache with initial values

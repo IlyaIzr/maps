@@ -77,7 +77,7 @@ export const Reviews = ({ resetRater }) => {
           }
           return geoData
         })()
-        setAppGeodata(d, newGeodata)
+        setAppGeodata(dispatch, newGeodata)
         resetRater()
         setToast(dispatch, { message: TEXT.successfulUpdate, status: 'complete' })
       }
