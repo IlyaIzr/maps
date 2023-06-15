@@ -82,7 +82,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
     if (!isMapLoaded) return null;
     const clickCb = mapOnClick(map.current, setFeature, resetRater, app.drawControl)
     themesCbStore.addCallback(clickCb)
-  }, [map.current, setFeature, resetRater, app.drawControl, isMapLoaded])
+  }, [map.current, app.drawControl, isMapLoaded])
 
 
   // Add appGeodata on map interactively 
