@@ -12,6 +12,7 @@ import { mapAddDrawControl, mapAddGeolocateCtrl, mapAddSearchCtrl } from "./addC
 
 const GEOLOCATE_POS = 'top-left'
 const SEARCH_POS = 'top-right'
+const IS_DEV = import.meta.env.DEV
 
 // TODO remove those seters by moving logic to store
 export function Controls({ setFeature, resetRater }) {
@@ -52,6 +53,7 @@ export function Controls({ setFeature, resetRater }) {
   useEffect(() => {
     if (!map) return;
     if (app.mode !== 'draw') {
+      if (IS_DEV && searchControl) return;  // avoids app crashing with HMR due to many controls
       if (drawControl) {
         map.removeControl(drawControl)
         setDrawControl(null)
@@ -61,14 +63,15 @@ export function Controls({ setFeature, resetRater }) {
     }
 
     if (app.mode === 'draw') {
+      if (IS_DEV && drawControl) return; // avoids app crashing with HMR due to many controls
       if (searchControl) {
         map.removeControl(searchControl)
         setSearchControl(null)
       }
-      const drawControl = mapAddDrawControl(
+      const control = mapAddDrawControl(
         map, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater
       )
-      setDrawControl(drawControl)
+      setDrawControl(control)
     }
   }, [app.mode, map])
 
@@ -79,8 +82,6 @@ export function Controls({ setFeature, resetRater }) {
       cb()
     }
   }, [map, mapAddGeolocateCtrl])
-
-
   /* #endregion */
 
   return (
