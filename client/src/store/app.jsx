@@ -21,6 +21,7 @@ const SET_MODE = 'app/set_mode'
 const SET_MAPREF = 'app/set_mapref'
 const SET_BANNER = 'app/set_banner'
 const CLOSE_BANNER = 'app/close_banner'
+const SET_DRAW_CONTROL = 'app/set_draw_control'
 
 /* #endregion */
 
@@ -63,7 +64,8 @@ export const initialState = {
   friendModeId: null,
   tagModeTag: null,
   mapRef: null,
-  mapIsLoaded: false
+  mapIsLoaded: false,
+  drawControl: null
 }
 
 /* #endregion */
@@ -183,6 +185,12 @@ export function appReducer(state = initialState, act) {
         ...state, mapRef: act.mapRef
       }
     }
+    case SET_DRAW_CONTROL: {
+      return {
+        ...state, drawControl: act.drawControl
+      }
+    }
+
 
     default:
       return state
@@ -273,6 +281,10 @@ export const friendModeId = (d, id) => {
 
 export const tagModeTag = (d, tag) => {
   d({ type: SET_TAG, tag })
+}
+
+export const setDrawControl = (d, drawControl) => {
+  d({ type: SET_DRAW_CONTROL, drawControl })
 }
 
 export const setMapMode = (d, mode) => {

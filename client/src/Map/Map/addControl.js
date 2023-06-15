@@ -81,10 +81,7 @@ export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDraw
     // if (e.type !== 'draw.delete')
   }
 
-  return {
-    drawControl: draw,
-    removeCb: () => map.removeControl(draw)
-  }
+  return draw
 }
 
 export function mapAddGeolocateCtrl(map, position = 'top-left') {
@@ -100,7 +97,23 @@ export function mapAddGeolocateCtrl(map, position = 'top-left') {
   })
   map.addControl(geolocateControl, position);
 
-  return () => map.removeControl(geolocateControl)
+  function clearCb() {
+    const hasControl = map.hasControl(geolocateControl)
+    // const control2 = mapRef._controls.find(c => c == geolocateControl)
+    // if (!hasControl) {
+
+    //   console.log('%c⧭', 'color: #bfffc8', control2);
+    //   return mapRef.removeControl(control2)
+    // }
+    // debugger;
+    // console.log('%c⧭', 'color: #731d6d', map == mapRef);
+    hasControl && map.removeControl(geolocateControl)
+  }
+  
+  return {
+    cb: clearCb,
+    control: geolocateControl
+  }
 }
 
 export function mapAddSearchCtrl(map, position = 'top-right') {
@@ -111,12 +124,5 @@ export function mapAddSearchCtrl(map, position = 'top-right') {
   })
   map.addControl(searchCtrl, position)
 
-  return function removeControl() {
-    // this is blatant hack but i couldn't find a way around so far
-    // probably happens because geocoder is an external plugin and reacts to map updates poorly (all other controls are fine)
-    if (!searchCtrl.container.parenNode) {
-      searchCtrl.container = document.querySelector(`div.mapboxgl-ctrl-${position} .mapboxgl-ctrl`)
-    }
-    map.removeControl(searchCtrl)
-  }
+  return searchCtrl
 }

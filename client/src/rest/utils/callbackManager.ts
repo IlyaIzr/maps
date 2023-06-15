@@ -1,4 +1,4 @@
-type CBType = { cb: () => any, id?: string }
+type CBType = { cb: (arg?: any) => any, id?: string }
 
 export class CallbackManager {
   readonly id: string
@@ -25,11 +25,13 @@ export class CallbackManager {
     this.callbackUniqueStore[id] = cbObj
   }
 
-  public callAllCallbacks() {
+  public callAllCallbacks(args: any) {
     try {
-      this.callbackStore.forEach(({ cb }) => cb())
+      this.callbackStore.forEach(function iterator({cb}) {
+        cb(args)
+      })
       Object.entries(this.callbackUniqueStore).forEach(([id, { cb }]) => {
-        cb()
+        cb(args)
         delete this.callbackUniqueStore[id]
       })
     } catch (error) {
@@ -37,9 +39,9 @@ export class CallbackManager {
     }
   }
 
-  public callById(id: string) {
+  public callById(id: string, args: any) {
     this.callbackStore.forEach(({ cb, id: existingId }) => {
-      if (id === existingId) cb()
+      if (id === existingId) cb(args)
     })
     this.callbackUniqueStore[id] && this.callbackUniqueStore[id].cb?.()
   }
