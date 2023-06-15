@@ -18,31 +18,19 @@ import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './MapWrap.module.css'
 import { handleError, handleNewLevel } from '~rest/helperFuncs';
 import { LAYOUT_ZOOM, RATED_LAYER_SRC } from '../const';
-import { setAppGeodata } from '../../store/map';
+import { setAppGeodata, setCurrentFeature } from '../../store/map';
 
 export const MapWrap = () => {
   // Store
   const user = useSelector(state => state.user)
   const app = useSelector(state => state.app)
+  // Todo remove it?
+  const feature = useSelector(state => state.map.currentFeature)
   const geoData = useSelector(state => state.map.geodata)
   const dispatch = useDispatch()
-  
-  // Todo that needs context or smth
-  // const { geodata, currentFeature } = useSelector(state => state.map)
-  const [feature, setFeature] = useState(null);
-  // const [geoData, setGeoData] = useState(null)
-  // Featurer
-  const [name, setName] = useState('')
-  // Map
-  const [featureTrigger, setFeatureTrigger] = useState(0);
-  const [mapTrigger, setMapTrigger] = useState(0);
-  function updateLayers() {
-    setFeatureTrigger(featureTrigger + 1)
-  }
 
   function resetRater() {
-    setName('')
-    setFeature(null)
+    setCurrentFeature(dispatch, null)
   }
 
   async function onSubmit(rating, comment) {
@@ -109,7 +97,7 @@ export const MapWrap = () => {
       newGeodata.push({
         type: 'Feature',
         // TODO no id nor iso here
-        properties: { rating, name, amount: 1, ...place },
+        properties: { rating, amount: 1, ...place },
         id: feature.id,
         // geometry: {...feature.geometry}
         geometry: feature.geometry
@@ -126,7 +114,6 @@ export const MapWrap = () => {
     handleError(dispatch, tagReq, '#ptg_Main_3')
 
     setAppGeodata(dispatch, newGeodata)
-    updateLayers()
 
     // end
     // Todo: as far as creating polygon a beta feature it's better just reload the app
@@ -139,21 +126,17 @@ export const MapWrap = () => {
   return (
     <div className={s.mainWrapper}>
       <MapArea
-        feature={feature} setFeature={setFeature}
         resetRater={resetRater}
-        featureTrigger={featureTrigger}
-        key={mapTrigger}
       />
       {
         app.legendShown && <Legend />
       }
       {feature &&
         <div className="featureContainer mp-bg-light mp-border-secondary">
-          <Featurer feature={feature} name={name} setName={setName} />
+          <Featurer />
           <Rater feature={feature} onSubmit={onSubmit} />
-          <Reviews feature={feature} updateLayers={updateLayers} resetRater={resetRater} />
+          <Reviews resetRater={resetRater} />
           <div className="closeFeature mp-bg-light mp-dark mp-border-secondary" onClick={resetRater} title={TEXT.close}>
-
             <CloseIcon fill="var(--dark)" className="close-legend" />
           </div>
         </div>

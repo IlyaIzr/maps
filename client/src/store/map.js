@@ -50,7 +50,7 @@ export function mapReducer(state = initialState, act) {
       }
     }
     case SETFEATURE: {
-      return { ...state, ...act.feature }
+      return { ...state, currentFeature: act.feature }
     }
     case SET_MAP_LOADING_STATE: {
       return { ...state, isMapLoaded: act.isLoaded }

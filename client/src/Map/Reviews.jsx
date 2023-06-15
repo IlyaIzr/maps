@@ -11,15 +11,16 @@ import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
 import { setAppGeodata } from '../store/map';
 import { RATED_LAYER_SRC } from './const';
 
-export const Reviews = ({ feature, resetRater, updateLayers }) => {
+export const Reviews = ({ resetRater }) => {
   const dispatch = useDispatch()
-  const { geodata: geoData, currentFeature } = useSelector(state => state.map)
+  const { geodata: geoData, currentFeature: feature = {} } = useSelector(state => state.map)
   const { reviewsShown } = useSelector(state => state.app)
   const { id: userId, isRoot } = useSelector(state => state.user)
 
   const [reviews, setReviews] = useState([])
 
   useEffect(() => {
+    if (!Object.keys(feature)) return;
     (async function () {
       if (feature?.source !== RATED_LAYER_SRC) return setReviews([])
 
@@ -31,9 +32,7 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
     return () => {
       setReviews([])
     }
-    /* eslint-disable */
-  }, [feature?.source, feature?.id])
-  /* eslint-enable */
+  }, [feature])
 
   if (feature?.source !== RATED_LAYER_SRC) return null
 
@@ -79,7 +78,6 @@ export const Reviews = ({ feature, resetRater, updateLayers }) => {
           return geoData
         })()
         setAppGeodata(d, newGeodata)
-        updateLayers()
         resetRater()
         setToast(dispatch, { message: TEXT.successfulUpdate, status: 'complete' })
       }

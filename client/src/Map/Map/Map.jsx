@@ -17,7 +17,7 @@ import { useHistory } from 'react-router-dom';
 import { DEFAULT_LOCATION, DEFAULT_ZOOM, LAYOUT_ZOOM, MAPBOX_STYLES, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from '../const';
 import { getRange } from './range';
 import { tileServiceInstance } from './tileService'
-import { setAppGeodata } from '../../store/map';
+import { setAppGeodata, setCurrentFeature } from '../../store/map';
 import { Controls } from './Controls';
 
 const themesCbStore = new CallbackManager('themes')
@@ -25,8 +25,9 @@ const themesCbStore = new CallbackManager('themes')
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
 
-export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => {
+export const MapArea = ({ resetRater }) => {
   const app = useSelector(state => state.app)
+  const feature = useSelector(state => state.map.currentFeature)
   const { geodata: appGeodata, isMapLoaded } = useSelector(state => state.map)
   const d = useDispatch()
   const history = useHistory()
@@ -64,7 +65,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   // Handle mode change
   useEffect(() => {
     if (!isMapLoaded) return null;
-    setFeature(null);
+    setCurrentFeature(d, null);
     const { lng, lat, zoom } = getDataFromUrl()
 
     const moveCb = mapOnMove(map.current, d, { mode: app.mode, tag: app.tagModeTag })
@@ -80,7 +81,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   // map onClick effect
   useEffect(() => {
     if (!isMapLoaded) return null;
-    const clickCb = mapOnClick(map.current, setFeature, resetRater, app.drawControl)
+    const clickCb = mapOnClick(map.current, d, resetRater, app.drawControl)
     themesCbStore.addCallback(clickCb)
   }, [map.current, app.drawControl, isMapLoaded])
 
@@ -88,8 +89,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   // Add appGeodata on map interactively 
   useEffect(() => {
     map.current && isMapLoaded && setMapData(map.current, appGeodata, RATED_LAYER_SRC)
-    // TODO replace featureTrigger with subscription to store current feature if needed
-  }, [appGeodata, featureTrigger, map.current, isMapLoaded])
+  }, [appGeodata, map.current, isMapLoaded])
 
 
   // Mark selected feature
@@ -132,7 +132,7 @@ export const MapArea = ({ feature, setFeature, resetRater, featureTrigger }) => 
   return (
     <>
       <div ref={mapContainer} className={"map-container"} />
-      <Controls resetRater={resetRater} setFeature={setFeature} />
+      <Controls resetRater={resetRater} />
     </>
   )
 }

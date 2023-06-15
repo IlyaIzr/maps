@@ -1,26 +1,12 @@
-import React, { useEffect } from 'react'
-// import { useSelector } from 'react-redux';
-// import { gradients } from '../rest/colors';
+import { useEffect } from 'react'
 import { TEXT } from "../rest/lang";
 import { RATED_LAYER_SRC } from './const';
+import { useSelector } from 'react-redux';
 
-export const Featurer = ({ feature, name, setName }) => {
+export const Featurer = () => {
+  const { currentFeature: feature } = useSelector(state => state.map)
+  const name = feature.properties.name
 
-  // const { theme } = useSelector(s => s.app)
-
-  // function color() {
-  //   if (!feature?.properties?.rating) return gradients[theme][0]
-  //   for (let i = 0; i < gradients[theme].length; i++) {
-  //     if (feature.properties.rating <= i) return gradients[theme][i]
-  //   }
-  // }
-
-  useEffect(() => {
-    if (feature?.name) setName(feature.name)
-    else if (feature?.properties?.name) setName(feature.properties.name)
-
-    console.log('%c⧭', 'color: #d0bfff', feature);
-  }, [feature, setName])
 
   if (!feature?.source) {
     console.log('wtf feature', feature);
@@ -38,9 +24,10 @@ export const Featurer = ({ feature, name, setName }) => {
   )
   // Case created  
   function onInput(e) {
-    setName(e.target.value)
+    // I think mutating is okay... Let's check this with Todo
     feature.properties.name = e.target.value
   }
+
   if (feature.source === 'createdPoly') return (
     <div className="featurer">
       <p className="featurerGreetings">

@@ -15,7 +15,7 @@ const SEARCH_POS = 'top-right'
 const IS_DEV = import.meta.env.DEV
 
 // TODO remove those seters by moving logic to store
-export function Controls({ setFeature, resetRater }) {
+export function Controls({ resetRater }) {
   const app = useSelector(state => state.app)
   const map = app.mapRef
   const createBtn = useRef(null);
@@ -69,7 +69,7 @@ export function Controls({ setFeature, resetRater }) {
         setSearchControl(null)
       }
       const control = mapAddDrawControl(
-        map, setFeature, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater
+        map, d, createBtn.current, deleteBtn.current, setDrawPrompt, resetRater
       )
       setDrawControl(control)
     }

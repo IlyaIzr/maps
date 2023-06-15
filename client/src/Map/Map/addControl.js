@@ -1,10 +1,11 @@
 import mapboxgl from "mapbox-gl";
 import { getAddress } from "~requests/map";
 import { TEXT } from '~rest/lang';
+import { setCurrentFeature } from "../../store/map";
 // eslint-disable-line no-unused-vars
 
 // todo return remove control callback
-export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDrawPrompt, resetRater) {
+export function mapAddDrawControl(map, d, createBtn, deleteBtn, setDrawPrompt, resetRater) {
 
   const draw = new window.MapboxDraw({
     displayControlsDefault: false,
@@ -76,7 +77,7 @@ export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDraw
       const featureId = randomId.slice(0, 5) + feature.id.slice(0, 7)
       feature.id = featureId
       feature.properties.id = featureId
-      setFeature(feature)
+      setCurrentFeature(d, feature)
     }
     // if (e.type !== 'draw.delete')
   }

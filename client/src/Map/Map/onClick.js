@@ -2,9 +2,10 @@ import { getAddress } from "~requests/map"
 import { flyToFeature } from "./Map"
 import { union as turfUnion } from '@turf/turf'
 import { RATED_LAYER_SRC } from "../const"
+import { setCurrentFeature } from "~store/map"
 
 
-export function mapOnClick(map, setFeature, resetRater, drawControl) {
+export function mapOnClick(map, d, resetRater, drawControl) {
   function geoFromTurf(geo) {
     if (!geo[1]) return geo[0]
     let res2 = turfUnion(geo[0], geo[1])
@@ -47,7 +48,7 @@ export function mapOnClick(map, setFeature, resetRater, drawControl) {
 
 
       flyToFeature(map, ratedBefore)
-      setFeature(ratedBefore)
+      setCurrentFeature(d, ratedBefore)
       return;
     }
 
@@ -65,7 +66,7 @@ export function mapOnClick(map, setFeature, resetRater, drawControl) {
       const geocoded = await getAddress(lat, lng)
       featureToRate.properties.name = geocoded.address
 
-      setFeature({ ...featureToRate, geometry })
+      setCurrentFeature({ ...featureToRate, geometry })
       return;
 
     } else if (featureToRate) {
@@ -73,7 +74,7 @@ export function mapOnClick(map, setFeature, resetRater, drawControl) {
       drawControl?.trash()
 
       zoomOnEvent(map.getZoom() + 1)
-      setFeature(null)
+      setCurrentFeature(null)
       return;
     }
     else {
