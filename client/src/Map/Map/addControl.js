@@ -73,7 +73,7 @@ export function mapAddDrawControl(map, setFeature, createBtn, deleteBtn, setDraw
       }
       const { address, randomId } = await getAddress(lat, lng)
       feature.properties.name = address
-      const featureId = randomId.slice(0, 5) + feature.id.slice(0, 8)
+      const featureId = randomId.slice(0, 5) + feature.id.slice(0, 7)
       feature.id = featureId
       feature.properties.id = featureId
       setFeature(feature)
