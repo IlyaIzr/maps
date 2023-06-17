@@ -51,25 +51,7 @@ router.post('/postReview', async (req, res) => {
 
   let targetId = review.targetId + (iso_3166_2 || '')
 
-  // upsert place rating and polygon into db
-  const placesQuery = `
-  INSERT INTO places
-  ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
-  VALUES 
-  ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
-  ON DUPLICATE KEY UPDATE 
-  rating = ((amount * rating + ${grade}) / (amount + 1)), 
-  amount = (amount + 1), 
-  polygon = ST_MPointFromText('${polyString}')
-  `
-
-  try {
-    await dbConn.query(placesQuery, name)
-  } catch (err) {
-    console.log(err)
-    return res.json({ status: 'ERR', msg: err, query: placesQuery })
-  }
-
+  // Try to add a review
   let anonId = ''
   if (userId === 'anonimus') {
     const ipAddress = proxyAddr(req, ['loopback', 'linklocal', 'uniquelocal']).slice(2);
@@ -79,7 +61,6 @@ router.post('/postReview', async (req, res) => {
       anonId += `${device?.type} ${device?.brand}`
     }
   }
-
 
   const reviewQuery = `
   INSERT INTO reviews 
@@ -115,6 +96,25 @@ router.post('/postReview', async (req, res) => {
     }
     console.log(err)
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
+  }
+
+  // upsert place rating and polygon into db
+  const placesQuery = `
+  INSERT INTO places
+  ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
+  VALUES 
+  ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
+  ON DUPLICATE KEY UPDATE 
+  rating = ((amount * rating + ${grade}) / (amount + 1)), 
+  amount = (amount + 1), 
+  polygon = ST_MPointFromText('${polyString}')
+  `
+
+  try {
+    await dbConn.query(placesQuery, name)
+  } catch (err) {
+    console.log(err)
+    return res.json({ status: 'ERR', msg: err, query: placesQuery })
   }
 
 
