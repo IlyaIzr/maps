@@ -18,6 +18,7 @@ import s from './MapWrap.module.css'
 import { handleError, handleNewLevel } from '~rest/helperFuncs';
 import { LAYOUT_ZOOM, RATED_LAYER_SRC } from '../const';
 import { setAppGeodata, setCurrentFeature } from '../../store/map';
+import { handleRepeatingError } from './handleRepeatingError';
 
 // This component has map, actions with it, map features and features with it
 // Logic of this component is mostly about posting a review
@@ -46,7 +47,7 @@ export const MapWrap = () => {
     const review = {
       comment,
       grade: rating,
-      targetId: feature.id,
+      targetId: feature.id || feature.properties.id,
     }
     const place = {
       lng, lat,
@@ -71,6 +72,8 @@ export const MapWrap = () => {
         userId: user.id, review, place: { id: feature.id, ...feature.properties, polyString },
         userLevel: user.level, commentsNumber: user.commentsn
       })
+      const wasRepeating = handleRepeatingError(dispatch, res)
+      if (wasRepeating) return;
       handleError(dispatch, res, '#ppr1')
       handleNewLevel(res, user.commentsn, dispatch)
 
@@ -98,7 +101,6 @@ export const MapWrap = () => {
 
       newGeodata.push({
         type: 'Feature',
-        // TODO no id nor iso here
         properties: { rating, amount: 1, ...place },
         id: feature.id,
         // geometry: {...feature.geometry}

@@ -18,6 +18,7 @@ const { clientBuildLocation } = require('./settings');
 const { appLanguages } = settings
 
 const app = express()
+app.set('trust proxy', true)
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:1414', 'https://our-maps-be.onrender.com/'],
   // origin: '*',

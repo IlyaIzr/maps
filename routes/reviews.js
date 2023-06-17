@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
+const proxyAddr = require('proxy-addr');
+const DeviceDetector = require("device-detector-js");
+const deviceDetector = new DeviceDetector();
 // rest
 const { auth } = require('./middleware');
 const { fetchIsoCodeFromCoordinates, getCityInfo, fetchCityData } = require('./cities');
+const { SQL_DUPLICATE_CODE } = require('../settings');
 
 
 
@@ -66,15 +70,26 @@ router.post('/postReview', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, query: placesQuery })
   }
 
+  let anonId = ''
+  if (userId === 'anonimus') {
+    const ipAddress = proxyAddr(req, ['loopback', 'linklocal', 'uniquelocal']).slice(2);
+    anonId = ipAddress.startsWith('ffff') ? ipAddress.slice(4) : ipAddress
+    if (req.headers['user-agent']) {
+      const { device } = deviceDetector.parse(req.headers['user-agent'])
+      anonId += `${device?.type} ${device?.brand}`
+    }
+  }
+
+
   const reviewQuery = `
   INSERT INTO reviews 
-  (targetId, author, grade, comment, timestamp) 
-  VALUES ('${targetId}', '${userId}', ${grade}, ?, ${Date.now()})
+  (targetId, author, grade, comment, timestamp, anonId) 
+  VALUES (?, ?, ?, ?, ${Date.now()}, ?)
   `
 
   let newLevel = null
   try {
-    await dbConn.query(reviewQuery, [comment])
+    await dbConn.query(reviewQuery, [targetId, userId, grade, comment, anonId || userId])
 
     await (async function levelUp() {
       if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
@@ -95,6 +110,9 @@ router.post('/postReview', async (req, res) => {
 
     res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
   } catch (err) {
+    if (err.code === SQL_DUPLICATE_CODE) {
+      return res.json({ status: 'ERR', code: 'REPEATING_COMMENT' })
+    }
     console.log(err)
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }

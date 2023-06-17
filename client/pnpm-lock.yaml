@@ -47,9 +47,6 @@ dependencies:
   vite-plugin-svgr:
     specifier: ^3.2.0
     version: 3.2.0(vite@4.3.6)
-  vite-tsconfig-paths:
-    specifier: ^4.2.0
-    version: 4.2.0(vite@4.3.6)
   web-vitals:
     specifier: ^3.3.1
     version: 3.3.1
@@ -2138,10 +2135,6 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /globrex@0.1.2:
-    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
-    dev: false
-
   /grid-index@1.1.0:
     resolution: {integrity: sha512-HZRwumpOGUrHyxO5bqKZL0B0GlUpwtCAzZ42sgxUPniu33R1LSFH5yrIcBCHjkctCAh3mtWKcKd9J4vDDdeVHA==}
     dev: false
@@ -2680,17 +2673,6 @@ packages:
       commander: 2.20.3
     dev: false
 
-  /tsconfck@2.1.1:
-    resolution: {integrity: sha512-ZPCkJBKASZBmBUNqGHmRhdhM8pJYDdOXp4nRgj/O0JwUwsMq50lCDRQP/M5GBNAA0elPrq4gAeu4dkaVCuKWww==}
-    engines: {node: ^14.13.1 || ^16 || >=18}
-    hasBin: true
-    peerDependencies:
-      typescript: ^4.3.5 || ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dev: false
-
   /turf-jsts@1.2.3:
     resolution: {integrity: sha512-Ja03QIJlPuHt4IQ2FfGex4F4JAr8m3jpaHbFbQrgwr7s7L6U8ocrHiF3J1+wf9jzhGKxvDeaCAnGDot8OjGFyA==}
     dev: false
@@ -2722,23 +2704,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: false
-
-  /vite-tsconfig-paths@4.2.0(vite@4.3.6):
-    resolution: {integrity: sha512-jGpus0eUy5qbbMVGiTxCL1iB9ZGN6Bd37VGLJU39kTDD6ZfULTTb1bcc5IeTWqWJKiWV5YihCaibeASPiGi8kw==}
-    peerDependencies:
-      vite: '*'
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-      globrex: 0.1.2
-      tsconfck: 2.1.1
-      vite: 4.3.6(@types/node@20.1.7)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
     dev: false
 
   /vite@4.3.6(@types/node@20.1.7):

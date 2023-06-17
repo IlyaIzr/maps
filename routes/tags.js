@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
-const Connection = require('../db/connection')
+const Connection = require('../db/connection');
+const { delay } = require('./helpres');
 const dbConn = new Connection()
 // rest
 
@@ -105,7 +106,7 @@ router.post('/postTags', async (req, res) => {
 
       await dbConn.query(tagsQuery)
       await dbConn.query(tIndexQuery)
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await delay(50)
     }
     return res.json({ status: 'OK' })
 

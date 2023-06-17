@@ -66,7 +66,7 @@ export function mapOnClick(map, d, resetRater, drawControl) {
       const geocoded = await getAddress(lat, lng)
       featureToRate.properties.name = geocoded.address
 
-      setCurrentFeature({ ...featureToRate, geometry })
+      setCurrentFeature(d, { ...featureToRate, geometry })
       return;
 
     } else if (featureToRate) {
@@ -74,7 +74,7 @@ export function mapOnClick(map, d, resetRater, drawControl) {
       drawControl?.trash()
 
       zoomOnEvent(map.getZoom() + 1)
-      setCurrentFeature(null)
+      setCurrentFeature(d, null)
       return;
     }
     else {

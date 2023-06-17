@@ -157,7 +157,8 @@ export const enLocale = {
   noReviews: 'no reviews here',
   popularCitiesSuggestion: 'do you want to see most popalar cities?',
   close: 'close',
-  watchCities: 'watch cities'
+  watchCities: 'watch cities',
+  repeatingComment: "can't post more than one comment per place"
 }
 
 // module.exports = {
