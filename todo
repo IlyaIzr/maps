@@ -1,7 +1,7 @@
 Closest TODOs:
 
 * reload after login/logout
-* after new place was added it gets new id. Lets receive this id from backend
+* deleting feature bugs
 * storing coords for cities isn't working properly - zoom is poor. Check coords maybe?
 * feature data doesnt change on selected feature change
 * change map styles on dark theme and review others

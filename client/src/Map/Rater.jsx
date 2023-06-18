@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import mapboxgl from 'mapbox-gl';
 import { gradients } from '~rest/colors';
 import { notNaN } from '~rest/helperFuncs';
 import { TEXT } from '~rest/lang';
 import { setModal } from '~store/app';
 import { Comment } from './Comment';
 import { TotalRating } from '~components/TotalRating/TotalRating'
+import { formatGeodata } from './MapWrap/formatGeodata';
+import { LAYOUT_ZOOM } from './const';
+import { getLayoutCoords, handleError, handleNewLevel } from '../rest/helperFuncs';
+import { setMapMode } from '../store/app';
+import { postReview } from '../requests/reviews';
+import { handleRepeatingError } from './handleRepeatingError';
+import { upsertFeatureToAppGeodata } from '../store/map';
+import { postTagsIfAny } from '../requests/tags';
 
-export const Rater = ({ feature, onSubmit }) => {
+export const Rater = ({ resetRater }) => {
+  const user = useSelector(state => state.user)
   const { theme, isLogged } = useSelector(s => s.app)
+  const feature = useSelector(state => state.map.currentFeature)
   const gradient = gradients[theme]
   const dispatch = useDispatch()
 
@@ -26,11 +37,7 @@ export const Rater = ({ feature, onSubmit }) => {
       acceptLabel: TEXT.yes,
       cancelLabel: TEXT.goBack,
     })
-    submitAction()
-  }
-  function submitAction() {
-    setHover(0)
-    onSubmit(rating, comment)
+    onSubmit()
   }
   function onMouseEnter(e) {
     setHover(Number(e.target.name))
@@ -44,6 +51,56 @@ export const Rater = ({ feature, onSubmit }) => {
     setRating(0)
     setComment('')
   }, [feature])
+
+  async function onSubmit() {
+    setHover(0)
+    // Calculations
+    const [northEastest, southWestest, polyString] = formatGeodata(feature.geometry)
+    const tempBox = new mapboxgl.LngLatBounds(northEastest, southWestest)
+    const { lng, lat } = tempBox.getCenter()
+    const { x, y } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
+    // id from props has higher priority. However on first review id only exists at feature.id 
+    const placeId = feature.properties.id || feature.id
+
+
+    // Data to store
+    const review = {
+      comment,
+      grade: notNaN(rating),
+      targetId: placeId,
+    }
+    const place = {
+      ...feature.properties,
+      lng, lat,
+      id: placeId,
+      name: feature.properties.name || "",
+      polyString,
+      iso_3166_2: feature.properties.iso_3166_2 || null,
+      x, y
+    }
+
+    // Go out from mapMode - TODO whatever that means...
+    setMapMode(dispatch, null)
+
+    const res = await postReview({
+      userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
+    })
+    const wasRepeating = handleRepeatingError(dispatch, res)
+    if (wasRepeating) return;
+    handleError(dispatch, res, '#ppr1')
+    handleNewLevel(res, user.commentsn, dispatch)
+
+    if (res.place) upsertFeatureToAppGeodata(dispatch, { ...feature, properties: { ...res.place } })
+    else console.log('%c⧭ weird error 4214', 'color: #514080', res, place);
+
+    const tagReq = await postTagsIfAny({
+      user: user.id, comment, featureId: feature.id || feature.properties.id,
+      iso_3166_2: feature.properties.iso_3166_2, lng, lat
+    })
+    handleError(dispatch, tagReq, '#ptg_Main_3')
+
+    resetRater()
+  }
 
   // TODO make stars with rating gradient
   return (
