@@ -1,10 +1,12 @@
 Closest TODOs:
 
+* reload after login/logout
 * after new place was added it gets new id. Lets receive this id from backend
 * storing coords for cities isn't working properly - zoom is poor. Check coords maybe?
 * feature data doesnt change on selected feature change
 * change map styles on dark theme and review others
 * don't allow multiple rates from single account/ip or device info? 
+* mobile view - as we have 50% visits on mobile
 
 
 

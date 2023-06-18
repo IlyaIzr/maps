@@ -33,6 +33,10 @@ export function mapReducer(state = initialState, act) {
         ...state, geodata: [...(state.geodata || []), ...filteredGeodata]
       }
     }
+    case UPSERTGEODATAFEATURE: {
+      return upsertGeodataFeature(state, act.feature);
+    }
+    
     case REMOVEGEODATA: {
       const filteredGeodata = state.geodata.filter(feature => {
         const featureId = feature.properties.id || feature.id
@@ -65,6 +69,9 @@ export function setAppGeodata(d, geodata = []) {
 export function addAppGeodata(d, geodata) {
   d({ type: ADDGEODATA, geodata })
 }
+export function upsertFeatureToAppGeodata(d, feature) {
+  d({ type: UPSERTGEODATAFEATURE, feature })
+}
 export function removeAppGeodata(d, featureIds) {
   d({ type: REMOVEGEODATA, featureIds })
 }
@@ -78,5 +85,33 @@ export function setMapLoadingState(d, isLoaded) {
 var SETGEODATA = 'map/setGeodata'
 var ADDGEODATA = 'map/addGeodata'
 var REMOVEGEODATA = 'map/removeGeodata'
+var UPSERTGEODATAFEATURE = 'map/upsert_one_feature'
 var SETFEATURE = 'map/setCurrentFeature'
 var SET_MAP_LOADING_STATE = 'map/isLoaded'
+
+function upsertGeodataFeature(state, feature) {
+  const { geodata } = state;
+  const featureId = feature.properties.id || feature.id;
+  let found = false;
+
+  const updatedGeodata = geodata.map(existingFeature => {
+    const existingFeatureId = existingFeature.properties.id || existingFeature.id;
+
+    if (existingFeatureId === featureId) {
+      found = true;
+      return feature; // Replace existing feature with the updated feature
+    }
+
+    return existingFeature; // Preserve other features
+  });
+
+  if (!found) {
+    updatedGeodata.push(feature); // Add new feature if it doesn't exist already
+  }
+
+  return {
+    ...state,
+    geodata: updatedGeodata
+  };
+}
+

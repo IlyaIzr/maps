@@ -16,8 +16,8 @@ import { postReview } from '~requests/reviews';
 import { ReactComponent as CloseIcon } from '~rest/svg/close5.svg';
 import s from './MapWrap.module.css'
 import { handleError, handleNewLevel } from '~rest/helperFuncs';
-import { LAYOUT_ZOOM, RATED_LAYER_SRC } from '../const';
-import { setAppGeodata, setCurrentFeature } from '../../store/map';
+import { LAYOUT_ZOOM } from '../const';
+import { setCurrentFeature, upsertFeatureToAppGeodata } from '../../store/map';
 import { handleRepeatingError } from './handleRepeatingError';
 
 // This component has map, actions with it, map features and features with it
@@ -29,7 +29,6 @@ export const MapWrap = () => {
   const app = useSelector(state => state.app)
   // Todo remove it?
   const feature = useSelector(state => state.map.currentFeature)
-  const geoData = useSelector(state => state.map.geodata)
   const dispatch = useDispatch()
 
   function resetRater() {
@@ -41,75 +40,41 @@ export const MapWrap = () => {
     const [northEastest, southWestest, polyString] = formatGeodata(feature.geometry)
     const tempBox = new mapboxgl.LngLatBounds(northEastest, southWestest)
     const { lng, lat } = tempBox.getCenter()
+    const { x, y } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
+    // id from props has higher priority. However on first review id only exists at feature.id 
+    const placeId = feature.properties.id || feature.id
 
 
     // Data to store
     const review = {
       comment,
-      grade: rating,
-      targetId: feature.id || feature.properties.id,
+      grade: notNaN(rating),
+      targetId: placeId,
     }
     const place = {
+      ...feature.properties,
       lng, lat,
-      id: feature.id || feature.properties.id,
+      id: placeId,
       name: feature.properties.name || "",
       polyString,
-      iso_3166_2: feature.properties.iso_3166_2 || null
+      iso_3166_2: feature.properties.iso_3166_2 || null,
+      x, y
     }
-    const { x, y } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
-    place.x = x
-    place.y = y
 
-    // Go out from mapMode
+    // Go out from mapMode - TODO whatever that means...
     setMapMode(dispatch, null)
 
-    let newGeodata = [...geoData]
+    // Case both cases
+    const res = await postReview({
+      userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
+    })
+    const wasRepeating = handleRepeatingError(dispatch, res)
+    if (wasRepeating) return;
+    handleError(dispatch, res, '#ppr1')
+    handleNewLevel(res, user.commentsn, dispatch)
 
-
-    // Case next review
-    if (feature.source === RATED_LAYER_SRC) {
-      const res = await postReview({
-        userId: user.id, review, place: { id: feature.id, ...feature.properties, polyString },
-        userLevel: user.level, commentsNumber: user.commentsn
-      })
-      const wasRepeating = handleRepeatingError(dispatch, res)
-      if (wasRepeating) return;
-      handleError(dispatch, res, '#ppr1')
-      handleNewLevel(res, user.commentsn, dispatch)
-
-      // Add Mutate geoData (without mutating properties{})
-      // Todo move this logic to the BE
-      for (let i = 0; i < newGeodata.length; i++) {
-        if (newGeodata[i].id === feature.id) {
-          const { amount, rating } = feature.properties
-          if (newGeodata[i].properties) newGeodata[i].properties = { ...feature.properties }
-          else newGeodata[i].properties = {}
-          newGeodata[i].properties.rating = notNaN(+((amount * rating + review.grade) / (amount + 1)).toFixed(5))  //toFixed - 5 numbers after point
-          newGeodata[i].properties.amount = amount + 1
-          break;
-        }
-      }
-    } else {
-      // Case first time
-
-      const res = await postReview({
-        userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
-      })
-
-      handleError(dispatch, res, '#ppr2')
-      handleNewLevel(res, user.commentsn, dispatch)
-
-      newGeodata.push({
-        type: 'Feature',
-        properties: { rating, amount: 1, ...place },
-        id: feature.id,
-        // geometry: {...feature.geometry}
-        geometry: feature.geometry
-      })
-
-    }
-
-    // Common block
+    if (res.place) upsertFeatureToAppGeodata(dispatch, { ...feature, properties: { ...res.place } })
+    else console.log('%c⧭ weird error 4214', 'color: #514080', res, place);
 
     const tagReq = await postTagsIfAny({
       user: user.id, comment, featureId: feature.id || feature.properties.id,
@@ -117,13 +82,6 @@ export const MapWrap = () => {
     })
     handleError(dispatch, tagReq, '#ptg_Main_3')
 
-    setAppGeodata(dispatch, newGeodata)
-
-    // end
-    // Todo: as far as creating polygon a beta feature it's better just reload the app
-    if (feature.source === 'createdPoly') location.reload()
-
-    // finally restore init features
     resetRater()
   }
 

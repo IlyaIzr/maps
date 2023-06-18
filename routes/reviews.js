@@ -8,7 +8,7 @@ const deviceDetector = new DeviceDetector();
 // rest
 const { auth } = require('./middleware');
 const { fetchIsoCodeFromCoordinates, getCityInfo, fetchCityData } = require('./cities');
-const { SQL_DUPLICATE_CODE } = require('../settings');
+const { SQL_DUPLICATE_CODE, COMMENTS_PER_LEVEL } = require('../settings');
 
 
 
@@ -44,12 +44,13 @@ router.post('/postReview', async (req, res) => {
   const { x, y, lng, lat, polyString, name } = place
   let { iso_3166_2 } = place
   if (!iso_3166_2) {
-    // TODO the case when resubmitting same place
     if (!lat || !lng) return res.json({ status: 'ERR', msg: 'no lat or lng provided', query: placesQuery })
     iso_3166_2 = await fetchIsoCodeFromCoordinates(lat, lng)
   }
+  let targetId = String(review.targetId)
+  !targetId.endsWith(iso_3166_2) && (targetId += iso_3166_2);
 
-  let targetId = review.targetId + (iso_3166_2 || '')
+
 
   // Try to add a review
   let anonId = ''
@@ -68,28 +69,11 @@ router.post('/postReview', async (req, res) => {
   VALUES (?, ?, ?, ?, ${Date.now()}, ?)
   `
 
-  let newLevel = null
   try {
     await dbConn.query(reviewQuery, [targetId, userId, grade, comment, anonId || userId])
+    // won't be adding new level if review query will return error. Including error for repeating comment
+    var newLevel = await handleUserLevelUp();
 
-    await (async function levelUp() {
-      if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) return;
-
-      let commentStep = 2 + (4 * 10)  //amount of comments for level 10
-      for (let i = 10; i > 0; i--) {
-        if (commentsNumber + 1 >= commentStep) {
-          if (i === userLevel) break;
-          await dbConn.query(`UPDATE users SET level = ${i}, commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
-          newLevel = i
-          break;
-        }
-        commentStep = 2 + (4 * (i - 1))
-      }
-    })()
-    if (!newLevel && userId !== 'anonimus')
-      await dbConn.query(`UPDATE users SET commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`)
-
-    res.json({ status: 'OK', msg: 'Review posted successfully', newLevel })
   } catch (err) {
     if (err.code === SQL_DUPLICATE_CODE) {
       return res.json({ status: 'ERR', code: 'REPEATING_COMMENT' })
@@ -98,25 +82,43 @@ router.post('/postReview', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }
 
-  // upsert place rating and polygon into db
-  const placesQuery = `
-  INSERT INTO places
-  ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
-  VALUES 
-  ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
-  ON DUPLICATE KEY UPDATE 
-  rating = ((amount * rating + ${grade}) / (amount + 1)), 
-  amount = (amount + 1), 
-  polygon = ST_MPointFromText('${polyString}')
-  `
-
+  // INSERT into `places` conditionally to know new ratings afterwards
   try {
-    await dbConn.query(placesQuery, name)
-  } catch (err) {
-    console.log(err)
-    return res.json({ status: 'ERR', msg: err, query: placesQuery })
-  }
+    let newRating, newAmount;
+    const insertQuery = `
+      INSERT INTO places
+      ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
+      VALUES 
+      ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
+    `;
 
+    const updateQuery = `
+      UPDATE places
+      SET rating = ((amount * rating + ${grade}) / (amount + 1)), 
+          amount = (amount + 1), 
+          polygon = ST_MPointFromText('${polyString}')
+      WHERE id = '${targetId}'
+      RETURNING rating, amount
+    `;
+
+    const insertResult = await dbConn.query(insertQuery, name);
+    if (insertResult.affectedRows === 1) {
+      newRating = grade;
+      newAmount = 1;
+    } else {
+      const updateResult = await dbConn.query(updateQuery);
+      newRating = updateResult.rows[0].rating;
+      newAmount = updateResult.rows[0].amount;
+    }
+
+    const placeToReturn = {
+      x, y, lng, lat, name, id: targetId, rating: newRating, amount: newAmount
+    }
+
+    res.json({ status: 'OK', msg: 'Review posted successfully', newLevel, place: placeToReturn })
+  } catch (error) {
+    return res.json({ status: 'ERR', msg: error, query: { insertQuery, updateQuery } })
+  }
 
 
   // Update city rating or add info about new city
@@ -144,6 +146,25 @@ router.post('/postReview', async (req, res) => {
     await dbConn.query(citiesQuery)
   } catch (error) {
     return console.log('%c⧭', 'color: #00736b', 'error while getting city data', iso_3166_2, citiesQuery);
+  }
+
+  async function handleUserLevelUp() {
+    if (userId === 'anonimus' || typeof userLevel === 'undefined' || userLevel === 10) {
+      return null;
+    }
+
+    const currentLevel = userLevel || 0;
+    const nextLevel = currentLevel + 1;
+
+    if (commentsNumber >= COMMENTS_PER_LEVEL[nextLevel - 1]) {
+      const updateQuery = `UPDATE users SET level = ${nextLevel}, commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`;
+      await dbConn.query(updateQuery);
+      return nextLevel;
+    } else {
+      const updateQuery = `UPDATE users SET commentsn = ${notNaN(commentsNumber) + 1} WHERE id = '${userId}'`;
+      await dbConn.query(updateQuery);
+    }
+    return null;
   }
 })
 
