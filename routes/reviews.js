@@ -52,7 +52,6 @@ router.post('/postReview', async (req, res) => {
 
 
 
-  // Try to add a review
   let anonId = ''
   if (userId === 'anonimus') {
     const ipAddress = proxyAddr(req, ['loopback', 'linklocal', 'uniquelocal']).slice(2);
@@ -63,6 +62,7 @@ router.post('/postReview', async (req, res) => {
     }
   }
 
+  // Try to add a review
   const reviewQuery = `
   INSERT INTO reviews 
   (targetId, author, grade, comment, timestamp, anonId) 
@@ -70,7 +70,7 @@ router.post('/postReview', async (req, res) => {
   `
 
   try {
-    await dbConn.query(reviewQuery, [targetId, userId, grade, comment, anonId || userId])
+    await dbConn.query(reviewQuery, [targetId, userId, grade, comment, anonId || userId], true)
     // won't be adding new level if review query will return error. Including error for repeating comment
     var newLevel = await handleUserLevelUp();
 
@@ -82,44 +82,29 @@ router.post('/postReview', async (req, res) => {
     return res.json({ status: 'ERR', msg: err, query: reviewQuery })
   }
 
-  // INSERT into `places` conditionally to know new ratings afterwards
   try {
-    let newRating, newAmount;
-    const insertQuery = `
+    var insertQuery = `
       INSERT INTO places
       ( id, rating, name, amount, x, y, lng, lat, polygon, iso_3166_2 ) 
       VALUES 
-      ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )
-    `;
+      ( '${targetId}', '${grade || 0}', ?, '${1}', '${x || 0}', '${y || 0}', '${lng || 0}', '${lat || 0}', ST_MPointFromText('${polyString}'), '${iso_3166_2}' )    
 
-    const updateQuery = `
-      UPDATE places
-      SET rating = ((amount * rating + ${grade}) / (amount + 1)), 
-          amount = (amount + 1), 
-          polygon = ST_MPointFromText('${polyString}')
-      WHERE id = '${targetId}'
-      RETURNING rating, amount
+      ON DUPLICATE KEY UPDATE 
+      rating = ((amount * rating + ${grade}) / (amount + 1)), 
+      amount = (amount + 1)
     `;
-
-    const insertResult = await dbConn.query(insertQuery, name);
-    if (insertResult.affectedRows === 1) {
-      newRating = grade;
-      newAmount = 1;
-    } else {
-      const updateResult = await dbConn.query(updateQuery);
-      newRating = updateResult.rows[0].rating;
-      newAmount = updateResult.rows[0].amount;
-    }
+    await dbConn.query(insertQuery, [name]);
+    const { rating, amount } = await fetchNewRating(targetId);
 
     const placeToReturn = {
-      x, y, lng, lat, name, id: targetId, rating: newRating, amount: newAmount
+      x, y, lng, lat, name, id: targetId, rating, amount, iso_3166_2
     }
 
     res.json({ status: 'OK', msg: 'Review posted successfully', newLevel, place: placeToReturn })
   } catch (error) {
-    return res.json({ status: 'ERR', msg: error, query: { insertQuery, updateQuery } })
+    console.log('%c⧭', 'color: #aa00ff', error);
+    return res.json({ status: 'ERR', msg: JSON.stringify(error), query: { insertQuery } })
   }
-
 
   // Update city rating or add info about new city
   try {
@@ -169,81 +154,37 @@ router.post('/postReview', async (req, res) => {
 })
 
 
-
 // @ /reviews/reviews
-
 router.delete('/reviews', auth, async (req, res) => {
-
   const userId = req.userId
-  const { timestamp, place: { id, grade, iso_3166_2 } } = req.body
-  // Delete review
+  const { timestamp, place: { id, grade, iso_3166_2 }, author, asRoot } = req.body
 
-  const query = `DELETE FROM reviews WHERE author = '${userId}' AND timestamp = '${timestamp}'`
-  try {
-    const result = await dbConn.query(query)
-    if (!result.affectedRows) throw 'nothing was deleted'
-    if (userId !== 'anonimus')
-      await dbConn.query(`UPDATE users SET commentsn = (commentsn - 1) WHERE id = '${userId}'`)
-  } catch (error) {
-    console.log(error)
+  if (!id || grade === undefined || !iso_3166_2 || asRoot === undefined) {
     return res.json({
-      status: 'ERR', msg: error, query, commentsQuery: `UPDATE users SET commentsn = (commentsn - 1) WHERE id = '${userId}'`
+      status: 'ERR', msg: 'Not enough data to delete', body: req.body
     })
   }
 
-
-  // Update place
-  const placeQuery = `
-    UPDATE places SET 
-    rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1)
-    WHERE id='${id}'
-    `
-  try {
-    const result = await dbConn.query(placeQuery)
-    if (result.affectedRows) res.json({ status: 'OK', msg: 'Review deleted successfully' })
-    else throw 'nothing was deleted'
-  } catch (error) {
-    console.log(error)
-    return res.json({ status: 'ERR', msg: error, query: placeQuery })
+  if (asRoot) {
+    const rootUsername = req.checkRoot?.()
+    if (!rootUsername) return res.json({ status: 'ERR', msg: 'User is not root: ' + userId })
+  } else {
+    if (author !== userId) return res.json({ status: 'ERR', msg: `User ${userId} cannot delete comment of ${author}` })
   }
 
-  // Update city rating
-  citiesQuery = `
-    INSERT INTO cities
-    (code, rating, amount)  
-    VALUES 
-    ('${iso_3166_2}', ${grade}, ${1})
-    ON DUPLICATE KEY UPDATE 
-    rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1)
-  `
-  try {
-    await dbConn.query(citiesQuery)
-  } catch (error) {
-    console.log(error)
-    return res.json({ status: 'ERR', msg: error, query: citiesQuery })
-  }
-})
 
-// @ /reviews/delteAsRoot
-router.delete('/delteAsRoot', auth, async (req, res) => {
-  const userId = req.userId
-  const rootUsername = req.checkRoot?.()
-  if (!rootUsername) return res.json({ status: 'ERR', msg: 'User is not root: ' + userId })
-  const { timestamp, place: { id, grade, iso_3166_2 }, author } = req.body
   // Delete review
-
-  const deleteReviewQuery = `
+  try {
+    var deleteReviewQuery = `
     DELETE FROM reviews 
     WHERE targetId = '${id}' AND timestamp = '${timestamp}' AND grade = ${grade} AND author = ?
-  `
-  const deleteFromUserCountQuery = `UPDATE users SET commentsn = (commentsn - 1) WHERE id = ?`
-  try {
+    `
+    var deleteFromUserCountQuery = `UPDATE users SET commentsn = (commentsn - 1) WHERE id = ?`
     const result = await dbConn.query(deleteReviewQuery, author)
     if (!result.affectedRows) throw 'nothing was deleted'
-    if (author !== 'anonimus')
+    if (author !== 'anonimus') {
       await dbConn.query(deleteFromUserCountQuery, author)
+    }
   } catch (error) {
     console.log(error)
     return res.json({
@@ -253,15 +194,18 @@ router.delete('/delteAsRoot', auth, async (req, res) => {
 
 
   // Update place
-  const placeQuery = `
-    UPDATE places SET 
-    rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1)
-    WHERE id='${id}'
-    `
   try {
+    var placeQuery = `
+      UPDATE places SET 
+      rating = ((amount * rating - ${grade}) / (amount - 1)), 
+      amount = (amount - 1)
+      WHERE id='${id}'
+    `
     const result = await dbConn.query(placeQuery)
-    if (result.affectedRows) res.json({ status: 'OK', msg: 'Review deleted successfully' })
+    if (result.affectedRows) {
+      const { rating, amount } = await fetchNewRating(id)
+      res.json({ status: 'OK', msg: 'Review deleted successfully', updatedProps: { id, rating, amount } })
+    }
     else throw 'nothing was deleted'
   } catch (error) {
     console.log(error)
@@ -269,16 +213,16 @@ router.delete('/delteAsRoot', auth, async (req, res) => {
   }
 
   // Update city rating
-  citiesQuery = `
-    INSERT INTO cities
-    (code, rating, amount)  
-    VALUES 
-    ('${iso_3166_2}', ${grade}, ${1})
-    ON DUPLICATE KEY UPDATE 
-    rating = ((amount * rating - ${grade}) / (amount - 1)), 
-    amount = (amount - 1)
-  `
   try {
+    var citiesQuery = `
+      INSERT INTO cities
+      (code, rating, amount)  
+      VALUES 
+      ('${iso_3166_2}', ${grade}, ${1})
+      ON DUPLICATE KEY UPDATE 
+      rating = ((amount * rating - ${grade}) / (amount - 1)), 
+      amount = (amount - 1)
+    `
     await dbConn.query(citiesQuery)
   } catch (error) {
     console.log(error)
@@ -286,7 +230,16 @@ router.delete('/delteAsRoot', auth, async (req, res) => {
   }
 })
 
-
+async function fetchNewRating(id) {
+  const newRatingQuery = `SELECT rating, amount FROM places WHERE id = '${id}'`
+  try {
+    const ratingResponse = await dbConn.query(newRatingQuery)
+    const { rating, amount } = ratingResponse?.[0]
+    return { rating: Number(rating), amount }
+  } catch (error) {
+    return error
+  }
+}
 
 router.post('/postFeedback', async (req, res) => {
   const { comment } = req.body

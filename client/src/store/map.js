@@ -36,7 +36,7 @@ export function mapReducer(state = initialState, act) {
     case UPSERTGEODATAFEATURE: {
       return upsertGeodataFeature(state, act.feature);
     }
-    
+
     case REMOVEGEODATA: {
       const filteredGeodata = state.geodata.filter(feature => {
         const featureId = feature.properties.id || feature.id
@@ -91,6 +91,10 @@ var SET_MAP_LOADING_STATE = 'map/isLoaded'
 
 function upsertGeodataFeature(state, feature) {
   const { geodata } = state;
+
+  console.log('%c⧭ feature', 'color: #86bf60', feature);
+
+  console.log('%c⧭ geodata', 'color: #ace2e6', [...geodata]);
   const featureId = feature.properties.id || feature.id;
   let found = false;
 
@@ -99,7 +103,7 @@ function upsertGeodataFeature(state, feature) {
 
     if (existingFeatureId === featureId) {
       found = true;
-      return feature; // Replace existing feature with the updated feature
+      return { ...existingFeature, properties: feature.properties }; // Replace existing feature with the updated props
     }
 
     return existingFeature; // Preserve other features
@@ -109,6 +113,7 @@ function upsertGeodataFeature(state, feature) {
     updatedGeodata.push(feature); // Add new feature if it doesn't exist already
   }
 
+  console.log('%c⧭ updatedGeodata', 'color: #9c66cc', updatedGeodata);
   return {
     ...state,
     geodata: updatedGeodata

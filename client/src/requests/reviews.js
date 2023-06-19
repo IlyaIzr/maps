@@ -15,12 +15,8 @@ export async function postFeedback(comment) {
   return await f()
 }
 
-export async function deleteReview(timestamp, place) {
-  const f = requestMaker('DELETE', 'reviews', 'reviews', { timestamp, place }, true)
-  return await f()
-}
-
-export async function deleteReviewAsRoot(timestamp, place, author) {
-  const f = requestMaker('DELETE', 'reviews', 'delteAsRoot', { timestamp, place, author }, true)
+export async function deleteReview(timestamp, place, author, asRoot) {
+  const body = { timestamp, place, author, asRoot }
+  const f = requestMaker('DELETE', 'reviews', 'reviews', body, true)
   return await f()
 }

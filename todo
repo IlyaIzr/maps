@@ -1,7 +1,7 @@
 Closest TODOs:
 
-* reload after login/logout
-* deleting feature bugs
+
+* RETURNING not working in sql...
 * storing coords for cities isn't working properly - zoom is poor. Check coords maybe?
 * feature data doesnt change on selected feature change
 * change map styles on dark theme and review others

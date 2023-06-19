@@ -67,7 +67,7 @@ export const enLocale = {
   loginOccupied: 'Login occupied',
   wrongAuth: 'Wrong authorization credentials',
   editProfile: 'Edit profile',
-  successfulUpdate: 'Seccessfull update',
+  successfulUpdate: 'Successfull update',
   secretChallenge: 'Answer secret question to change password',
   loading: 'Loading',
   oauthTitle: 'Register via Google',

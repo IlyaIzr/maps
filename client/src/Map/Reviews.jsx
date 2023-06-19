@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppLink } from '~components/Link/AppLink'
-import { deleteReview, deleteReviewAsRoot, getReviews } from '../requests/reviews';
+import { deleteReview, getReviews } from '../requests/reviews';
 import { restrictedLetters } from '../rest/config';
-import { notNaN } from '../rest/helperFuncs';
 import { TEXT } from '../rest/lang';
 import { expandComments, setModal, setToast, shrinkComments } from '../store/app';
 import { ReactComponent as TopIcon } from '../rest/svg/top.svg'
 import { ReactComponent as CloseIcon } from '../rest/svg/close3.svg';
-import { setAppGeodata } from '../store/map';
+import { upsertFeatureToAppGeodata } from '../store/map';
 import { RATED_LAYER_SRC } from './const';
+import { handleError } from '../rest/helperFuncs';
 
 export const Reviews = ({ resetRater }) => {
   const dispatch = useDispatch()
-  const { geodata: geoData, currentFeature: feature = {} } = useSelector(state => state.map)
+  const { currentFeature: feature = {} } = useSelector(state => state.map)
   const { reviewsShown } = useSelector(state => state.app)
   const { id: userId, isRoot } = useSelector(state => state.user)
 
@@ -47,37 +47,19 @@ export const Reviews = ({ resetRater }) => {
       rating: feature.properties.rating,
       amount: feature.properties.amount,
       grade: e.currentTarget.attributes.grade.value,
-      id: feature.id,
+      id: feature.properties.id,
       iso_3166_2: feature.properties.iso_3166_2 || ''
     }
 
     setModal(dispatch, {
       message: TEXT.removeComment + '?',
       async acceptAction() {
-        const res =
-          isRoot ?
-            await deleteReviewAsRoot(timestamp, place, author) :
-            await deleteReview(timestamp, place)
+        const res = await deleteReview(timestamp, place, author, isRoot)
+        if (res.status !== 'OK') return handleError(dispatch, res, 'revEr1')
 
-        if (res.status !== 'OK') return setToast(dispatch, { message: TEXT.requestError + ' revEr1' })
+        const updatedFeature = { ...feature, properties: { ...feature.properties, ...res.updatedProps } }
+        upsertFeatureToAppGeodata(dispatch, updatedFeature)
 
-        // TODO review this mutation
-        // should be rather fixed by removing updateLayers and other unobvious reactivity triggers
-        const newGeodata = (function () {
-          for (let i = 0; i < geoData.length; i++) {
-            if (geoData[i].id === feature.properties.id) {
-              const { amount, rating } = feature.properties
-              geoData[i].properties = {
-                ...geoData[i].properties,
-                rating: notNaN(+((amount * rating - place.grade) / (amount - 1)).toFixed(5)),  //toFixed - 5 numbers after point
-                amount: amount - 1
-              }
-              break;
-            }
-          }
-          return geoData
-        })()
-        setAppGeodata(dispatch, newGeodata)
         resetRater()
         setToast(dispatch, { message: TEXT.successfulUpdate, status: 'complete' })
       }
