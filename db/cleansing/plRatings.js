@@ -2,7 +2,7 @@ const Connection = require('../connection')
 const dbConn = new Connection()
 const { delay } = require("../../routes/helpres")
 
-async function recalculateRating() {
+async function recalculateRating(closeConnection = false) {
   console.log('started recalculating places rating');
   try {
     // Get the existing places with their corresponding amount values
@@ -57,8 +57,12 @@ async function recalculateRating() {
     console.error('Error recalculating rating:', error);
   } finally {
     // Close the database connection
-    dbConn.close();
+    closeConnection && dbConn.close();
   }
 }
 
-recalculateRating()
+// recalculateRating(true)
+
+module.exports = {
+  runScript: recalculateRating
+};

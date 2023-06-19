@@ -1,6 +1,3 @@
-// Clean places first.
-// Make sure .env is in this folder
-
 const Connection = require('../connection') // Replace with the path to your connection file
 
 // Create an instance of the Database class
@@ -39,7 +36,7 @@ async function cleanPlacesAndCities(id, grade, iso_3166_2) {  // Update place
   }
 }
 
-async function cleanReviewsTable() {
+async function cleanReviewsTable(closeConnection = false) {
   try {
     // Select duplicate rows that have the same author, targetId, and timestamp
     const selectDuplicatesQuery = `
@@ -75,9 +72,13 @@ async function cleanReviewsTable() {
     console.error('Error cleaning reviews table:', error);
   } finally {
     // Close the database connection
-    db.close();
+    closeConnection && db.close();
   }
 }
 
 // Call the function to clean the reviews table
-cleanReviewsTable();
+// cleanReviewsTable(true);
+
+module.exports = {
+  runScript: cleanReviewsTable
+};

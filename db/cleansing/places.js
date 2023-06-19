@@ -3,7 +3,7 @@ const dbConn = new Connection()
 
 // Main function to generate cities and calculate their ratings
 // Places DB must already be filled with ISO codes for this migration to happend
-async function cleanPlaces() {
+async function cleanPlaces(closeConnection = false) {
   console.log('started cleaning places');
   try {
     const removeAmountZeroQuery = `DELETE FROM places WHERE amount = 0`;
@@ -15,8 +15,11 @@ async function cleanPlaces() {
   } catch (error) {
     console.error('An error occurred:', error);
   } finally {
-    dbConn.close();
+    closeConnection && dbConn.close();
   }
 }
 
-cleanPlaces()
+// cleanPlaces(true)
+module.exports = {
+  runScript: cleanPlaces
+};

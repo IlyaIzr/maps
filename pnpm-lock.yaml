@@ -38,6 +38,9 @@ dependencies:
   proxy-addr:
     specifier: ^2.0.7
     version: 2.0.7
+  readline:
+    specifier: ^1.3.0
+    version: 1.3.0
 
 devDependencies:
   '@types/node':
@@ -1090,6 +1093,10 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
+
+  /readline@1.3.0:
+    resolution: {integrity: sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==}
+    dev: false
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
