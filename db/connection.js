@@ -21,15 +21,20 @@ class Database {
       })
     }
   }
-  query(sql, args) {
+  query(sql, args, skipErrLog = false) {
     return new Promise((resolve, reject) => {
       // execute for https://www.npmjs.com/package/mysql2#using-prepared-statements
       this.connection.query(sql, args, (err, rows) => {
         if (err) {
-          console.log('error while calling MySql')
-          console.log('sql: ', sql)
-          console.log('args: ', args)
+          !skipErrLog && console.log('error while calling MySql')
+          !skipErrLog && console.log('sql: ', sql)
+          !skipErrLog && console.log('args: ', args)
           return reject(err);
+        }
+        if (sql.trim().startsWith('DELETE') && rows?.affectedRows === 0) {
+          !skipErrLog && console.log('nothing was deleted on deletion attempt')
+          !skipErrLog && console.log('sql: ', sql)
+          !skipErrLog && console.log('args: ', args)
         }
         resolve(rows);
       });
