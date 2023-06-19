@@ -7,8 +7,10 @@ import { TEXT } from "../rest/lang"
 import { Responser } from "../rest/Responser"
 import { setToast } from "../store/app"
 import { setLogInCreds, setLogOutCreds } from "../store/user"
-const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
+import { withUrlSearch } from "~store/url";
 import './Auth.css'
+
+const initCreds = { login: '', pword: '', name: '', question: '', answer: '' }
 
 export const EditProfile = () => {
   const dispatch = useDispatch()
@@ -74,7 +76,7 @@ export const EditProfile = () => {
     else setMsg(TEXT.errCode + ': ' + (res.msg || res))
   }
 
-  async function logOut() {
+  async function handleLogoutClick() {
     const res = await logout()
     if (res.status === 'OK') {
       setCreds(initCreds)
@@ -85,7 +87,8 @@ export const EditProfile = () => {
         title: ''
       })
       setLogOutCreds(dispatch)
-      return history.push('/')
+      history.push(withUrlSearch('/'))
+      return location.reload()
     }
     setMsg(TEXT.errCode + ': ' + (res.msg || res))
   }
@@ -122,7 +125,7 @@ export const EditProfile = () => {
 
         <hr className="mp-border-secondary" />
         <div className="logout-container">
-          <button className="mp-border-secondary profile-logout" onClick={logOut}>{TEXT.logout}</button>
+          <button className="mp-border-secondary profile-logout" onClick={handleLogoutClick}>{TEXT.logout}</button>
           <button className="mp-border-accent" onClick={onSubmit}>{TEXT.submit}</button>
         </div>
       </div>
