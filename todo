@@ -1,6 +1,5 @@
 Closest TODOs:
 
-* storing coords for cities isn't working properly - zoom is poor. Check coords maybe?
 * feature data doesnt change on selected feature change
 * change map styles on dark theme and review others
 * mobile view - as we have 50% visits on mobile

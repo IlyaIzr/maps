@@ -7,6 +7,8 @@ export type CityInfo = {
   en: string
   ru: string
   code: string
+  lat: number
+  lng: number
   geometry?: BEStoredGeometry
 }
 

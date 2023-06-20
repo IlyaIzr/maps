@@ -17,32 +17,36 @@ export const CityItem: React.FC<CityInfo> = ({
   rating,
   en,
   ru,
+  lat, 
+  lng,
   geometry
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [center, setCenter] = useState<number[] | []>([])
+  // The center functionality might be used as a separate button
+  // const [center, setCenter] = useState<number[] | []>([])
   const [geojson, setGeojson] = useState<GeoJSON | null>(null)
   const history = useHistory();
   const mapRef = useSelector(s => s.app.mapRef)
 
-  const toCenter = useCallback(
+  const toCityFeature = useCallback(
     () => {
-      const lat = +center[0].toFixed(5)
-      const lng = +center[1].toFixed(5)
+      // const lat = +center[0].toFixed(5)
+      // const lng = +center[1].toFixed(5)
       const zoom = ZOOM_ON_CITY
 
+      console.log('%c⧭', 'color: #e50000', { lat, lng });
       setDataToUrl({ lat, lng, zoom })
       history.push(`/?lat=${lat}&lng=${lng}&zoom=${zoom}`)
-      mapRef.flyTo({ center: [lat, lng], zoom, speed: 0.8 })
+      mapRef.flyTo({ center: [lng, lat], zoom, speed: 0.8 })
     },
-    [geojson, ZOOM_ON_CITY, center],
+    [ZOOM_ON_CITY],
   )
 
   useEffect(() => {
     if (geometry) {
       const geojson = multiPolygon(getCoordsFromBEGeometry(geometry))
       setGeojson(geojson)
-      setCenter(centerOfMass(geojson).geometry.coordinates)
+      // setCenter(centerOfMass(geojson).geometry.coordinates)
     }
   }, [geometry])
 
@@ -84,7 +88,7 @@ export const CityItem: React.FC<CityInfo> = ({
 
   return (
     <div className={s.cityItem}>
-      <div className={s.preview} onClick={toCenter}>
+      <div className={s.preview} onClick={toCityFeature}>
         <canvas className={s.geojsonPreview} ref={canvasRef} />
       </div>
       <div className={s.cityDetails}>
