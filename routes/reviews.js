@@ -39,16 +39,22 @@ router.get('/reviews', async (req, res) => {
 
 
 router.post('/postReview', async (req, res) => {
-  const { userId, userLevel, commentsNumber, review, place } = req.body
+  const { userId, userLevel, commentsNumber, review, place, isNew } = req.body
+  if (isNew === undefined) {
+    return res.json({ status: 'ERR', msg: 'Map data is broken. Code 1616! Write to support!', body: req.body })
+  }
   const { grade, comment } = review
   const { x, y, lng, lat, polyString, name } = place
   let { iso_3166_2 } = place
   if (!iso_3166_2) {
-    if (!lat || !lng) return res.json({ status: 'ERR', msg: 'no lat or lng provided', query: placesQuery })
+    if (!lat || !lng) return res.json({ status: 'ERR', msg: 'no lat or lng provided', body: req.body })
     iso_3166_2 = await fetchIsoCodeFromCoordinates(lat, lng)
   }
   let targetId = String(review.targetId)
-  !targetId.endsWith(iso_3166_2) && (targetId += iso_3166_2);
+  if (!targetId.endsWith(iso_3166_2)) {
+    // only add iso postfix if the id is new
+    if (isNew) targetId += iso_3166_2
+  }
 
 
 

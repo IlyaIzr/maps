@@ -5,8 +5,8 @@ export async function getReviews(placeId) {
   return await f()
 }
 
-export async function postReview(data) {
-  const f = requestMaker('POST', 'reviews', 'postReview', { ...data }, false)
+export async function postReview(data, { isNew }) {
+  const f = requestMaker('POST', 'reviews', 'postReview', { ...data, isNew }, false)
   return await f()
 }
 

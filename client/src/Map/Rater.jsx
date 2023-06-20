@@ -84,7 +84,7 @@ export const Rater = ({ resetRater }) => {
 
     const res = await postReview({
       userId: user.id, review, place, userLevel: user.level, commentsNumber: user.commentsn
-    })
+    }, { isNew: !!!feature.properties.id })
     const wasRepeating = handleRepeatingError(dispatch, res)
     if (wasRepeating) return;
     handleError(dispatch, res, '#ppr1')
