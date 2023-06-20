@@ -58,7 +58,9 @@ router.get('/refresh', async (req, res) => {
     const UA = req.headers['user-agent']
     if (!UA) return;
     const deviceInfo = deviceDetector.parse(req.headers['user-agent'])
-    const info = `${deviceInfo.device.type} ${deviceInfo.device.brand} ${deviceInfo.os.name} ${deviceInfo.os.version}, - ${deviceInfo.client.name} ${deviceInfo.client.version}`
+    const { device = {}, os = {}, client = {} } = deviceInfo;
+    const deviceData = device ? `${device.type} ${device.brand}` : 'no device info provided'
+    const info = `${deviceData}$  ${os?.name} ${os?.version}, - ${client?.name} ${client?.version}`
     try {
       await dbConn.query(`
       INSERT INTO visits ( ip, time, amount, info ) 
