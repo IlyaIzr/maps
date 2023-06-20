@@ -7,7 +7,7 @@ import { geoJsonFromResponse } from "~rest/utils/helperFuncs";
 // import { multiPolygon, feature } from '@turf/turf'
 
 
-export const ZOOM_ON_CITY = 13
+export const ZOOM_ON_CITY = 14
 
 
 // Example GeoJSON data

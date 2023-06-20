@@ -167,7 +167,9 @@ export class TileService {
     this.tilesRequested.clear()
 
     {
-      if (!this.dataWasReceived) this.noDataCallbacks.forEach(cb => cb())
+      if (!this.dataWasReceived && !this.tilesStack.entries.length) {
+        this.noDataCallbacks.forEach(cb => cb())
+      }
       this.dataWasReceived = false
     }
   }
