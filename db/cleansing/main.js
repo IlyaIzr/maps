@@ -3,6 +3,12 @@ const reviews = require('./reviews.js');
 const places = require('./places.js');
 const plRatings = require('./plRatings.js');
 
+const scripts = [
+  { name: 'reviews', module: reviews },
+  { name: 'places', module: places },
+  { name: 'plRatings', module: plRatings }
+];
+
 // Function to prompt user input
 function promptUser(question) {
   const rl = readline.createInterface({
@@ -20,11 +26,6 @@ function promptUser(question) {
 
 async function runScripts() {
   try {
-    const scripts = [
-      { name: 'reviews', module: reviews },
-      { name: 'places', module: places },
-      { name: 'plRatings', module: plRatings }
-    ];
 
     const startFromBeginning = await promptUser(
       'Select an option:\n1: Start from the beginning\n2: Choose a script to start from\n'
@@ -43,7 +44,7 @@ async function runScripts() {
 
       console.log('\n');
 
-      console.log('started script' + name);
+      console.log('started script ' + name);
       const closeConn = i + 1 === scripts.length
       await module.runScript(closeConn);
 
