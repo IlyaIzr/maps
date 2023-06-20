@@ -148,7 +148,8 @@ export const enLocale = {
   // alpha 3
   author: 'author',
   techInfo: 'Tech info',
-  techSpecs: `This is a full stack app done with Express, React, Mapbox, MySql and lots of auxiliary libraries. Special thanks to nominatim.org for helping decode cities`,
+  techSpecs: `This is a full stack app done with Express, React, Mapbox, MySql and lots of auxiliary libraries`,
+  thanksTo: 'thanks to',
   drawModeLevelOnly: 'Users with level 2 or higher can draw missing buildings on map. You get level 2 after posting 10 reviews',
   yes: 'yes',
   no: 'no',

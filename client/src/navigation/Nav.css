@@ -285,8 +285,8 @@
 /* #region  About */
 
 .aboutPage {
-  min-height: calc(100vh - 32px);
-  padding: 14px 20px;
+  height: 100%;
+  padding: 14px 14px 0px 14px;
 }
 
 .aboutPage p {

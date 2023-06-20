@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setToast } from '~store/app'
 import { TEXT } from '~rest/lang';
 import { postFeedback } from '~requests/reviews';
+import { copyToClipboard } from '~rest/utils/helperFuncs';
 
 export const About = () => {
   const dispatch = useDispatch()
@@ -21,6 +22,14 @@ export const About = () => {
     setTimeout(() => {
       setComment('')
     }, 500)
+  }
+
+  function onEmailClick() {
+    copyToClipboard('ilyaizrailyan@gmail.com')
+    setToast(dispatch, {
+      message: 'copied to clipboard',
+      status: 'complete'
+    })
   }
 
   return (
@@ -48,7 +57,10 @@ export const About = () => {
         <br />
 
         <p className="version mp-counter">{TEXT.author}: @ilyaizr</p>
-        <p className="version mp-counter">{TEXT.version}: alpha 3.2.2</p>
+        <p className="version mp-counter">{TEXT.version}: alpha 3.3</p>
+        <p className="version mp-counter">github: <a className='mp-accent' href="https://github.com/IlyaIzr/maps">github.com/IlyaIzr/maps</a></p>
+        <p className="version mp-counter ">mail: <span className='cursor-pointer mp-accent' onClick={onEmailClick}>ilyaizrailyan@gmail.com</span></p>
+        <p className="version mp-counter">{TEXT.thanksTo}: <a href="nominatim.org" className='mp-counter'>nominatim api</a></p>
       </div>
     </div>
   )

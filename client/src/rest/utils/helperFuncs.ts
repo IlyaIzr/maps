@@ -1,4 +1,3 @@
-import { CityInfo } from "~requests/cities"
 import type { BEFeature, BEStoredGeometry, MapboxFeature } from "~rest/types/types"
 
 export function geoJsonFromResponse(places: BEFeature[]) {
@@ -32,7 +31,7 @@ export function geoJsonFromResponse(places: BEFeature[]) {
   return geoJson
 }
 
-export function getCoordsFromBEGeometry(beGeometry:BEStoredGeometry) {  
+export function getCoordsFromBEGeometry(beGeometry: BEStoredGeometry) {
   const coordinates = beGeometry.map(polygon => polygon.map(polyFigure => {
     return polyFigure.map(polygon => [polygon.x, polygon.y])
   }))
@@ -43,7 +42,7 @@ export function getCoordsFromBEGeometry(beGeometry:BEStoredGeometry) {
 
 //   const geoJson = places.map(placeData => {
 //     const coordinates = getCoordsFromBEGeometry(placeData?.geometry)
-    
+
 //     const res: MapboxFeature = {
 //       type: 'Feature',
 //       geometry: {
@@ -68,3 +67,13 @@ export function getCoordsFromBEGeometry(beGeometry:BEStoredGeometry) {
 //   })
 //   return geoJson
 // }
+
+export function copyToClipboard(text: string): void {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      console.log('Text copied to clipboard.');
+    })
+    .catch((error) => {
+      console.error('Unable to copy text:', error);
+    });
+}
