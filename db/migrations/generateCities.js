@@ -34,8 +34,8 @@ async function generateCities() {
       } else {
         // If it's a new ISO code, get city names by ISO code
         try {
-          if (!iso_3166_2 || (!lat && !lng)) throw 'no enough data'
-            var { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
+          if (!iso_3166_2 || (!lat && !lng)) throw 'not enough data'
+          var { en, ru, polyString } = await fetchCityData(iso_3166_2, lat, lng)
         } catch (error) {
           console.log(`error while fetching city data by iso ${iso_3166_2} from place`, place)
         }
