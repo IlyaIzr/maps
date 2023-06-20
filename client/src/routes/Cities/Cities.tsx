@@ -3,7 +3,7 @@ import s from './Cities.module.css'
 import { useState, useEffect } from "react";
 import { CityItem } from "./CityItem";
 import { CityInfo, fetchPopularCities } from "~requests/cities";
-import { geoJsonFromResponse } from "~rest/utils/helperFuncs";
+// import { geoJsonFromResponse } from "~rest/utils/helperFuncs";
 // import { multiPolygon, feature } from '@turf/turf'
 
 

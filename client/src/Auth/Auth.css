@@ -102,6 +102,15 @@ margin-bottom: 4px;
   border: 1px dashed var(--counter);
 }
 
+@media (max-width: 640px) {
+  .edit-profile-wrapper {
+    width: 90%;
+  }
+  .profile-logout{
+    margin-left: 6px;
+  }
+}
+
 /* #endregion */
 
 /* #region  Google reg */
