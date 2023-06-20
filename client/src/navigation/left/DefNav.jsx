@@ -11,6 +11,7 @@ import { ReactComponent as FriendsIcon } from '../../rest/svg/friends.svg'
 import { ReactComponent as TagIcon } from '../../rest/svg/tag.svg'
 import { ReactComponent as RouteIcon } from '../../rest/svg/route.svg'
 import { ReactComponent as AboutIcon } from '../../rest/svg/about.svg'
+import { ReactComponent as CitiesIcon } from '../../rest/svg/city.svg'
 
 export const DefNav = ({ setNavState, hideSelf }) => {
 
@@ -55,6 +56,11 @@ export const DefNav = ({ setNavState, hideSelf }) => {
             </AppLink>
           }
         </div>
+
+        <AppLink to="/cities" className="left-menu-item mp-accent-hover pick-theme-item" onClick={hideMainMenu}>
+          <CitiesIcon fill="var(--dark)" className="navIcon" />
+          <span className="menu-text">{TEXT.citiesMenuString.capitalize()}</span>
+        </AppLink>
 
         <div onClick={pickTheme} className="left-menu-item mp-accent-hover pick-theme-item">
           <ThemeIcon fill="var(--dark)" className="navIcon" />

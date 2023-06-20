@@ -159,7 +159,8 @@ export const ruLocale = {
   popularCitiesSuggestion: 'хотите перейти к популярным городам?',
   close: 'закрыть',
   watchCities: 'к городам',
-  repeatingComment: "одно место - один отзыв"
+  repeatingComment: "одно место - один отзыв",
+  citiesMenuString: 'топ городов'
 }
 
 // module.exports = {
