@@ -21,7 +21,7 @@ type AnyFunction = (args?: any) => any
 
 export class TileService {
   // encapsulated storages
-  private tilesStack: Map<TileCode, Feature[] | null> = new Map();
+  private tilesStack: Map<TileCode, Map<string, Feature> | null> = new Map();
   private tilesRequested: Set<TileCode> = new Set()
   private noDataCallbacks: Array<AnyFunction> = []
   private dataWasReceived = false
@@ -110,12 +110,12 @@ export class TileService {
     const featureIdsToDelete: string[] = [];
     let deletedCount = 0;
 
-    for (const [key, featuresArr] of this.tilesStack) {
+    for (const [key, featuresMap] of this.tilesStack) {
       if (!tilesWeNeed.has(key)) {
         // store tile keys to delete from tileStack
         // store all feature ids from that tile to delete it from appGeodata easily by id
         keysToDelete.push(key);
-        featuresArr?.forEach(f => featureIdsToDelete.push(f.id || f.properties!.id))
+        featuresMap?.forEach(f => featureIdsToDelete.push(f.properties!.id))
         deletedCount++;
 
         if (deletedCount === this.stackReduceAmount) {
@@ -167,7 +167,7 @@ export class TileService {
     this.tilesRequested.clear()
 
     {
-      if (!this.dataWasReceived && !this.tilesStack.entries.length) {
+      if (!this.dataWasReceived && !this.tilesStack.size) {
         this.noDataCallbacks.forEach(cb => cb())
       }
       this.dataWasReceived = false
@@ -216,8 +216,8 @@ export class TileService {
         // Save feature to tile stack
         const { x, y } = feature.properties
         const key: TileCode = `x${(x)}y${y}`;
-        const existedFeaturesInTile = this.tilesStack.get(key) || [];
-        existedFeaturesInTile.push(feature);
+        const existedFeaturesInTile = this.tilesStack.get(key) || new Map();
+        existedFeaturesInTile.set(key, feature);
         this.tilesStack.set(key, existedFeaturesInTile);
 
         // Remove not-empty tiles from requested
