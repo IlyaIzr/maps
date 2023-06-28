@@ -20,14 +20,14 @@ export const Modal = () => {
     e.stopPropagation()
     await cancel()
   }
-  function someClicko(e) {
+  function stopPropagation(e) {
     e.stopPropagation()    
   }
 
   if (!data) return null;
   return (
     <div className="modal-dialog-wrap" onClick={outsideClick}>
-      <div className="modal-dialog mp-border-dark mp-bg-light" onClick={someClicko}>
+      <div className="modal-dialog mp-border-dark mp-bg-light" onClick={stopPropagation}>
         <div className="modal-dialog-content mp-dark">
           <div className="modal-content">{data.message}</div>
           {Boolean(data.children) && data.children}

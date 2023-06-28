@@ -43,8 +43,7 @@ export const MapArea = ({ resetRater }) => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: MAPBOX_STYLES[app.theme],
-      // TODO
-      center: [lng || DEFAULT_LOCATION.lng + 2, lat || DEFAULT_LOCATION.lat],
+      center: [lng || DEFAULT_LOCATION.lng, lat || DEFAULT_LOCATION.lat],
       zoom: zoom || DEFAULT_ZOOM
     });
     setMapRef(d, map.current)
