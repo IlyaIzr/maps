@@ -194,6 +194,11 @@ a:hover {
   z-index: 99999;
   background-color: #00000085;
 }
+@media (max-width: 640px) {
+  .modal-dialog {
+    width: 90%;
+  }
+}
 
 .modal-dialog {
   position: fixed;
