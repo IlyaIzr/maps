@@ -1,9 +1,11 @@
 Closest TODOs:
 
+* on profile logout - keep coords in url. Actually make sure .push('/') are wrapped with .withCreds where needed
+
 * change map styles on dark theme and review others
-* mobile view - as we have 50% visits on mobile
 * add nomismate credits
 
+*check mobile views on actual mobile
 
 
 replace turf from window
