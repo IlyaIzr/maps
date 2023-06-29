@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
-const { simplify } = require('@turf/turf')
+const simplify = require('@turf/simplify')
 const { filterAfromB, handleGeojson, delay } = require('./helpres');
 
 const citiesTableKeys = ['code', 'rating', 'amount', 'lat', 'lng', 'en', 'ru', 'geometry']

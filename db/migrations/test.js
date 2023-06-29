@@ -1,4 +1,4 @@
-const { simplify } = require('@turf/turf')
+const simplify = require('@turf/simplify')
 
 const fs = require('fs');
 const { geojsonExample } = require('./geojson');
