@@ -1,0 +1,1 @@
+function a(o){return o.map(r=>r.map(c=>c.map(e=>[e.x,e.y])))}function n(o){navigator.clipboard.writeText(o).then(()=>{console.log("Text copied to clipboard.")}).catch(t=>{console.error("Unable to copy text:",t)})}export{n as c,a as g};
