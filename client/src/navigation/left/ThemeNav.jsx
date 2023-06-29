@@ -8,6 +8,7 @@ import { setPreference } from '../../store/localstorage';
 import { navStates } from '../LeftMenu';
 import { ReactComponent as BackIcon } from '../../rest/svg/back2.svg';
 import { useHistory } from 'react-router-dom'
+import { withUrlSearch } from "~store/url";
 
 export const ThemeNav = ({ setNavState, hideSelf }) => {
   const app = useSelector(state => state.app)
@@ -23,7 +24,7 @@ export const ThemeNav = ({ setNavState, hideSelf }) => {
     setColors(appThemes[themeNumber])
     setPreference('theme', appThemes[themeNumber])
     hideSelf()
-    history.push('/')
+    history.push(withUrlSearch('/'))
   }
   function onBack() {
     setNavState(navStates.default)
@@ -38,7 +39,7 @@ export const ThemeNav = ({ setNavState, hideSelf }) => {
           back-icon-container cursor-pointer 
           transition"
         >
-          <BackIcon fill="var(--accent)" className="nav-icon"/>
+          <BackIcon fill="var(--accent)" className="nav-icon" />
         </div>
         <div className="menu-user-subcontainer">
           <div className="menu-username">{TEXT.pickTheme}</div>

@@ -6,6 +6,7 @@ import { registerUser } from '../requests/users'
 import { TEXT } from '../rest/lang'
 import { Responser } from '../rest/Responser'
 import { setLogInCreds, setLogOutCreds } from '../store/user'
+import { withUrlSearch } from "~store/url";
 const initCreds = { login: '', pword: '', name: '', question: TEXT.secretExample, answer: '' }
 
 export const AlphaReg = () => {
@@ -71,7 +72,7 @@ export const AlphaReg = () => {
       // await loginWithCreds({ login: creds.login, pword: creds.pword })
       setLogInCreds(dispatch, res.data)
       setCreds(initCreds)
-      history.push('/')
+      history.push(withUrlSearch('/'))
     }
     else if (res.status === 'EXISTING') {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)

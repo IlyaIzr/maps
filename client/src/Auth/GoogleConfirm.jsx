@@ -6,6 +6,7 @@ import { googleCreds } from '../rest/config';
 import { TEXT } from '../rest/lang';
 import { Responser } from '../rest/Responser';
 import { setLogInCreds } from '../store/user';
+import { withUrlSearch } from "~store/url";
 
 
 export const GoogleConfirm = () => {
@@ -45,7 +46,7 @@ export const GoogleConfirm = () => {
         googleCreds.key = null        
       })
       setCreds(googleCreds)
-      history.push('/')
+      history.push(withUrlSearch('/'))
     }
     else if (res.status === 'EXISTING') {
       return setMsg(TEXT.loginOccupied + ' - ' + creds.login)

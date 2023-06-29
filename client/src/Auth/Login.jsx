@@ -10,6 +10,7 @@ import { setLogInCreds, setLogOutCreds } from '../store/user';
 import { getFriendsInfo } from '../rest/helperFuncs'
 import { GoogleLogin } from '@react-oauth/google';
 import { AppLink } from '~components/Link/AppLink'
+import { withUrlSearch } from "~store/url";
 
 
 export const Login = ({ afterLoggedIn }) => {
@@ -45,7 +46,7 @@ export const Login = ({ afterLoggedIn }) => {
       setMsg('')
       await getFriendsInfo(dispatch)
       afterLoggedIn?.()
-      history.push('/')
+      history.push(withUrlSearch('/'))
       return setLogInCreds(dispatch, res.data)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))
@@ -87,7 +88,7 @@ export const Login = ({ afterLoggedIn }) => {
       setMsg('')
       await getFriendsInfo(dispatch)
       afterLoggedIn?.()
-      history.push('/')
+      history.push(withUrlSearch('/'))
       return setLogInCreds(dispatch, res.data)
     }
     setMsg(TEXT.errorReg + ', ' + TEXT.errCode + ': ' + (res.msg || res))

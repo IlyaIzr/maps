@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { getTagInfo } from "~requests/tags"
 import { TEXT } from "~rest/lang"
 import { setMapMode, setToast, tagModeTag } from "~store/app"
 import { AppLink } from '~components/Link/AppLink'
+import { withUrlSearch } from "~store/url";
 
 export const TagOverview = () => {
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ export const TagOverview = () => {
   function onClick() {
     tagModeTag(dispatch, tag)
     setMapMode(dispatch, 'tags')
-    history.push('/')
+    history.push(withUrlSearch('/'))
   }
 
   // should we show tops of the buildings
@@ -57,14 +58,14 @@ export const TagOverview = () => {
       <div className="tagPlaces">
         {Boolean(info.places) && info.places.map(({ placeId, amount, name, lng, lat }) => {
           if (!name) name = TEXT.noName
-          
+
           function onClick() {
             mapRef.flyTo({ center: [lng, lat], zoom: 16, speed: 0.5 })
             tagModeTag(dispatch, tag)
             setMapMode(dispatch, 'tags')
-            history.push('/')
+            history.push(withUrlSearch('/'))
           }
-          
+
           return (<div key={placeId}>
             <div className="placeInTag" >
               <div className="amount mp-accent" title={TEXT.mentionsAmount}>{amount}</div>
