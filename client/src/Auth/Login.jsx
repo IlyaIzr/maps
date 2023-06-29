@@ -12,7 +12,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { AppLink } from '~components/Link/AppLink'
 
 
-export const Login = () => {
+export const Login = ({ afterLoggedIn }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const user = useSelector(state => state.user)
@@ -44,6 +44,7 @@ export const Login = () => {
       })
       setMsg('')
       await getFriendsInfo(dispatch)
+      afterLoggedIn?.()
       history.push('/')
       return setLogInCreds(dispatch, res.data)
     }
@@ -85,6 +86,7 @@ export const Login = () => {
       })
       setMsg('')
       await getFriendsInfo(dispatch)
+      afterLoggedIn?.()
       history.push('/')
       return setLogInCreds(dispatch, res.data)
     }

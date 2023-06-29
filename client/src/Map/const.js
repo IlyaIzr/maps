@@ -5,7 +5,8 @@ export const RATED_LAYER_SRC = 'ratedFeaturesSource'
 export const SELECTED_FEATURE_LAYER_SRC = 'selectedFeatureSrc'
 
 
-export const SKIP_BANNER_LOCAL_STORAGE_KEY = 'skip_banner'
+export const SKIP_BANNER_LOCAL_STORAGE_KEY = 'm4ps/skip_banner'
+export const SKIP_AUTH_LOCAL_STORAGE_KEY = 'm4ps/skip_auth'
 
 
 export const MAPBOX_STYLES = {

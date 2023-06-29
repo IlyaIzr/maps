@@ -16,7 +16,7 @@ export function initLocalStorage() {
 }
 
 export function setPreference(preference, value) {
-  const prefs = getPreferences()
+  const prefs = getPreferences() || {}
   prefs[preference] = value
   window.localStorage.setItem(projectPrefix + '/preferences', JSON.stringify(prefs))
 }

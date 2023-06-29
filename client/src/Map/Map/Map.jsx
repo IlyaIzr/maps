@@ -25,7 +25,7 @@ const themesCbStore = new CallbackManager('themes')
 // Settings
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_T;
 
-export const MapArea = ({ resetRater }) => {
+export const MapArea = () => {
   const app = useSelector(state => state.app)
   const feature = useSelector(state => state.map.currentFeature)
   const { geodata: appGeodata, isMapLoaded } = useSelector(state => state.map)
@@ -127,6 +127,11 @@ export const MapArea = ({ resetRater }) => {
 
     setAppGeodata(d, geoJson)
     return geoJson
+  }
+
+  
+  function resetRater() {
+    setCurrentFeature(d, null)
   }
 
   return (

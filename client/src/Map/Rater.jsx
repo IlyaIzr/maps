@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { gradients } from '~rest/colors';
@@ -7,14 +7,18 @@ import { TEXT } from '~rest/lang';
 import { setModal } from '~store/app';
 import { Comment } from './Comment';
 import { TotalRating } from '~components/TotalRating/TotalRating'
-import { formatGeodata } from './MapWrap/formatGeodata';
-import { LAYOUT_ZOOM } from './const';
+import { formatGeodata } from './formatGeodata';
+import { LAYOUT_ZOOM, SKIP_AUTH_LOCAL_STORAGE_KEY } from './const';
 import { getLayoutCoords, handleError, handleNewLevel } from '../rest/helperFuncs';
 import { setMapMode } from '../store/app';
 import { postReview } from '../requests/reviews';
 import { handleRepeatingError } from './handleRepeatingError';
 import { upsertFeatureToAppGeodata } from '../store/map';
 import { postTagsIfAny } from '../requests/tags';
+import { getPreferences, setPreference } from '../store/localstorage';
+import { lazily } from 'react-lazily';
+
+const { Login } = lazily(() => import('../Auth/Login'));
 
 export const Rater = ({ resetRater }) => {
   const user = useSelector(state => state.user)
@@ -30,14 +34,15 @@ export const Rater = ({ resetRater }) => {
   function onClick() {
     setRating(hover)
   }
-  function onSub() {
-    if (Number(rating) === 0) return setModal(dispatch, {
-      message: TEXT.rateZeroModal,
-      acceptAction: submitAction,
-      acceptLabel: TEXT.yes,
-      cancelLabel: TEXT.goBack,
-    })
-    onSubmit()
+
+  function handleZeroRating(d) {
+    if (isZeroRatingEffect(d, rating, sendReview)) return;
+    sendReview()
+  }
+
+  function onSubmit() {
+    if (isAuthorizedEffect(dispatch, isLogged, handleZeroRating)) return;
+    handleZeroRating(dispatch)
   }
   function onMouseEnter(e) {
     setHover(Number(e.target.name))
@@ -52,7 +57,7 @@ export const Rater = ({ resetRater }) => {
     setComment('')
   }, [feature])
 
-  async function onSubmit() {
+  async function sendReview() {
     setHover(0)
     // Calculations
     const [northEastest, southWestest, polyString] = formatGeodata(feature.geometry)
@@ -139,11 +144,53 @@ export const Rater = ({ resetRater }) => {
       <Comment comment={comment} setComment={setComment} />
 
       <div className="raterBtnContainer">
-        <button type="button" onClick={onSub}>{TEXT.send}</button>
+        <button type="button" onClick={onSubmit}>{TEXT.send}</button>
         {!isLogged &&
           <div className="subtitle">{TEXT.asAnonimus}</div>
         }
       </div>
     </div>
   );
+}
+
+
+function isZeroRatingEffect(dispatch, rating, acceptAction) {
+  if (Number(rating) === 0) {
+    setModal(dispatch, {
+      message: TEXT.rateZeroModal,
+      acceptAction,
+      acceptLabel: TEXT.yes,
+      cancelLabel: TEXT.goBack,
+    })
+    return true
+  } else return false
+}
+
+let runtimeSkipCounter = 1
+function isAuthorizedEffect(dispatch, isLogged, next) {
+  if (!isLogged && !getPreferences()?.[SKIP_AUTH_LOCAL_STORAGE_KEY]) {
+    setModal(dispatch, {
+      acceptLabel: null,
+      cancelLabel: TEXT.skip,
+      cancelAction() {
+        // remember on 3rd time
+        if (runtimeSkipCounter === 3) {
+          setPreference(SKIP_AUTH_LOCAL_STORAGE_KEY, true);
+          // since both funcions may use same reducer with same dispatch, show after effect on next tick
+          setTimeout(() => {
+            next(dispatch)
+          }, 0);
+        } else if (runtimeSkipCounter < 3) {
+          runtimeSkipCounter++
+        }
+      },
+      message: TEXT.wannaAuthorize,
+      children: <div className="auth-modal-containter mp-border-secondary">
+        <Suspense fallback={null}>
+          <Login afterLoggedIn={next.bind(this, dispatch)} />
+        </Suspense>
+      </div>,
+    })
+    return true
+  } else return false
 }
