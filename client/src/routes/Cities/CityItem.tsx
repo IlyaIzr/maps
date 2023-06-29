@@ -1,5 +1,5 @@
 import s from './CityItem.module.css'
-import { centerOfMass, bbox, getCoords, multiPolygon } from '@turf/turf';
+import { bbox, getCoords, multiPolygon } from '@turf/turf';
 import type { GeoJSON } from 'geojson';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';

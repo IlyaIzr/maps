@@ -16,7 +16,7 @@ import { registerCitiesBanner } from './citiesBanner';
 import { useHistory } from 'react-router-dom';
 import { DEFAULT_LOCATION, DEFAULT_ZOOM, LAYOUT_ZOOM, MAPBOX_STYLES, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from '../const';
 import { getRange } from './range';
-import { tileServiceInstance } from './tileService'
+import { centroid } from '@turf/turf';
 import { setAppGeodata, setCurrentFeature } from '../../store/map';
 import { Controls } from './Controls';
 
@@ -153,7 +153,7 @@ function setMapData(map, geoData, sourceId) {
 }
 
 export function flyToFeature(map, feature, zoom = 16, speed = 0.5) {
-  const [lng, lat] = window.turf.centroid(feature.geometry).geometry.coordinates
+  const [lng, lat] = centroid(feature.geometry).geometry.coordinates
   map.flyTo({ center: [lng - 0.0010, lat + 0.0005], zoom, speed });
   return [lng, lat]
 }
