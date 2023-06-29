@@ -155,7 +155,7 @@ export const Reviews = ({ resetRater }) => {
           </div>
         )
       }) :
-        <div key={'whatever'}>{TEXT.noreviews}</div>
+        <div key={'whatever'}>{TEXT.noReviews}</div>
       }
 
       <div className="skipperContainer">
