@@ -9,13 +9,13 @@ import { RoutesControl } from "~routes/RoutesControl";
 // todo Why do we need them?
 import "./Map/Map/Maps.css";
 import "./App.css";
-import { TestCallToast, ToastStack } from "./components/Toast/ToastStack";
 
 const { NavMain } = lazily(() => import("./navigation/NavMain"));
 const { Modal } = lazily(() => import("./rest/Modal"));
 const { MapRootComponent } = lazily(() => import("./Map"));
 const { Toast } = lazily(() => import("./components/Toast/Toast"));
 const { Banner } = lazily(() => import("~components/Banner/Banner"));
+const { ToastStack } = lazily(() => import("~components/Toast/ToastStack"));
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +29,6 @@ function App() {
 
   return (
     <Router>
-      <TestCallToast />
       <Suspense fallback={null}>
         <Modal />
         <ToastStack />
