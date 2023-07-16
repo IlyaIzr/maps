@@ -1,0 +1,45 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "pnpm install"
+    },
+    {
+      "name": "Install Client Dependencies",
+      "command": "cd client && pnpm install"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "client": {
+      "name": "client",
+      "command": "cd client && pnpm start",
+      "runAtStart": true,
+      "preview": {
+        "port": 3000
+      }
+    },
+    "dev": {
+      "name": "dev",
+      "command": "pnpm dev",
+      "runAtStart": true
+    },
+    "start": {
+      "name": "start",
+      "command": "pnpm start",
+      "runAtStart": false
+    },
+    "git": {
+      "name": "git",
+      "command": "pnpm git",
+      "runAtStart": false
+    },
+    "postgit": {
+      "name": "postgit",
+      "command": "pnpm postgit",
+      "runAtStart": false
+    }
+  }
+}
