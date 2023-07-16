@@ -47,7 +47,6 @@ export const Toast = ({ toast }) => {
 
   function onClick() {
     toast.clickAction?.();
-    console.log("click happend", toast);
     startEndingAnimation();
   }
 
