@@ -1,83 +1,124 @@
-import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { closeToast } from '~store/app'
-import { TEXT } from '~rest/lang'
-import s from './Toast.module.css'
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeToast } from "~store/toast";
+import { TEXT } from "~rest/lang";
+import s from "./Toast.module.css";
 
-export const Toast = () => {
-  const data = useSelector(state => state.app.toast)
-  const dispatch = useDispatch()
-  const [visibility, setVisibility] = useState(null)
-  const ref = useRef(null)
+const COLLAPSING_TIME = 3000;
+export const Toast = ({ toast }) => {
+  const d = useDispatch();
+  const [timeouts, setTimeouts] = useState([]);
+  const [animation, setAnimation] = useState("show"); // or 'slideUp' or 'dead'
 
-  // Make toast descending unless user hovers on in in given time
   useEffect(() => {
-    const t = setTimeout(() => {
-      setVisibility('opaque')
-    }, 4000);
-    if (ref?.current) ref.current.onmouseover = e => setVisibility(null)
-    return () => {
-      clearTimeout(t)
-    }
-  }, [])
+    const t1 = setTimeout(() => {
+      startEndingAnimation();
+    }, toast.lifeTime);
 
+    setTimeouts([...timeouts, t1]);
+
+    // before unmount
+    return () => {
+      clearTimeouts();
+    };
+  }, []);
+
+  function startEndingAnimation() {
+    setAnimation("slideUp");
+
+    const t2 = setTimeout(() => {
+      removeToast(d, toast);
+      // stop taking any place
+      setAnimation("dead");
+    }, COLLAPSING_TIME);
+
+    setTimeouts([...timeouts, t2]);
+  }
+
+  function clearTimeouts() {
+    timeouts.forEach((t) => clearTimeout(t));
+    setTimeouts([]);
+  }
+
+  function onMouseEnter() {
+    clearTimeouts();
+    setAnimation("show");
+  }
 
   function onClick() {
-    if (data.clickAction) data.clickAction()
-    closeToast(dispatch)
+    toast.clickAction?.();
+    console.log("click happend", toast);
+    startEndingAnimation();
   }
 
-  if (!data.message) return null
-
-  // Coloring
-  // default status = 'error'
-  let main = 'accent'
-  let info = 'dark'
-  let bg = 'light'
-  let border = 'accent'
-  let title = data.title !== undefined ? data.title : TEXT.error
-  if (data.status === 'info') {
-    main = 'counter'
-    info = 'dark'
-    bg = 'light'
-    border = 'counter'
-    title = ''
-  }
-  else if (data.status === 'warning') {
-    main = 'counter'
-    info = 'accent'
-    bg = 'light'
-    border = 'accent'
-    title = data.title !== undefined ? data.title : TEXT.warning + '!'
-  }
-  else if (data.status === 'complete') {
-    main = 'counter'
-    info = 'dark'
-    bg = 'light'
-    border = 'counter'
-    title = data.title !== undefined ? data.title : TEXT.complete + '!'
-  }
-
+  const {
+    bg,
+    border,
+    info,
+    main,
+    toastTitle: title,
+  } = getDynamicValues(toast.status, toast.title);
   return (
     <div
-      className={`${s.toast} mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer ${visibility}`}
-      onClick={onClick} ref={ref}
-      key={data.key}
+      className={`
+      ${s.toast} 
+      ${s[animation]} 
+      mp-${main} mp-bg-${bg} mp-border-${border} cursor-pointer
+      `}
+      onMouseEnter={onMouseEnter}
+      onClick={onClick}
     >
       <div className={s.header}>
-        {title ? <>
-          <h6>{title}</h6>
-          <div className={`close-cross mp-${info}`}>&#10006;</div>
-        </> :
+        {title ? (
           <>
-            <p className={`mp-${info}`}>{data.message}</p>
-            <div className={`${s.closeCross} mp-${main}`}>&#10006;</div>
+            <h6>{title}</h6>
+            {/* <div className={`close-cross mp-${info}`}>&#10006;</div> */}
           </>
-        }
+        ) : (
+          <>
+            <p className={`mp-${info}`}>{toast.message}</p>
+            {/* <div className={`${s.closeCross} mp-${main}`}>&#10006;</div> */}
+          </>
+        )}
       </div>
-      {Boolean(title) && <div className={`${s.content} mp-${info}`}>
-        {data.message}
-      </div>}
+      {Boolean(title) && (
+        <div className={`${s.content} mp-${info}`}>{toast.message}</div>
+      )}
     </div>
-  )
+  );
+};
+
+function getDynamicValues(status, title) {
+  let main = "accent";
+  let info = "dark";
+  let bg = "light";
+  let border = "accent";
+  let toastTitle = title !== undefined ? title : TEXT.error;
+  if (status === "info") {
+    main = "counter";
+    info = "dark";
+    bg = "light";
+    border = "counter";
+    toastTitle = "";
+  } else if (status === "warning") {
+    main = "counter";
+    info = "accent";
+    bg = "light";
+    border = "accent";
+    toastTitle = title !== undefined ? title : TEXT.warning + "!";
+  } else if (status === "complete") {
+    main = "counter";
+    info = "dark";
+    bg = "light";
+    border = "counter";
+    toastTitle = title !== undefined ? title : TEXT.complete + "!";
+  }
+
+  return {
+    main,
+    info,
+    bg,
+    border,
+    toastTitle,
+  };
 }

@@ -1,42 +1,39 @@
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Suspense, useEffect } from "react";
-import { lazily } from 'react-lazily';
+import { lazily } from "react-lazily";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getFriendsInfo } from "./rest/helperFuncs";
-import { MainRouteWrap } from "~components/MainRouteWrap/MainRouteWrap"
-import { RoutesControl } from "~routes/RoutesControl"
+import { MainRouteWrap } from "~components/MainRouteWrap/MainRouteWrap";
+import { RoutesControl } from "~routes/RoutesControl";
 // todo Why do we need them?
-import './Map/Map/Maps.css'
-import './App.css'
+import "./Map/Map/Maps.css";
+import "./App.css";
+import { TestCallToast, ToastStack } from "./components/Toast/ToastStack";
 
-const { NavMain } = lazily(() => import('./navigation/NavMain'));
-const { Modal } = lazily(() => import('./rest/Modal'));
-const { MapRootComponent } = lazily(() => import('./Map'));
-const { Toast } = lazily(() => import('./components/Toast/Toast'));
-const { Banner } = lazily(() => import('~components/Banner/Banner'));
+const { NavMain } = lazily(() => import("./navigation/NavMain"));
+const { Modal } = lazily(() => import("./rest/Modal"));
+const { MapRootComponent } = lazily(() => import("./Map"));
+const { Toast } = lazily(() => import("./components/Toast/Toast"));
+const { Banner } = lazily(() => import("~components/Banner/Banner"));
 
 function App() {
-  const dispatch = useDispatch()
-  const app = useSelector(state => state.app)
+  const dispatch = useDispatch();
+  const app = useSelector((state) => state.app);
 
   useEffect(() => {
     (async function () {
-      await getFriendsInfo(dispatch)
-    })()
-    /* eslint-disable */
-  }, [])
-  /* eslint-enable */
+      await getFriendsInfo(dispatch);
+    })();
+  }, [getFriendsInfo]);
 
   return (
-    <Router >
+    <Router>
+      <TestCallToast />
       <Suspense fallback={null}>
         <Modal />
-        {app.toast && <Toast key={app.toast?.key} />}
+        <ToastStack />
         <Banner />
-
 
         {/* Extra subpages */}
         <RoutesControl />

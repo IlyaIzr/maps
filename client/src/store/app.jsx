@@ -1,4 +1,5 @@
 import { appThemes } from "../rest/config"
+import {setToastNew} from './toast'
 
 /* #region Name consts  */
 
@@ -250,7 +251,8 @@ export const setToast = (d, toastInfo = {
   status: 'error', // also 'warning', 'info', 'complete',
   title: ''
 }) => {
-  d({ type: SET_TOAST, toastInfo })
+  setToastNew(d, toastInfo)
+  // d({ type: SET_TOAST, toastInfo })
 }
 
 export const closeToast = (d) => {

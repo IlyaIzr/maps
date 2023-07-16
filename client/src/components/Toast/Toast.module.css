@@ -1,22 +1,37 @@
-
-.toast {
+.toastStack {
   position: fixed;
-  width: min(260px, 70vw);
+  display: flex;
+  flex-direction: column;
   top: 20px;
   right: 10px;
   z-index: 4;
+  transition: all 3s ease-in;
+}
+
+.toast {
+  position: relative;
+  top: 0;
+  margin-top: 4px;
+  width: min(260px, 70vw);
   border: 1px solid;
   border-radius: 2px;
   padding: 4px 2px;
-  transition: 1.6s;
+  transition: all 1s ease;
 }
 
+.toast.show {
+  transition: all 3s ease-in;
+}
+
+.toast.slideUp {
+  top: -100vh;
+  margin-top: 0;
+}
 
 .header {
   display: flex;
   flex-wrap: wrap;
 }
-
 
 .header h6 {
   font-size: 1.2em;
