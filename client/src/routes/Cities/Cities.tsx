@@ -1,14 +1,13 @@
 import { SearchBar } from "~components/SearchBar/SearchBar";
-import s from './Cities.module.css'
 import { useState, useEffect } from "react";
+import { TEXT } from "~rest/lang";
 import { CityItem } from "./CityItem";
 import { CityInfo, fetchPopularCities } from "~requests/cities";
+import s from "./Cities.module.css";
 // import { geoJsonFromResponse } from "~rest/utils/helperFuncs";
 // import { multiPolygon, feature } from '@turf/turf'
 
-
-export const ZOOM_ON_CITY = 14
-
+export const ZOOM_ON_CITY = 14;
 
 // Example GeoJSON data
 // const geojsonExample = {
@@ -58,18 +57,20 @@ export const ZOOM_ON_CITY = 14
 // Featured cities so far
 // All cities with search - later: alpha 3.3
 export function Cities() {
-  const [featuredCities, setFeaturedCities] = useState<CityInfo[]>([])
+  const [featuredCities, setFeaturedCities] = useState<CityInfo[]>([]);
 
   // const g = feature(multiPolygon(city.geometry))
-  const content = featuredCities.length ?
-    featuredCities.map(city => <CityItem {...city} key={city.code} />)
-    : <h3>{'TEXT.no cities yet'}</h3>
+  const content = featuredCities.length ? (
+    featuredCities.map((city) => <CityItem {...city} key={city.code} />)
+  ) : (
+    <h3>{TEXT.noCities}</h3>
+  );
 
   useEffect(() => {
     // TODO call for features here
     (async function fetchCities() {
-      const res = await fetchPopularCities()
-      if (res.data) setFeaturedCities(res.data)
+      const res = await fetchPopularCities();
+      if (res.data) setFeaturedCities(res.data);
       // else setFeaturedCities([
       //   {
       //     amount: 100,
@@ -87,8 +88,7 @@ export function Cities() {
       //   }
       // ])
     })();
-  }, [])
-
+  }, []);
 
   return (
     <div className="cities">
@@ -96,10 +96,7 @@ export function Cities() {
       <SearchBar />
 
       {/* List of cities */}
-      <div className={s.container}>
-        {content}
-      </div>
-
+      <div className={s.container}>{content}</div>
     </div>
-  )
+  );
 }
