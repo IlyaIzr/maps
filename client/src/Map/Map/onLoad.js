@@ -75,8 +75,8 @@ export function mapOnLoad(map, theme, dispatch, noDataCb) {
           "interpolate", ["linear"], ['get', 'amount'],
 
           0, 0.1,
-          1, 0.4,
-          2, 0.5,
+          1, 0.25,
+          3, 0.5,
           5, 0.8,
         ],
         // 'fill-opacity': 0.9,
