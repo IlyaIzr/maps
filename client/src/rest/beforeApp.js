@@ -8,7 +8,6 @@ import { TEXT } from "./lang";
 
 export async function initActions() {
   // Prototypes
-  // eslint-disable-next-line
   String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
   }
