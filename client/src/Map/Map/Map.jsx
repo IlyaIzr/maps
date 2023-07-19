@@ -51,11 +51,13 @@ export const MapArea = () => {
     const { lng, lat, zoom } = getDataFromUrl();
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: MAPBOX_STYLES[app.theme],
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: [lng || DEFAULT_LOCATION.lng, lat || DEFAULT_LOCATION.lat],
       zoom: zoom || DEFAULT_ZOOM,
     });
     setMapRef(d, map.current);
+    // the app is still not too big so that's okay
+    window.mapInstance = map.current;
 
     mapOnLoad(
       map.current,
@@ -73,6 +75,7 @@ export const MapArea = () => {
   useEffect(() => {
     if (!map.current) return;
     map.current.setStyle(MAPBOX_STYLES[app.theme]);
+    // map.current.setStyle("mapbox://styles/mapbox/satellite-v9");
     isMapLoaded && setMapData(map.current, appGeodata, RATED_LAYER_SRC);
   }, [app.theme, map.current]);
 

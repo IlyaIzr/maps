@@ -168,6 +168,9 @@ export const ruLocale = {
   repeatingComment: "одно место - один отзыв",
   citiesMenuString: "топ городов",
   noCities: "пока что нет городов",
+  mapboxSatelite: "спутник (Mapbox)",
+  addLayer: "добавить слой",
+  layerOpacity: "прозрачность слоя",
 };
 
 // module.exports = {

@@ -1,0 +1,39 @@
+/* LayersControl.module.css */
+.layersControl {
+  position: fixed;
+  bottom: 110px;
+  right: 12px;
+  display: flex;
+}
+
+.layersControl.disabled {
+  width: 55px;
+  max-width: 55px;
+  height: 55px;
+  max-height: 55px;
+  align-items: center;
+  justify-content: center;
+}
+
+.layersControl.active {
+  max-width: 240px;
+  width: auto;
+  height: auto;
+}
+
+.iconWrap {
+  margin-top: 2px;
+}
+
+.iconWrap svg {
+  fill: var(--dark);
+  width: 24px;
+  height: 24px;
+}
+.layersControl:hover .iconWrap svg {
+  fill: var(--accent);
+}
+
+.layerCards {
+  width: 100%;
+}

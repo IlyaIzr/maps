@@ -1,0 +1,38 @@
+.layerCard {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  width: 100%;
+}
+.layerHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.layerHeader h3 {
+  font-size: 14px;
+  margin: 0;
+  max-width: 180px;
+}
+
+.layerHeader svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--counter);
+}
+
+.layerHeader svg:hover {
+  fill: var(--accent);
+}
+
+.opacitySlider {
+  margin: 2px 4px;
+  padding: 0;
+  margin-right: 10px;
+}
+
+.opacitySlider:hover {
+  cursor: pointer !important;
+}
