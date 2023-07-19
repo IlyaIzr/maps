@@ -165,6 +165,9 @@ export const enLocale = {
   repeatingComment: "can't post more than one comment per place",
   citiesMenuString: "top cities",
   noCities: "no cities yet",
+  mapboxSatelite: "satelite (Mapbox)",
+  addLayer: "add layer",
+  layerOpacity: "layer opacity",
 };
 
 // module.exports = {

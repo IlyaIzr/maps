@@ -171,6 +171,10 @@ a:hover {
   display: none;
 }
 
+.border1pxSolid {
+  border: 1px solid;
+}
+
 .mobile {
   display: none;
 }
