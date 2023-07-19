@@ -1,0 +1,1 @@
+import{q as f,j as h}from"./index-709205a1.js";import{w as o}from"./url-6d62d571.js";function j({to:c,children:u,...t}){const a=f();function e(m){var n;a.push(o(c)),(n=t==null?void 0:t.onClick)==null||n.call(t,m)}return h.jsx("div",{...t,onClick:e,children:u})}export{j as A};

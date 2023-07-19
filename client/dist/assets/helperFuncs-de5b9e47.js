@@ -1,0 +1,1 @@
+function a(o){return o.map(r=>r.map(n=>n.map(t=>[t.x,t.y])))}function c(o){navigator.clipboard.writeText(o).then(()=>{console.log("Text copied to clipboard.")}).catch(e=>{console.error("Unable to copy text:",e)})}function i(o){return new Promise(e=>setTimeout(e,o))}export{c,i as d,a as g};
