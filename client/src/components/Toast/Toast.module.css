@@ -6,7 +6,8 @@
   right: 10px;
   z-index: 4;
   transition: all 3s ease-in;
-  height: 60%;
+  height: auto;
+  max-height: 60%;
   overflow-x: auto;
 }
 

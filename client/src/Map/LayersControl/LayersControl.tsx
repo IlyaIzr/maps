@@ -16,7 +16,6 @@ interface LayersControlProps {
 
 export const LayersControl: React.FC<LayersControlProps> = ({ map }) => {
   const [enabledLayers, setEnbledLayers] = useState<typeof layersToAdd>([]);
-
   function disableLayer(id: string) {
     setEnbledLayers((layers) => {
       return layers.filter((l) => l.id !== id);
@@ -37,16 +36,20 @@ export const LayersControl: React.FC<LayersControlProps> = ({ map }) => {
         tiles: layer.tiles,
         tileSize: layer.tileSize,
       });
-      map.addLayer({
-        id: layer.id,
-        type: "raster",
-        source: sourceName,
-        minzoom: layer.minzoom,
-        maxzoom: layer.maxzoom,
-        paint: {
-          "raster-opacity": INITIAL_OPACITY,
+
+      map.addLayer(
+        {
+          id: layer.id,
+          type: "raster",
+          source: sourceName,
+          minzoom: layer.minzoom,
+          maxzoom: layer.maxzoom,
+          paint: {
+            "raster-opacity": INITIAL_OPACITY,
+          },
         },
-      });
+        layer.mountBeforeId
+      );
     }
   };
 
