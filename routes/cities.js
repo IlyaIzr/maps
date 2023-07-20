@@ -3,6 +3,8 @@ const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
 const simplify = require('@turf/simplify')
+const fetch = require('node-fetch');
+
 const { filterAfromB, handleGeojson, delay } = require('./helpres');
 
 const citiesTableKeys = ['code', 'rating', 'amount', 'lat', 'lng', 'en', 'ru', 'geometry']
