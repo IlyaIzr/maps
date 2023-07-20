@@ -26,13 +26,3 @@
 .layerHeader svg:hover {
   fill: var(--accent);
 }
-
-.opacitySlider {
-  margin: 2px 4px;
-  padding: 0;
-  margin-right: 10px;
-}
-
-.opacitySlider:hover {
-  cursor: pointer !important;
-}

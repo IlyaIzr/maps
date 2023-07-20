@@ -1,0 +1,10 @@
+.ratingWrap {
+  height: 100%;
+  width: min-content;
+}
+
+input.inputWrap {
+  width: 70px;
+  padding: 0;
+  margin: 10px 0;
+}
