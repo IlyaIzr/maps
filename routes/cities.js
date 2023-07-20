@@ -3,7 +3,7 @@ const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
 const simplify = require('@turf/simplify')
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 const { filterAfromB, handleGeojson, delay } = require('./helpres');
 
@@ -59,8 +59,8 @@ async function fetchIsoCodeFromCoordinates(latitude, longitude) {
   const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
   try {
-    var response = await fetch(url);
-    var data = await response.json();
+    var response = await axios.get(url);
+    var data = response.data;
     if (data && data.address) {
       const isoCode = data.address['ISO3166-2-lvl15'] ?? data.address['ISO3166-2-lvl4'];
       return isoCode;
@@ -84,14 +84,14 @@ async function fetchCityNameByIso(code, lat, lng) {
 
   // geography - TBD
   try {
-    const responseEn = await fetch(urlEn);
-    const { lat, lon, address } = await responseEn.json();
+    var responseEn = await axios.get(urlEn);
+    var { lat, lon, address } = responseEn.data;
     const englishName = address.city || address.state
     if (!lat || !lon || !englishName) console.log(`no data fetched by url ${urlEn}`)
     await delay(1200)
 
-    const responseRu = await fetch(urlRu);
-    const russianNameData = (await responseRu.json()).address
+    var responseRu = await axios.get(urlRu);
+    var russianNameData = responseRu.data.address;
     const russianName = russianNameData.city || russianNameData.state
     if (!russianName) console.log(`no name fetched by url ${urlRu}`)
 
@@ -117,8 +117,8 @@ async function fetchCityGeometryByIso(code, withCompression = true) {
   const url = `https://nominatim.openstreetmap.org/search.php?q=${code}&polygon_geojson=1&format=json`;
 
   try {
-    const res = await fetch(url);
-    const processedResponse = await res.json();
+    var response = await axios.get(url);
+    var processedResponse = response.data;
     const [place = {}, boundary = {}] = processedResponse;
     let geojson = place.geojson || boundary.geojson
     if (!geojson) {
