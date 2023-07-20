@@ -1,5 +1,10 @@
 import { gradients, themeColors } from "~rest/colors";
-import { RATED_LAYER_ID, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from "../const";
+import {
+  RATED_LAYER_ID,
+  RATED_LAYER_SRC,
+  SELECTED_FEATURE_ID,
+  SELECTED_FEATURE_LAYER_SRC,
+} from "../const";
 import { setMapLoadingState } from "../../store/map";
 import { tileServiceInstance } from "./tileService";
 
@@ -102,7 +107,7 @@ export function mapOnLoad(map, theme, dispatch, noDataCb) {
 
     map.addLayer(
       {
-        id: "selectedFeature",
+        id: SELECTED_FEATURE_ID,
         source: SELECTED_FEATURE_LAYER_SRC,
         minzoom: MIN_ZOOM,
         type: "fill",
