@@ -58,8 +58,6 @@ export function mapReducer(state = initialState, act) {
       };
     }
     case SETFEATURE: {
-      return state;
-      // TODO REMOVEEEEE !!!
       return { ...state, currentFeature: act.feature };
     }
     case SET_MAP_LOADING_STATE: {
