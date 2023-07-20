@@ -57,8 +57,8 @@ async function fetchIsoCodeFromCoordinates(latitude, longitude) {
   const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=jsonv2`;
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    var response = await fetch(url);
+    var data = await response.json();
     if (data && data.address) {
       const isoCode = data.address['ISO3166-2-lvl15'] ?? data.address['ISO3166-2-lvl4'];
       return isoCode;
