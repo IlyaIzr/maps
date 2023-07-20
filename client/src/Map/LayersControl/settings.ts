@@ -12,6 +12,7 @@ const MAPBOX_SATELITE_LAYER = {
   maxzoom: 22,
   name: TEXT.mapboxSatelite.capitalize(),
   id: "mapboxSatelite",
+  mountBeforeId: 'tunnel-path'
 };
 
 export const layersToAdd = [{ ...MAPBOX_SATELITE_LAYER }];

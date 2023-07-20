@@ -1,5 +1,5 @@
 import { gradients, themeColors } from "~rest/colors";
-import { RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from "../const";
+import { RATED_LAYER_ID, RATED_LAYER_SRC, SELECTED_FEATURE_LAYER_SRC } from "../const";
 import { setMapLoadingState } from "../../store/map";
 import { tileServiceInstance } from "./tileService";
 
@@ -59,7 +59,7 @@ export function mapOnLoad(map, theme, dispatch, noDataCb) {
 
     map.addLayer(
       {
-        id: "ratedFeatures",
+        id: RATED_LAYER_ID,
         source: RATED_LAYER_SRC,
         // 'source-layer': 'building',
         minzoom: MIN_ZOOM,
