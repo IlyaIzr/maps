@@ -6,6 +6,7 @@ type Props = {
   layerId: string;
   initialOpacity: number;
   mapInstance: any;
+  propertyToSet: string;
   className?: string
 };
 
@@ -13,6 +14,7 @@ export function LayerOpacitySlider({
   layerId,
   initialOpacity,
   mapInstance: map,
+  propertyToSet,
   className
 }: Props) {
   const [opacity, setOpacity] = useState(initialOpacity);
@@ -23,7 +25,7 @@ export function LayerOpacitySlider({
   };
 
   function onInput() {
-    map.setPaintProperty(layerId, "raster-opacity", opacity);
+    map.setPaintProperty(layerId, propertyToSet, opacity);
   }
 
   return (

@@ -34,6 +34,7 @@ export const LayerCard: React.FC<LayerCardProps> = ({
         initialOpacity={INITIAL_OPACITY}
         layerId={layerId}
         mapInstance={map}
+        propertyToSet={"raster-opacity"}
       />
     </div>
   );

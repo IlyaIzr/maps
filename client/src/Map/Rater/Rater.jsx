@@ -183,6 +183,7 @@ export const Rater = ({ resetRater }) => {
               initialOpacity={getLayerOpacity(SELECTED_FEATURE_ID, mapRef)}
               layerId={SELECTED_FEATURE_ID}
               mapInstance={mapRef}
+              propertyToSet={"fill-opacity"}
               className={s.inputWrap}
             />
           </div>
