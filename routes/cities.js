@@ -133,7 +133,7 @@ async function fetchCityGeometryByIso(code, withCompression = true) {
     const lng = place.lon || boundary.lon
 
     if (withCompression) {
-      geojson = simplify(geojson, { tolerance: 0.002, highQuality: true, mutate: true })
+      geojson = simplify(geojson, { tolerance: 0.0005, highQuality: true, mutate: true })
     }
 
     return { geojson, lat, lng }
