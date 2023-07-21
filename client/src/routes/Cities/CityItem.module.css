@@ -10,8 +10,8 @@
 .geojsonPreview {
   width: 100%;
   height: 100%;
-  max-width: 140px;
-  max-height: 140px;
+  max-width: 100px;
+  max-height: 100px;
   cursor: pointer;
 }
 
@@ -23,8 +23,23 @@
   color: var(--accent);
   font-weight: 500;
   margin: 0;
+  max-width: 25vw;
+  font-size: 20px;
 }
 
 .cityRating {
   margin: 10px 0 10px 24px;
+}
+
+@media (max-width: 640px) {
+  .cityItem {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .cityRating{
+    float: right;
+  }
+  .cityName {
+    max-width: unset;
+  }
 }
