@@ -37,3 +37,10 @@
 .layerCards {
   width: 100%;
 }
+
+@media (max-width: 640px) {
+  .layersControl {
+    right: 4px;
+    bottom: 105px;
+  }
+}
