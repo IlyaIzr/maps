@@ -47,12 +47,12 @@ function filterAfromB(a = [], b = []) {
   return a.filter(val => !b.includes(val))
 }
 
-function simplifyMultipolygon(multiPolygon, leastAmountOfPoints = 60, baseTolerance = 2) {
+function simplifyMultipolygon(multiPolygon, leastAmountOfPoints = 60, baseTolerance = 0.5) {
   let simplifiedGeojson
   let tolerance = baseTolerance
   // i have old node atm so that's why so much &&
-  const getFirstItem = () => simplifiedGeojson && simplifiedGeojson.features && simplifiedGeojson.features[0]
-  const getFirstItemLength = () => getFirstItem() && getFirstItem().geometry.coordinates[0][0].length || 0
+  const getFirstItem = () => simplifiedGeojson?.features[0]
+  const getFirstItemLength = () => getFirstItem()?.geometry?.coordinates?.[0]?.[0]?.length || 0
   const getLeastLength = () => getFirstItemLength() > leastAmountOfPoints ? getFirstItemLength() : leastAmountOfPoints
 
   let i = 0
@@ -60,6 +60,8 @@ function simplifyMultipolygon(multiPolygon, leastAmountOfPoints = 60, baseTolera
     i++
     simplifiedGeojson = simplify(multiPolygon, { tolerance, highQuality: true, mutate: false })
     tolerance = tolerance > 0.01 ? tolerance / 2 : tolerance - (tolerance / 4)
+    console.log(tolerance)
+    console.log(getFirstItem())
   }
   return simplifiedGeojson
 }
