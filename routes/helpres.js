@@ -63,8 +63,9 @@ function simplifyGeojson(geojson, leastAmountOfPoints = 60, baseTolerance = 0.5)
   const getLeastLength = () => getFirstItemLength() > leastAmountOfPoints ? getFirstItemLength() : leastAmountOfPoints
 
   let i = 0
-  while (i < 10 && !simplifiedGeojson || getFirstItemLength() < getLeastLength()) {
+  while (!simplifiedGeojson || getFirstItemLength() < getLeastLength()) {
     i++
+    if (i < 10) break;
     simplifiedGeojson = simplify(multiPolygon, { tolerance, highQuality: true, mutate: false })
     tolerance = tolerance > 0.01 ? tolerance / 2 : tolerance - (tolerance / 4)
     console.log(tolerance)
