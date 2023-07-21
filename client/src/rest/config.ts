@@ -19,3 +19,5 @@ export const appLanguages = {
 export const restrictedLetters = [
   '@', '!', '$', '№', '#', '%', '^', '*', '(', ')', '.', ',', '`', '|', "\\", '/', '[', ']', '{', '}', ' '
 ]
+
+export const STARTING_LOCATION_INDEX = 'strt'

@@ -1,5 +1,7 @@
 import { getLayoutCoords } from "~rest/helperFuncs";
 import { setDataToUrl } from "~store/url"
+import { STARTING_LOCATION_INDEX } from "../../rest/config";
+import { setPreference } from "../../store/localstorage";
 import { LAYOUT_ZOOM } from "../const";
 import { tileServiceInstance } from "./tileService";
 
@@ -10,8 +12,9 @@ export function mapOnMove(map, d, modePayload) {
     const { lng, lat } = map.getCenter()
     const zoom = map.getZoom()
     const { x: currentX, y: currentY } = getLayoutCoords(lng, lat, LAYOUT_ZOOM)
-
-    setDataToUrl({ lat: +lat.toFixed(5), lng: +lng.toFixed(5), zoom: +zoom.toFixed(1) })
+    const coords = { lat: +lat.toFixed(5), lng: +lng.toFixed(5), zoom: +zoom.toFixed(1) }
+    setDataToUrl(coords)
+    setPreference(STARTING_LOCATION_INDEX, coords)
     tileServiceInstance.handleMapMove({ x: currentX, y: currentY, zoom }, { lat, lng }, d, modePayload)
   }
 
