@@ -3,7 +3,8 @@ import { initialState as appInitialState } from "../store/app";
 import { initialState as userInitialState } from "../store/user";
 import { getPreferences, initLocalStorage } from "../store/localstorage";
 import { initializeThemeColors, setColors } from "./colors"
-import { appThemes } from "./config"
+import { appThemes, STARTING_LOCATION_INDEX } from "./config"
+import { setDataToUrl } from "~store/url";
 import { TEXT } from "./lang";
 
 export async function initActions() {
@@ -29,6 +30,18 @@ export async function initActions() {
   initializeThemeColors()
   document.head.insertAdjacentHTML("beforeend", `<style>:root{}</style>`)
   setColors(theme)
+
+  // populate url if prev coords were saved
+  if (preferences[STARTING_LOCATION_INDEX]) {
+    try {
+      const { lat, lng, zoom } = preferences[STARTING_LOCATION_INDEX];
+      setDataToUrl({ lat, lng, zoom })
+      console.log(lat, lng, "ABOABOASJ")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
 
   // Refresh cookie and info
   const res = await refresh()

@@ -19,6 +19,7 @@ const { ToastStack } = lazily(() => import("~components/Toast/ToastStack"));
 function App() {
   const dispatch = useDispatch();
 
+  // TODO why is it here?
   useEffect(() => {
     (async function () {
       await getFriendsInfo(dispatch);
