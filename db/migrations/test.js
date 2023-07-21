@@ -1,9 +1,9 @@
 const fs = require('fs');
 const { geojsonExample } = require('./geojson');
-const { simplifyMultipolygon } = require('../../routes/helpres');
+const { simplifyGeojson } = require('../../routes/helpres');
 
 // RU-SPE admin polygon
-const simplifiedGeojson = simplifyMultipolygon(geojsonExample)
+const simplifiedGeojson = simplifyGeojson(geojsonExample)
 
 function writeJSONToFile(data) {
   const jsonString = JSON.stringify(data);

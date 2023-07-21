@@ -47,11 +47,18 @@ function filterAfromB(a = [], b = []) {
   return a.filter(val => !b.includes(val))
 }
 
-function simplifyMultipolygon(multiPolygon, leastAmountOfPoints = 60, baseTolerance = 0.5) {
-  let simplifiedGeojson
+function simplifyGeojson(geojson, leastAmountOfPoints = 60, baseTolerance = 0.5) {
+  let simplifiedGeojson;
   let tolerance = baseTolerance
+  let multiPolygon;
+  if (geojson.type === 'MultiPolygon') multiPolygon = geojson
+  else if (geojson.type === 'Polygon') multiPolygon = { type: 'MultiPolygon', coordinates: [geojson.coordinates] }
+  else {
+    console.error('unknown geometry passed', geojson)
+    return geojson
+  }
   // i have old node atm so that's why so much &&
-  const getFirstItem = () => simplifiedGeojson?.features[0]
+  const getFirstItem = () => simplifiedGeojson?.features?.[0]
   const getFirstItemLength = () => getFirstItem()?.geometry?.coordinates?.[0]?.[0]?.length || 0
   const getLeastLength = () => getFirstItemLength() > leastAmountOfPoints ? getFirstItemLength() : leastAmountOfPoints
 
@@ -72,7 +79,7 @@ module.exports = {
   filterAfromB,
   getRootUsername,
   clearUserCookie,
-  simplifyMultipolygon
+  simplifyGeojson
 }
 
 // TODO why do i need this?

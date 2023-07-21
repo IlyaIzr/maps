@@ -4,7 +4,7 @@ const Connection = require('../db/connection')
 const dbConn = new Connection()
 const axios = require('axios');
 
-const { filterAfromB, handleGeojson, delay, simplifyMultipolygon } = require('./helpres');
+const { filterAfromB, handleGeojson, delay, simplifyGeojson } = require('./helpres');
 
 const citiesTableKeys = ['code', 'rating', 'amount', 'lat', 'lng', 'en', 'ru', 'geometry']
 
@@ -132,7 +132,7 @@ async function fetchCityGeometryByIso(code, withCompression = true, leastAmountO
     const lng = place.lon || boundary.lon
 
     if (withCompression) {
-      geojson = simplifyMultipolygon(geojson)
+      geojson = simplifyGeojson(geojson)
     }
 
     return { geojson, lat, lng }
