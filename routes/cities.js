@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router()
 const Connection = require('../db/connection')
 const dbConn = new Connection()
-const simplify = require('@turf/simplify')
 const axios = require('axios');
 
-const { filterAfromB, handleGeojson, delay } = require('./helpres');
+const { filterAfromB, handleGeojson, delay, simplifyMultipolygon } = require('./helpres');
 
 const citiesTableKeys = ['code', 'rating', 'amount', 'lat', 'lng', 'en', 'ru', 'geometry']
 
@@ -113,7 +112,7 @@ async function fetchCityNameByIso(code, lat, lng) {
 // lat,
 // lng
 // }
-async function fetchCityGeometryByIso(code, withCompression = true) {
+async function fetchCityGeometryByIso(code, withCompression = true, leastAmountOfPoints = 30) {
   const url = `https://nominatim.openstreetmap.org/search.php?q=${code}&polygon_geojson=1&format=json`;
 
   try {
@@ -133,7 +132,7 @@ async function fetchCityGeometryByIso(code, withCompression = true) {
     const lng = place.lon || boundary.lon
 
     if (withCompression) {
-      geojson = simplify(geojson, { tolerance: 0.0005, highQuality: true, mutate: true })
+      geojson = simplifyMultipolygon(geojson)
     }
 
     return { geojson, lat, lng }

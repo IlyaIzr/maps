@@ -1,4 +1,5 @@
 const { authCookieName } = require("../settings")
+const simplify = require('@turf/simplify')
 
 function handleGeojson(geoJson) {
   try {
@@ -46,12 +47,30 @@ function filterAfromB(a = [], b = []) {
   return a.filter(val => !b.includes(val))
 }
 
+function simplifyMultipolygon(multiPolygon, leastAmountOfPoints = 60, baseTolerance = 2) {
+  let simplifiedGeojson
+  let tolerance = baseTolerance
+  // i have old node atm so that's why so much &&
+  const getFirstItem = () => simplifiedGeojson && simplifiedGeojson.features && simplifiedGeojson.features[0]
+  const getFirstItemLength = () => getFirstItem() && getFirstItem().geometry.coordinates[0][0].length || 0
+  const getLeastLength = () => getFirstItemLength() > leastAmountOfPoints ? getFirstItemLength() : leastAmountOfPoints
+
+  let i = 0
+  while (i < 10 && !simplifiedGeojson || getFirstItemLength() < getLeastLength()) {
+    i++
+    simplifiedGeojson = simplify(multiPolygon, { tolerance, highQuality: true, mutate: false })
+    tolerance = tolerance > 0.01 ? tolerance / 2 : tolerance - (tolerance / 4)
+  }
+  return simplifiedGeojson
+}
+
 module.exports = {
   handleGeojson,
   delay,
   filterAfromB,
   getRootUsername,
-  clearUserCookie
+  clearUserCookie,
+  simplifyMultipolygon
 }
 
 // TODO why do i need this?

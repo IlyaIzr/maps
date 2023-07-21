@@ -1,10 +1,9 @@
-const simplify = require('@turf/simplify')
-
 const fs = require('fs');
 const { geojsonExample } = require('./geojson');
+const { simplifyMultipolygon } = require('../../routes/helpres');
 
 // RU-SPE admin polygon
-var simplified = simplify(geojsonExample, { tolerance: 0.002, highQuality: true, mutate: true })
+const simplifiedGeojson = simplifyMultipolygon(geojsonExample)
 
 function writeJSONToFile(data) {
   const jsonString = JSON.stringify(data);
@@ -18,4 +17,22 @@ function writeJSONToFile(data) {
   });
 }
 
-writeJSONToFile(simplified)
+writeJSONToFile(simplifiedGeojson)
+
+function convertToWKT(geojson) {
+  if (geojson.type !== 'FeatureCollection' || !Array.isArray(geojson.features)) {
+    throw new Error('Invalid GeoJSON format');
+  }
+
+  const coordinates = geojson.features.map(feature => {
+    if (feature.type !== 'Feature' || feature.geometry.type !== 'MultiPolygon') {
+      throw new Error('Invalid Feature or geometry type');
+    }
+
+    return feature.geometry.coordinates.map(polygon => {
+      return polygon[0].map(coord => coord.join(' ')).join(',');
+    }).join('),(');
+  }).join(')),((');
+
+  return `'MULTIPOLYGON(((${coordinates})))',0`;
+}
