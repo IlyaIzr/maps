@@ -47,31 +47,42 @@ function filterAfromB(a = [], b = []) {
   return a.filter(val => !b.includes(val))
 }
 
-function simplifyGeojson(geojson, leastAmountOfPoints = 60, baseTolerance = 0.5) {
+function simplifyGeojson(
+  geojson,
+  leastAmountOfPoints = 60,
+  baseTolerance = 0.5
+) {
   let simplifiedGeojson;
-  let tolerance = baseTolerance
+  let tolerance = baseTolerance;
   let multiPolygon;
-  if (geojson.type === 'MultiPolygon') multiPolygon = geojson
-  else if (geojson.type === 'Polygon') multiPolygon = { type: 'MultiPolygon', coordinates: [geojson.coordinates] }
+  if (geojson.type === "MultiPolygon") multiPolygon = geojson;
+  else if (geojson.type === "Polygon")
+    multiPolygon = { type: "MultiPolygon", coordinates: [geojson.coordinates] };
   else {
-    console.error('unknown geometry passed', geojson)
-    return geojson
+    console.error("unknown geometry passed", geojson);
+    return geojson;
   }
   // i have old node atm so that's why so much &&
-  const getFirstItem = () => simplifiedGeojson?.features?.[0]
-  const getFirstItemLength = () => getFirstItem()?.geometry?.coordinates?.[0]?.[0]?.length || 0
-  const getLeastLength = () => getFirstItemLength() > leastAmountOfPoints ? getFirstItemLength() : leastAmountOfPoints
+  const getFirstItemLength = () =>
+    simplifiedGeojson?.geometry?.coordinates?.[0]?.[0]?.length || 0;
+  const getLeastLength = () =>
+    getFirstItemLength() > leastAmountOfPoints
+      ? getFirstItemLength()
+      : leastAmountOfPoints;
 
-  let i = 0
+  let i = 0;
+
   while (!simplifiedGeojson || getFirstItemLength() < getLeastLength()) {
-    i++
-    if (i < 10) break;
-    simplifiedGeojson = simplify(multiPolygon, { tolerance, highQuality: true, mutate: false })
-    tolerance = tolerance > 0.01 ? tolerance / 2 : tolerance - (tolerance / 4)
-    console.log(tolerance)
-    console.log(getFirstItem())
+    i++;
+    if (i > 10) break;
+    simplifiedGeojson = simplify(multiPolygon, {
+      tolerance,
+      highQuality: true,
+      mutate: false,
+    });
+    tolerance = tolerance > 0.01 ? tolerance / 2 : tolerance - tolerance / 4;
   }
-  return simplifiedGeojson
+  return simplifiedGeojson;
 }
 
 module.exports = {
