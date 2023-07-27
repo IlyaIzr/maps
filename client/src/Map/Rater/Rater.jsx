@@ -224,13 +224,13 @@ function isAuthorizedEffect(dispatch, isLogged, next) {
         // remember on 3rd time
         if (runtimeSkipCounter === 3) {
           setPreference(SKIP_AUTH_LOCAL_STORAGE_KEY, true);
-          // since both funcions may use same reducer with same dispatch, show after effect on next tick
-          setTimeout(() => {
-            next(dispatch);
-          }, 0);
         } else if (runtimeSkipCounter < 3) {
           runtimeSkipCounter++;
         }
+        // since both funcions may use same reducer with same dispatch, show after effect on next tick
+        setTimeout(() => {
+          next(dispatch);
+        }, 0);
       },
       message: TEXT.wannaAuthorize,
       children: (
