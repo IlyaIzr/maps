@@ -36,7 +36,6 @@ export async function initActions() {
     try {
       const { lat, lng, zoom } = preferences[STARTING_LOCATION_INDEX];
       setDataToUrl({ lat, lng, zoom })
-      console.log(lat, lng, "ABOABOASJ")
     } catch (error) {
       console.log(error)
     }
