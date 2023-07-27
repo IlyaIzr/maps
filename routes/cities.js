@@ -85,13 +85,13 @@ async function fetchCityNameByIso(code, lat, lng) {
   try {
     var responseEn = await axios.get(urlEn);
     var { lat, lon, address } = responseEn.data;
-    const englishName = address.city || address.state
+    const englishName = extractNameFromAddres(address, `no name ${code || lat + lng}`)
     if (!lat || !lon || !englishName) console.log(`no data fetched by url ${urlEn}`)
     await delay(1200)
 
     var responseRu = await axios.get(urlRu);
-    var russianNameData = responseRu.data.address;
-    const russianName = russianNameData.city || russianNameData.state
+    var addressRu = responseRu.data.address;
+    const russianName = extractNameFromAddres(addressRu, `без имени ${code || lat + lng}`)
     if (!russianName) console.log(`no name fetched by url ${urlRu}`)
 
     return {
@@ -105,6 +105,13 @@ async function fetchCityNameByIso(code, lat, lng) {
   }
   console.log('weird error', lat, lng, urlEn, urlRu)
   return null;
+}
+function extractNameFromAddres(address = {}, errMsg = '') {
+  let name = address.city || address.state || address.state_district
+  if (name) return name
+  const mostPreciseAddressUnit = Object.entries(address)[0]
+  if (!mostPreciseAddressUnit || mostPreciseAddressUnit[0] === 'country') return errMsg
+  return mostPreciseAddressUnit[1]
 }
 
 // @ response: {
