@@ -126,9 +126,9 @@ export const Login = ({ afterLoggedIn }) => {
               shape='rectangular'
               onSuccess={onSuccessGoogleAuth}
               onError={onFail}
-              width='200'
+              width={200}
               theme={(app.theme === 'dark') ? 'filled_black' : 'outline'}
-            ></GoogleLogin>
+            />
           </div>
           {
             path !== '/auth' &&
