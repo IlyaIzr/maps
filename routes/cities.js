@@ -107,6 +107,7 @@ async function fetchCityNameByIso(code, lat, lng) {
   return null;
 }
 function extractNameFromAddres(address = {}, errMsg = '') {
+  console.log('%c⧭ address:', 'color: #cc0088', address);
   let name = address.city || address.state || address.state_district
   if (name) return name
   const mostPreciseAddressUnit = Object.entries(address)[0]

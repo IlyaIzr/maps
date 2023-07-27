@@ -36,3 +36,11 @@ function convertToWKT(geojson) {
 
   return `'MULTIPOLYGON(((${coordinates})))',0`;
 }
+
+// It WORKED
+UPDATE `cities` SET `geometry` = ST_GeomFromText('MULTIPOLYGON(((
+  19.2592144 52.4425912,
+  19.3956741 52.5128547,
+  19.3195677 52.5348941,
+  19.2592144 52.4425912
+)))') WHERE `cities`.`code` = 'PL-MZ'
